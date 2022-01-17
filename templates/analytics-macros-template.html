@@ -1,0 +1,42 @@
+<form id="analytics-form" class="dialog-content" onsubmit="event.preventDefault();">
+    <style>
+        .analytics-entries-container{
+            max-height: calc(424px - 5rem);
+            display:flex;
+        }
+
+        .analytics-entries {
+            padding: 5px 0;
+            max-height: calc(425px - 5rem);
+            overflow-x: hidden;
+            overflow-y: scroll;
+            flex: 1;
+            flex-direction: row;
+        }
+
+        .analytics-wrapper {
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .analytics-entry {
+            display: flex;
+            flex: 1 0 auto;
+        }
+
+        .analytics-entry > div{
+            flex: 1;
+            line-height: 1.25rem;
+        }
+
+        .analytics-entry-text {
+            position: relative;
+        }
+    </style>
+	<h1>{{title}}</h1>
+	<table border="1">
+		<tbody id="analytics-macros-wrapper">
+		</tbody>
+	</table>	
+</form>

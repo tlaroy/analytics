@@ -1,0 +1,335 @@
+/**
+ * Analytics.
+ *
+ *      ./analytics.js
+ *      v0.0.1
+ */
+
+import * as CM_CONST 			from "./module/const.js";
+import { Analytics } 			from "./module/analytics.js";
+
+console.info(String(CM_CONST.CM_LABEL + "%c" + CM_CONST.CM_NAME + "%c v" + CM_CONST.CM_VERSION + "."), "color:" + CM_CONST.CONSOLE_GREEN, "color:" + CM_CONST.CONSOLE_DEFAULT);
+
+var i18n = key => {return game.i18n.localize(key);};
+var analytics = null;
+var first_time = false;
+	
+/**
+* versionCompare().
+*
+* Compares two software version numbers (e.g. "1.7.1" or "1.2b").
+*
+*      v1       {string} v1 The first version to be compared.
+*      v2       {string} v2 The second version to be compared.
+*      options {object} Optional flags that affect comparison behavior.
+*           lexicographical: true
+*               Compares each part of the version strings lexicographically instead of naturally;
+*               this allows suffixes such as "b" or "dev" but will cause "1.10" to be considered smaller than "1.2".
+*         zeroExtend: true
+*               Changes the result if one version string has less parts than the other.
+*               In this case the shorter string will be padded with "zero" parts instead of being considered smaller.
+*       return  (number) 1 if v1 is greater than v2.
+*                        0 if the versions are equal.
+*                       -1 if v1 is less than v2.
+*/
+
+function versionCompare(v1, v2, options) {
+    var lexicographical = options && options.lexicographical,
+        zeroExtend = options && options.zeroExtend,
+        v1parts = v1.split('.'),
+        v2parts = v2.split('.');
+
+    function isValidPart(x) {
+        return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
+    }
+
+    if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+        return NaN;
+    }
+
+    if (zeroExtend) {
+        while (v1parts.length < v2parts.length) v1parts.push("0");
+        while (v2parts.length < v1parts.length) v2parts.push("0");
+    }
+
+    if (!lexicographical) {
+        v1parts = v1parts.map(Number);
+        v2parts = v2parts.map(Number);
+    }
+
+    for (var i = 0; i < v1parts.length; ++i) {
+        if (v2parts.length == i) {
+            return 1;
+        }
+
+        if (v1parts[i] == v2parts[i]) {
+            continue;
+        }
+        else if (v1parts[i] > v2parts[i]) {
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    if (v1parts.length != v2parts.length) {
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
+* checkRequirements().
+*
+* Check module dependencies, versions and settings.
+*/
+
+function checkRequirements() {
+    // ----------------------------------------------------------
+    // Foundry.
+
+    // minimum Foundry version.
+    if (versionCompare(game.data.version, CM_CONST.MIN_FOUNDRY_VERSION) < 0) {
+        ui.notifications.error(i18n("cf.failed_to_initialize"));
+        console.error(CM_CONST.CM_LABEL + "FAIL: Foundry v" + CM_CONST.MIN_FOUNDRY_VERSION + " or newer required.");
+        return false;
+    };
+
+    return true;
+};
+
+/**
+* configurationSettings().
+*
+* Module configuration settings.
+*/
+
+function configurationSettings() {
+	try {
+		game.settings.get(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED);
+	}
+	catch(err) {
+		//-------------------------------------------------------
+		// add to Foundry's Configure Game Settings / Module Settings dialog.
+		first_time = true;
+		game.settings.register(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED, {
+			name:    i18n("m.settings_enable_name"),
+			hint:    i18n("m.settings_enable_hint"),
+			scope:  "world",
+			//scope:  "client",
+			config:  true,
+			//default: true,
+			type:    Boolean,
+			onChange: value => {
+				if (game.settings.get(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED)) {
+					$('#controls li[data-control="Analytics"]').show();
+					if (canvas["analytics-tools"]) canvas["analytics-tools"].activate();
+				} else {
+					$('#controls li[data-control="Analytics"]').hide();
+					if (canvas["analytics-tools"]) canvas["analytics-tools"].deactivate();
+				}
+			}
+		});
+	}
+};
+
+/**
+* "getSceneControlButtons" hook.
+*
+* Add Analytics tools to Scene Control Buttons.
+*/
+
+Hooks.on("getSceneControlButtons", (controls) => {
+	console.info(CM_CONST.CM_LABEL + "Hook On: getSceneControlButtons()");
+
+	if (!game.user.isGM) return;
+	if (!game.Analytics.isEnabled()) return;
+
+	let analytics_tools = [
+		{
+			name: "analytics-actors",
+			title: "Actors",
+			icon: "fas fa-users",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_actors(); }
+		},
+		{
+			name: "analytics-cards",
+			title: "Card Stacks",
+			icon: "fas fa-id-badge",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_cards(); }
+		},
+		{
+			name: "analytics-compendiums",
+			title: "Compendiums",
+			icon: "fas fa-atlas",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_compendiums(); }
+		},
+		{
+			name: "analytics-items",
+			title: "Items",
+			icon: "fas fa-suitcase",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_items(); }
+		},
+		{
+			name: "analytics-journals",
+			title: "Journals",
+			icon: "fas fa-book-open",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_journals(); }
+		},
+		{
+			name: "analytics-macros",
+			title: "Macros",
+			icon: "fas fa-folder",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_macros(); }
+		},
+		{
+			name: "analytics-playlists",
+			title: "Playlists",
+			icon: "fas fa-music",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_playlists(); }
+		},
+		{
+			name: "analytics-rolltables",
+			title: "Roll Tables",
+			icon: "fas fa-th-list",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_rolltables(); }
+		},
+		{
+			name: "analytics-scenes",
+			title: "Scenes",
+			icon: "fas fa-map",
+			button: true,
+			visible: true,
+			active: true,
+			onClick: () => { analytics.toggle_scenes(); }
+		}
+	];
+
+	let tools = {
+		name: CM_CONST.CM_NAME,
+		title: "Analytics",
+		layer: "analytics-tools",
+		icon: "fas fa-search",
+		button: true,
+		tools: analytics_tools,
+		//activeTool: "analytics-scenes",
+		visible: true,
+		active: true,
+	};
+
+	controls.push(tools);
+});
+
+/**
+* "renderSceneControls" hook.
+*
+* Render Analytics tool canvas.
+*/
+
+Hooks.on("renderSceneControls", () => {
+	console.info(CM_CONST.CM_LABEL + "Hook On: renderSceneControls()");
+
+	if (canvas["analytics-tools"]) canvas["analytics-tools"].deactivate();
+});
+
+/**
+* "init" hook.
+*
+* Hook once into Foundry's initialization sequence.
+* Check dependencies and setup namespace.
+*/
+
+Hooks.once("init", function() {
+	console.info(CM_CONST.CM_LABEL + "Hook Once: \"init\".");
+
+	// check dependencies.
+	if (!checkRequirements()) return;
+
+    // create configuration settings.
+    configurationSettings();
+
+	// create tool canvas.
+    canvas["analytics-tools"] = new CanvasLayer();
+
+    // create a namespace within game global to share functionality with macros.
+    game.Analytics = {
+
+        // is this module enabled (hook set)?
+        isEnabled: function() {
+            return game.settings.get(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED);
+        },
+
+        // enable hook.
+        enable: function() {
+            // ----------------------------------------------------------
+            // check requirements.
+            if (!checkRequirements()) return;
+            // ----------------------------------------------------------
+            // set hooks.
+            console.log(CM_CONST.CM_LABEL + "Enabled.");
+            // ----------------------------------------------------------
+            // enable.
+            game.settings.set(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED, true);
+        },
+
+        // disable hook.
+        disable: function() {
+            console.log(CF_CONST.CF_LABEL + "Disabled.");
+            var old_hook_id_1 = parseInt(hook_id);
+            Hooks.off("renderChatMessage", old_hook_id_1);
+            hook_id = 0;
+            game.settings.set(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED, false);
+        },
+
+        // return Analytics object.
+		getAnalytics: function() { return new Analytics(); }
+    };
+
+    // add constants to namespace.
+    game.Analytics.CM_CONST = CM_CONST;
+
+	console.info(CM_CONST.CM_LABEL + "Initialized.");
+});
+
+/**
+* "ready" hook.
+*
+* Hook once into Foundry's ready sequence.
+*/
+
+Hooks.once("ready", function() {
+    console.info(CM_CONST.CM_LABEL + "Hook Once: \"ready\".");
+
+    // get Analytics.
+    analytics = game.Analytics.getAnalytics();
+    if (analytics == null) return;
+	
+    // will key off of settings value after first time.
+	if (first_time) game.Analytics.enable();
+});
