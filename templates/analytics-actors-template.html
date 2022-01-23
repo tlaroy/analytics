@@ -1,42 +1,196 @@
-<form id="analytics-form" class="dialog-content" onsubmit="event.preventDefault();">
+<form id="analytics-form" onsubmit="event.preventDefault();">
+		
     <style>
-        .analytics-entries-container{
-            max-height: calc(424px - 5rem);
-            display:flex;
-        }
+		.dialog {
+			min-width: 500px;
+			min-height: 570px;
+		}
 
-        .analytics-entries {
-            padding: 5px 0;
-            max-height: calc(425px - 5rem);
-            overflow-x: hidden;
-            overflow-y: scroll;
-            flex: 1;
-            flex-direction: row;
-        }
-
-        .analytics-wrapper {
-            padding: 0;
+        #analytics-list-header {
+			position: absolute;
+			top: 90px;
+			height: 30px;
+			left: 10px;
+			right: 210px;
             box-sizing: border-box;
-            overflow: hidden;
+			overflow-x: hidden;
+			overflow-y: auto;
         }
 
-        .analytics-entry {
-            display: flex;
-            flex: 1 0 auto;
+        #analytics-list {
+			position: absolute;
+			top: 120px;
+			bottom: 5px;
+			left: 10px;
+			right: 210px;
+            box-sizing: border-box;
+			overflow-x: hidden;
+			overflow-y: auto;
         }
 
-        .analytics-entry > div{
-            flex: 1;
-            line-height: 1.25rem;
+        #analytics-controls {
+			position: absolute;
+			top: 90px;
+			bottom: 5px;
+			width: 200px;
+			right: 5px;
+			overflow-x: hidden;
+			overflow-y: hidden;
         }
 
-        .analytics-entry-text {
-            position: relative;
+        .analytics-actor-name-even {
+			position: relative; 
+			white-space: nowrap;
+			left: 5px;
+			right: 5px;
+			overflow: visible;
+			background-color: var(--light-color);
+			font-weight: bold;
         }
-    </style>
-	<h1>{{title}}</h1>
-	<table border="1">
-		<tbody id="analytics-actors-wrapper">
-		</tbody>
-	</table>	
+
+        .analytics-actor-name-odd {
+			position: relative; 
+			white-space: nowrap;
+			left: 5px;
+			right: 5px;
+			overflow: visible;
+			font-weight: bold;
+        }
+
+        .analytics-item-name-even {
+			position: relative; 
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			left: 20px;
+			right: 5px;
+			background-color: var(--light-color);
+        }
+
+        .analytics-item-name-odd {
+			position: relative; 
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			left: 20px;
+			right: 5px;
+        }
+
+		.analytics-label {
+			display: flex;
+			align-items: flex-start;
+			font-size: var(--font-size-14);
+			height: 24px;
+		}
+
+		.analytics-text {
+			font-size: var(--font-size-14);
+			width: 200px;
+		}
+		
+		#analytics-checkbox {
+			display: flex;
+			align-items: center;
+		}
+
+		#analytics-submit {
+			font-size: var(--font-size-14);
+			width: 200px;
+			height: 24px;
+			margin-top: 5px"; 
+		}
+		
+		button[type="submit"] {
+			margin-top: 5px;
+		}		
+	</style>
+
+	<h1 class="form-header">{{ localize 'DOCUMENT.Actors' }} {{ localize 'and' }} {{ localize 'DOCUMENT.Items' }}</h1>
+		
+    <section class="sheet-body">
+		<div id="analytics-controls">
+			<div class="form-group-stacked">
+				<div class="form-fields">
+					<label for="actor-text" class="analytics-label">{{ localize 'DOCUMENT.Actor' }} {{ localize 'Name' }}:</label>
+					<input type="text" class="analytics-text" name="actor-name" data-dtype="Text" value={{ actor-name-value }} >
+				</div>
+				
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="actor-npc" name="actor-npc" data-dtype="Boolean" value="NPC" {{ actor-npc-checked }} />
+					<label for="actor-npc" class="analytics-label">{{ localize 'ACTOR.TypeNpc' }}</label><br>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="actor-character" name="actor-character" data-dtype="Boolean" value="Character" {{ actor-character-checked }} />
+					<label for="actor-character" class="analytics-label">{{ localize 'ACTOR.TypeCharacter' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="actor-vehicle" name="actor-vehicle" data-dtype="Boolean" value="Vehicle" {{ actor-vehicle-checked }} />
+					<label for="actor-vehicle" class="analytics-label">{{ localize 'ACTOR.TypeVehicle' }}</label>
+				</div>
+			</div>
+			
+			<div class="form-group-stacked">
+				<div class="form-fields">
+					<label for="item-text" class="analytics-label">{{ localize 'DOCUMENT.Item' }} {{ localize 'Name' }}:</label>
+					<input type="text" class="analytics-text" name="item-name" data-dtype="Text" value={{ item-name-value }} >
+				</div>
+				
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-weapon" name="item-weapon" data-dtype="Boolean" value="Weapon" {{ item-weapon-checked }} />
+					<label for="item-weapon" class="analytics-label">{{ localize 'ITEM.TypeWeapon' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-equipment" name="item-equipment" data-dtype="Boolean" value="Equipment" {{ item-equipment-checked }} />
+					<label for="item-equipment" class="analytics-label">{{ localize 'ITEM.TypeEquipment' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-consumable" name="item-consumable" data-dtype="Boolean" value="Consumable" {{ item-consumable-checked }} />
+					<label for="item-consumable" class="analytics-label">{{ localize 'ITEM.TypeConsumable' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-tool" name="item-tool" data-dtype="Boolean" value="Tool" {{ item-tool-checked }} />
+					<label for="item-tool" class="analytics-label">{{ localize 'ITEM.TypeTool' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-loot" name="item-loot" data-dtype="Boolean" value="Loot" {{ item-loot-checked }} />
+					<label for="item-loot" class="analytics-label">{{ localize 'ITEM.TypeLoot' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-class" name="item-class" data-dtype="Boolean" value="Class" {{ item-class-checked }} />
+					<label for="item-class" class="analytics-label">{{ localize 'ITEM.TypeClass' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-feature" name="item-feature" data-dtype="Boolean" value="Feature" {{ item-feature-checked }} />
+					<label for="item-feature" class="analytics-label">{{ localize 'ITEM.TypeFeat' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-backpack" name="item-backpack" data-dtype="Boolean" value="Backpack" {{ item-backpack-checked }} />
+					<label for="item-backpack" class="analytics-label">{{ localize 'ITEM.TypeBackpack' }}</label>
+				</div>
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="item-spell" name="item-spell" data-dtype="Boolean" value="Spell" {{ item-spell-checked }} />
+					<label for="item-spell" class="analytics-label">{{ localize 'ITEM.TypeSpell' }}</label>
+				</div>
+			</div>
+
+			<input type="submit" id="analytics-submit" value="Search">
+			
+			<div class="form-group-stacked">
+				<div class="form-fields" id="analytics-checkbox">
+					<input type="checkbox" id="case-sensitive" name="case-sensitive" data-dtype="Boolean" value="Case" {{ case-sensitive-checked }}/>
+					<label for="case-sensitive" class="analytics-label">Case Sensitive</label>
+				</div>
+			</div>
+		</div>
+
+		<div id="analytics-list-header">
+			<div class="form-group-stacked">
+				<div class="form-fields" class="analytics-label">
+					Number of {{ localize 'DOCUMENT.Actors' }}: {{ number-of-actors }}/{{ actor-count }}
+				</div>
+			</div>
+		</div>
+		
+		<div id="analytics-list"></div>
+    </section>
 </form>

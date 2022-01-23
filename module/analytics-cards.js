@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics-cards.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST from "./const.js";
+import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
@@ -13,10 +13,13 @@ export class AnalyticsCards extends FormApplication {
 
     /**
     * AnalyticsCards.constructor().
+	*
+	* Card Stack.
+	*
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.constructor()");
 
         super(dialogData, options);
 
@@ -30,7 +33,7 @@ export class AnalyticsCards extends FormApplication {
     }
 
     static show(inFocus = false) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -41,7 +44,7 @@ export class AnalyticsCards extends FormApplication {
     }
 
     static hide() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -49,7 +52,7 @@ export class AnalyticsCards extends FormApplication {
     }
 
     static get isVisible() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -57,7 +60,7 @@ export class AnalyticsCards extends FormApplication {
     }
 
 	static get defaultOptions() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.defaultOptions()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
 			title: i18n("m.title-cards"),
@@ -72,17 +75,17 @@ export class AnalyticsCards extends FormApplication {
 	}
 
 	getData() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.getData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.getData()");
 
 		return { title: i18n("m.title-cards") };
 	}
 
 	saveData() {		
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.saveData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.saveData()");
 	}
 
 	async activateListeners($html) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCards.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.activateListeners()");
 
         super.activateListeners($html);
 

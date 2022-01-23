@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics-compendiums.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST from "./const.js";
+import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
@@ -13,10 +13,13 @@ export class AnalyticsCompendiums extends FormApplication {
 
     /**
     * AnalyticsCompendiums.constructor().
+	*
+	* Compendium.
+	*
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.constructor()");
 
         super(dialogData, options);
 
@@ -32,7 +35,7 @@ export class AnalyticsCompendiums extends FormApplication {
     }
 
     static show(inFocus = false) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -43,7 +46,7 @@ export class AnalyticsCompendiums extends FormApplication {
     }
 
     static hide() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -51,7 +54,7 @@ export class AnalyticsCompendiums extends FormApplication {
     }
 
     static get isVisible() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -59,7 +62,7 @@ export class AnalyticsCompendiums extends FormApplication {
     }
 
 	static get defaultOptions() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.defaultOptions()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
 			title: i18n("m.title-compendiums"),
@@ -74,17 +77,17 @@ export class AnalyticsCompendiums extends FormApplication {
 	}
 
 	getData() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.getData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.getData()");
 
 		return { title: i18n("m.title-compendiums") };
 	}
 
 	saveData() {		
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.saveData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.saveData()");
 	}
 
 	async activateListeners($html) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsCompendiums.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.activateListeners()");
 
         super.activateListeners($html);
 

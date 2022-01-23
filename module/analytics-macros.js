@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics-macros.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST from "./const.js";
+import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
@@ -13,10 +13,13 @@ export class AnalyticsMacros extends FormApplication {
 
     /**
     * AnalyticsMacros.constructor().
+	*
+	* Macro.
+	*
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.constructor()");
 
         super(dialogData, options);
 
@@ -30,7 +33,7 @@ export class AnalyticsMacros extends FormApplication {
     }
 
     static show(inFocus = false) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -41,7 +44,7 @@ export class AnalyticsMacros extends FormApplication {
     }
 
     static hide() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -49,7 +52,7 @@ export class AnalyticsMacros extends FormApplication {
     }
 
     static get isVisible() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -57,7 +60,7 @@ export class AnalyticsMacros extends FormApplication {
     }
 
 	static get defaultOptions() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.defaultOptions()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
 			title: i18n("m.title-macros"),
@@ -72,17 +75,17 @@ export class AnalyticsMacros extends FormApplication {
 	}
 
 	getData() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.getData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.getData()");
 
 		return { title: i18n("m.title-macros") };
 	}
 
 	saveData() {		
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.saveData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.saveData()");
 	}
 
 	async activateListeners($html) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsMacros.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.activateListeners()");
 
         super.activateListeners($html);
 

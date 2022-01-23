@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics-items.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST from "./const.js";
+import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
@@ -13,10 +13,13 @@ export class AnalyticsItems extends FormApplication {
 
     /**
     * AnalyticsItems.constructor().
+	*
+	* Item (Items) (Macros) (Playlists).
+	*
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.constructor()");
 
         super(dialogData, options);
 
@@ -30,7 +33,7 @@ export class AnalyticsItems extends FormApplication {
     }
 
     static show(inFocus = false) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -41,7 +44,7 @@ export class AnalyticsItems extends FormApplication {
     }
 
     static hide() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -49,7 +52,7 @@ export class AnalyticsItems extends FormApplication {
     }
 
     static get isVisible() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -57,7 +60,7 @@ export class AnalyticsItems extends FormApplication {
     }
 
 	static get defaultOptions() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.defaultOptions()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
 			title: i18n("m.title-itmes"),
@@ -72,17 +75,17 @@ export class AnalyticsItems extends FormApplication {
 	}
 
 	getData() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.getData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.getData()");
 
 		return { title: i18n("m.title-items") };
 	}
 
 	saveData() {		
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.saveData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.saveData()");
 	}
 
 	async activateListeners($html) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsItems.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.activateListeners()");
 
         super.activateListeners($html);
 

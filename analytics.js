@@ -2,16 +2,16 @@
  * Analytics.
  *
  *      ./analytics.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST 			from "./module/const.js";
-import { Analytics } 			from "./module/analytics.js";
+import * as ANALYTICS from "./module/const.js";
+import { Analytics }  from "./module/analytics.js";
 
-console.info(String(CM_CONST.CM_LABEL + "%c" + CM_CONST.CM_NAME + "%c v" + CM_CONST.CM_VERSION + "."), "color:" + CM_CONST.CONSOLE_GREEN, "color:" + CM_CONST.CONSOLE_DEFAULT);
+if (ANALYTICS.DEBUG) console.info(String(ANALYTICS.LABEL + "%c" + ANALYTICS.NAME + "%c v" + ANALYTICS.VERSION + "."), "color:" + ANALYTICS.CONSOLE_GREEN, "color:" + ANALYTICS.CONSOLE_DEFAULT);
 
 var i18n = key => {return game.i18n.localize(key);};
-var analytics = null;
+var analytics  = null;
 var first_time = false;
 	
 /**
@@ -91,9 +91,24 @@ function checkRequirements() {
     // Foundry.
 
     // minimum Foundry version.
-    if (versionCompare(game.data.version, CM_CONST.MIN_FOUNDRY_VERSION) < 0) {
-        ui.notifications.error(i18n("cf.failed_to_initialize"));
-        console.error(CM_CONST.CM_LABEL + "FAIL: Foundry v" + CM_CONST.MIN_FOUNDRY_VERSION + " or newer required.");
+    if (versionCompare(game.data.version, ANALYTICS.MIN_FOUNDRY_VERSION) < 0) {
+        ui.notifications.error(i18n("m.failed_to_initialize"));
+        console.error(ANALYTICS.LABEL + "FAIL: Foundry v" + ANALYTICS.MIN_FOUNDRY_VERSION + " or newer required.");
+        return false;
+    };
+
+    // ----------------------------------------------------------
+    // System dnd5e.
+
+    if (game.data.system.data.name != "dnd5e") {
+        ui.notifications.error(i18n("m.failed_to_initialize"));
+        console.error(ANALYTICS.LABEL + " | FAIL: DND5E system not found.");
+        return false;
+    };
+    // minimum dnd5e version.
+    if (versionCompare(game.data.system.data.version, ANALYTICS.MIN_DND5E_VERSION) < 0) {
+        ui.notifications.error(i18n("m.failed_to_initialize"));
+        console.error(ANALYTICS.LABEL + " | FAIL: DND5E v" + ANALYTICS.MIN_DND5E_VERSION + " or newer required.");
         return false;
     };
 
@@ -108,13 +123,13 @@ function checkRequirements() {
 
 function configurationSettings() {
 	try {
-		game.settings.get(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED);
+		game.settings.get(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED);
 	}
 	catch(err) {
 		//-------------------------------------------------------
 		// add to Foundry's Configure Game Settings / Module Settings dialog.
 		first_time = true;
-		game.settings.register(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED, {
+		game.settings.register(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED, {
 			name:    i18n("m.settings_enable_name"),
 			hint:    i18n("m.settings_enable_hint"),
 			scope:  "world",
@@ -123,7 +138,7 @@ function configurationSettings() {
 			//default: true,
 			type:    Boolean,
 			onChange: value => {
-				if (game.settings.get(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED)) {
+				if (game.settings.get(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED)) {
 					$('#controls li[data-control="Analytics"]').show();
 					if (canvas["analytics-tools"]) canvas["analytics-tools"].activate();
 				} else {
@@ -142,7 +157,7 @@ function configurationSettings() {
 */
 
 Hooks.on("getSceneControlButtons", (controls) => {
-	console.info(CM_CONST.CM_LABEL + "Hook On: getSceneControlButtons()");
+	if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Hook On: getSceneControlButtons()");
 
 	if (!game.user.isGM) return;
 	if (!game.Analytics.isEnabled()) return;
@@ -150,7 +165,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 	let analytics_tools = [
 		{
 			name: "analytics-actors",
-			title: "Actors",
+			title: i18n("DOCUMENT.Actors"),
 			icon: "fas fa-users",
 			button: true,
 			visible: true,
@@ -159,7 +174,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-cards",
-			title: "Card Stacks",
+			title: i18n("DOCUMENT.Cards"),
 			icon: "fas fa-id-badge",
 			button: true,
 			visible: true,
@@ -168,7 +183,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-compendiums",
-			title: "Compendiums",
+			title: i18n("COMPENDIUM.SidebarTitle"),
 			icon: "fas fa-atlas",
 			button: true,
 			visible: true,
@@ -177,7 +192,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-items",
-			title: "Items",
+			title: i18n("DOCUMENT.Items"),
 			icon: "fas fa-suitcase",
 			button: true,
 			visible: true,
@@ -186,7 +201,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-journals",
-			title: "Journals",
+			title: i18n("SIDEBAR.TabJournal"),
 			icon: "fas fa-book-open",
 			button: true,
 			visible: true,
@@ -195,7 +210,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-macros",
-			title: "Macros",
+			title: i18n("DOCUMENT.Macros"),
 			icon: "fas fa-folder",
 			button: true,
 			visible: true,
@@ -204,7 +219,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-playlists",
-			title: "Playlists",
+			title: i18n("DOCUMENT.Playlists"),
 			icon: "fas fa-music",
 			button: true,
 			visible: true,
@@ -213,7 +228,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-rolltables",
-			title: "Roll Tables",
+			title: i18n("SIDEBAR.TabTables"),
 			icon: "fas fa-th-list",
 			button: true,
 			visible: true,
@@ -222,7 +237,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		},
 		{
 			name: "analytics-scenes",
-			title: "Scenes",
+			title: i18n("DOCUMENT.Scenes"),
 			icon: "fas fa-map",
 			button: true,
 			visible: true,
@@ -232,8 +247,8 @@ Hooks.on("getSceneControlButtons", (controls) => {
 	];
 
 	let tools = {
-		name: CM_CONST.CM_NAME,
-		title: "Analytics",
+		name: ANALYTICS.NAME,
+		title: i18n("m.title"),
 		layer: "analytics-tools",
 		icon: "fas fa-search",
 		button: true,
@@ -253,7 +268,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 */
 
 Hooks.on("renderSceneControls", () => {
-	console.info(CM_CONST.CM_LABEL + "Hook On: renderSceneControls()");
+	if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Hook On: renderSceneControls()");
 
 	if (canvas["analytics-tools"]) canvas["analytics-tools"].deactivate();
 });
@@ -266,7 +281,7 @@ Hooks.on("renderSceneControls", () => {
 */
 
 Hooks.once("init", function() {
-	console.info(CM_CONST.CM_LABEL + "Hook Once: \"init\".");
+	if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Hook Once: \"init\".");
 
 	// check dependencies.
 	if (!checkRequirements()) return;
@@ -282,7 +297,7 @@ Hooks.once("init", function() {
 
         // is this module enabled (hook set)?
         isEnabled: function() {
-            return game.settings.get(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED);
+            return game.settings.get(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED);
         },
 
         // enable hook.
@@ -292,19 +307,19 @@ Hooks.once("init", function() {
             if (!checkRequirements()) return;
             // ----------------------------------------------------------
             // set hooks.
-            console.log(CM_CONST.CM_LABEL + "Enabled.");
+            console.info(ANALYTICS.LABEL + "Enabled.");
             // ----------------------------------------------------------
             // enable.
-            game.settings.set(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED, true);
+            game.settings.set(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED, true);
         },
 
         // disable hook.
         disable: function() {
-            console.log(CF_CONST.CF_LABEL + "Disabled.");
+            console.info(ANALYTICS.LABEL + "Disabled.");
             var old_hook_id_1 = parseInt(hook_id);
             Hooks.off("renderChatMessage", old_hook_id_1);
             hook_id = 0;
-            game.settings.set(CM_CONST.CM_MODULE_NAME, CM_CONST.CM_ENABLED, false);
+            game.settings.set(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED, false);
         },
 
         // return Analytics object.
@@ -312,9 +327,9 @@ Hooks.once("init", function() {
     };
 
     // add constants to namespace.
-    game.Analytics.CM_CONST = CM_CONST;
+    game.Analytics.ANALYTICS = ANALYTICS;
 
-	console.info(CM_CONST.CM_LABEL + "Initialized.");
+	console.info(ANALYTICS.LABEL + "Initialized.");
 });
 
 /**
@@ -324,7 +339,7 @@ Hooks.once("init", function() {
 */
 
 Hooks.once("ready", function() {
-    console.info(CM_CONST.CM_LABEL + "Hook Once: \"ready\".");
+    if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Hook Once: \"ready\".");
 
     // get Analytics.
     analytics = game.Analytics.getAnalytics();
@@ -332,4 +347,6 @@ Hooks.once("ready", function() {
 	
     // will key off of settings value after first time.
 	if (first_time) game.Analytics.enable();
+
+	console.info(ANALYTICS.LABEL + "Ready.");
 });

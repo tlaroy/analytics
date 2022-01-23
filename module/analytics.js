@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST 			from "./const.js";
+import * as ANALYTICS 	        from "./const.js";
 import { AnalyticsActors } 		from "./analytics-actors.js";
 import { AnalyticsCards } 		from "./analytics-cards.js";
 import { AnalyticsCompendiums } from "./analytics-compendiums.js";
@@ -25,9 +25,12 @@ export class Analytics {
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "Analytics.constructor()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics.constructor()");
 		
-		this.analytics_actors 		= new AnalyticsActors();
+		var parent = this;
+
+		this.actor_item_options 	= { };
+		this.analytics_actors 		= new AnalyticsActors(parent);
 		this.analytics_cards 		= new AnalyticsCards();
 		this.analytics_compendiums 	= new AnalyticsCompendiums();
 		this.analytics_items 		= new AnalyticsItems();
@@ -39,56 +42,56 @@ export class Analytics {
     }
 
 	toggle_actors( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-actors"); 
-	
-		if (AnalyticsActors.isVisible) AnalyticsActors.hide(); else AnalyticsActors.show();
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-actors"); 
+
+		AnalyticsActors.isVisible ? this.analytics_actors.hide() : this.analytics_actors.show();
 	}
 
 	toggle_cards( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-cards"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-cards"); 
 		
-		if (AnalyticsCards.isVisible) AnalyticsCards.hide(); else AnalyticsCards.show();
+		AnalyticsCards.isVisible ? AnalyticsCards.hide() : AnalyticsCards.show();
 	}
 
 	toggle_compendiums( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-compendiums"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-compendiums"); 
 		
-		if (AnalyticsCompendiums.isVisible) AnalyticsCompendiums.hide(); else AnalyticsCompendiums.show();
+		AnalyticsCompendiums.isVisible ? AnalyticsCompendiums.hide() : AnalyticsCompendiums.show();
 	}
 
 	toggle_items( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-items"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-items"); 
 		
-		if (AnalyticsItems.isVisible) AnalyticsItems.hide(); else AnalyticsItems.show();
+		AnalyticsItems.isVisible ? AnalyticsItems.hide() : AnalyticsItems.show();
 	}
 
 	toggle_journals( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-journals"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-journals"); 
 		
-		if (AnalyticsJournals.isVisible) AnalyticsJournals.hide(); else AnalyticsJournals.show();
+		AnalyticsJournals.isVisible ? AnalyticsJournals.hide() : AnalyticsJournals.show();
 	}
 
 	toggle_macros( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-macros"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-macros"); 
 		
-		if (AnalyticsMacros.isVisible) AnalyticsMacros.hide(); else AnalyticsMacros.show();
+		AnalyticsMacros.isVisible ? AnalyticsMacros.hide() : AnalyticsMacros.show();
 	}
 
 	toggle_playlists( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-playlists"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-playlists"); 
 		
-		if (AnalyticsPlaylists.isVisible) AnalyticsPlaylists.hide(); AnalyticsPlaylists.show();
+		AnalyticsPlaylists.isVisible ? AnalyticsPlaylists.hide() : AnalyticsPlaylists.show();
 	}
 
 	toggle_rolltables( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-rolltables"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-rolltables"); 
 		
-		if (AnalyticsRolltables.isVisible) AnalyticsRolltables.hide(); else AnalyticsRolltables.show();
+		AnalyticsRolltables.isVisible ? AnalyticsRolltables.hide() : AnalyticsRolltables.show();
 	}
 
 	toggle_scenes( ) {
-		console.info(CM_CONST.CM_LABEL + "analytics-scenes"); 
+		if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "analytics-scenes"); 
 		
-		if (AnalyticsScenes.isVisible) AnalyticsScenes.hide(); else AnalyticsScenes.show();
+		AnalyticsScenes.isVisible ? AnalyticsScenes.hide() : AnalyticsScenes.show();
 	}
 }

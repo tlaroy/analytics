@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics-screens.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST from "./const.js";
+import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
@@ -13,10 +13,13 @@ export class AnalyticsScenes extends FormApplication {
 
     /**
     * AnalyticsScenes.constructor().
+	*
+	* Scene (Actors) (Journals) (Playlists) (Tiles).
+	*
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.constructor()");
 
         super(dialogData, options);
 		
@@ -30,7 +33,7 @@ export class AnalyticsScenes extends FormApplication {
     }
 
     static show(inFocus = false) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -41,7 +44,7 @@ export class AnalyticsScenes extends FormApplication {
     }
 
     static hide() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -49,7 +52,7 @@ export class AnalyticsScenes extends FormApplication {
     }
 
     static get isVisible() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -57,7 +60,7 @@ export class AnalyticsScenes extends FormApplication {
     }
 
 	static get defaultOptions() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.defaultOptions()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
 			title: i18n("m.title-scenes"),
@@ -72,17 +75,17 @@ export class AnalyticsScenes extends FormApplication {
 	}
 
 	getData() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.getData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.getData()");
 
 		return { title: i18n("m.title-scenes") };
 	}
 
 	saveData() {		
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.saveData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.saveData()");
 	}
 
 	async activateListeners($html) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsScenes.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.activateListeners()");
 
         super.activateListeners($html);
 

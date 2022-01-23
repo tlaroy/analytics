@@ -2,10 +2,10 @@
  * Analytics.
  *
  *      ./module/analytics-journals.js
- *      v0.0.1
+ *      v0.0.2
  */
 
-import * as CM_CONST from "./const.js";
+import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
@@ -13,10 +13,13 @@ export class AnalyticsJournals extends FormApplication {
 
     /**
     * AnalyticsJournals.constructor().
+	*
+	* Journal (Actors) (Cards) (Items) (Journals) (Scenes) (Tables).
+	*
     */
 
     constructor(dialogData = {}, options = {}) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.constructor()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.constructor()");
 
         super(dialogData, options);
 
@@ -30,7 +33,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
     static show(inFocus = false) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.show()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -41,7 +44,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
     static hide() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.hide()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -49,7 +52,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
     static get isVisible() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.isVisible()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -57,7 +60,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
 	static get defaultOptions() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.defaultOptions()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
 			title: i18n("m.title-journals"),
@@ -72,17 +75,17 @@ export class AnalyticsJournals extends FormApplication {
 	}
 
 	getData() {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.getData()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.getData()");
 
 		return { title: i18n("m.title-journals") };
 	}
 
 	saveData() {		
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.saveData()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.saveData()");
 	}
 
 	async activateListeners($html) {
-        console.info(CM_CONST.CM_LABEL + "AnalyticsJournals.activateListeners()");
+        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.activateListeners()");
 
         super.activateListeners($html);
 
