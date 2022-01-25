@@ -1,7 +1,7 @@
 import * as ANALYTICS from "./module/const.js";
 import { Analytics }  from "./module/analytics.js";
 
-if (ANALYTICS.DEBUG) console.info(String(ANALYTICS.LABEL + "%c" + ANALYTICS.NAME + "%c v" + ANALYTICS.VERSION + "."), "color:" + ANALYTICS.CONSOLE_GREEN, "color:" + ANALYTICS.CONSOLE_DEFAULT);
+console.info(String(ANALYTICS.LABEL + "%c" + ANALYTICS.NAME + "%c v" + ANALYTICS.VERSION + "."), "color:" + ANALYTICS.CONSOLE_GREEN, "color:" + ANALYTICS.CONSOLE_DEFAULT);
 
 var i18n = key => {return game.i18n.localize(key);};
 var analytics  = null;
