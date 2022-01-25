@@ -25,7 +25,7 @@ export class Analytics {
     */
 
     constructor(dialogData = {}, options = {}) {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics.constructor()");
 		
 		var parent = this;
 

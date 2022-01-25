@@ -65,7 +65,7 @@ export class AnalyticsCompendiums extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-compendiums"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-compendiums",
             template: "modules/analytics/templates/analytics-compendiums-template.html",
             classes: ["dialog"],

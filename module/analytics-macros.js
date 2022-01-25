@@ -63,7 +63,7 @@ export class AnalyticsMacros extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-macros"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-macros",
             template: "modules/analytics/templates/analytics-macros-template.html",
             classes: ["dialog"],

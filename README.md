@@ -1,4 +1,4 @@
 # Analytics.
-Data Visualization for Foundry VTT.
+Data exploration for Foundry VTT entities.
 
 <i>Nokturnel</i>

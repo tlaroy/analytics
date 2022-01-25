@@ -63,7 +63,7 @@ export class AnalyticsItems extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-itmes"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-itmes",
             template: "modules/analytics/templates/analytics-items-template.html",
             classes: ["dialog"],

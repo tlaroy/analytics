@@ -92,7 +92,7 @@ function checkRequirements() {
 
     // minimum Foundry version.
     if (versionCompare(game.data.version, ANALYTICS.MIN_FOUNDRY_VERSION) < 0) {
-        ui.notifications.error(i18n("m.failed_to_initialize"));
+        ui.notifications.error(i18n("ANALYTICS.failed_to_initialize"));
         console.error(ANALYTICS.LABEL + "FAIL: Foundry v" + ANALYTICS.MIN_FOUNDRY_VERSION + " or newer required.");
         return false;
     };
@@ -101,13 +101,13 @@ function checkRequirements() {
     // System dnd5e.
 
     if (game.data.system.data.name != "dnd5e") {
-        ui.notifications.error(i18n("m.failed_to_initialize"));
+        ui.notifications.error(i18n("ANALYTICS.failed_to_initialize"));
         console.error(ANALYTICS.LABEL + " | FAIL: DND5E system not found.");
         return false;
     };
     // minimum dnd5e version.
     if (versionCompare(game.data.system.data.version, ANALYTICS.MIN_DND5E_VERSION) < 0) {
-        ui.notifications.error(i18n("m.failed_to_initialize"));
+        ui.notifications.error(i18n("ANALYTICS.failed_to_initialize"));
         console.error(ANALYTICS.LABEL + " | FAIL: DND5E v" + ANALYTICS.MIN_DND5E_VERSION + " or newer required.");
         return false;
     };
@@ -130,13 +130,13 @@ function configurationSettings() {
 		// add to Foundry's Configure Game Settings / Module Settings dialog.
 		first_time = true;
 		game.settings.register(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED, {
-			name:    i18n("m.settings_enable_name"),
-			hint:    i18n("m.settings_enable_hint"),
-			scope:  "world",
-			//scope:  "client",
-			config:  true,
-			//default: true,
-			type:    Boolean,
+			name:     i18n("ANALYTICS.settings_enable_name"),
+			hint:     i18n("ANALYTICS.settings_enable_hint"),
+			scope:   "world",
+		//  scope:   "client",
+			config:   true,
+		//  default:  true,
+			type:     Boolean,
 			onChange: value => {
 				if (game.settings.get(ANALYTICS.MODULE_NAME, ANALYTICS.ENABLED)) {
 					$('#controls li[data-control="Analytics"]').show();
@@ -247,15 +247,14 @@ Hooks.on("getSceneControlButtons", (controls) => {
 	];
 
 	let tools = {
-		name: ANALYTICS.NAME,
-		title: i18n("m.title"),
-		layer: "analytics-tools",
-		icon: "fas fa-search",
-		button: true,
-		tools: analytics_tools,
-		//activeTool: "analytics-scenes",
+		name: 	 ANALYTICS.NAME,
+		title: 	 i18n("ANALYTICS.title"),
+		layer: 	 "analytics-tools",
+		icon: 	 "fas fa-search",
+		button:  true,
+		tools: 	 analytics_tools,
 		visible: true,
-		active: true,
+		active:  true,
 	};
 
 	controls.push(tools);

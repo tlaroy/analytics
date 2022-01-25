@@ -1,17 +1,6 @@
 {
-	"m.title": "Analytics",
-	
-	"m.title-actors": "Analytics",
-	"m.title-cards": "Analytics Cards",
-	"m.title-compendiums": "Analytics Compendiums",
-	"m.title-items": "Analytics Items",
-	"m.title-journals": "Analytics Journals",
-	"m.title-macros": "Analytics Macros",
-	"m.title-playlists": "Analytics Playlists",
-	"m.title-rolltables": "Analytics Rolltables",
-	"m.title-scenes": "Analytics Scenes",
-	
-    "m.failed_to_initialize": "Analytics failed to initialize. Check console F12 for details.",
-    "m.settings_enable_name": "Enable",
-    "m.settings_enable_hint": "Enable Analytics."
+	"ANALYTICS.title": "Analytics",
+    "ANALYTICS.failed_to_initialize": "Analytics failed to initialize. Check console F12 for details.",
+    "ANALYTICS.settings_enable_name": "Enable",
+    "ANALYTICS.settings_enable_hint": "Enable Analytics."
 }

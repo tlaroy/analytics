@@ -63,7 +63,7 @@ export class AnalyticsPlaylists extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-playlists"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-playlists",
             template: "modules/analytics/templates/analytics-playlists-template.html",
             classes: ["dialog"],

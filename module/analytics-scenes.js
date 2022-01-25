@@ -63,7 +63,7 @@ export class AnalyticsScenes extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-scenes"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-scenes",
             template: "modules/analytics/templates/analytics-scenes-template.html",
             classes: ["dialog"],

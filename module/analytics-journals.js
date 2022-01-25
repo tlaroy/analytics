@@ -19,7 +19,7 @@ export class AnalyticsJournals extends FormApplication {
     */
 
     constructor(dialogData = {}, options = {}) {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.constructor()");
 
         super(dialogData, options);
 
@@ -33,7 +33,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
     static show(inFocus = false) {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -44,7 +44,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
     static hide() {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -52,7 +52,7 @@ export class AnalyticsJournals extends FormApplication {
     }
 
     static get isVisible() {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
@@ -60,10 +60,10 @@ export class AnalyticsJournals extends FormApplication {
     }
 
 	static get defaultOptions() {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.defaultOptions()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-journals"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-journals",
             template: "modules/analytics/templates/analytics-journals-template.html",
             classes: ["dialog"],
@@ -75,17 +75,17 @@ export class AnalyticsJournals extends FormApplication {
 	}
 
 	getData() {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.getData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.getData()");
 
 		return { title: i18n("m.title-journals") };
 	}
 
 	saveData() {		
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.saveData()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.saveData()");
 	}
 
 	async activateListeners($html) {
-        if (ANALYTICS.DEBUG) if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals.activateListeners()");
 
         super.activateListeners($html);
 

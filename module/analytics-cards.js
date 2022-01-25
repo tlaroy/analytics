@@ -63,7 +63,7 @@ export class AnalyticsCards extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-cards"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-cards",
             template: "modules/analytics/templates/analytics-cards-template.html",
             classes: ["dialog"],

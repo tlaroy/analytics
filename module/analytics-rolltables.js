@@ -63,7 +63,7 @@ export class AnalyticsRolltables extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsRolltables.defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-			title: i18n("m.title-rolltables"),
+            title:          i18n("ANALYTICS.title"),
 			id: "analytics-rolltables",
             template: "modules/analytics/templates/analytics-rolltables-template.html",
             classes: ["dialog"],
