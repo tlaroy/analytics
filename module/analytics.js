@@ -1,10 +1,3 @@
-/**
- * Analytics.
- *
- *      ./module/analytics.js
- *      v0.0.2
- */
-
 import * as ANALYTICS 	        from "./const.js";
 import { AnalyticsActors } 		from "./analytics-actors.js";
 import { AnalyticsCards } 		from "./analytics-cards.js";

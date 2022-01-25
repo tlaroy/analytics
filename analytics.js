@@ -1,10 +1,3 @@
-/**
- * Analytics.
- *
- *      ./analytics.js
- *      v0.0.2
- */
-
 import * as ANALYTICS from "./module/const.js";
 import { Analytics }  from "./module/analytics.js";
 

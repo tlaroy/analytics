@@ -1,10 +1,3 @@
-/**
- * Analytics.
- *
- *      ./module/analytics-screens.js
- *      v0.0.2
- */
-
 import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
