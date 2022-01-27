@@ -1,6 +1,11 @@
 {
-	"ANALYTICS.title": "Analytics",
-    "ANALYTICS.failed_to_initialize": "Analytics failed to initialize. Check console F12 for details.",
-    "ANALYTICS.settings_enable_name": "Enable",
-    "ANALYTICS.settings_enable_hint": "Enable Analytics."
+    "ANALYTICS.Title": "Analytics",
+    "ANALYTICS.FailedToInitialize": "Analytics failed to initialize. Check console F12 for details.",
+    "ANALYTICS.SettingsEnableName": "Enable",
+    "ANALYTICS.SettingsEnableHint": "Enable Analytics",
+    "ANALYTICS.NumberOf": "Number of",
+    "ANALYTICS.CaseSensitive": "Case Sensitive",
+    "ANALYTICS.ExactMatch": "Exact Match",
+    "ANALYTICS.OnUse": "On Use",
+    "ANALYTICS.Show": "Show"
 }

@@ -1,3 +1,11 @@
+/***
+*
+* module/analytics-actors.js
+*
+* version 0.0.4
+*
+*/
+
 import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
@@ -11,45 +19,50 @@ export class AnalyticsActors extends FormApplication {
 
         this.parent = parent;
         this.parent.actor_item_options = {
-            "actor_name_value":    			"",
-            "actor_case_sensitive_checked": false,
-            "actor_exact_match_checked":    false,
-            "actor_npc_checked":            false,
-            "actor_character_checked":      false,
-            "actor_vehicle_checked":        false,
-            "actor_aberration_checked":     false,
-            "actor_beast_checked":          false,
-            "actor_celestial_checked":      false,
-            "actor_construct_checked":      false,
-            "actor_dragon_checked":         false,
-            "actor_elemental_checked":      false,
-            "actor_fey_checked":            false,
-            "actor_fiend_checked":          false,
-            "actor_giant_checked":          false,
-            "actor_humanoid_checked":       false,
-            "actor_monstrosity_checked":    false,
-            "actor_ooze_checked":           false,
-            "actor_plant_checked":          false,
-            "actor_swarm_checked":          false,
-            "actor_undead_checked":         false,
-            "item_name_value":     		    "",
-            "item_case_sensitive_checked":  false,
-            "item_exact_match_checked":     false,
-            "item_none_checked":            false,
-            "item_weapon_checked":          false,
-            "item_equipment_checked":       false,
-            "item_consumable_checked":      false,
-            "item_tool_checked":            false,
-            "item_loot_checked":            false,
-            "item_class_checked":           false,
-            "item_feat_checked":            false,
-            "item_backpack_checked":        false,
-            "item_spell_checked":           false,
-            "item_show_checked":            false,
+            actor_name_value:             "",
+            actor_case_sensitive_checked: false,
+            actor_exact_match_checked:    false,
+            actor_npc_checked:            false,
+            actor_character_checked:      false,
+            actor_vehicle_checked:        false,
+            actor_aberration_checked:     false,
+            actor_beast_checked:          false,
+            actor_celestial_checked:      false,
+            actor_construct_checked:      false,
+            actor_dragon_checked:         false,
+            actor_elemental_checked:      false,
+            actor_fey_checked:            false,
+            actor_fiend_checked:          false,
+            actor_giant_checked:          false,
+            actor_humanoid_checked:       false,
+            actor_monstrosity_checked:    false,
+            actor_ooze_checked:           false,
+            actor_plant_checked:          false,
+            actor_swarm_checked:          false,
+            actor_undead_checked:         false,
+            item_name_value:              "",
+            item_case_sensitive_checked:  false,
+            item_exact_match_checked:     false,
+            item_none_checked:            false,
+            item_weapon_checked:          false,
+            item_equipment_checked:       false,
+            item_consumable_checked:      false,
+            item_tool_checked:            false,
+            item_loot_checked:            false,
+            item_class_checked:           false,
+            item_feat_checked:            false,
+            item_backpack_checked:        false,
+            item_spell_checked:           false,
+            item_macro_checked:           false,
+            item_show_checked:            false,
+            macro_name_value:             "",
+            macro_case_sensitive_checked: false,
+            macro_exact_match_checked:    false,
         };
 
-        this.item_count  = 0;
         this.actor_count = 0;
+        this.item_count  = 0;
+        this.macro_count = 0;
         this.actor_list  = [];
     }
 
@@ -65,15 +78,15 @@ export class AnalyticsActors extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors static get defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-            title:          i18n("ANALYTICS.title"),
-            id:             "analytics-actors",
-            template:       "modules/analytics/templates/analytics-actors-template.html",
-            classes:        ["dialog"],
-            width:          700,
-            height:         760,
-            resizable:      true,
-            closeOnSubmit:  false,
-            dragDrop:       [{ dragselectedor: null, dropselectedor: null }],
+            title:         i18n("ANALYTICS.Title"),
+            id:            "analytics-actors",
+            template:      "modules/analytics/templates/analytics-actors-template.html",
+            classes:       ["dialog"],
+            width:         700,
+            height:        760,
+            resizable:     true,
+            closeOnSubmit: false,
+          //dragDrop:      [{ dragselectedor: null, dropselectedor: null }],
         });
     }
 
@@ -90,7 +103,7 @@ export class AnalyticsActors extends FormApplication {
     }
 
     async activateListeners($html) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors.activateListeners()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors async activateListeners(html)");
 
         super.activateListeners($html);
 
@@ -101,33 +114,54 @@ export class AnalyticsActors extends FormApplication {
         const html_list     = document.getElementById("analytics-list");
         html_list.innerHTML = this.actor_list.join("");
 
-		// toggle npc creature types.
-		document.getElementById("actor-aberration").disabled 	= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-beast").disabled 		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-celestial").disabled 	= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-construct").disabled 	= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-dragon").disabled 		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-elemental").disabled 	= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-fey").disabled 			= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-fiend").disabled 		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-giant").disabled  		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-humanoid").disabled  	= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-monstrosity").disabled  	= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-ooze").disabled  		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-plant").disabled  		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-swarm").disabled  		= !this.parent.actor_item_options.actor_npc_checked;
-		document.getElementById("actor-undead").disabled  		= !this.parent.actor_item_options.actor_npc_checked;
+        // toggle npc creature types.
+        document.getElementById("actor-aberration").disabled  = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-beast").disabled       = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-celestial").disabled   = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-construct").disabled   = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-dragon").disabled      = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-elemental").disabled   = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-fey").disabled         = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-fiend").disabled       = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-giant").disabled       = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-humanoid").disabled    = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-monstrosity").disabled = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-ooze").disabled        = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-plant").disabled       = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-swarm").disabled       = !this.parent.actor_item_options.actor_npc_checked;
+        document.getElementById("actor-undead").disabled      = !this.parent.actor_item_options.actor_npc_checked;
+
+        // enable on use item macros if midi-qol installed and active.
+        if (game.modules.get("midi-qol") && game.modules.get("midi-qol").active) {
+            document.getElementById("item-macro-name").style.display  = "block";
+            document.getElementById("item-macro-label").style.display = "block";
+            document.getElementById("item-macro").style.display       = "block";
+            document.getElementById("item-macro").disabled            = false;
+        }
+        else
+        {
+            document.getElementById("item-macro-name").style.display  = "none";
+            document.getElementById("item-macro-label").style.display = "none";
+            document.getElementById("item-macro").style.display       = "none";
+            document.getElementById("item-macro").disabled            = true;
+        }
+
+        // toggle macro fields.
+        document.getElementById("macro-name").disabled           = !this.parent.actor_item_options.item_macro_checked;
+        document.getElementById("macro-case-sensitive").disabled = !this.parent.actor_item_options.item_macro_checked;
+        document.getElementById("macro-exact-match").disabled    = !this.parent.actor_item_options.item_macro_checked;
+
     }
 
     getData() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors getData()");
 
         return {
-            "number-of-actors": 			game.actors.size,
-            "actor-count":      			this.actor_count,
+            "number-of-actors":             game.actors.size,
+            "actor-count":                  this.actor_count,
             "actor-name-value":             this.parent.actor_item_options.actor_name_value,
             "actor-case-sensitive-checked": this.parent.actor_item_options.actor_case_sensitive_checked ? "checked" : "",
-            "actor-exact-match-checked":    this.parent.actor_item_options.actor_exact_match_checked 	? "checked" : "",
+            "actor-exact-match-checked":    this.parent.actor_item_options.actor_exact_match_checked    ? "checked" : "",
             "actor-npc-checked":            this.parent.actor_item_options.actor_npc_checked            ? "checked" : "",
             "actor-character-checked":      this.parent.actor_item_options.actor_character_checked      ? "checked" : "",
             "actor-vehicle-checked":        this.parent.actor_item_options.actor_vehicle_checked        ? "checked" : "",
@@ -147,9 +181,9 @@ export class AnalyticsActors extends FormApplication {
             "actor-swarm-checked":          this.parent.actor_item_options.actor_swarm_checked          ? "checked" : "",
             "actor-undead-checked":         this.parent.actor_item_options.actor_undead_checked         ? "checked" : "",
             "item-name-value":              this.parent.actor_item_options.item_name_value,
-            "item-case-sensitive-checked":  this.parent.actor_item_options.item_case_sensitive_checked 	? "checked" : "",
-            "item-exact-match-checked":     this.parent.actor_item_options.item_exact_match_checked  	? "checked" : "",
-            "item-none-checked":     	    this.parent.actor_item_options.item_none_checked  			? "checked" : "",
+            "item-case-sensitive-checked":  this.parent.actor_item_options.item_case_sensitive_checked  ? "checked" : "",
+            "item-exact-match-checked":     this.parent.actor_item_options.item_exact_match_checked     ? "checked" : "",
+            "item-none-checked":            this.parent.actor_item_options.item_none_checked            ? "checked" : "",
             "item-weapon-checked":          this.parent.actor_item_options.item_weapon_checked          ? "checked" : "",
             "item-equipment-checked":       this.parent.actor_item_options.item_equipment_checked       ? "checked" : "",
             "item-consumable-checked":      this.parent.actor_item_options.item_consumable_checked      ? "checked" : "",
@@ -159,7 +193,11 @@ export class AnalyticsActors extends FormApplication {
             "item-feat-checked":            this.parent.actor_item_options.item_feat_checked            ? "checked" : "",
             "item-backpack-checked":        this.parent.actor_item_options.item_backpack_checked        ? "checked" : "",
             "item-spell-checked":           this.parent.actor_item_options.item_spell_checked           ? "checked" : "",
+            "item-macro-checked":           this.parent.actor_item_options.item_macro_checked           ? "checked" : "",
             "item-show-checked":            this.parent.actor_item_options.item_show_checked            ? "checked" : "",
+            "macro-name-value":             this.parent.actor_item_options.macro_name_value,
+            "macro-case-sensitive-checked": this.parent.actor_item_options.macro_case_sensitive_checked ? "checked" : "",
+            "macro-exact-match-checked":    this.parent.actor_item_options.macro_exact_match_checked    ? "checked" : "",
         };
     }
 
@@ -205,8 +243,9 @@ export class AnalyticsActors extends FormApplication {
         const data = expandObject(formData);
 
         var list_counter = 0;
-        this.item_count  = 0;
         this.actor_count = 0;
+        this.item_count  = 0;
+        this.macro_count = 0;
         this.actor_list.splice(0, this.actor_list.length);
 
         for ( let [k, v] of Object.entries(data) ) {
@@ -234,7 +273,7 @@ export class AnalyticsActors extends FormApplication {
             if (k == "item-name")            { this.parent.actor_item_options.item_name_value              = v ? v : ""; }
             if (k == "item-case-sensitive")  { this.parent.actor_item_options.item_case_sensitive_checked  = v; }
             if (k == "item-exact-match")     { this.parent.actor_item_options.item_exact_match_checked     = v; }
-            if (k == "item-none")            { this.parent.actor_item_options.item_none_checked     	   = v; }
+            if (k == "item-none")            { this.parent.actor_item_options.item_none_checked            = v; }
             if (k == "item-weapon")          { this.parent.actor_item_options.item_weapon_checked          = v; }
             if (k == "item-equipment")       { this.parent.actor_item_options.item_equipment_checked       = v; }
             if (k == "item-consumable")      { this.parent.actor_item_options.item_consumable_checked      = v; }
@@ -244,51 +283,91 @@ export class AnalyticsActors extends FormApplication {
             if (k == "item-feat")            { this.parent.actor_item_options.item_feat_checked            = v; }
             if (k == "item-backpack")        { this.parent.actor_item_options.item_backpack_checked        = v; }
             if (k == "item-spell")           { this.parent.actor_item_options.item_spell_checked           = v; }
-            if (k == "item-show")            { this.parent.actor_item_options.item_show_checked     	   = v; }
+            if (k == "item-macro")           { this.parent.actor_item_options.item_macro_checked           = v; }
+            if (k == "item-show")            { this.parent.actor_item_options.item_show_checked            = v; }
+            if (k == "macro-name")           { this.parent.actor_item_options.macro_name_value             = v ? v : ""; }
+            if (k == "macro-case-sensitive") { this.parent.actor_item_options.macro_case_sensitive_checked = v; }
+            if (k == "macro-exact-match")    { this.parent.actor_item_options.macro_exact_match_checked    = v; }
         };
 
-		function build_actor(parent, actor) {
-			(list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-actor-name-even">` + actor.data.name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-actor-name-odd">` + actor.data.name + `</p>`;
-			parent.actor_count++;
-			list_counter++;
-		}
+        var no_actor_types_selected = (
+            !this.parent.actor_item_options.actor_npc_checked         &&
+            !this.parent.actor_item_options.actor_character_checked   &&
+            !this.parent.actor_item_options.actor_vehicle_checked);
 
-		function build_item(parent, item) {
-			if (parent.parent.actor_item_options.item_show_checked) {
-				(list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-item-name-even">` + item.data.name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-item-name-odd">` + item.data.name + `</p>`;
-				list_counter++;
-			}
-			parent.item_count++;
-		}
+        var no_creature_types_selected = (
+            !this.parent.actor_item_options.actor_aberration_checked  &&
+            !this.parent.actor_item_options.actor_beast_checked       &&
+            !this.parent.actor_item_options.actor_celestial_checked   &&
+            !this.parent.actor_item_options.actor_construct_checked   &&
+            !this.parent.actor_item_options.actor_dragon_checked      &&
+            !this.parent.actor_item_options.actor_elemental_checked   &&
+            !this.parent.actor_item_options.actor_fey_checked         &&
+            !this.parent.actor_item_options.actor_fiend_checked       &&
+            !this.parent.actor_item_options.actor_giant_checked       &&
+            !this.parent.actor_item_options.actor_humanoid_checked    &&
+            !this.parent.actor_item_options.actor_monstrosity_checked &&
+            !this.parent.actor_item_options.actor_ooze_checked        &&
+            !this.parent.actor_item_options.actor_plant_checked       &&
+            !this.parent.actor_item_options.actor_swarm_checked       &&
+            !this.parent.actor_item_options.actor_undead_checked);
+
+        var no_item_types_selected = (
+            !this.parent.actor_item_options.item_weapon_checked       &&
+            !this.parent.actor_item_options.item_equipment_checked    &&
+            !this.parent.actor_item_options.item_consumable_checked   &&
+            !this.parent.actor_item_options.item_tool_checked         &&
+            !this.parent.actor_item_options.item_loot_checked         &&
+            !this.parent.actor_item_options.item_class_checked        &&
+            !this.parent.actor_item_options.item_feat_checked         &&
+            !this.parent.actor_item_options.item_backpack_checked     &&
+            !this.parent.actor_item_options.item_spell_checked);
+
+        function add_actor(parent, actor_name) {
+            (list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-actor-name-even">` + actor_name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-actor-name-odd">` + actor_name + `</p>`;
+            list_counter++;
+
+            parent.actor_count++;
+        }
+
+        function add_item(parent, item_name) {
+            if (parent.parent.actor_item_options.item_show_checked) {
+                (list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-item-name-even">` + item_name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-item-name-odd">` + item_name + `</p>`;
+                list_counter++;
+            }
+
+            parent.item_count++;
+        }
+
+        function add_macro(parent, macro_name) {
+            if (parent.parent.actor_item_options.item_show_checked) {
+                (list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-macro-name-even">` + macro_name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-macro-name-odd">` + macro_name + `</p>`;
+                list_counter++;
+            }
+
+            parent.macro_count++;
+        }
 
         function build_list(parent, actor) {
-			parent.item_count = 0;
-			
-			// actors without items.
-			if (actor.items.size == 0) {
-				// add actor to list if no filters.
-			    if (!parent.parent.actor_item_options.item_none_checked  		&&
-					!parent.parent.actor_item_options.item_weapon_checked  		&&
-					!parent.parent.actor_item_options.item_equipment_checked 	&& 
-					!parent.parent.actor_item_options.item_consumable_checked 	&&
-					!parent.parent.actor_item_options.item_tool_checked 		&& 
-					!parent.parent.actor_item_options.item_loot_checked 		&&
-					!parent.parent.actor_item_options.item_class_checked 		&&
-					!parent.parent.actor_item_options.item_feat_checked 		&&
-					!parent.parent.actor_item_options.item_backpack_checked 	&&
-					!parent.parent.actor_item_options.item_spell_checked) build_actor(parent, actor);
-				
-				// add actor to list and return if only looking for actors without items.
-				if (parent.parent.actor_item_options.item_none_checked) {
-					build_actor(parent, actor);
-					return;
-				};
-			};
+            parent.item_count  = 0;
 
-			// spin through actor's item list ...
+            // actors without items.
+            if (actor.items.size == 0) {
+                // when looking for macros add actor to list if no item filters or looking for actors without items.
+                if (!parent.parent.actor_item_options.item_macro_checked && (no_item_types_selected || parent.parent.actor_item_options.item_none_checked)) {
+                    add_actor(parent, actor.data.name);
+                };
+            };
+
+            // return if only looking for actors without items.
+            if (parent.parent.actor_item_options.item_none_checked) {
+                return;
+            };
+
+            // spin through actor's item list ...
             actor.items.forEach((item, j) => {
 
-				// lowercase for non-case-sensitive search.
+                // lowercase for non-case-sensitive search.
                 var item_name   = item.data.name;
                 var search_name = parent.parent.actor_item_options.item_name_value;
                 if ((search_name.length > 0) && !parent.parent.actor_item_options.item_case_sensitive_checked) {
@@ -296,55 +375,96 @@ export class AnalyticsActors extends FormApplication {
                     item_name   = item_name.toLowerCase();
                 }
 
-				// do names match?
-				var name_match = false;
+                // do items match?
+                var item_match = false;
                 if ((!parent.parent.actor_item_options.item_exact_match_checked && (item_name.search(search_name) > -1)) ||
                      (parent.parent.actor_item_options.item_exact_match_checked && (item_name.search(search_name) > -1) && (search_name.length == item_name.length)) ||
                      (search_name.length == 0)) {
-					name_match = true;
-				};
-
-				// names match.
-				if (name_match) {
-					var selected = false;
-					if       (parent.parent.actor_item_options.item_weapon_checked 		&& item.type == 'weapon') 	  selected = true;
-					else if  (parent.parent.actor_item_options.item_equipment_checked 	&& item.type == 'equipment')  selected = true;
-					else if  (parent.parent.actor_item_options.item_consumable_checked 	&& item.type == 'consumable') selected = true;
-					else if  (parent.parent.actor_item_options.item_tool_checked 		&& item.type == 'tool') 	  selected = true;
-					else if  (parent.parent.actor_item_options.item_loot_checked 		&& item.type == 'loot') 	  selected = true; 
-					else if  (parent.parent.actor_item_options.item_class_checked 		&& item.type == 'class') 	  selected = true;
-					else if  (parent.parent.actor_item_options.item_feat_checked 		&& item.type == 'feat') 	  selected = true;
-					else if  (parent.parent.actor_item_options.item_backpack_checked 	&& item.type == 'backpack')   selected = true;
-					else if  (parent.parent.actor_item_options.item_spell_checked 		&& item.type == 'spell') 	  selected = true; 
-					else if (!parent.parent.actor_item_options.item_none_checked		&&
-							 !parent.parent.actor_item_options.item_weapon_checked  	&&
-							 !parent.parent.actor_item_options.item_equipment_checked 	&& 
-							 !parent.parent.actor_item_options.item_consumable_checked 	&&
-							 !parent.parent.actor_item_options.item_tool_checked 		&& 
-							 !parent.parent.actor_item_options.item_loot_checked 		&&
-							 !parent.parent.actor_item_options.item_class_checked 		&&
-							 !parent.parent.actor_item_options.item_feat_checked 		&&
-							 !parent.parent.actor_item_options.item_backpack_checked 	&&
-							 !parent.parent.actor_item_options.item_spell_checked) selected = true;
-					
-					// only add one actor to list. 
-					if (selected) {
-						if (parent.item_count == 0) {
-							build_actor(parent, actor);
-						}
-						
-						// add item to list.
-						build_item(parent, item);
-					};
+                    item_match = true;
                 };
-            });
+
+                // item matches.
+                if (item_match) {
+                    var selected = false;
+
+                    if      (no_item_types_selected) selected = true;
+                    else if (parent.parent.actor_item_options.item_weapon_checked     && item.type == 'weapon')     selected = true;
+                    else if (parent.parent.actor_item_options.item_equipment_checked  && item.type == 'equipment')  selected = true;
+                    else if (parent.parent.actor_item_options.item_consumable_checked && item.type == 'consumable') selected = true;
+                    else if (parent.parent.actor_item_options.item_tool_checked       && item.type == 'tool')       selected = true;
+                    else if (parent.parent.actor_item_options.item_loot_checked       && item.type == 'loot')       selected = true;
+                    else if (parent.parent.actor_item_options.item_class_checked      && item.type == 'class')      selected = true;
+                    else if (parent.parent.actor_item_options.item_feat_checked       && item.type == 'feat')       selected = true;
+                    else if (parent.parent.actor_item_options.item_backpack_checked   && item.type == 'backpack')   selected = true;
+                    else if (parent.parent.actor_item_options.item_spell_checked      && item.type == 'spell')      selected = true;
+
+                    if (selected) {
+                        parent.macro_count = 0;
+
+                        // any macros?
+                        if (parent.parent.actor_item_options.item_macro_checked &&
+                            item.data.flags['midi-qol'] &&
+                            item.data.flags['midi-qol'].onUseMacroParts &&
+                            (item.data.flags['midi-qol'].onUseMacroParts.items.length > 0)) {
+
+                            // spin through item's on use macro list ...
+                            item.data.flags['midi-qol'].onUseMacroParts.items.forEach((macro, k) => {
+                                var macro_match = false;
+
+                                // lowercase for non-case-sensitive search.
+                                var macro_name  = item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName;
+                                var search_name = parent.parent.actor_item_options.macro_name_value;
+                                if ((search_name.length > 0) && !parent.parent.actor_item_options.macro_case_sensitive_checked) {
+                                    search_name = search_name.toLowerCase();
+                                    macro_name  = macro_name.toLowerCase();
+                                };
+
+                                // do macros match?
+                                if ((!parent.parent.actor_item_options.macro_exact_match_checked && (macro_name.search(search_name) > -1)) ||
+                                     (parent.parent.actor_item_options.macro_exact_match_checked && (macro_name.search(search_name) > -1) && (search_name.length == macro_name.length)) ||
+                                     (search_name.length == 0)) {
+                                    macro_match = true;
+                                };
+
+                                // macro matches.
+                                if (macro_match) {
+                                    // only add one actor to list.
+                                    if (parent.item_count == 0) {
+                                        add_actor(parent, actor.data.name);
+                                    };
+
+                                    // only add one item to list.
+                                    if (parent.macro_count == 0) {
+                                        add_item(parent, item.data.name);
+                                    };
+
+                                    // add macro to list.
+                                    add_macro(parent, item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName);
+                                }
+                            }); // forEach Macro.
+                        }
+
+                        else if (!parent.parent.actor_item_options.item_macro_checked) {
+                            // only add one actor to list.
+                            if (parent.item_count == 0) {
+                                add_actor(parent, actor.data.name);
+                            };
+
+                            // only add one item to list.
+                            if (parent.macro_count == 0) {
+                                add_item(parent, item.data.name);
+                            };
+                        }
+                    };
+                };
+            }); // forEach Item.
         };
 
-		// spin through actor list ...
+        // spin through actor list ...
         game.actors.contents.forEach((actor, i) => {
             if (game.actors.contents[i]) {
 
-				// lowercase for non-case-sensitive search.
+                // lowercase for non-case-sensitive search.
                 var actor_name  = actor.data.name;
                 var search_name = this.parent.actor_item_options.actor_name_value;
                 if ((search_name.length > 0) && !this.parent.actor_item_options.actor_case_sensitive_checked) {
@@ -352,77 +472,46 @@ export class AnalyticsActors extends FormApplication {
                     actor_name  = actor_name.toLowerCase();
                 };
 
-				// do names match?
-				var name_match = false;
+                // do actors match?
+                var name_match = false;
                 if ((search_name.length == 0) ||
-					(!this.parent.actor_item_options.actor_exact_match_checked && (actor_name.search(search_name) > -1)) ||
+                    (!this.parent.actor_item_options.actor_exact_match_checked && (actor_name.search(search_name) > -1)) ||
                      (this.parent.actor_item_options.actor_exact_match_checked && (actor_name.search(search_name) > -1) && (search_name.length == actor_name.length))) {
-					name_match = true;
-				};
-				
-				// names match.
-				if (name_match) {
-					var selected = false;
-                    if      (this.parent.actor_item_options.actor_character_checked    	   && actor.type == 'character') selected = true;
-                    else if (this.parent.actor_item_options.actor_vehicle_checked          && actor.type == 'vehicle')   selected = true;
-                    else if (this.parent.actor_item_options.actor_npc_checked 			   && actor.type == 'npc') {
-						if  	 (this.parent.actor_item_options.actor_aberration_checked  && actor.data.data.details.type && actor.data.data.details.type.value == 'aberration')  selected = true;
-						else if  (this.parent.actor_item_options.actor_beast_checked 	   && actor.data.data.details.type && actor.data.data.details.type.value == 'beast') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_celestial_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'celestial')   selected = true;
-						else if  (this.parent.actor_item_options.actor_construct_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'construct')   selected = true;
-						else if  (this.parent.actor_item_options.actor_dragon_checked 	   && actor.data.data.details.type && actor.data.data.details.type.value == 'dragon') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_elemental_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'elemental')   selected = true;
-						else if  (this.parent.actor_item_options.actor_fey_checked         && actor.data.data.details.type && actor.data.data.details.type.value == 'fey') 		   selected = true;
-						else if  (this.parent.actor_item_options.actor_fiend_checked 	   && actor.data.data.details.type && actor.data.data.details.type.value == 'fiend') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_giant_checked 	   && actor.data.data.details.type && actor.data.data.details.type.value == 'giant') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_humanoid_checked    && actor.data.data.details.type && actor.data.data.details.type.value == 'humanoid')    selected = true;
-						else if  (this.parent.actor_item_options.actor_monstrosity_checked && actor.data.data.details.type && actor.data.data.details.type.value == 'monstrosity') selected = true;
-						else if  (this.parent.actor_item_options.actor_ooze_checked 	   && actor.data.data.details.type && actor.data.data.details.type.value == 'ooze') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_plant_checked 	   && actor.data.data.details.type && actor.data.data.details.type.value == 'plant') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_swarm_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'swarm') 	   selected = true;
-						else if  (this.parent.actor_item_options.actor_undead_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'undead') 	   selected = true;
-						else if (!this.parent.actor_item_options.actor_aberration_checked  &&
-								 !this.parent.actor_item_options.actor_beast_checked 	   &&
-								 !this.parent.actor_item_options.actor_celestial_checked   &&
-								 !this.parent.actor_item_options.actor_construct_checked   &&
-								 !this.parent.actor_item_options.actor_dragon_checked 	   &&
-								 !this.parent.actor_item_options.actor_elemental_checked   &&
-								 !this.parent.actor_item_options.actor_fey_checked 		   &&
-								 !this.parent.actor_item_options.actor_fiend_checked 	   &&
-								 !this.parent.actor_item_options.actor_giant_checked 	   &&
-								 !this.parent.actor_item_options.actor_humanoid_checked    &&
-								 !this.parent.actor_item_options.actor_monstrosity_checked &&
-								 !this.parent.actor_item_options.actor_ooze_checked 	   &&
-								 !this.parent.actor_item_options.actor_plant_checked 	   &&
-								 !this.parent.actor_item_options.actor_swarm_checked       &&
-								 !this.parent.actor_item_options.actor_undead_checked) selected = true;
-					}
-                    else if (!this.parent.actor_item_options.actor_npc_checked 		   	   &&
-							 !this.parent.actor_item_options.actor_character_checked 	   &&
-							 !this.parent.actor_item_options.actor_vehicle_checked 		   &&
-							 !this.parent.actor_item_options.actor_aberration_checked 	   &&
-							 !this.parent.actor_item_options.actor_beast_checked 		   &&
-							 !this.parent.actor_item_options.actor_celestial_checked 	   &&
-							 !this.parent.actor_item_options.actor_construct_checked 	   &&
-							 !this.parent.actor_item_options.actor_dragon_checked 		   &&
-							 !this.parent.actor_item_options.actor_elemental_checked 	   &&
-							 !this.parent.actor_item_options.actor_fey_checked 			   &&
-							 !this.parent.actor_item_options.actor_fiend_checked 		   &&
-							 !this.parent.actor_item_options.actor_giant_checked 		   &&
-							 !this.parent.actor_item_options.actor_humanoid_checked 	   &&
-							 !this.parent.actor_item_options.actor_monstrosity_checked 	   &&
-							 !this.parent.actor_item_options.actor_ooze_checked			   &&
-							 !this.parent.actor_item_options.actor_plant_checked 		   &&
-							 !this.parent.actor_item_options.actor_swarm_checked 		   &&
-							 !this.parent.actor_item_options.actor_undead_checked) selected = true;
+                    name_match = true;
+                };
 
-					// add actor to list.
-					if (selected) {
-						build_list(this, actor);
-					};
+                // actor matches.
+                if (name_match) {
+                    var selected = false;
+                    if (no_actor_types_selected && no_creature_types_selected) selected = true;
+                    else if (this.parent.actor_item_options.actor_character_checked        && actor.type == 'character') selected = true;
+                    else if (this.parent.actor_item_options.actor_vehicle_checked          && actor.type == 'vehicle')   selected = true;
+                    else if (this.parent.actor_item_options.actor_npc_checked              && actor.type == 'npc') {
+                        if (no_creature_types_selected) selected = true;
+                        else if  (this.parent.actor_item_options.actor_aberration_checked  && actor.data.data.details.type && actor.data.data.details.type.value == 'aberration')  selected = true;
+                        else if  (this.parent.actor_item_options.actor_beast_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'beast')       selected = true;
+                        else if  (this.parent.actor_item_options.actor_celestial_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'celestial')   selected = true;
+                        else if  (this.parent.actor_item_options.actor_construct_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'construct')   selected = true;
+                        else if  (this.parent.actor_item_options.actor_dragon_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'dragon')      selected = true;
+                        else if  (this.parent.actor_item_options.actor_elemental_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'elemental')   selected = true;
+                        else if  (this.parent.actor_item_options.actor_fey_checked         && actor.data.data.details.type && actor.data.data.details.type.value == 'fey')         selected = true;
+                        else if  (this.parent.actor_item_options.actor_fiend_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'fiend')       selected = true;
+                        else if  (this.parent.actor_item_options.actor_giant_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'giant')       selected = true;
+                        else if  (this.parent.actor_item_options.actor_humanoid_checked    && actor.data.data.details.type && actor.data.data.details.type.value == 'humanoid')    selected = true;
+                        else if  (this.parent.actor_item_options.actor_monstrosity_checked && actor.data.data.details.type && actor.data.data.details.type.value == 'monstrosity') selected = true;
+                        else if  (this.parent.actor_item_options.actor_ooze_checked        && actor.data.data.details.type && actor.data.data.details.type.value == 'ooze')        selected = true;
+                        else if  (this.parent.actor_item_options.actor_plant_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'plant')       selected = true;
+                        else if  (this.parent.actor_item_options.actor_swarm_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'swarm')       selected = true;
+                        else if  (this.parent.actor_item_options.actor_undead_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'undead')      selected = true;
+                    }
+
+                    // add actor to list.
+                    if (selected) {
+                        build_list(this, actor);
+                    };
                 };
             };
-        });
+        }); // forEach Actor.
 
         // re-draw the updated form
         this.render(true);

@@ -1,3 +1,11 @@
+/***
+*
+* module/analytics-cards.js
+*
+* version 0.0.4
+*
+*/
+
 import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
@@ -6,27 +14,27 @@ export class AnalyticsCards extends FormApplication {
 
     /**
     * AnalyticsCards.constructor().
-	*
-	* Card Stack.
-	*
+    *
+    * Card Stack.
+    *
     */
 
     constructor(dialogData = {}, options = {}) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.constructor()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards constructor()");
 
         super(dialogData, options);
 
-		this.list_items = [];
-		game.cards.contents.forEach((a, i) => { 
-			if (game.cards.contents[i]) {
-				let card = game.cards.contents[i];
-				this.list_items[i] = `<tr><td>` + card.data.name + `</td></tr>`;
-			};
-		});
+        this.list_items = [];
+        game.cards.contents.forEach((a, i) => {
+            if (game.cards.contents[i]) {
+                let card = game.cards.contents[i];
+                this.list_items[i] = `<tr><td>` + card.data.name + `</td></tr>`;
+            };
+        });
     }
 
     static show(inFocus = false) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.show()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards static show()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) {
@@ -37,7 +45,7 @@ export class AnalyticsCards extends FormApplication {
     }
 
     static hide() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.hide()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards static hide()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) app.close();
@@ -45,47 +53,43 @@ export class AnalyticsCards extends FormApplication {
     }
 
     static get isVisible() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.isVisible()");
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards static get isVisible()");
 
         for (const app of Object.values(ui.windows)) {
             if (app instanceof this) return app;
         }
     }
 
-	static get defaultOptions() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.defaultOptions()");
+    static get defaultOptions() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards static get defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-            title:          i18n("ANALYTICS.title"),
-			id: "analytics-cards",
-            template: "modules/analytics/templates/analytics-cards-template.html",
-            classes: ["dialog"],
-            width: 900,
-            height: 425,
-			resizable: true,
-			dragDrop: [{ dragSelector: null, dropSelector: null }],
+            title:      i18n("ANALYTICS.Title"),
+            id:         "analytics-cards",
+            template:   "modules/analytics/templates/analytics-cards-template.html",
+            classes:    ["dialog"],
+            width:      900,
+            height:     425,
+            resizable:  true,
+          //dragDrop: [{ dragSelector: null, dropSelector: null }],
         });
-	}
+    }
 
-	getData() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.getData()");
+    getData() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards getData()");
 
-		return { title: i18n("m.title-cards") };
-	}
+        return { title: i18n("DOCUMENT.Cards") };
+    }
 
-	saveData() {		
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.saveData()");
-	}
-
-	async activateListeners($html) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards.activateListeners()");
+    async activateListeners($html) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards async activateListeners()");
 
         super.activateListeners($html);
 
-		// tools
-		if(canvas.background._active) canvas.foreground.activate()
+        // tools
+        if(canvas.background._active) canvas.foreground.activate()
 
         const wrapper = document.getElementById("analytics-cards-wrapper");
         wrapper.innerHTML += this.list_items.join("");
-	}
+    }
 }

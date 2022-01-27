@@ -1,330 +1,400 @@
 <form id="analytics-form" onsubmit="event.preventDefault();">
-		
+
     <style>
-		.dialog {
-			min-width: 700px;
-			min-height: 760px;
-		}
-
-        #analytics-list-header {
-			position: absolute;
-			top: 90px;
-			height: 30px;
-			left: 10px;
-			right: 424px;
-            box-sizing: border-box;
-			overflow-x: hidden;
-			overflow-y: auto;
-        }
-
-        #analytics-list {
-			position: absolute;
-			top: 115px;
-			bottom: 5px;
-			left: 6px;
-			right: 424px;
-            box-sizing: border-box;
-			overflow-x: hidden;
-			overflow-y: auto;
+        .dialog {
+            min-width: 700px;
+            min-height: 760px;
         }
 
         #analytics-actor-controls {
-			position: absolute;
-			top: 90px;
-			bottom: 5px;
-			width: 200px;
-			right: 210px;
-			overflow-x: hidden;
-			overflow-y: hidden;
+            position: absolute;
+            top: 90px;
+            bottom: 5px;
+            width: 200px;
+            right: 210px;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         #analytics-item-controls {
-			position: absolute;
-			top: 90px;
-			bottom: 5px;
-			width: 200px;
-			right: 5px;
-			overflow-x: hidden;
-			overflow-y: hidden;
+            position: absolute;
+            top: 90px;
+            bottom: 5px;
+            width: 200px;
+            right: 5px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .analytics-label {
+            display: flex;
+            align-items: flex-start;
+            font-size: var(--font-size-14);
+            height: 24px;
+        }
+
+        .analytics-text {
+            font-size: var(--font-size-14);
+            width: 200px;
+        }
+
+        #analytics-checkbox {
+            display: flex;
+            align-items: center;
+        }
+
+        #analytics-submit {
+            position: absolute;
+            font-size: var(--font-size-14);
+            bottom: 5px;
+            right: 100px;
+            width: 200px;
+            height: 25px;
+        }
+
+        button[type="submit"] {
+            margin-top: 5px;
+        }
+
+        #analytics-list-header {
+            position: absolute;
+            top: 90px;
+            height: 30px;
+            left: 10px;
+            right: 424px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        #analytics-list {
+            position: absolute;
+            top: 115px;
+            bottom: 5px;
+            left: 6px;
+            right: 424px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .analytics-actor-name-even {
-			position: relative; 
-			white-space: nowrap;
-			left: 5px;
-			right: 5px;
-			overflow: visible;
-			background-color: var(--color-text-light-highlight);
-			font-weight: bold;
+            position: relative;
+            white-space: nowrap;
+            left: 5px;
+            right: 5px;
+            overflow: visible;
+            xbackground-color: var(--color-text-light-highlight);
+            font-weight: bold;
         }
 
         .analytics-actor-name-odd {
-			position: relative; 
-			white-space: nowrap;
-			left: 5px;
-			right: 5px;
-			overflow: visible;
-			font-weight: bold;
+            position: relative;
+            white-space: nowrap;
+            left: 5px;
+            right: 5px;
+            overflow: visible;
+            font-weight: bold;
         }
 
         .analytics-item-name-even {
-			position: relative; 
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			left: 20px;
-			right: 5px;
-			background-color: var(--color-text-light-highlight);
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            left: 20px;
+            right: 5px;
+            xbackground-color: var(--color-text-light-highlight);
         }
 
         .analytics-item-name-odd {
-			position: relative; 
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			left: 20px;
-			right: 5px;
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            left: 20px;
+            right: 5px;
         }
 
-		.analytics-label {
-			display: flex;
-			align-items: flex-start;
-			font-size: var(--font-size-14);
-			height: 24px;
-		}
+        .analytics-macro-name-even {
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            left: 40px;
+            right: 5px;
+            xbackground-color: var(--color-text-light-highlight);
+            font-style: italic;
+        }
 
-		.analytics-text {
-			font-size: var(--font-size-14);
-			width: 200px;
-		}
-		
-		#analytics-checkbox {
-			display: flex;
-			align-items: center;
-		}
+        .analytics-macro-name-odd {
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            left: 40px;
+            right: 5px;
+            font-style: italic;
+        }
+    </style>
 
-		#analytics-submit {
-			position: absolute;
-			font-size: var(--font-size-14);
-			bottom: 5px;
-			right: 100px;
-			width: 200px;
-			height: 25px;
-		}
-		
-		button[type="submit"] {
-			margin-top: 5px;
-		}
-	</style>
-	
-	<script>
-		function toggle_creature_types() {
-			document.getElementById("actor-aberration").disabled  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-beast").disabled 	  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-celestial").disabled   = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-construct").disabled   = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-dragon").disabled 	  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-elemental").disabled   = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-fey").disabled 		  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-fiend").disabled 	  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-giant").disabled 	  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-humanoid").disabled    = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-monstrosity").disabled = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-ooze").disabled 		  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-plant").disabled 	  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-swarm").disabled 	  = !document.getElementById("actor-npc").checked;
-			document.getElementById("actor-undead").disabled 	  = !document.getElementById("actor-npc").checked;
-		}		
-	</script>
+    <script>
+        function toggle_creature_types() {
+            document.getElementById("actor-aberration").disabled     = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-beast").disabled          = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-celestial").disabled      = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-construct").disabled      = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-dragon").disabled         = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-elemental").disabled      = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-fey").disabled            = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-fiend").disabled          = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-giant").disabled          = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-humanoid").disabled       = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-monstrosity").disabled    = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-ooze").disabled           = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-plant").disabled          = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-swarm").disabled          = !document.getElementById("actor-npc").checked;
+            document.getElementById("actor-undead").disabled         = !document.getElementById("actor-npc").checked;
+        }
+        function toggle_item_macro() {
+            document.getElementById("macro-name").disabled           = !document.getElementById("item-macro").checked;
+            document.getElementById("macro-case-sensitive").disabled = !document.getElementById("item-macro").checked;
+            document.getElementById("macro-exact-match").disabled    = !document.getElementById("item-macro").checked;
+        }
+    </script>
 
-	<h1 class="form-header">{{ localize 'DOCUMENT.Actors' }} {{ localize 'and' }} {{ localize 'DOCUMENT.Items' }}</h1>
-		
+    <h1 class="form-header">{{ localize 'DOCUMENT.Actors' }} {{ localize 'and' }} {{ localize 'DOCUMENT.Items' }}</h1>
+
     <section class="sheet-body">
-		
-		<!-- ACTORS -->
-		
-		<div id="analytics-actor-controls">
-			<div class="form-group-stacked">
-				<div class="form-fields">
-					<label for="actor-name" class="analytics-label">{{ localize 'DOCUMENT.Actors' }}:</label>
-					<input type="text" class="analytics-text" name="actor-name" data-dtype="String" placeholder="{{ localize 'Name' }}" value="{{ actor-name-value }}" >
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-case-sensitive" name="actor-case-sensitive" data-dtype="Boolean" {{ actor-case-sensitive-checked }} />
-					<label for="actor-case-sensitive" class="analytics-label">Case Sensitive</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-exact-match" name="actor-exact-match" data-dtype="Boolean" {{ actor-exact-match-checked }} />
-					<label for="actor-exact-match" class="analytics-label">Exact Match</label>
-				</div>
-			</div>
 
-			<br>
+        <!-- ACTORS -->
 
-			<div class="form-group-stacked">
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-character" name="actor-character" data-dtype="Boolean" {{ actor-character-checked }} />
-					<label for="actor-character" class="analytics-label">{{ localize 'ACTOR.TypeCharacter' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-vehicle" name="actor-vehicle" data-dtype="Boolean" {{ actor-vehicle-checked }} />
-					<label for="actor-vehicle" class="analytics-label">{{ localize 'ACTOR.TypeVehicle' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-npc" name="actor-npc" data-dtype="Boolean" onClick="toggle_creature_types()" {{ actor-npc-checked }} />
-					<label for="actor-npc" class="analytics-label">{{ localize 'ACTOR.TypeNpc' }}</label>
-				</div>
-			</div>
-			
-			<br>
+        <div id="analytics-actor-controls">
 
-			<div class="form-group-stacked" id="creature-types">
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-aberration" name="actor-aberration" data-dtype="Boolean" {{ actor-aberration-checked }} />
-					<label for="actor-aberration" class="analytics-label">{{ localize 'DND5E.CreatureAberration' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-beast" name="actor-beast" data-dtype="Boolean" {{ actor-beast-checked }} />
-					<label for="actor-beast" class="analytics-label">{{ localize 'DND5E.CreatureBeast' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-celestial" name="actor-celestial" data-dtype="Boolean" {{ actor-celestial-checked }} />
-					<label for="actor-celestial" class="analytics-label">{{ localize 'DND5E.CreatureCelestial' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-construct" name="actor-construct" data-dtype="Boolean" {{ actor-construct-checked }} />
-					<label for="actor-construct" class="analytics-label">{{ localize 'DND5E.CreatureConstruct' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-dragon" name="actor-dragon" data-dtype="Boolean" {{ actor-dragon-checked }} />
-					<label for="actor-dragon" class="analytics-label">{{ localize 'DND5E.CreatureDragon' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-elemental" name="actor-elemental" data-dtype="Boolean" {{ actor-elemental-checked }} />
-					<label for="actor-elemental" class="analytics-label">{{ localize 'DND5E.CreatureElemental' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-fey" name="actor-fey" data-dtype="Boolean" {{ actor-fey-checked }} />
-					<label for="actor-fey" class="analytics-label">{{ localize 'DND5E.CreatureFey' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-fiend" name="actor-fiend" data-dtype="Boolean" {{ actor-fiend-checked }} />
-					<label for="actor-fiend" class="analytics-label">{{ localize 'DND5E.CreatureFiend' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-giant" name="actor-giant" data-dtype="Boolean" {{ actor-giant-checked }} />
-					<label for="actor-giant" class="analytics-label">{{ localize 'DND5E.CreatureGiant' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-humanoid" name="actor-humanoid" data-dtype="Boolean" {{ actor-humanoid-checked }} />
-					<label for="actor-humanoid" class="analytics-label">{{ localize 'DND5E.CreatureHumanoid' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-monstrosity" name="actor-monstrosity" data-dtype="Boolean" {{ actor-monstrosity-checked }} />
-					<label for="actor-monstrosity" class="analytics-label">{{ localize 'DND5E.CreatureMonstrosity' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-ooze" name="actor-ooze" data-dtype="Boolean" {{ actor-ooze-checked }} />
-					<label for="actor-ooze" class="analytics-label">{{ localize 'DND5E.CreatureOoze' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-plant" name="actor-plant" data-dtype="Boolean" {{ actor-plant-checked }} />
-					<label for="actor-plant" class="analytics-label">{{ localize 'DND5E.CreaturePlant' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-swarm" name="actor-swarm" data-dtype="Boolean" {{ actor-swarm-checked }} />
-					<label for="actor-swarm" class="analytics-label">{{ localize 'DND5E.CreatureSwarm' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="actor-undead" name="actor-undead" data-dtype="Boolean" {{ actor-undead-checked }} />
-					<label for="actor-undead" class="analytics-label">{{ localize 'DND5E.CreatureUndead' }}</label>
-				</div>
-			</div>
-		</div>
+            <!-- ACTOR NAME -->
 
-		<!-- ITEMS -->
+            <div class="form-group-stacked">
+                <div class="form-fields">
+                    <label for="actor-name" class="analytics-label">{{ localize 'DOCUMENT.Actors' }}:</label>
+                    <input type="text" class="analytics-text" name="actor-name" data-dtype="String" placeholder="{{ localize 'Name' }}" value="{{ actor-name-value }}" >
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-case-sensitive" name="actor-case-sensitive" data-dtype="Boolean" {{ actor-case-sensitive-checked }} />
+                    <label for="actor-case-sensitive" class="analytics-label">{{ localize 'ANALYTICS.CaseSensitive' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-exact-match" name="actor-exact-match" data-dtype="Boolean" {{ actor-exact-match-checked }} />
+                    <label for="actor-exact-match" class="analytics-label">{{ localize 'ANALYTICS.ExactMatch' }}</label>
+                </div>
+            </div>
 
-		<div id="analytics-item-controls">
-			<div class="form-group-stacked">
-				<div class="form-fields">
-					<label for="item-name" class="analytics-label">{{ localize 'DOCUMENT.Items' }}:</label>
-					<input type="text" class="analytics-text" name="item-name" data-dtype="String" placeholder="{{ localize 'Name' }}" value="{{ item-name-value }}" >
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-case-sensitive" name="item-case-sensitive" data-dtype="Boolean" {{ item-case-sensitive-checked }} />
-					<label for="item-case-sensitive" class="analytics-label">Case Sensitive</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-exact-match" name="item-exact-match" data-dtype="Boolean" {{ item-exact-match-checked }} />
-					<label for="item-exact-match" class="analytics-label">Exact Match<br></label>
-				</div>
-			</div>
-			
-			<br>
+            <br>
 
-			<div class="form-group-stacked" id="item-types">
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-none" name="item-none" data-dtype="Boolean" {{ item-none-checked }} />
-					<label for="item-none" class="analytics-label">{{ localize 'DND5E.None' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-weapon" name="item-weapon" data-dtype="Boolean" {{ item-weapon-checked }} />
-					<label for="item-weapon" class="analytics-label">{{ localize 'ITEM.TypeWeapon' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-equipment" name="item-equipment" data-dtype="Boolean" {{ item-equipment-checked }} />
-					<label for="item-equipment" class="analytics-label">{{ localize 'ITEM.TypeEquipment' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-consumable" name="item-consumable" data-dtype="Boolean" {{ item-consumable-checked }} />
-					<label for="item-consumable" class="analytics-label">{{ localize 'ITEM.TypeConsumable' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-tool" name="item-tool" data-dtype="Boolean" {{ item-tool-checked }} />
-					<label for="item-tool" class="analytics-label">{{ localize 'ITEM.TypeTool' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-loot" name="item-loot" data-dtype="Boolean" {{ item-loot-checked }} />
-					<label for="item-loot" class="analytics-label">{{ localize 'ITEM.TypeLoot' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-class" name="item-class" data-dtype="Boolean" {{ item-class-checked }} />
-					<label for="item-class" class="analytics-label">{{ localize 'ITEM.TypeClass' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-feat" name="item-feat" data-dtype="Boolean" {{ item-feat-checked }} />
-					<label for="item-feat" class="analytics-label">{{ localize 'ITEM.TypeFeat' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-backpack" name="item-backpack" data-dtype="Boolean" {{ item-backpack-checked }} />
-					<label for="item-backpack" class="analytics-label">{{ localize 'ITEM.TypeBackpack' }}</label>
-				</div>
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-spell" name="item-spell" data-dtype="Boolean" {{ item-spell-checked }} />
-					<label for="item-spell" class="analytics-label">{{ localize 'ITEM.TypeSpell' }}</label>
-				</div>
-			</div>
+            <!-- ACTOR TYPES -->
 
-			<br>
+            <div class="form-group-stacked">
 
-			<div class="form-group-stacked" id="item-types">
-				<div class="form-fields" id="analytics-checkbox">
-					<input type="checkbox" id="item-show" name="item-show" data-dtype="Boolean" {{ item-show-checked }} />
-					<label for="item-show" class="analytics-label">Show</label>
-				</div>
-			</div>
-		</div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-character" name="actor-character" data-dtype="Boolean" {{ actor-character-checked }} />
+                    <label for="actor-character" class="analytics-label">{{ localize 'ACTOR.TypeCharacter' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-vehicle" name="actor-vehicle" data-dtype="Boolean" {{ actor-vehicle-checked }} />
+                    <label for="actor-vehicle" class="analytics-label">{{ localize 'ACTOR.TypeVehicle' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-npc" name="actor-npc" data-dtype="Boolean" onClick="toggle_creature_types()" {{ actor-npc-checked }} />
+                    <label for="actor-npc" class="analytics-label">{{ localize 'ACTOR.TypeNpc' }}</label>
+                </div>
+            </div>
 
-		<input type="submit" id="analytics-submit" value="Search">
+            <br>
 
-		<div id="analytics-list-header">
-			<div class="form-group-stacked">
-				<div class="form-fields" class="analytics-label">
-					Number of {{ localize 'DOCUMENT.Actors' }}: {{ number-of-actors }}/{{ actor-count }}
-				</div>
-			</div>
-		</div>
-		
-		<div id="analytics-list"></div>
+            <!-- CREATURE TYPES -->
+
+            <div class="form-group-stacked">
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-aberration" name="actor-aberration" data-dtype="Boolean" {{ actor-aberration-checked }} />
+                    <label for="actor-aberration" class="analytics-label">{{ localize 'DND5E.CreatureAberration' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-beast" name="actor-beast" data-dtype="Boolean" {{ actor-beast-checked }} />
+                    <label for="actor-beast" class="analytics-label">{{ localize 'DND5E.CreatureBeast' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-celestial" name="actor-celestial" data-dtype="Boolean" {{ actor-celestial-checked }} />
+                    <label for="actor-celestial" class="analytics-label">{{ localize 'DND5E.CreatureCelestial' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-construct" name="actor-construct" data-dtype="Boolean" {{ actor-construct-checked }} />
+                    <label for="actor-construct" class="analytics-label">{{ localize 'DND5E.CreatureConstruct' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-dragon" name="actor-dragon" data-dtype="Boolean" {{ actor-dragon-checked }} />
+                    <label for="actor-dragon" class="analytics-label">{{ localize 'DND5E.CreatureDragon' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-elemental" name="actor-elemental" data-dtype="Boolean" {{ actor-elemental-checked }} />
+                    <label for="actor-elemental" class="analytics-label">{{ localize 'DND5E.CreatureElemental' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-fey" name="actor-fey" data-dtype="Boolean" {{ actor-fey-checked }} />
+                    <label for="actor-fey" class="analytics-label">{{ localize 'DND5E.CreatureFey' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-fiend" name="actor-fiend" data-dtype="Boolean" {{ actor-fiend-checked }} />
+                    <label for="actor-fiend" class="analytics-label">{{ localize 'DND5E.CreatureFiend' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-giant" name="actor-giant" data-dtype="Boolean" {{ actor-giant-checked }} />
+                    <label for="actor-giant" class="analytics-label">{{ localize 'DND5E.CreatureGiant' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-humanoid" name="actor-humanoid" data-dtype="Boolean" {{ actor-humanoid-checked }} />
+                    <label for="actor-humanoid" class="analytics-label">{{ localize 'DND5E.CreatureHumanoid' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-monstrosity" name="actor-monstrosity" data-dtype="Boolean" {{ actor-monstrosity-checked }} />
+                    <label for="actor-monstrosity" class="analytics-label">{{ localize 'DND5E.CreatureMonstrosity' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-ooze" name="actor-ooze" data-dtype="Boolean" {{ actor-ooze-checked }} />
+                    <label for="actor-ooze" class="analytics-label">{{ localize 'DND5E.CreatureOoze' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-plant" name="actor-plant" data-dtype="Boolean" {{ actor-plant-checked }} />
+                    <label for="actor-plant" class="analytics-label">{{ localize 'DND5E.CreaturePlant' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-swarm" name="actor-swarm" data-dtype="Boolean" {{ actor-swarm-checked }} />
+                    <label for="actor-swarm" class="analytics-label">{{ localize 'DND5E.CreatureSwarm' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="actor-undead" name="actor-undead" data-dtype="Boolean" {{ actor-undead-checked }} />
+                    <label for="actor-undead" class="analytics-label">{{ localize 'DND5E.CreatureUndead' }}</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEMS -->
+
+        <div id="analytics-item-controls">
+
+            <!-- ITEM NAME -->
+
+            <div class="form-group-stacked">
+                <div class="form-fields">
+                    <label for="item-name" class="analytics-label">{{ localize 'DOCUMENT.Items' }}:</label>
+                    <input type="text" class="analytics-text" name="item-name" data-dtype="String" placeholder="{{ localize 'Name' }}" value="{{ item-name-value }}" >
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-case-sensitive" name="item-case-sensitive" data-dtype="Boolean" {{ item-case-sensitive-checked }} />
+                    <label for="item-case-sensitive" class="analytics-label">{{ localize 'ANALYTICS.CaseSensitive' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-exact-match" name="item-exact-match" data-dtype="Boolean" {{ item-exact-match-checked }} />
+                    <label for="item-exact-match" class="analytics-label">{{ localize 'ANALYTICS.ExactMatch' }}</label>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- ITEM TYPES -->
+
+            <div class="form-group-stacked">
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-none" name="item-none" data-dtype="Boolean" {{ item-none-checked }} />
+                    <label for="item-none" class="analytics-label">{{ localize 'DND5E.None' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-weapon" name="item-weapon" data-dtype="Boolean" {{ item-weapon-checked }} />
+                    <label for="item-weapon" class="analytics-label">{{ localize 'ITEM.TypeWeapon' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-equipment" name="item-equipment" data-dtype="Boolean" {{ item-equipment-checked }} />
+                    <label for="item-equipment" class="analytics-label">{{ localize 'ITEM.TypeEquipment' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-consumable" name="item-consumable" data-dtype="Boolean" {{ item-consumable-checked }} />
+                    <label for="item-consumable" class="analytics-label">{{ localize 'ITEM.TypeConsumable' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-tool" name="item-tool" data-dtype="Boolean" {{ item-tool-checked }} />
+                    <label for="item-tool" class="analytics-label">{{ localize 'ITEM.TypeTool' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-loot" name="item-loot" data-dtype="Boolean" {{ item-loot-checked }} />
+                    <label for="item-loot" class="analytics-label">{{ localize 'ITEM.TypeLoot' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-class" name="item-class" data-dtype="Boolean" {{ item-class-checked }} />
+                    <label for="item-class" class="analytics-label">{{ localize 'ITEM.TypeClass' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-feat" name="item-feat" data-dtype="Boolean" {{ item-feat-checked }} />
+                    <label for="item-feat" class="analytics-label">{{ localize 'ITEM.TypeFeat' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-backpack" name="item-backpack" data-dtype="Boolean" {{ item-backpack-checked }} />
+                    <label for="item-backpack" class="analytics-label">{{ localize 'ITEM.TypeBackpack' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-spell" name="item-spell" data-dtype="Boolean" {{ item-spell-checked }} />
+                    <label for="item-spell" class="analytics-label">{{ localize 'ITEM.TypeSpell' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-macro" name="item-macro" data-dtype="Boolean" onClick="toggle_item_macro()" {{ item-macro-checked }} />
+                    <label for="item-macro" id="item-macro-label" class="analytics-label">{{ localize 'ANALYTICS.OnUse' }} {{ localize 'DOCUMENT.Macro' }}</label>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- ON USE MACRO NAME -->
+
+            <div class="form-group-stacked" id="item-macro-name">
+                <div class="form-fields">
+                    <label for="macro-name" class="analytics-label">{{ localize 'DOCUMENT.Macros' }}:</label>
+                    <input type="text" class="analytics-text" id="macro-name" name="macro-name" data-dtype="String" placeholder="{{ localize 'Name' }}" value="{{ macro-name-value }}" >
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="macro-case-sensitive" name="macro-case-sensitive" data-dtype="Boolean" {{ macro-case-sensitive-checked }} />
+                    <label for="macro-case-sensitive" class="analytics-label">{{ localize 'ANALYTICS.CaseSensitive' }}</label>
+                </div>
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="macro-exact-match" name="macro-exact-match" data-dtype="Boolean" {{ macro-exact-match-checked }} />
+                    <label for="macro-exact-match" class="analytics-label">{{ localize 'ANALYTICS.ExactMatch' }}</label>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- SHOW -->
+
+            <div class="form-group-stacked" id="item-types">
+                <div class="form-fields" id="analytics-checkbox">
+                    <input type="checkbox" id="item-show" name="item-show" data-dtype="Boolean" {{ item-show-checked }} />
+                    <label for="item-show" class="analytics-label">{{ localize 'ANALYTICS.Show' }}</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBMIT -->
+
+        <input type="submit" id="analytics-submit" value="{{ localize 'FILES.Search' }}">
+
+        <!-- LIST HEADING -->
+
+        <div id="analytics-list-header">
+            <div class="form-group-stacked">
+                <div class="form-fields" class="analytics-label">
+                    {{ localize 'ANALYTICS.NumberOf' }} {{ localize 'DOCUMENT.Actors' }}: {{ number-of-actors }}/{{ actor-count }}
+                </div>
+            </div>
+        </div>
+
+        <!-- LIST -->
+
+        <div id="analytics-list"></div>
     </section>
 </form>

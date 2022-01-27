@@ -1,6 +1,10 @@
-# v0.0.32 (2022-1-25)
+# v0.0.4 (2022-1-27)
 
-* Actor creature types, none and show Item.
+* Actor Item On Use Macros.
+
+# v0.0.3 (2022-1-25)
+
+* Actor creature types, none Item type and Show.
 
 # v0.0.2 (2022-1-23)
 
@@ -8,4 +12,4 @@
 
 # v0.0.1 (2022-1-17)
 
-* Initial release. Basic module with Settings, Toolbar and Dialogs.
+* Initial release. Basic module with Settings, Toolbar and placeholder Dialogs.
