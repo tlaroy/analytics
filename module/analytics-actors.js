@@ -83,7 +83,7 @@ export class AnalyticsActors extends FormApplication {
             template:       "modules/analytics/templates/analytics-actors-template.html",
 			classes: 	   ["sheet", "scene-sheet"],
             width:          700,
-            height:         760,
+            height:         670,
             resizable:      true,
             closeOnSubmit:  false,
 			tabs: 		   [{navSelector: ".tabs", contentSelector: "form", initial: "actor-items"}]
