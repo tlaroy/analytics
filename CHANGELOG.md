@@ -1,3 +1,7 @@
+# v0.0.5 (2022-1-28)
+
+* Actor tooltips and tabs for Items, Journal Entries and Scenes. Reformatted.
+
 # v0.0.4 (2022-1-27)
 
 * Actor Item On Use Macros.

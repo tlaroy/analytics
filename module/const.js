@@ -17,5 +17,5 @@ export const MIN_DND5E_VERSION   = "1.5.7";
 export const MODULE_NAME         = "analytics";
 export const NAME                = "Analytics";
 export const LABEL               = "*** | ";
-export const VERSION             = "0.0.4";
+export const VERSION             = "0.0.5";
 export const ENABLED             = "enabled";

@@ -2,7 +2,7 @@
 *
 * module/analytics-actors.js
 *
-* version 0.0.4
+* version 0.0.5
 *
 */
 
@@ -78,15 +78,15 @@ export class AnalyticsActors extends FormApplication {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors static get defaultOptions()");
 
         return foundry.utils.mergeObject(super.defaultOptions, {
-            title:         i18n("ANALYTICS.Title"),
-            id:            "analytics-actors",
-            template:      "modules/analytics/templates/analytics-actors-template.html",
-            classes:       ["dialog"],
-            width:         700,
-            height:        760,
-            resizable:     true,
-            closeOnSubmit: false,
-          //dragDrop:      [{ dragselectedor: null, dropselectedor: null }],
+            title:          i18n("ANALYTICS.Title") + " - " + i18n("DOCUMENT.Actors"),
+            id:             "analytics-actors",
+            template:       "modules/analytics/templates/analytics-actors-template.html",
+			classes: 	   ["sheet", "scene-sheet"],
+            width:          700,
+            height:         760,
+            resizable:      true,
+            closeOnSubmit:  false,
+			tabs: 		   [{navSelector: ".tabs", contentSelector: "form", initial: "actor-items"}]
         });
     }
 
@@ -133,17 +133,29 @@ export class AnalyticsActors extends FormApplication {
 
         // enable on use item macros if midi-qol installed and active.
         if (game.modules.get("midi-qol") && game.modules.get("midi-qol").active) {
-            document.getElementById("item-macro-name").style.display  = "block";
-            document.getElementById("item-macro-label").style.display = "block";
-            document.getElementById("item-macro").style.display       = "block";
-            document.getElementById("item-macro").disabled            = false;
+            document.getElementById("item-macro").style.display     	  		= "block";
+            document.getElementById("item-macro-label").style.display     		= "block";
+            document.getElementById("item-macro-note").style.display      		= "block";
+            document.getElementById("macro-name").style.display     			= "block";
+			document.getElementById("macro-case-sensitive").style.display 		= "block";
+			document.getElementById("macro-exact-match").style.display    		= "block";
+            document.getElementById("macro-name-label").style.display     		= "block";
+			document.getElementById("macro-case-sensitive-label").style.display = "block";
+			document.getElementById("macro-exact-match-label").style.display    = "block";
+			document.getElementById("macro-thematic-break").style.display      = "block";
         }
         else
         {
-            document.getElementById("item-macro-name").style.display  = "none";
-            document.getElementById("item-macro-label").style.display = "none";
-            document.getElementById("item-macro").style.display       = "none";
-            document.getElementById("item-macro").disabled            = true;
+            document.getElementById("item-macro").style.display     			= "none";
+            document.getElementById("item-macro-label").style.display     		= "none";
+            document.getElementById("item-macro-note").style.display     		= "none";
+            document.getElementById("macro-name").style.display     			= "none";
+			document.getElementById("macro-case-sensitive").style.display 		= "none";
+			document.getElementById("macro-exact-match").style.display    		= "none";
+            document.getElementById("macro-name-label").style.display     		= "none";
+			document.getElementById("macro-case-sensitive-label").style.display = "none";
+			document.getElementById("macro-exact-match-label").style.display    = "none";
+			document.getElementById("macro-thematic-break").style.display    	= "none";
         }
 
         // toggle macro fields.
@@ -341,7 +353,14 @@ export class AnalyticsActors extends FormApplication {
 
         function add_macro(parent, macro_name) {
             if (parent.parent.actor_item_options.item_show_checked) {
-                (list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-macro-name-even">` + macro_name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-macro-name-odd">` + macro_name + `</p>`;
+				// add macro to list.
+				if (game.macros.getName(macro_name)) {
+					(list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-macro-name-even">` + macro_name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-macro-name-odd">` + macro_name + `</p>`;
+				}
+				else
+				{	
+					(list_counter % 2 == 0) ? parent.actor_list[list_counter] = `<p class="analytics-macro-name-error-even">` + macro_name + `</p>` : parent.actor_list[list_counter] = `<p class="analytics-macro-name-error-odd">` + macro_name + `</p>`;
+				}
                 list_counter++;
             }
 
@@ -438,8 +457,7 @@ export class AnalyticsActors extends FormApplication {
                                         add_item(parent, item.data.name);
                                     };
 
-                                    // add macro to list.
-                                    add_macro(parent, item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName);
+									add_macro(parent, item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName);
                                 }
                             }); // forEach Macro.
                         }
