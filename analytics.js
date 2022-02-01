@@ -2,7 +2,7 @@
 *
 * analytics.js
 *
-* version 0.0.5
+* version 0.0.6
 *
 */
 
@@ -92,7 +92,7 @@ function checkRequirements() {
     // Foundry.
 
     // minimum Foundry version.
-    if (versionCompare(game.data.version, ANALYTICS.MIN_FOUNDRY_VERSION) < 0) {
+    if (versionCompare(game.version, ANALYTICS.MIN_FOUNDRY_VERSION) < 0) {
         ui.notifications.error(i18n("ANALYTICS.FailedToInitialize"));
         console.error(ANALYTICS.LABEL + "FAIL: Foundry v" + ANALYTICS.MIN_FOUNDRY_VERSION + " or newer required.");
         return false;

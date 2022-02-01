@@ -4,7 +4,7 @@
 		/* dialog */
         #analytics-actors {
             min-width: 700px;
-            min-height: 670px;
+            min-height: 700px;
         }
 
 		/* ------------ */
@@ -63,13 +63,18 @@
             position: absolute;
             bottom: 5px;
             right: 25px;
-            width: 380px;
+            width: 390px;
         }
 
 		/* form groups */
 		#form-group {
-			margin: 0px;
-			height: 24px;
+			margin: 0 0 2px 0;
+			height: 22px;
+		}
+
+		#form-group-name {
+			margin: 0 0 5px 0;
+			height: 22px;
 		}
 
 		/* text labels*/
@@ -83,7 +88,7 @@
 		
         .analytics-actor-name-even {
             position: relative;
-            margin: 10px 0 0 5px;
+            margin: 10px 0 2px 5px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -93,7 +98,7 @@
 
         .analytics-actor-name-odd {
             position: relative;
-            margin: 10px 0 0 5px;
+            margin: 10px 0 2px 5px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -104,7 +109,7 @@
 		
         .analytics-item-name-even {
             position: relative;
-            margin: 0 0 0 15px;
+            margin: 0 0 2px 15px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -113,7 +118,7 @@
 
         .analytics-item-name-odd {
             position: relative;
-            margin: 0 0 0 15px;
+            margin: 0 0 2px 15px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -123,7 +128,7 @@
 		
         .analytics-macro-name-even {
             position: relative;
-            margin: 0 0 0 25px;
+            margin: 0 0 2px 25px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -133,7 +138,7 @@
 
         .analytics-macro-name-odd {
             position: relative;
-            margin: 0 0 0 25px;
+            margin: 0 0 2px 25px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -142,7 +147,7 @@
 
         .analytics-macro-name-error-even {
             position: relative;
-            margin: 0 0 0 25px;
+            margin: 0 0 2px 25px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -153,13 +158,52 @@
 
         .analytics-macro-name-error-odd {
             position: relative;
-            margin: 0 0 0 25px;
+            margin: 0 0 2px 25px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-style: italic;
 			color: var(--color-border-highlight-alt);
         }
+
+		/* journal list entries */
+		
+        .analytics-journal-name-even {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-journal-name-odd {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+
+		/* scene list entries */
+		
+        .analytics-scene-name-even {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-scene-name-odd {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+
     </style>
 
     <script>
@@ -197,16 +241,11 @@
 			<i class="fas fa-map"></i>&nbsp;{{localize 'DOCUMENT.Scenes'}}</a>
     </nav>
 
-	<!-- Items Tab -->
-	<div class="tab" data-tab="actor-items" data-group="components">
-
-		<!-- ACTORS -->
-
-		<div id="analytics-actor-controls">
+	<!-- ACTORS -->
+	<div id="analytics-actor-controls">
 
 			<!-- ACTOR NAME -->
-
-			<div class="form-group" id="form-group">
+			<div class="form-group" id="form-group-name">
 				<label for="actor-name" class="text-label">{{localize 'DOCUMENT.Actors'}}</label>
 				<input type="text" id="actor-name" name="actor-name" title="{{localize 'DOCUMENT.Actors'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{actor-name-value}}" >
 			</div>
@@ -218,11 +257,9 @@
 				<label for="actor-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
 				<input type="checkbox" id="actor-exact-match" name="actor-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-exact-match-checked}} />
 			</div>
-
 			<hr>
 			
 			<!-- ACTOR TYPES -->
-
 			<div class="form-group" id="form-group">
 				<label for="actor-character" class="text-label">{{localize 'ACTOR.TypeCharacter'}}</label>
 				<input type="checkbox" id="actor-character" name="actor-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{actor-character-checked}} />
@@ -235,11 +272,9 @@
 				<label for="actor-npc" class="text-label">{{localize 'ACTOR.TypeNpc'}}</label>
 				<input type="checkbox" id="actor-npc" name="actor-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_creature_types()" {{actor-npc-checked}} />
 			</div>
-
 			<hr> 
-			
-			<!-- CREATURE TYPES -->
 
+			<!-- CREATURE TYPES -->
 			<div class="form-group" id="form-group">
 				<label for="actor-aberration" class="text-label">{{localize 'DND5E.CreatureAberration'}}</label>
 				<input type="checkbox" id="actor-aberration" name="actor-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-aberration-checked}} />
@@ -302,13 +337,13 @@
 			</div>
 		</div>
 
-		<!-- ITEMS -->
+	<div id="analytics-item-controls">
 
-		<div id="analytics-item-controls">
+		<!-- ITEMS Tab -->
+		<div class="tab" data-tab="actor-items" data-group="components">
 
 			<!-- ITEM NAME -->
-
-			<div class="form-group" id="form-group">
+			<div class="form-group" id="form-group-name">
 				<label for="item-name" class="text-label">{{localize 'DOCUMENT.Items'}}</label>
 				<input type="text" id="item-name" name="item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{item-name-value}}" >
 			</div>
@@ -320,16 +355,14 @@
 				<label for="item-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
 				<input type="checkbox" id="item-exact-match" name="item-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-exact-match-checked}} />
 			</div>
-
 			<hr>
 			
 			<!-- ITEM TYPES -->
-
 			<div class="form-group" id="form-group">
 				<label for="item-none" class="text-label">{{localize 'DND5E.None'}}</label>
 				<input type="checkbox" id="item-none" name="item-none" title="{{localize 'No'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-none-checked}} />
 			</div>
-				<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
 			<div class="form-group" id="form-group">
 				<label for="item-weapon" class="text-label">{{localize 'ITEM.TypeWeapon'}}</label>
 				<input type="checkbox" id="item-weapon" name="item-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-weapon-checked}} />
@@ -370,13 +403,11 @@
 				<label for="item-macro" id="item-macro-label" class="text-label">{{localize 'midi-qol.onUseMacroLabel'}}</label>
 				<input type="checkbox" id="item-macro" name="item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_item_macro()" {{item-macro-checked}} />
 			</div>
-				<p class="notes" id="item-macro-note">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}</p>
-
+			<p class="notes" id="item-macro-note">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}</p>
 			<hr>
 
 			<!-- ON USE MACRO -->
-			
-			<div class="form-group" id="form-group">
+			<div class="form-group" id="form-group-name">
 				<label for="macro-name" id="macro-name-label" class="text-label">{{localize 'DOCUMENT.Macros'}}</label>
 				<input type="text" id="macro-name" name="macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{macro-name-value}}" >
 			</div>
@@ -388,40 +419,141 @@
 				<label for="macro-exact-match" id="macro-exact-match-label" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
 				<input type="checkbox" id="macro-exact-match" name="macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{macro-exact-match-checked}} />
 			</div>
-
 			<hr id="macro-thematic-break">
 
 			<!-- SHOW -->
-
 			<div class="form-group" id="form-group">
 				<label for="item-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
 				<input type="checkbox" id="item-show" name="item-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-show-checked}} />
-				<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>
-
-		<!-- SUBMIT -->
-
-		<button type="submit" id="analytics-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Actors'}}"><i class="fas fa-search"></i> {{localize 'FILES.Search'}}</button>
-
-		<!-- LIST HEADER -->
 		
-		<div id="analytics-header">
-			{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Actors'}} {{actor-count}}&nbsp;/&nbsp;{{number-of-actors}}
+		<!-- JOURNALS Tab -->
+		<div class="tab" data-tab="actor-journals" data-group="components">
+
+			<!-- JOURNAL NAME -->
+			<div class="form-group" id="form-group-name">
+				<label for="journal-name" class="text-label">{{localize 'DOCUMENT.JournalEntries'}}</label>
+				<input type="text" id="journal-name" name="journal-name" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{journal-name-value}}" >
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="journal-case-sensitive" name="journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-case-sensitive-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="journal-exact-match" name="journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-exact-match-checked}} />
+			</div>
+			<hr>
+
+			<!-- JOURNAL TYPES -->
+				<!--
+					"MonksEnhancedJournal.actor": "Actor",
+					"MonksEnhancedJournal.city": "City",
+					"MonksEnhancedJournal.picture": "Picture",
+					"MonksEnhancedJournal.journalentry": "Journal Entry",
+					"MonksEnhancedJournal.journalentrytextonly": "Enhanced Journal Entry (Text Only)",
+					"MonksEnhancedJournal.slideshow": "Slideshow",
+				-->
+			<div class="form-group" id="form-group">
+				<label for="journal-none" class="text-label">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="journal-none" name="journal-none" title="{{localize 'No'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{journal-none-checked}} />
+			</div>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.JournalEntries'}}</p>
+			<div class="form-group" id="form-group">
+				<label for="journal-base" id="journal-base-label" class="text-label">{{localize 'MonksEnhancedJournal.base'}}</label>
+				<input type="checkbox" id="journal-base" name="journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{journal-base-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-checklist" id="journal-checklist-label" class="text-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+				<input type="checkbox" id="journal-checklist" name="journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{journal-checklist-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-encounter" id="journal-encounter-label" class="text-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+				<input type="checkbox" id="journal-encounter" name="journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{journal-encounter-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-loot" id="journal-loot-label" class="text-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
+				<input type="checkbox" id="journal-loot" name="journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{journal-loot-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-organization" id="journal-organization-label" class="text-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
+				<input type="checkbox" id="journal-organization" name="journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{journal-organization-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-person" id="journal-person-label" class="text-label">{{localize 'MonksEnhancedJournal.person'}}</label>
+				<input type="checkbox" id="journal-person" name="journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{journal-person-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-place" id="journal-place-label" class="text-label">{{localize 'MonksEnhancedJournal.place'}}</label>
+				<input type="checkbox" id="journal-place" name="journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{journal-place-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-poi" id="journal-poi-label" class="text-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
+				<input type="checkbox" id="journal-poi" name="journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{journal-poi-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-quest" id="journal-quest-label" class="text-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
+				<input type="checkbox" id="journal-quest" name="journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{journal-quest-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="journal-shop" id="journal-shop-label" class="text-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
+				<input type="checkbox" id="journal-shop" name="journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{journal-shop-checked}} />
+			</div>
+			<hr>
+
+			<!-- SHOW -->
+			<div class="form-group" id="form-group">
+				<label for="journal-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="journal-show" name="journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{journal-show-checked}} />
+			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>
-			
-		<!-- LIST -->
 
-		<div id="analytics-list"></div>
+		<!-- SCENES Tab -->
+		<div class="tab" data-tab="actor-scenes" data-group="components">
+
+			<!-- SCENE NAME -->
+			<div class="form-group" id="form-group-name">
+				<label for="scene-name" class="text-label">{{localize 'DOCUMENT.Scenes'}}</label>
+				<input type="text" id="scene-name" name="scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{scene-name-value}}" >
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="scene-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="scene-case-sensitive" name="scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-case-sensitive-checked}} />
+			</div>
+			<div class="form-group" id="form-group">
+				<label for="scene-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="scene-exact-match" name="scene-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-exact-match-checked}} />
+			</div>
+			<hr>
+
+			<div class="form-group" id="form-group">
+				<label for="scene-none" class="text-label">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="scene-none" name="scene-none" title="{{localize 'No'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{scene-none-checked}} />
+			</div>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Scenes'}}</p>
+			<hr>
+
+			<!-- SHOW -->
+			<div class="form-group" id="form-group">
+				<label for="scene-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="scene-show" name="scene-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{scene-show-checked}} />
+			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
+		</div>		
 	</div>
 
-	<!-- Journals Tab -->
-	<div class="tab" data-tab="actor-journals" data-group="components">
-		Journals
-	</div>
+	<!-- SUBMIT -->
+	<button type="submit" id="analytics-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Actors'}}"><i class="fas fa-search"></i> {{localize 'FILES.Search'}}</button>
 
-	<!-- Scenes Tab -->
-	<div class="tab" data-tab="actor-scenes" data-group="components">
-		Scenes	
+	<!-- LIST HEADER -->	
+	<div id="analytics-header">
+		{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Actors'}} {{actor-count}}&nbsp;/&nbsp;{{number-of-actors}}
 	</div>
+		
+	<!-- LIST -->
+	<div id="analytics-list"></div>
+
 </form>

@@ -2,7 +2,7 @@
 *
 * module/analytics.js
 *
-* version 0.0.5
+* version 0.0.6
 *
 */
 
@@ -30,7 +30,14 @@ export class Analytics {
 
         var parent = this;
 
-        this.actor_item_options     = { };
+        this.actor_options   = { };
+        this.item_options    = { };
+        this.macro_options   = { };
+        this.journal_options = { };
+        this.scene_options   = { };
+		
+		this.actor_lists     = { };
+		
         this.analytics_actors       = new AnalyticsActors(parent);
         this.analytics_cards        = new AnalyticsCards();
         this.analytics_compendiums  = new AnalyticsCompendiums();
