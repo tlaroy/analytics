@@ -2,7 +2,7 @@
 *
 * module/analytics-actors.js
 *
-* version 0.0.6
+* version 0.0.7
 *
 */
 
@@ -200,7 +200,7 @@ export class AnalyticsActors extends FormApplication {
             template:       "modules/analytics/templates/analytics-actors-template.html",
 			classes: 	   ["sheet", "scene-sheet"],
             width:          700,
-            height:         700,
+            height:         720,
             resizable:      true,
             closeOnSubmit:  false,
 			tabs: 		   [{navSelector: ".tabs", contentSelector: "form", initial: "actor-items"}]
@@ -271,8 +271,9 @@ export class AnalyticsActors extends FormApplication {
 					document.getElementById("item-macro").style.display     	  		= "block";
 					document.getElementById("item-macro-label").style.display     		= "block";
 					document.getElementById("item-macro-note").style.display      		= "block";
-					document.getElementById("macro-name").style.display     			= "block";
+					document.getElementById("macro-name").style.display      			= "block";
 					document.getElementById("macro-name-label").style.display     		= "block";
+					document.getElementById("macro-name-note").style.display   	  		= "block";
 					document.getElementById("macro-case-sensitive").style.display 		= "block";
 					document.getElementById("macro-case-sensitive-label").style.display = "block";
 					document.getElementById("macro-exact-match").style.display    		= "block";
@@ -285,6 +286,7 @@ export class AnalyticsActors extends FormApplication {
 					document.getElementById("item-macro-note").style.display     		= "none";
 					document.getElementById("macro-name").style.display     			= "none";
 					document.getElementById("macro-name-label").style.display     		= "none";
+					document.getElementById("macro-name-note").style.display   	  		= "none";
 					document.getElementById("macro-case-sensitive").style.display 		= "none";
 					document.getElementById("macro-case-sensitive-label").style.display = "none";
 					document.getElementById("macro-exact-match").style.display    		= "none";
@@ -361,6 +363,7 @@ export class AnalyticsActors extends FormApplication {
 
 					"actor-count":                    this.parent.actor_options[obj_key].actor_count,
 					"actor-name-value":               this.parent.actor_options[obj_key].actor_name_value,
+					"actor-note":					  "",
 					"actor-case-sensitive-checked":   this.parent.actor_options[obj_key].actor_case_sensitive_checked  ? "checked" : "",
 					"actor-exact-match-checked":      this.parent.actor_options[obj_key].actor_exact_match_checked     ? "checked" : "",
 					
@@ -385,6 +388,7 @@ export class AnalyticsActors extends FormApplication {
 					"actor-undead-checked":           this.parent.actor_options[obj_key].actor_undead_checked          ? "checked" : "",
 
 					"item-name-value":                this.parent.item_options[obj_key].item_name_value,               
+					"item-note":					  "",
 					"item-case-sensitive-checked":    this.parent.item_options[obj_key].item_case_sensitive_checked    ? "checked" : "",
 					"item-exact-match-checked":       this.parent.item_options[obj_key].item_exact_match_checked       ? "checked" : "",
 					"item-none-checked":              this.parent.item_options[obj_key].item_none_checked              ? "checked" : "",
@@ -402,6 +406,7 @@ export class AnalyticsActors extends FormApplication {
 
 					"item-macro-checked":             this.parent.macro_options[obj_key].item_macro_checked            ? "checked" : "",
 					"macro-name-value":               this.parent.macro_options[obj_key].macro_name_value,              
+					"macro-note":					  "",
 					"macro-case-sensitive-checked":   this.parent.macro_options[obj_key].macro_case_sensitive_checked  ? "checked" : "",
 					"macro-exact-match-checked":      this.parent.macro_options[obj_key].macro_exact_match_checked     ? "checked" : "",
 				};
@@ -414,6 +419,7 @@ export class AnalyticsActors extends FormApplication {
 
 					"actor-count":                    this.parent.actor_options[obj_key].actor_count,
 					"actor-name-value":               this.parent.actor_options[obj_key].actor_name_value,
+					"actor-note":					  "",
 					"actor-case-sensitive-checked":   this.parent.actor_options[obj_key].actor_case_sensitive_checked     ? "checked" : "",
 					"actor-exact-match-checked":      this.parent.actor_options[obj_key].actor_exact_match_checked        ? "checked" : "",
  
@@ -438,6 +444,7 @@ export class AnalyticsActors extends FormApplication {
 					"actor-undead-checked":           this.parent.actor_options[obj_key].actor_undead_checked             ? "checked" : "",
 
 					"journal-name-value":             this.parent.journal_options[obj_key].journal_name_value,
+					"journal-note":					  "",
 					"journal-case-sensitive-checked": this.parent.journal_options[obj_key].journal_case_sensitive_checked ? "checked" : "",
 					"journal-exact-match-checked":    this.parent.journal_options[obj_key].journal_exact_match_checked    ? "checked" : "",
 					"journal-none-checked":           this.parent.journal_options[obj_key].journal_none_checked           ? "checked" : "",
@@ -462,6 +469,7 @@ export class AnalyticsActors extends FormApplication {
 					"number-of-actors":               game.actors.size,
 
 					"actor-count":                    this.parent.actor_options[obj_key].actor_count,
+					"actor-note":					  i18n('DOCUMENT.Tokens') + " " + i18n('COMBAT.CombatantActor') + " " + i18n('Name'),
 					"actor-name-value":               this.parent.actor_options[obj_key].actor_name_value,
 					"actor-case-sensitive-checked":   this.parent.actor_options[obj_key].actor_case_sensitive_checked   ? "checked" : "",
 					"actor-exact-match-checked":      this.parent.actor_options[obj_key].actor_exact_match_checked      ? "checked" : "",
@@ -487,6 +495,7 @@ export class AnalyticsActors extends FormApplication {
 					"actor-undead-checked":           this.parent.actor_options[obj_key].actor_undead_checked           ? "checked" : "",
 
 					"scene-name-value":               this.parent.scene_options[obj_key].scene_name_value,
+					"scene-note":					  "",
 					"scene-case-sensitive-checked":   this.parent.scene_options[obj_key].scene_case_sensitive_checked   ? "checked" : "",
 					"scene-exact-match-checked":      this.parent.scene_options[obj_key].scene_exact_match_checked      ? "checked" : "",
 					"scene-none-checked":             this.parent.scene_options[obj_key].scene_none_checked             ? "checked" : "",
@@ -773,8 +782,7 @@ export class AnalyticsActors extends FormApplication {
 
 		// escape conflicting characters for regexp searches.
 		function escapeRegExp(text) {
-		  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'); // \s spaces ? no.
-		  //return text.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&');
+			return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 		}
 
 		// add an actor to the list.
@@ -1061,7 +1069,8 @@ export class AnalyticsActors extends FormApplication {
 										var token_name = "";
 										token.actor ? token_name = escapeRegExp(token.actor.name) : token_name = escapeRegExp(token.name);
 
-										if (token.actor && (actor_name.search(token_name) > -1) && (actor_name.length == token_name.length)) {
+										if (token.actor && (actor_name.search(token_name) > -1) && (token_name.length == escapeRegExp(actor_name).length)) {
+											
 											if (parent.parent.scene_options[obj_key].scene_none_checked) {
 												parent.parent.scene_options[obj_key].scene_count++;
 											}

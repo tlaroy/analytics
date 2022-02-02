@@ -4,7 +4,7 @@
 		/* dialog */
         #analytics-actors {
             min-width: 700px;
-            min-height: 700px;
+            min-height: 720px;
         }
 
 		/* ------------ */
@@ -12,7 +12,7 @@
 		/* item controls position */
         #analytics-item-controls {
             position: absolute;
-            top: 85px;
+            top: 95px;
             bottom: 40px;
             width: 200px;
             right: 8px;
@@ -23,7 +23,7 @@
 		/* actor controls position */
         #analytics-actor-controls {
             position: absolute;
-            top: 85px;
+            top: 95px;
             bottom: 40px;
             width: 200px;
             right: 225px;
@@ -34,7 +34,7 @@
 		/* list header position */
         #analytics-header {
             position: absolute;
-            top: 85px;
+            top: 101px;
             height: 30px;
             left: 8px;
             right: 440px;
@@ -46,7 +46,7 @@
 		/* list position */
         #analytics-list {
             position: absolute;
-            top: 110px;
+            top: 125px;
             bottom: 5px;
             left: 8px;
             right: 440px;
@@ -75,6 +75,12 @@
 		#form-group-name {
 			margin: 0 0 5px 0;
 			height: 22px;
+		}
+
+		/* name notes */
+		.name-note {
+			margin-top: 10px;
+			height: 16px;
 		}
 
 		/* text labels*/
@@ -233,11 +239,11 @@
 
     <!-- Navigation Tabs -->
     <nav class="sheet-tabs tabs" data-group="components">
-        <a class="item" data-tab="actor-items"    id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'and'}} {{localize 'DOCUMENT.Items'}}">
+        <a class="item" data-tab="actor-items"    id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}">
 			<i class="fas fa-suitcase"></i>&nbsp;{{localize 'DOCUMENT.Items'}}</a>
-        <a class="item" data-tab="actor-journals" id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'and'}} {{localize 'SIDEBAR.TabJournal'}}">
+        <a class="item" data-tab="actor-journals" id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'SIDEBAR.TabJournal'}}">
 			<i class="fas fa-book-open"></i>&nbsp;{{localize 'SIDEBAR.TabJournal'}}</a>
-        <a class="item" data-tab="actor-scenes"   id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'and'}} {{localize 'DOCUMENT.Scenes'}}">
+        <a class="item" data-tab="actor-scenes"   id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}">
 			<i class="fas fa-map"></i>&nbsp;{{localize 'DOCUMENT.Scenes'}}</a>
     </nav>
 
@@ -249,12 +255,13 @@
 				<label for="actor-name" class="text-label">{{localize 'DOCUMENT.Actors'}}</label>
 				<input type="text" id="actor-name" name="actor-name" title="{{localize 'DOCUMENT.Actors'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{actor-name-value}}" >
 			</div>
+			<div class="name-note"><p class="notes">{{actor-note}}</p></div>
 			<div class="form-group" id="form-group">
 				<label for="actor-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
 				<input type="checkbox" id="actor-case-sensitive" name="actor-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-case-sensitive-checked}} />
 			</div>
-			<div class="form-group" id="form-group" class="text-label">
-				<label for="actor-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+			<div class="form-group" id="form-group">
+				<label for="actor-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
 				<input type="checkbox" id="actor-exact-match" name="actor-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-exact-match-checked}} />
 			</div>
 			<hr>
@@ -344,9 +351,10 @@
 
 			<!-- ITEM NAME -->
 			<div class="form-group" id="form-group-name">
-				<label for="item-name" class="text-label">{{localize 'DOCUMENT.Items'}}</label>
+				<label for="item-name" class="text-label">{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}</label>
 				<input type="text" id="item-name" name="item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{item-name-value}}" >
 			</div>
+			<div class="name-note"><p class="notes">{{item-note}}</p></div>
 			<div class="form-group" id="form-group">
 				<label for="item-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
 				<input type="checkbox" id="item-case-sensitive" name="item-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-case-sensitive-checked}} />
@@ -411,6 +419,7 @@
 				<label for="macro-name" id="macro-name-label" class="text-label">{{localize 'DOCUMENT.Macros'}}</label>
 				<input type="text" id="macro-name" name="macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{macro-name-value}}" >
 			</div>
+			<div class="name-note"><p class="notes" id="macro-name-note">{{macro-note}}</p></div>
 			<div class="form-group" id="form-group">
 				<label for="macro-case-sensitive" id="macro-case-sensitive-label" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
 				<input type="checkbox" id="macro-case-sensitive" name="macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{macro-case-sensitive-checked}} />
@@ -434,9 +443,10 @@
 
 			<!-- JOURNAL NAME -->
 			<div class="form-group" id="form-group-name">
-				<label for="journal-name" class="text-label">{{localize 'DOCUMENT.JournalEntries'}}</label>
+				<label for="journal-name" class="text-label">{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
 				<input type="text" id="journal-name" name="journal-name" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{journal-name-value}}" >
 			</div>
+			<div class="name-note"><p class="notes">{{journal-note}}</p></div>
 			<div class="form-group" id="form-group">
 				<label for="journal-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
 				<input type="checkbox" id="journal-case-sensitive" name="journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-case-sensitive-checked}} />
@@ -460,7 +470,7 @@
 				<label for="journal-none" class="text-label">{{localize 'DND5E.None'}}</label>
 				<input type="checkbox" id="journal-none" name="journal-none" title="{{localize 'No'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{journal-none-checked}} />
 			</div>
-			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.JournalEntries'}}</p>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.JournalEntries'}}s</p>
 			<div class="form-group" id="form-group">
 				<label for="journal-base" id="journal-base-label" class="text-label">{{localize 'MonksEnhancedJournal.base'}}</label>
 				<input type="checkbox" id="journal-base" name="journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{journal-base-checked}} />
@@ -508,7 +518,7 @@
 				<label for="journal-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
 				<input type="checkbox" id="journal-show" name="journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{journal-show-checked}} />
 			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>
 
 		<!-- SCENES Tab -->
@@ -516,9 +526,10 @@
 
 			<!-- SCENE NAME -->
 			<div class="form-group" id="form-group-name">
-				<label for="scene-name" class="text-label">{{localize 'DOCUMENT.Scenes'}}</label>
+				<label for="scene-name" class="text-label">{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
 				<input type="text" id="scene-name" name="scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{scene-name-value}}" >
 			</div>
+			<div class="name-note"><p class="notes">{{scene-note}}</p></div>
 			<div class="form-group" id="form-group">
 				<label for="scene-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
 				<input type="checkbox" id="scene-case-sensitive" name="scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-case-sensitive-checked}} />
@@ -533,7 +544,7 @@
 				<label for="scene-none" class="text-label">{{localize 'DND5E.None'}}</label>
 				<input type="checkbox" id="scene-none" name="scene-none" title="{{localize 'No'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{scene-none-checked}} />
 			</div>
-			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Scenes'}}</p>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}</p>
 			<hr>
 
 			<!-- SHOW -->

@@ -2,9 +2,9 @@
     "name": "analytics",
     "title": "Analytics",
     "description": "Analytics",
-    "version": "0.0.6",
-    "minimumCoreVersion": "9.245",
-    "compatibleCoreVersion": "9.245",
+    "version": "0.0.7",
+    "minimumCoreVersion": "9.249",
+    "compatibleCoreVersion": "9.249",
     "author": "Nokturnel",
     "packs": [ ],
     "languages": [
@@ -25,5 +25,5 @@
     "socket": true,
     "url": "https://github.com/tlaroy/analytics",
     "manifest": "https://github.com/tlaroy/analytics/raw/main/module.json",
-    "download": "https://github.com/tlaroy/analytics/raw/main/downloads/analytics-v0.0.6.zip"
+    "download": "https://github.com/tlaroy/analytics/raw/main/downloads/analytics-v0.0.7.zip"
 }

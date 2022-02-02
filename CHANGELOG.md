@@ -1,23 +1,27 @@
+# v0.0.7 (2022-2-2)
+
+* Actors - Clarified labeling.
+
 # v0.0.6 (2022-2-1)
 
-* Actor/Journals and Dialog/Scenes.
+* Actors/Journals and Actors/Scenes.
 
 # v0.0.5 (2022-1-28)
 
-* Actor Items tooltips.
-* Tabs for Actor/Items, Actor/Journal Entries and Actor/Scenes.
+* Actors - Item tooltips.
+* Tabs for Actors/Items, Actors/Journals and Actors/Scenes.
 
 # v0.0.4 (2022-1-27)
 
-* Actor Items On Use Macros.
+* Actors - Item On Use Macros.
 
 # v0.0.3 (2022-1-25)
 
-* Actor Items Item options.
+* Actors - Item options.
 
 # v0.0.2 (2022-1-23)
 
-* Actor Items. D&D5e dependency.
+* Actors - Items. D&D5e dependency.
 
 # v0.0.1 (2022-1-17)
 

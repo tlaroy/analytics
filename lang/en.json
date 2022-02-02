@@ -4,11 +4,13 @@
     "ANALYTICS.SettingsEnableName": "Enable",
     "ANALYTICS.SettingsEnableHint": "Enable Analytics",
     "ANALYTICS.NumberOf": "Number of",
-    "ANALYTICS.With": "with",
-    "ANALYTICS.Without": "without",
+    "ANALYTICS.With": "With",
+    "ANALYTICS.Without": "Without",
     "ANALYTICS.CaseSensitive": "Case Sensitive",
     "ANALYTICS.ExactMatch": "Exact Match",
-    "ANALYTICS.In": "in",
+    "ANALYTICS.In": "In",
+    "ANALYTICS.NotIn": "Not In",
     "ANALYTICS.Include": "Include",
-    "ANALYTICS.Show": "Show"
+    "ANALYTICS.Show": "Show",
+    "ANALYTICS.Journals": "Journals"
 }
