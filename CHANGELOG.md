@@ -1,28 +1,58 @@
-# v0.0.7 (2022-2-2)
+# v0.1.0 (XXXX-XX-XX)
 
-* Actors - Clarified labeling.
+* Cards       - Phase I Searches.
+* Compendiums - Phase I Searches.
+* Items       - Phase I Searches.
+* Journals    - Phase I Searches.
+* Macros      - Phase I Searches.
+* Playlists   - Phase I Searches.
+* Tables      - Phase I Searches.
+* Scenes      - Phase I Searches.
+* Tiles       - Phase I Searches.
 
-# v0.0.6 (2022-2-1)
+# v0.0.9 (XXXX-XX-XX)
 
-* Actors/Journals and Actors/Scenes.
+* Form optimizations.
 
-# v0.0.5 (2022-1-28)
+# v0.0.8 (XXXX-XX-XX)
 
-* Actors - Item tooltips.
-* Tabs for Actors/Items, Actors/Journals and Actors/Scenes.
+* Cards       - Form.
+* Compendiums - Form.
+* Items       - Form.
+* Journals    - Form.
+* Macros      - Form.
+* Playlists   - Form.
+* Tables      - Form.
+* Scenes      - Form.
+* Tiles       - Form.
 
-# v0.0.4 (2022-1-27)
+# v0.0.7 (2022-02-02)
+
+* Actors - Labeling.
+
+# v0.0.6 (2022-02-01)
+
+* Actors/Journals - Phase I Journal Searches.
+* Actors/Scenes   - Phase I Scene Searches.
+
+# v0.0.5 (2022-01-28)
+
+* Actors - Tooltips.
+* Actors - Tabs for Actors/Items, Actors/Journals and Actors/Scenes.
+
+# v0.0.4 (2022-01-27)
 
 * Actors - Item On Use Macros.
 
-# v0.0.3 (2022-1-25)
+# v0.0.3 (2022-01-25)
 
-* Actors - Item options.
+* Actors - Item options. D&D5e dependency.
 
-# v0.0.2 (2022-1-23)
+# v0.0.2 (2022-01-23)
 
-* Actors - Items. D&D5e dependency.
+* Actors - Form.
+* Actors - Phase I Item Searches.
 
-# v0.0.1 (2022-1-17)
+# v0.0.1 (2022-01-17)
 
-* Initial release. Basic module with Settings, Toolbar and placeholder Dialogs.
+* Initial alpha release. Basic module with Settings, Toolbar and placeholder Forms.

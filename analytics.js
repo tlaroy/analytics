@@ -2,7 +2,7 @@
 *
 * analytics.js
 *
-* version 0.0.7
+* version 0.0.8
 *
 */
 
@@ -175,7 +175,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
         },
         {
             name:    "analytics-cards",
-            title:   i18n("DOCUMENT.Cards"),
+            title:   i18n("CARDS.HeaderCards"),
             icon:    "fas fa-id-badge",
             button:  true,
             visible: true,
@@ -184,7 +184,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
         },
         {
             name:    "analytics-compendiums",
-            title:   i18n("COMPENDIUM.SidebarTitle"),
+            title:   i18n("ANALYTICS.Compendiums"),
             icon:    "fas fa-atlas",
             button:  true,
             visible: true,
@@ -202,7 +202,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
         },
         {
             name:    "analytics-journals",
-            title:   i18n("SIDEBAR.TabJournal"),
+            title:   i18n("ANALYTICS.Journals"),
             icon:    "fas fa-book-open",
             button:  true,
             visible: true,
@@ -228,15 +228,6 @@ Hooks.on("getSceneControlButtons", (controls) => {
             onClick: () => { analytics.toggle_playlists(); }
         },
         {
-            name:    "analytics-rolltables",
-            title:   i18n("SIDEBAR.TabTables"),
-            icon:    "fas fa-th-list",
-            button:  true,
-            visible: true,
-            active:  true,
-            onClick: () => { analytics.toggle_rolltables(); }
-        },
-        {
             name:    "analytics-scenes",
             title:   i18n("DOCUMENT.Scenes"),
             icon:    "fas fa-map",
@@ -244,6 +235,24 @@ Hooks.on("getSceneControlButtons", (controls) => {
             visible: true,
             active:  true,
             onClick: () => { analytics.toggle_scenes(); }
+        },
+        {
+            name:    "analytics-tables",
+            title:   i18n("ANALYTICS.Tables"),
+            icon:    "fas fa-th-list",
+            button:  true,
+            visible: true,
+            active:  true,
+            onClick: () => { analytics.toggle_tables(); }
+        },
+        {
+            name:    "analytics-tiles",
+            title:   i18n("DOCUMENT.Tiles"),
+            icon:    "fas fa-cubes",
+            button:  true,
+            visible: true,
+            active:  true,
+            onClick: () => { analytics.toggle_tiles(); }
         }
     ];
 

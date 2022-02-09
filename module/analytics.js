@@ -2,7 +2,7 @@
 *
 * module/analytics.js
 *
-* version 0.0.7
+* version 0.0.8
 *
 */
 
@@ -14,39 +14,54 @@ import { AnalyticsItems }       from "./analytics-items.js";
 import { AnalyticsJournals }    from "./analytics-journals.js";
 import { AnalyticsMacros }      from "./analytics-macros.js";
 import { AnalyticsPlaylists }   from "./analytics-playlists.js";
-import { AnalyticsRolltables }  from "./analytics-rolltables.js";
 import { AnalyticsScenes }      from "./analytics-scenes.js";
+import { AnalyticsTables }      from "./analytics-tables.js";
+import { AnalyticsTiles }       from "./analytics-tiles.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
 export class Analytics {
 
-    /**
-    * Analytics.constructor().
-    */
-
-    constructor(dialogData = {}, options = {}) {
+    constructor() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics constructor()");
 
         var parent = this;
 
-        this.actor_options   = { };
-        this.item_options    = { };
-        this.macro_options   = { };
-        this.journal_options = { };
-        this.scene_options   = { };
-		
-		this.actor_lists     = { };
-		
-        this.analytics_actors       = new AnalyticsActors(parent);
-        this.analytics_cards        = new AnalyticsCards();
-        this.analytics_compendiums  = new AnalyticsCompendiums();
-        this.analytics_items        = new AnalyticsItems();
-        this.analytics_journals     = new AnalyticsJournals();
-        this.analytics_macros       = new AnalyticsMacros();
-        this.analytics_playlists    = new AnalyticsPlaylists();
-        this.analytics_rolltables   = new AnalyticsRolltables();
-        this.analytics_scenes       = new AnalyticsScenes();
+        // inputs.
+        this.actor_options      = { };
+        this.card_options       = { };
+        this.compendium_options = { };
+        this.item_options       = { };
+        this.journal_options    = { };
+        this.macro_options      = { };
+        this.playlist_options   = { };
+        this.scene_options      = { };
+        this.table_options      = { };
+        this.tile_options       = { };
+
+        // outputs.
+        this.actor_lists        = { };
+        this.card_lists         = { };
+        this.compendium_lists   = { };
+        this.item_lists         = { };
+        this.journal_lists      = { };
+        this.macro_lists        = { };
+        this.playlist_lists     = { };
+        this.scene_lists        = { };
+        this.table_lists        = { };
+        this.tile_lists         = { };
+
+        // form classes.
+        this.analytics_actors      = new AnalyticsActors(parent);
+        this.analytics_cards       = new AnalyticsCards(parent);
+        this.analytics_compendiums = new AnalyticsCompendiums(parent);
+        this.analytics_items       = new AnalyticsItems(parent);
+        this.analytics_journals    = new AnalyticsJournals(parent);
+        this.analytics_macros      = new AnalyticsMacros(parent);
+        this.analytics_playlists   = new AnalyticsPlaylists(parent);
+        this.analytics_scenes      = new AnalyticsScenes(parent);
+        this.analytics_tables      = new AnalyticsTables(parent);
+        this.analytics_tiles       = new AnalyticsTiles(parent);
     }
 
     toggle_actors( ) {
@@ -58,48 +73,54 @@ export class Analytics {
     toggle_cards( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_cards");
 
-        AnalyticsCards.isVisible ? AnalyticsCards.hide() : AnalyticsCards.show();
+        AnalyticsCards.isVisible ? this.analytics_cards.hide() : this.analytics_cards.show();
     }
 
     toggle_compendiums( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_compendiums");
 
-        AnalyticsCompendiums.isVisible ? AnalyticsCompendiums.hide() : AnalyticsCompendiums.show();
+        AnalyticsCompendiums.isVisible ? this.analytics_compendiums.hide() : this.analytics_compendiums.show();
     }
 
     toggle_items( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_items");
 
-        AnalyticsItems.isVisible ? AnalyticsItems.hide() : AnalyticsItems.show();
+        AnalyticsItems.isVisible ? this.analytics_items.hide() : this.analytics_items.show();
     }
 
     toggle_journals( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_journals");
 
-        AnalyticsJournals.isVisible ? AnalyticsJournals.hide() : AnalyticsJournals.show();
+        AnalyticsJournals.isVisible ? this.analytics_journals.hide() : this.analytics_journals.show();
     }
 
     toggle_macros( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_macros");
 
-        AnalyticsMacros.isVisible ? AnalyticsMacros.hide() : AnalyticsMacros.show();
+        AnalyticsMacros.isVisible ? this.analytics_macros.hide() : this.analytics_macros.show();
     }
 
     toggle_playlists( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_playlists");
 
-        AnalyticsPlaylists.isVisible ? AnalyticsPlaylists.hide() : AnalyticsPlaylists.show();
-    }
-
-    toggle_rolltables( ) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_rolltables");
-
-        AnalyticsRolltables.isVisible ? AnalyticsRolltables.hide() : AnalyticsRolltables.show();
+        AnalyticsPlaylists.isVisible ? this.analytics_playlists.hide() : this.analytics_playlists.show();
     }
 
     toggle_scenes( ) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_scenes");
 
-        AnalyticsScenes.isVisible ? AnalyticsScenes.hide() : AnalyticsScenes.show();
+        AnalyticsScenes.isVisible ? this.analytics_scenes.hide() : this.analytics_scenes.show();
+    }
+
+    toggle_tables( ) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_tables");
+
+        AnalyticsTables.isVisible ? this.analytics_tables.hide() : this.analytics_tables.show();
+    }
+
+    toggle_tiles( ) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "Analytics toggle_tiles");
+
+        AnalyticsTiles.isVisible ? this.analytics_tiles.hide() : this.analytics_tiles.show();
     }
 }

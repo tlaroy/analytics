@@ -1,41 +1,41 @@
 <form id="analytics-form" onsubmit="event.preventDefault();">
 
     <style>
-		/* dialog */
+		/* form */
         #analytics-actors {
-            min-width: 700px;
-            min-height: 720px;
+            min-width: 740px;
+            min-height: 690px;
         }
 
 		/* ------------ */
 
-		/* item controls position */
-        #analytics-item-controls {
+		/* tabbed controls position */
+        .analytics-actors-tabbed-controls {
             position: absolute;
-            top: 95px;
-            bottom: 40px;
+            top: 145px;
+            bottom: 45px;
             width: 200px;
             right: 8px;
             overflow-x: hidden;
-            overflow-y: hidden;
+            overflow-y: auto;
         }
 		
-		/* actor controls position */
-        #analytics-actor-controls {
+		/* controls position */
+        .analytics-actors-controls {
             position: absolute;
-            top: 95px;
-            bottom: 40px;
+            top: 145px;
+            bottom: 45px;
             width: 200px;
             right: 225px;
             overflow-x: hidden;
-            overflow-y: hidden;
+            overflow-y: auto;
         }
 
 		/* list header position */
-        #analytics-header {
+        .analytics-actors-header {
             position: absolute;
-            top: 101px;
-            height: 30px;
+            top: 145px;
+            height: 20px;
             left: 8px;
             right: 440px;
             box-sizing: border-box;
@@ -44,54 +44,47 @@
         }
 
 		/* list position */
-        #analytics-list {
+        .analytics-actors-list {
             position: absolute;
-            top: 125px;
+            top: 165px;
             bottom: 5px;
             left: 8px;
             right: 440px;
+			border-radius: 3px;
             box-sizing: border-box;
             overflow-x: hidden;
             overflow-y: auto;
 			background: rgba(0, 0, 0, 0.05);
-			border: 1px solid;
-			border-color: var(--color-border-light-primary);
+			border: 1px solid var(--color-border-light-tertiary);
         }
 
 		/* submit position */
-        #analytics-submit {
+        .analytics-actors-submit {
             position: absolute;
             bottom: 5px;
             right: 25px;
             width: 390px;
         }
 
-		/* form groups */
-		#form-group {
-			margin: 0 0 2px 0;
-			height: 22px;
-		}
-
-		#form-group-name {
-			margin: 0 0 5px 0;
-			height: 22px;
-		}
-
-		/* name notes */
-		.name-note {
-			margin-top: 10px;
-			height: 16px;
-		}
-
-		/* text labels*/
-		.text-label {
-			height: 20px;
-		}
-
 		/* ------------ */
 
-		/* actor list entries */
-		
+        .analytics-message-even {
+            position: relative;
+            margin: 10px 0 2px 5px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-message-odd {
+            position: relative;
+            margin: 10px 0 2px 5px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+
         .analytics-actor-name-even {
             position: relative;
             margin: 10px 0 2px 5px;
@@ -111,8 +104,6 @@
             font-weight: bold;
         }
 
-		/* item list entries */
-		
         .analytics-item-name-even {
             position: relative;
             margin: 0 0 2px 15px;
@@ -130,8 +121,6 @@
 			text-overflow: ellipsis;
         }
 
-		/* macro list entries */
-		
         .analytics-macro-name-even {
             position: relative;
             margin: 0 0 2px 25px;
@@ -172,8 +161,6 @@
 			color: var(--color-border-highlight-alt);
         }
 
-		/* journal list entries */
-		
         .analytics-journal-name-even {
             position: relative;
             margin: 0 0 2px 15px;
@@ -191,8 +178,6 @@
 			text-overflow: ellipsis;
         }
 
-		/* scene list entries */
-		
         .analytics-scene-name-even {
             position: relative;
             margin: 0 0 2px 15px;
@@ -209,7 +194,6 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
         }
-
     </style>
 
     <script>
@@ -231,340 +215,404 @@
             document.getElementById("actor-undead").disabled         = !document.getElementById("actor-npc").checked;
         }
         function toggle_item_macro() {
-            document.getElementById("macro-name").disabled           = !document.getElementById("item-macro").checked;
-            document.getElementById("macro-case-sensitive").disabled = !document.getElementById("item-macro").checked;
-            document.getElementById("macro-exact-match").disabled    = !document.getElementById("item-macro").checked;
+            document.getElementById("with-item-macro-name").disabled           = !document.getElementById("with-item-macro").checked;
+            document.getElementById("with-item-macro-case-sensitive").disabled = !document.getElementById("with-item-macro").checked;
+            document.getElementById("with-item-macro-exact-match").disabled    = !document.getElementById("with-item-macro").checked;
         }
     </script>
 
-    <!-- Navigation Tabs -->
+	<h3 align="center"><i class="fas fa-users"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Actors'}}</h3>
+	
+    <!-- Navigation -->
     <nav class="sheet-tabs tabs" data-group="components">
-        <a class="item" data-tab="actor-items"    id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}">
-			<i class="fas fa-suitcase"></i>&nbsp;{{localize 'DOCUMENT.Items'}}</a>
-        <a class="item" data-tab="actor-journals" id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'SIDEBAR.TabJournal'}}">
-			<i class="fas fa-book-open"></i>&nbsp;{{localize 'SIDEBAR.TabJournal'}}</a>
-        <a class="item" data-tab="actor-scenes"   id="analytics-tab" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}">
-			<i class="fas fa-map"></i>&nbsp;{{localize 'DOCUMENT.Scenes'}}</a>
+        <a class="item" data-tab="actors-in-compendiums" 	  id="analytics-tab" title="(1) {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
+			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
+        <a class="item" data-tab="actors-with-items"       	  id="analytics-tab" title="(2) {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}">
+			{{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Items'}}<br><i class="fas fa-suitcase"></i></a>
+        <a class="item" data-tab="actors-in-journals"    	  id="analytics-tab" title="(3) {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
+			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
+        <a class="item" data-tab="actors-in-scenes-as-tokens" id="analytics-tab" title="(4) {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}">
+			{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}<br>{{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}<br><i class="fas fa-map"></i></a>
+        <a class="item" data-tab="actors-in-tables"      	  id="analytics-tab" title="(5) {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
+			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-th-list"></i></a>
     </nav>
 
 	<!-- ACTORS -->
-	<div id="analytics-actor-controls">
+	<div class="analytics-actors-controls">
 
-			<!-- ACTOR NAME -->
-			<div class="form-group" id="form-group-name">
-				<label for="actor-name" class="text-label">{{localize 'DOCUMENT.Actors'}}</label>
-				<input type="text" id="actor-name" name="actor-name" title="{{localize 'DOCUMENT.Actors'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{actor-name-value}}" >
+		<!-- ACTOR NAME -->
+		<label for="actor-name"><i class="fas fa-users"></i>&nbsp;{{localize 'DOCUMENT.Actors'}}</label>
+		<div class="form-group">
+			<input type="text" id="actor-name" name="actor-name" title="{{actor-tooltip}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{actor-name-value}}" >
+		</div>
+		<div class="form-group">
+			<label for="actor-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+			<input type="checkbox" id="actor-case-sensitive" name="actor-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-case-sensitive-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+			<input type="checkbox" id="actor-exact-match" name="actor-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-exact-match-checked}} />
+		</div>
+		<hr>
+		
+		<!-- ACTOR OPTIONS -->
+		<div class="form-group">
+			<label for="actor-character">{{localize 'ACTOR.TypeCharacter'}}</label>
+			<input type="checkbox" id="actor-character" name="actor-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{actor-character-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-vehicle">{{localize 'ACTOR.TypeVehicle'}}</label>
+			<input type="checkbox" id="actor-vehicle" name="actor-vehicle" title="{{localize 'ACTOR.TypeVehicle'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{actor-vehicle-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-npc">{{localize 'ACTOR.TypeNpc'}}</label>
+			<input type="checkbox" id="actor-npc" name="actor-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_creature_types()" {{actor-npc-checked}} />
+		</div>
+		<hr> 
+
+		<!-- CREATURE TYPES -->
+		<div class="form-group">
+			<label for="actor-aberration">{{localize 'DND5E.CreatureAberration'}}</label>
+			<input type="checkbox" id="actor-aberration" name="actor-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-aberration-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-beast">{{localize 'DND5E.CreatureBeast'}}</label>
+			<input type="checkbox" id="actor-beast" name="actor-beast" title="{{localize 'DND5E.CreatureBeast'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-beast-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-celestial">{{localize 'DND5E.CreatureCelestial'}}</label>
+			<input type="checkbox" id="actor-celestial" name="actor-celestial" title="{{localize 'DND5E.CreatureCelestial'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-celestial-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-construct">{{localize 'DND5E.CreatureConstruct'}}</label>
+			<input type="checkbox" id="actor-construct" name="actor-construct" title="{{localize 'DND5E.CreatureConstruct'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-construct-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-dragon">{{localize 'DND5E.CreatureDragon'}}</label>
+			<input type="checkbox" id="actor-dragon" name="actor-dragon" title="{{localize 'DND5E.CreatureDragon'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-dragon-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-elemental">{{localize 'DND5E.CreatureElemental'}}</label>
+			<input type="checkbox" id="actor-elemental" name="actor-elemental" title="{{localize 'DND5E.CreatureElemental'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-elemental-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-fey">{{localize 'DND5E.CreatureFey'}}</label>
+			<input type="checkbox" id="actor-fey" name="actor-fey" title="{{localize 'DND5E.CreatureFey'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-fey-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-fiend">{{localize 'DND5E.CreatureFiend'}}</label>
+			<input type="checkbox" id="actor-fiend" name="actor-fiend" title="{{localize 'DND5E.CreatureFiend'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-fiend-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-giant">{{localize 'DND5E.CreatureGiant'}}</label>
+			<input type="checkbox" id="actor-giant" name="actor-giant" title="{{localize 'DND5E.CreatureGiant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-giant-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-humanoid">{{localize 'DND5E.CreatureHumanoid'}}</label>
+			<input type="checkbox" id="actor-humanoid" name="actor-humanoid" title="{{localize 'DND5E.CreatureHumanoid'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-humanoid-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-monstrosity">{{localize 'DND5E.CreatureMonstrosity'}}</label>
+			<input type="checkbox" id="actor-monstrosity" name="actor-monstrosity" title="{{localize 'DND5E.CreatureMonstrosity'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-monstrosity-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-ooze">{{localize 'DND5E.CreatureOoze'}}</label>
+			<input type="checkbox" id="actor-ooze" name="actor-ooze" title="{{localize 'DND5E.CreatureOoze'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-ooze-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-plant">{{localize 'DND5E.CreaturePlant'}}</label>
+			<input type="checkbox" id="actor-plant" name="actor-plant" title="{{localize 'DND5E.CreaturePlant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-plant-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-swarm">{{localize 'DND5E.CreatureSwarm'}}</label>
+			<input type="checkbox" id="actor-swarm" name="actor-swarm" title="{{localize 'DND5E.CreatureSwarm'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-swarm-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="actor-undead">{{localize 'DND5E.CreatureUndead'}}</label>
+			<input type="checkbox" id="actor-undead" name="actor-undead" title="{{localize 'DND5E.CreatureUndead'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-undead-checked}} />
+		</div>
+	</div>
+
+	<!-- Tabs -->
+	<div class="analytics-actors-tabbed-controls">
+
+		<!-- (1) IN COMPENDIUMS -->
+		<div class="tab" data-tab="actors-in-compendiums" data-group="components">
+
+			<!-- COMPENDIUM NAME -->
+			<label for="in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+			<div class="form-group">
+				<input type="text" id="in-compendium-name" name="in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-compendium-name-value}}" >
 			</div>
-			<div class="name-note"><p class="notes">{{actor-note}}</p></div>
-			<div class="form-group" id="form-group">
-				<label for="actor-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="actor-case-sensitive" name="actor-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-case-sensitive-checked}} />
+			<div class="form-group">
+				<label for="in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="in-compendium-case-sensitive" name="in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-case-sensitive-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="actor-exact-match" name="actor-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{actor-exact-match-checked}} />
+			<div class="form-group">
+				<label for="in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="in-compendium-exact-match" name="in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-exact-match-checked}} />
 			</div>
 			<hr>
-			
-			<!-- ACTOR TYPES -->
-			<div class="form-group" id="form-group">
-				<label for="actor-character" class="text-label">{{localize 'ACTOR.TypeCharacter'}}</label>
-				<input type="checkbox" id="actor-character" name="actor-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{actor-character-checked}} />
+
+			<!-- COMPENDIUM OPTIONS -->
+			<div class="form-group">
+				<label for="in-compendium-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="in-compendium-none" name="in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-none-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-vehicle" class="text-label">{{localize 'ACTOR.TypeVehicle'}}</label>
-				<input type="checkbox" id="actor-vehicle" name="actor-vehicle" title="{{localize 'ACTOR.TypeVehicle'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{actor-vehicle-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-npc" class="text-label">{{localize 'ACTOR.TypeNpc'}}</label>
-				<input type="checkbox" id="actor-npc" name="actor-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_creature_types()" {{actor-npc-checked}} />
-			</div>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
 			<hr> 
 
-			<!-- CREATURE TYPES -->
-			<div class="form-group" id="form-group">
-				<label for="actor-aberration" class="text-label">{{localize 'DND5E.CreatureAberration'}}</label>
-				<input type="checkbox" id="actor-aberration" name="actor-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-aberration-checked}} />
+			<!-- SHOW -->
+			<div class="form-group">
+				<label for="in-compendium-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="in-compendium-show" name="in-compendium-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-show-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-beast" class="text-label">{{localize 'DND5E.CreatureBeast'}}</label>
-				<input type="checkbox" id="actor-beast" name="actor-beast" title="{{localize 'DND5E.CreatureBeast'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-beast-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-celestial" class="text-label">{{localize 'DND5E.CreatureCelestial'}}</label>
-				<input type="checkbox" id="actor-celestial" name="actor-celestial" title="{{localize 'DND5E.CreatureCelestial'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-celestial-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-construct" class="text-label">{{localize 'DND5E.CreatureConstruct'}}</label>
-				<input type="checkbox" id="actor-construct" name="actor-construct" title="{{localize 'DND5E.CreatureConstruct'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-construct-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-dragon" class="text-label">{{localize 'DND5E.CreatureDragon'}}</label>
-				<input type="checkbox" id="actor-dragon" name="actor-dragon" title="{{localize 'DND5E.CreatureDragon'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-dragon-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-elemental" class="text-label">{{localize 'DND5E.CreatureElemental'}}</label>
-				<input type="checkbox" id="actor-elemental" name="actor-elemental" title="{{localize 'DND5E.CreatureElemental'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-elemental-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-fey" class="text-label">{{localize 'DND5E.CreatureFey'}}</label>
-				<input type="checkbox" id="actor-fey" name="actor-fey" title="{{localize 'DND5E.CreatureFey'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-fey-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-fiend" class="text-label">{{localize 'DND5E.CreatureFiend'}}</label>
-				<input type="checkbox" id="actor-fiend" name="actor-fiend" title="{{localize 'DND5E.CreatureFiend'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-fiend-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-giant" class="text-label">{{localize 'DND5E.CreatureGiant'}}</label>
-				<input type="checkbox" id="actor-giant" name="actor-giant" title="{{localize 'DND5E.CreatureGiant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-giant-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-humanoid" class="text-label">{{localize 'DND5E.CreatureHumanoid'}}</label>
-				<input type="checkbox" id="actor-humanoid" name="actor-humanoid" title="{{localize 'DND5E.CreatureHumanoid'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-humanoid-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-monstrosity" class="text-label">{{localize 'DND5E.CreatureMonstrosity'}}</label>
-				<input type="checkbox" id="actor-monstrosity" name="actor-monstrosity" title="{{localize 'DND5E.CreatureMonstrosity'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-monstrosity-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-ooze" class="text-label">{{localize 'DND5E.CreatureOoze'}}</label>
-				<input type="checkbox" id="actor-ooze" name="actor-ooze" title="{{localize 'DND5E.CreatureOoze'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-ooze-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-plant" class="text-label">{{localize 'DND5E.CreaturePlant'}}</label>
-				<input type="checkbox" id="actor-plant" name="actor-plant" title="{{localize 'DND5E.CreaturePlant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-plant-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-swarm" class="text-label">{{localize 'DND5E.CreatureSwarm'}}</label>
-				<input type="checkbox" id="actor-swarm" name="actor-swarm" title="{{localize 'DND5E.CreatureSwarm'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-swarm-checked}} />
-			</div>
-			<div class="form-group" id="form-group">
-				<label for="actor-undead" class="text-label">{{localize 'DND5E.CreatureUndead'}}</label>
-				<input type="checkbox" id="actor-undead" name="actor-undead" title="{{localize 'DND5E.CreatureUndead'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{actor-undead-checked}} />
-			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>
-
-	<div id="analytics-item-controls">
-
-		<!-- ITEMS Tab -->
-		<div class="tab" data-tab="actor-items" data-group="components">
+		
+		<!-- (2) WITH ITEMS -->
+		<div class="tab" data-tab="actors-with-items" data-group="components">
 
 			<!-- ITEM NAME -->
-			<div class="form-group" id="form-group-name">
-				<label for="item-name" class="text-label">{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}</label>
-				<input type="text" id="item-name" name="item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{item-name-value}}" >
+			<label for="with-item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}</label>
+			<div class="form-group">
+				<input type="text" id="with-item-name" name="with-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-item-name-value}}" >
 			</div>
-			<div class="name-note"><p class="notes">{{item-note}}</p></div>
-			<div class="form-group" id="form-group">
-				<label for="item-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="item-case-sensitive" name="item-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-case-sensitive-checked}} />
+			<div class="form-group">
+				<label for="with-item-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="with-item-case-sensitive" name="with-item-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-item-case-sensitive-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="item-exact-match" name="item-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-exact-match-checked}} />
+			<div class="form-group">
+				<label for="with-item-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="with-item-exact-match" name="with-item-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-item-exact-match-checked}} />
 			</div>
 			<hr>
 			
-			<!-- ITEM TYPES -->
-			<div class="form-group" id="form-group">
-				<label for="item-none" class="text-label">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="item-none" name="item-none" title="{{localize 'No'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-none-checked}} />
+			<!-- ITEM OPTIONS -->
+			<div class="form-group">
+				<label for="with-item-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="with-item-none" name="with-item-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-none-checked}} />
 			</div>
 			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
-			<div class="form-group" id="form-group">
-				<label for="item-weapon" class="text-label">{{localize 'ITEM.TypeWeapon'}}</label>
-				<input type="checkbox" id="item-weapon" name="item-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-weapon-checked}} />
+			<div class="form-group">
+				<label for="with-item-weapon">{{localize 'ITEM.TypeWeapon'}}</label>
+				<input type="checkbox" id="with-item-weapon" name="with-item-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-weapon-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-equipment" class="text-label">{{localize 'ITEM.TypeEquipment'}}</label>
-				<input type="checkbox" id="item-equipment" name="item-equipment" title="{{localize 'ITEM.TypeEquipment'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-equipment-checked}} />
+			<div class="form-group">
+				<label for="with-item-equipment">{{localize 'ITEM.TypeEquipment'}}</label>
+				<input type="checkbox" id="with-item-equipment" name="with-item-equipment" title="{{localize 'ITEM.TypeEquipment'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-equipment-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-consumable" class="text-label">{{localize 'ITEM.TypeConsumable'}}</label>
-				<input type="checkbox" id="item-consumable" name="item-consumable" title="{{localize 'ITEM.TypeConsumable'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-consumable-checked}} />
+			<div class="form-group">
+				<label for="with-item-consumable">{{localize 'ITEM.TypeConsumable'}}</label>
+				<input type="checkbox" id="with-item-consumable" name="with-item-consumable" title="{{localize 'ITEM.TypeConsumable'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-consumable-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-tool" class="text-label">{{localize 'ITEM.TypeTool'}}</label>
-				<input type="checkbox" id="item-tool" name="item-tool" title="{{localize 'ITEM.TypeTool'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-tool-checked}} />
+			<div class="form-group">
+				<label for="with-item-tool">{{localize 'ITEM.TypeTool'}}</label>
+				<input type="checkbox" id="with-item-tool" name="with-item-tool" title="{{localize 'ITEM.TypeTool'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-tool-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-loot" class="text-label">{{localize 'ITEM.TypeLoot'}}</label>
-				<input type="checkbox" id="item-loot" name="item-loot" title="{{localize 'ITEM.TypeLoot'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-loot-checked}} />
+			<div class="form-group">
+				<label for="with-item-loot">{{localize 'ITEM.TypeLoot'}}</label>
+				<input type="checkbox" id="with-item-loot" name="with-item-loot" title="{{localize 'ITEM.TypeLoot'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-loot-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-class" class="text-label">{{localize 'ITEM.TypeClass'}}</label>
-				<input type="checkbox" id="item-class" name="item-class" title="{{localize 'ITEM.TypeClass'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-class-checked}} />
+			<div class="form-group">
+				<label for="with-item-class">{{localize 'ITEM.TypeClass'}}</label>
+				<input type="checkbox" id="with-item-class" name="with-item-class" title="{{localize 'ITEM.TypeClass'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-class-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-feat" class="text-label">{{localize 'ITEM.TypeFeat'}}</label>
-				<input type="checkbox" id="item-feat" name="item-feat" title="{{localize 'ITEM.TypeFeat'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-feat-checked}} />
+			<div class="form-group">
+				<label for="with-item-feat">{{localize 'ITEM.TypeFeat'}}</label>
+				<input type="checkbox" id="with-item-feat" name="with-item-feat" title="{{localize 'ITEM.TypeFeat'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-feat-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-backpack" class="text-label">{{localize 'ITEM.TypeBackpack'}}</label>
-				<input type="checkbox" id="item-backpack" name="item-backpack" title="{{localize 'ITEM.TypeBackpack'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-backpack-checked}} />
+			<div class="form-group">
+				<label for="with-item-backpack">{{localize 'ITEM.TypeBackpack'}}</label>
+				<input type="checkbox" id="with-item-backpack" name="with-item-backpack" title="{{localize 'ITEM.TypeBackpack'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-backpack-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-spell" class="text-label">{{localize 'ITEM.TypeSpell'}}</label>
-				<input type="checkbox" id="item-spell" name="item-spell" title="{{localize 'ITEM.TypeSpell'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-spell-checked}} />
+			<div class="form-group">
+				<label for="with-item-spell">{{localize 'ITEM.TypeSpell'}}</label>
+				<input type="checkbox" id="with-item-spell" name="with-item-spell" title="{{localize 'ITEM.TypeSpell'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-spell-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="item-macro" id="item-macro-label" class="text-label">{{localize 'midi-qol.onUseMacroLabel'}}</label>
-				<input type="checkbox" id="item-macro" name="item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_item_macro()" {{item-macro-checked}} />
+			<div class="form-group" id="with-item-macro-label">
+				<label for="with-item-macro">{{localize 'midi-qol.onUseMacroLabel'}}</label>
+				<input type="checkbox" id="with-item-macro" name="with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_item_macro()" {{with-item-macro-checked}} />
 			</div>
-			<p class="notes" id="item-macro-note">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}</p>
+			<p class="notes" id="with-item-macro-note">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}</p>
 			<hr>
 
 			<!-- ON USE MACRO -->
-			<div class="form-group" id="form-group-name">
-				<label for="macro-name" id="macro-name-label" class="text-label">{{localize 'DOCUMENT.Macros'}}</label>
-				<input type="text" id="macro-name" name="macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{macro-name-value}}" >
+			<label for="with-item-macro-name" id="with-item-macro-name-label"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
+			<div class="form-group" id="with-item-macro-name-input">
+				<input type="text" id="with-item-macro-name" name="with-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{with-item-macro-name-value}}" >
 			</div>
-			<div class="name-note"><p class="notes" id="macro-name-note">{{macro-note}}</p></div>
-			<div class="form-group" id="form-group">
-				<label for="macro-case-sensitive" id="macro-case-sensitive-label" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="macro-case-sensitive" name="macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{macro-case-sensitive-checked}} />
+			<div class="form-group" id="with-item-macro-case-sensitive-label">
+				<label for="with-item-macro-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="with-item-macro-case-sensitive" name="with-item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-item-macro-case-sensitive-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="macro-exact-match" id="macro-exact-match-label" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="macro-exact-match" name="macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{macro-exact-match-checked}} />
+			<div class="form-group" id="with-item-macro-exact-match-label">
+				<label for="with-item-macro-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="with-item-macro-exact-match" name="with-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-item-macro-exact-match-checked}} />
 			</div>
-			<hr id="macro-thematic-break">
+			<hr id="with-item-macro-thematic-break">
 
 			<!-- SHOW -->
-			<div class="form-group" id="form-group">
-				<label for="item-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="item-show" name="item-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-show-checked}} />
+			<div class="form-group">
+				<label for="with-item-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="with-item-show" name="with-item-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{with-item-show-checked}} />
 			</div>
 			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>
 		
-		<!-- JOURNALS Tab -->
-		<div class="tab" data-tab="actor-journals" data-group="components">
+		<!-- (3) IN JOURNALS -->
+		<div class="tab" data-tab="actors-in-journals" data-group="components">
 
 			<!-- JOURNAL NAME -->
-			<div class="form-group" id="form-group-name">
-				<label for="journal-name" class="text-label">{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
-				<input type="text" id="journal-name" name="journal-name" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{journal-name-value}}" >
+			<label for="in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
+			<div class="form-group">
+				<input type="text" id="in-journal-name" name="in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-journal-name-value}}" >
 			</div>
-			<div class="name-note"><p class="notes">{{journal-note}}</p></div>
-			<div class="form-group" id="form-group">
-				<label for="journal-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="journal-case-sensitive" name="journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-case-sensitive-checked}} />
+			<div class="form-group">
+				<label for="in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="in-journal-case-sensitive" name="in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-case-sensitive-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="journal-exact-match" name="journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-exact-match-checked}} />
+			<div class="form-group">
+				<label for="in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="in-journal-exact-match" name="in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-exact-match-checked}} />
 			</div>
 			<hr>
 
-			<!-- JOURNAL TYPES -->
-				<!--
-					"MonksEnhancedJournal.actor": "Actor",
-					"MonksEnhancedJournal.city": "City",
-					"MonksEnhancedJournal.picture": "Picture",
-					"MonksEnhancedJournal.journalentry": "Journal Entry",
-					"MonksEnhancedJournal.journalentrytextonly": "Enhanced Journal Entry (Text Only)",
-					"MonksEnhancedJournal.slideshow": "Slideshow",
-				-->
-			<div class="form-group" id="form-group">
-				<label for="journal-none" class="text-label">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="journal-none" name="journal-none" title="{{localize 'No'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{journal-none-checked}} />
+			<!-- JOURNAL OPTIONS -->
+			<div class="form-group">
+				<label for="in-journal-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="in-journal-none" name="in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-none-checked}} />
 			</div>
-			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.JournalEntries'}}s</p>
-			<div class="form-group" id="form-group">
-				<label for="journal-base" id="journal-base-label" class="text-label">{{localize 'MonksEnhancedJournal.base'}}</label>
-				<input type="checkbox" id="journal-base" name="journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{journal-base-checked}} />
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
+
+			<!-- MONK'S -->
+			<div class="form-group" id="in-journal-monks-base">
+				<label for="in-journal-base">{{localize 'MonksEnhancedJournal.base'}}</label>
+				<input type="checkbox" id="in-journal-base" name="in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{in-journal-base-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-checklist" id="journal-checklist-label" class="text-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
-				<input type="checkbox" id="journal-checklist" name="journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{journal-checklist-checked}} />
+			<div class="form-group" id="in-journal-monks-checklist">
+				<label for="in-journal-checklist">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+				<input type="checkbox" id="in-journal-checklist" name="in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{in-journal-checklist-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-encounter" id="journal-encounter-label" class="text-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
-				<input type="checkbox" id="journal-encounter" name="journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{journal-encounter-checked}} />
+			<div class="form-group" id="in-journal-monks-encounter">
+				<label for="in-journal-encounter">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+				<input type="checkbox" id="in-journal-encounter" name="in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{in-journal-encounter-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-loot" id="journal-loot-label" class="text-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
-				<input type="checkbox" id="journal-loot" name="journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{journal-loot-checked}} />
+			<div class="form-group" id="in-journal-monks-loot">
+				<label for="in-journal-loot">{{localize 'MonksEnhancedJournal.loot'}}</label>
+				<input type="checkbox" id="in-journal-loot" name="in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{in-journal-loot-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-organization" id="journal-organization-label" class="text-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
-				<input type="checkbox" id="journal-organization" name="journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{journal-organization-checked}} />
+			<div class="form-group" id="in-journal-monks-organization">
+				<label for="in-journal-organization">{{localize 'MonksEnhancedJournal.organization'}}</label>
+				<input type="checkbox" id="in-journal-organization" name="in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{in-journal-organization-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-person" id="journal-person-label" class="text-label">{{localize 'MonksEnhancedJournal.person'}}</label>
-				<input type="checkbox" id="journal-person" name="journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{journal-person-checked}} />
+			<div class="form-group" id="in-journal-monks-person">
+				<label for="in-journal-person">{{localize 'MonksEnhancedJournal.person'}}</label>
+				<input type="checkbox" id="in-journal-person" name="in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{in-journal-person-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-place" id="journal-place-label" class="text-label">{{localize 'MonksEnhancedJournal.place'}}</label>
-				<input type="checkbox" id="journal-place" name="journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{journal-place-checked}} />
+			<div class="form-group" id="in-journal-monks-place">
+				<label for="in-journal-place">{{localize 'MonksEnhancedJournal.place'}}</label>
+				<input type="checkbox" id="in-journal-place" name="in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{in-journal-place-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-poi" id="journal-poi-label" class="text-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
-				<input type="checkbox" id="journal-poi" name="journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{journal-poi-checked}} />
+			<div class="form-group" id="in-journal-monks-poi">
+				<label for="in-journal-poi">{{localize 'MonksEnhancedJournal.poi'}}</label>
+				<input type="checkbox" id="in-journal-poi" name="in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{in-journal-poi-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-quest" id="journal-quest-label" class="text-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
-				<input type="checkbox" id="journal-quest" name="journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{journal-quest-checked}} />
+			<div class="form-group" id="in-journal-monks-quest">
+				<label for="in-journal-quest">{{localize 'MonksEnhancedJournal.quest'}}</label>
+				<input type="checkbox" id="in-journal-quest" name="in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{in-journal-quest-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="journal-shop" id="journal-shop-label" class="text-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
-				<input type="checkbox" id="journal-shop" name="journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{journal-shop-checked}} />
+			<div class="form-group" id="in-journal-monks-shop">
+				<label for="in-journal-shop">{{localize 'MonksEnhancedJournal.shop'}}</label>
+				<input type="checkbox" id="in-journal-shop" name="in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{in-journal-shop-checked}} />
 			</div>
 			<hr>
 
 			<!-- SHOW -->
-			<div class="form-group" id="form-group">
-				<label for="journal-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="journal-show" name="journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{journal-show-checked}} />
+			<div class="form-group">
+				<label for="in-journal-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="in-journal-show" name="in-journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-show-checked}} />
 			</div>
 			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>
 
-		<!-- SCENES Tab -->
-		<div class="tab" data-tab="actor-scenes" data-group="components">
+		<!-- (4) IN SCENES AS TOKENS -->
+		<div class="tab" data-tab="actors-in-scenes-as-tokens" data-group="components">
 
 			<!-- SCENE NAME -->
-			<div class="form-group" id="form-group-name">
-				<label for="scene-name" class="text-label">{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
-				<input type="text" id="scene-name" name="scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{scene-name-value}}" >
+			<label for="in-scene-as-token-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}</label>
+			<div class="form-group">
+				<input type="text" id="in-scene-as-token-name" name="in-scene-as-token-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-scene-as-token-name-value}}" >
 			</div>
-			<div class="name-note"><p class="notes">{{scene-note}}</p></div>
-			<div class="form-group" id="form-group">
-				<label for="scene-case-sensitive" class="text-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="scene-case-sensitive" name="scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-case-sensitive-checked}} />
+			<div class="form-group">
+				<label for="in-scene-as-token-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="in-scene-as-token-case-sensitive" name="in-scene-as-token-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-scene-as-token-case-sensitive-checked}} />
 			</div>
-			<div class="form-group" id="form-group">
-				<label for="scene-exact-match" class="text-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="scene-exact-match" name="scene-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-exact-match-checked}} />
+			<div class="form-group">
+				<label for="in-scene-as-token-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="in-scene-as-token-exact-match" name="in-scene-as-token-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-scene-as-token-exact-match-checked}} />
 			</div>
 			<hr>
 
-			<div class="form-group" id="form-group">
-				<label for="scene-none" class="text-label">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="scene-none" name="scene-none" title="{{localize 'No'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{scene-none-checked}} />
+			<!-- SCENE OPTIONS -->
+			<div class="form-group">
+				<label for="in-scene-as-token-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="in-scene-as-token-none" name="in-scene-as-token-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{in-scene-as-token-none-checked}} />
 			</div>
-			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}</p>
+			<p class="notes">{{localize 'DOCUMENT.Actor'}} {{localize 'DOCUMENT.Tokens'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}</p>
 			<hr>
 
 			<!-- SHOW -->
-			<div class="form-group" id="form-group">
-				<label for="scene-show" class="text-label">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="scene-show" name="scene-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{scene-show-checked}} />
+			<div class="form-group">
+				<label for="in-scene-as-token-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="in-scene-as-token-show" name="in-scene-as-token-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{in-scene-as-token-show-checked}} />
 			</div>
 			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
 		</div>		
+
+		<!-- (5) IN TABLES -->
+		<div class="tab" data-tab="actors-in-tables" data-group="components">
+
+			<!-- TABLE NAME -->
+			<label for="in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
+			<div class="form-group">
+				<input type="text" id="in-table-name" name="in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-table-name-value}}" >
+			</div>
+			<div class="form-group">
+				<label for="in-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="in-table-case-sensitive" name="in-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-table-case-sensitive-checked}} />
+			</div>
+			<div class="form-group">
+				<label for="in-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="in-table-exact-match" name="in-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-table-exact-match-checked}} />
+			</div>
+			<hr>
+
+			<!-- TABLE OPTIONS -->
+			<div class="form-group">
+				<label for="in-table-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="in-table-none" name="in-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{in-table-none-checked}} />
+			</div>
+			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
+			<hr> 
+
+			<!-- SHOW -->
+			<div class="form-group">
+				<label for="in-table-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="in-table-show" name="in-table-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{in-table-show-checked}} />
+			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
+		</div>
 	</div>
 
 	<!-- SUBMIT -->
-	<button type="submit" id="analytics-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Actors'}}"><i class="fas fa-search"></i> {{localize 'FILES.Search'}}</button>
+	<button type="submit" id="analytics-actors-submit" class="analytics-actors-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Actors'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
 	<!-- LIST HEADER -->	
-	<div id="analytics-header">
-		{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Actors'}} {{actor-count}}&nbsp;/&nbsp;{{number-of-actors}}
+	<div class="analytics-actors-header">
+		<i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Actors'}} {{actor-count}}&nbsp;/&nbsp;{{number-of-actors}}
 	</div>
-		
-	<!-- LIST -->
-	<div id="analytics-list"></div>
 
+	<!-- LIST -->
+	<div class="analytics-actors-list" id="analytics-list"></div>
 </form>

@@ -1,0 +1,315 @@
+<form id="analytics-form" onsubmit="event.preventDefault();">
+
+    <style>
+		/* form */
+        #analytics-tiles {
+            min-width: 740px;
+            min-height: 690px;
+        }
+
+		/* ------------ */
+
+		/* tabbed controls position */
+        .analytics-tiles-tabbed-controls {
+            position: absolute;
+            top: 145px;
+            bottom: 45px;
+            width: 200px;
+            right: 8px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+		
+		/* controls position */
+        .analytics-tiles-controls {
+            position: absolute;
+            top: 145px;
+            bottom: 45px;
+            width: 200px;
+            right: 225px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+		/* list header position */
+        .analytics-tiles-header {
+            position: absolute;
+            top: 145px;
+            height: 20px;
+            left: 8px;
+            right: 440px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+		/* list position */
+        .analytics-tiles-list {
+            position: absolute;
+            top: 165px;
+            bottom: 5px;
+            left: 8px;
+            right: 440px;
+			border-radius: 3px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+			background: rgba(0, 0, 0, 0.05);
+			border: 1px solid var(--color-border-light-tertiary);
+        }
+
+		/* submit position */
+        .analytics-tiles-submit {
+            position: absolute;
+            bottom: 5px;
+            right: 25px;
+            width: 390px;
+        }
+
+		/* ------------ */
+
+        .analytics-message-even {
+            position: relative;
+            margin: 10px 0 2px 5px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-message-odd {
+            position: relative;
+            margin: 10px 0 2px 5px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+
+        .analytics-actor-name-even {
+            position: relative;
+            margin: 10px 0 2px 5px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            font-weight: bold;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-actor-name-odd {
+            position: relative;
+            margin: 10px 0 2px 5px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            font-weight: bold;
+        }
+
+        .analytics-item-name-even {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-item-name-odd {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+
+        .analytics-macro-name-even {
+            position: relative;
+            margin: 0 0 2px 25px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-macro-name-odd {
+            position: relative;
+            margin: 0 0 2px 25px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+        }
+
+        .analytics-macro-name-error-even {
+            position: relative;
+            margin: 0 0 2px 25px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+			color: var(--color-border-highlight-alt);
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-macro-name-error-odd {
+            position: relative;
+            margin: 0 0 2px 25px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+			color: var(--color-border-highlight-alt);
+        }
+
+        .analytics-journal-name-even {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-journal-name-odd {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+
+        .analytics-scene-name-even {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+            xbackground-color: var(--color-text-light-highlight);
+        }
+
+        .analytics-scene-name-odd {
+            position: relative;
+            margin: 0 0 2px 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+        }
+    </style>
+
+    <script>
+    </script>
+
+	<h3 align="center"><i class="fas fa-cubes"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Tiles'}}</h3>
+
+    <!-- Navigation -->
+    <nav class="sheet-tabs tabs" data-group="components">
+        <a class="item" data-tab="tiles-with-macros" id="analytics-tab" title="(29) {{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}">
+			{{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Macros'}}<br><i class="fas fa-suitcase"></i></a>
+        <a class="item" data-tab="tiles-in-scenes"   id="analytics-tab" title="(33) {{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}">
+			{{localize 'ANALYTICS.In'}}<br>{{localize 'DOCUMENT.Scenes'}}<br><i class="fas fa-map"></i></a>
+    </nav>
+
+	<!-- TILES -->
+	<div class="analytics-tiles-controls">
+
+		<!-- TILE NAME -->
+		<label for="tile-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'DOCUMENT.Tiles'}}</label>
+		<div class="form-group">
+			<input type="text" id="tile-name" name="tile-name" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{tile-name-value}}" >
+		</div>
+		<div class="form-group">
+			<label for="tile-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+			<input type="checkbox" id="tile-case-sensitive" name="tile-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{tile-case-sensitive-checked}} />
+		</div>
+		<div class="form-group">
+			<label for="tile-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+			<input type="checkbox" id="tile-exact-match" name="tile-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{tile-exact-match-checked}} />
+		</div>
+		<hr>
+		
+		<!-- TILE OPTIONS -->
+	</div>
+
+	<!-- Tabs -->
+	<div class="analytics-tiles-tabbed-controls">
+
+		<!-- (29) WITH MACROS -->
+		<div class="tab" data-tab="tiles-with-macros" data-group="components">
+
+			<!-- MACRO NAME -->
+			<label for="with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
+			<div class="form-group">
+				<input type="text" id="with-macro-name" name="with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{journal-name-value}}" >
+			</div>
+			<div class="form-group">
+				<label for="with-macro-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="with-macro-case-sensitive" name="with-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-case-sensitive-checked}} />
+			</div>
+			<div class="form-group">
+				<label for="with-macro-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="with-macro-exact-match" name="with-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{journal-exact-match-checked}} />
+			</div>
+			<hr>
+
+			<!-- MACRO OPTIONS -->
+			<div class="form-group">
+				<label for="with-macro-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="with-macro-none" name="with-macro-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Macros'}}" data-dtype="Boolean" {{with-macro-none-checked}} />
+			</div>
+			<p class="notes">{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Macros'}}</p>
+			<hr>
+
+			<!-- SHOW -->
+			<div class="form-group">
+				<label for="with-macro-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="with-macro-show" name="with-macro-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Macros'}}" data-dtype="Boolean" {{with-macro-show-checked}} />
+			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
+		</div>
+
+		<!-- (33) IN SCENES -->
+		<div class="tab" data-tab="tiles-in-scenes" data-group="components">
+
+			<!-- SCENE NAME -->
+			<label for="in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
+			<div class="form-group">
+				<input type="text" id="in-scene-name" name="in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scene'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-scene-name-value}}" >
+			</div>
+			<div class="form-group">
+				<label for="in-scene-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+				<input type="checkbox" id="in-scene-case-sensitive" name="in-scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-scene-case-sensitive-checked}} />
+			</div>
+			<div class="form-group">
+				<label for="in-scene-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+				<input type="checkbox" id="in-scene-exact-match" name="in-scene-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-scene-exact-match-checked}} />
+			</div>
+			<hr>
+
+			<!-- SCENE OPTIONS -->
+			<div class="form-group">
+				<label for="in-scene-none">{{localize 'DND5E.None'}}</label>
+				<input type="checkbox" id="in-scene-none" name="in-scene-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{in-scene-none-checked}} />
+			</div>
+			<p class="notes">{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}</p>
+			<hr>
+
+			<!-- SHOW -->
+			<div class="form-group">
+				<label for="in-scene-show">{{localize 'ANALYTICS.Show'}}</label>
+				<input type="checkbox" id="in-scene-show" name="in-scene-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{in-scene-show-checked}} />
+			</div>
+			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
+		</div>		
+	</div>
+
+	<!-- SUBMIT -->
+	<button type="submit" class="analytics-tiles-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Tiles'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+
+	<!-- LIST HEADER -->	
+	<div class="analytics-tiles-header">
+		<i class="fas fa-cubes"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Tiles'}} {{tile-count}}&nbsp;/&nbsp;{{number-of-tiles}}
+	</div>
+
+	<!-- LIST -->
+	<div class="analytics-tiles-list" id="analytics-list"></div>
+</form>

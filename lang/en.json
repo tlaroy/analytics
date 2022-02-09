@@ -6,11 +6,19 @@
     "ANALYTICS.NumberOf": "Number of",
     "ANALYTICS.With": "With",
     "ANALYTICS.Without": "Without",
+    "ANALYTICS.Within": "Within",
     "ANALYTICS.CaseSensitive": "Case Sensitive",
     "ANALYTICS.ExactMatch": "Exact Match",
+    "ANALYTICS.As": "As",
     "ANALYTICS.In": "In",
     "ANALYTICS.NotIn": "Not In",
     "ANALYTICS.Include": "Include",
     "ANALYTICS.Show": "Show",
-    "ANALYTICS.Journals": "Journals"
+    "ANALYTICS.Journals": "Journals",
+    "ANALYTICS.Pins": "Pins",
+    "ANALYTICS.Tables": "Tables",
+    "ANALYTICS.Compendiums": "Compendiums",
+    "ANALYTICS.Phase1": "Coming soon ...",
+    "ANALYTICS.Phase2": "Coming soon in Phase II ...",
+    "ANALYTICS.Phase3": "Coming soon in Phase III ..."
 }
