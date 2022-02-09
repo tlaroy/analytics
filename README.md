@@ -7,7 +7,7 @@ Foundry VTT entity relationships.
    (3)    Actors      -> in Journals            Phase I<br>
    (4)    Actors      -> in Scenes As Tokens    Phase I<br>
    (5)    Actors      -> in Tables              Phase III<br>
-   
+
    (6)    Cards       -> in Compendiums         Phase III<br>
    (7)    Cards       -> in Journals            Phase III<br>
    (8)    Cards       -> in Tables              Phase III<br>
@@ -80,13 +80,13 @@ Foundry VTT entity relationships.
 
 Where:<br>
 (##)  - Relationship identifiers. Each appears twice, once<br>
-        for each “direction” of the relationship with exception<br>
-        of self-referencing (16, 20 & 32).<br>
+for each “direction” of the relationship with exception<br>
+of self-referencing (16, 20 & 32).
 
 An Example:<br>
-        (1) Actors      -> in Compendiums<br>
-        (1) Compendiums <- with Actors
+(1) Actors      -> in Compendiums<br>
+(1) Compendiums <- with Actors
 
 Phase - Availability of functional searches.
- 
+
 <i>Nokturnel</i>
