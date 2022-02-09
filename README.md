@@ -88,5 +88,5 @@ Where:
           (1) Compendiums <- with Actors
 
 Phase - Availability of functional searches.
-
+ 
 <i>Nokturnel</i>
