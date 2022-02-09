@@ -1,95 +1,88 @@
 # Analytics v0.0.9
 
-Phase I - Actors, Items, Journals, Macros, Scenes.
-Phase II - Playlists, Tables, Tiles.
-Phase III - Compendiums, Cards.
+Phase I - Actors, Items, Journals, Macros, Scenes.<br>
+Phase II - Playlists, Tables, Tiles.<br>
+Phase III - Compendiums, Cards.<br>
 
 Foundry VTT entity relationships.
 
 <table>
-	<tr>
-		<td>(1)</td>
-		<td>Actors</td>
-		<td>-&gt</td>
-		<td>In Compendiums</td>
-		<td>Phase III</td>
-	</tr>
+	<tr><td colspan=5>ACTORS -</td></tr>
+	<tr><td>(1)</td><td>Actors</td><td>-&gt</td><td>In Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(2)</td><td>Actors</td><td>&lt-</td><td>with Items</td><td>Phase I</td></tr>
+	<tr><td>(3)</td><td>Actors</td><td>-&gt</td><td>in Journals</td><td>Phase I</td></tr>
+	<tr><td>(4)</td><td>Actors</td><td>-&gt</td><td>in Scenes As Tokens</td><td>Phase I</td></tr>
+	<tr><td>(5)</td><td>Actors</td><td>-&gt</td><td>in Tables</td><td>Phase II</td></tr>
+	<tr><td colspan=5>CARDS -</td></tr>
+	<tr><td>(6)</td><td>Cards</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(7)</td><td>Cards</td><td>-&gt</td><td>in Journals</td><td>Phase III</td></tr>
+	<tr><td>(8)</td><td>Cards</td><td>-&gt</td><td>in Tables</td><td>Phase III</td></tr>
+	<tr><td colspan=5>COMPENDIUMS -</td></tr>
+	<tr><td>(1)</td><td>Compendiums</td><td>&lt-</td><td>with Actors</td><td>Phase III</td></tr>
+	<tr><td>(6)</td><td>Compendiums</td><td>&lt-</td><td>with Cards</td><td>Phase III</td></tr>
+	<tr><td>(9)</td><td>Compendiums</td><td>&lt-</td><td>with Items</td><td>Phase III</td></tr>
+	<tr><td>(10)</td><td>Compendiums</td><td>&lt-</td><td>with Journals</td><td>Phase III</td></tr>
+	<tr><td>(11)</td><td>Compendiums</td><td>&lt-</td><td>with Macros</td><td>Phase III</td></tr>
+	<tr><td>(12)</td><td>Compendiums</td><td>&lt-</td><td>with Playlists</td><td>Phase III</td></tr>
+	<tr><td>(13)</td><td>Compendiums</td><td>&lt-</td><td>with Scenes</td><td>Phase III</td></tr>
+	<tr><td>(14)</td><td>Compendiums</td><td>&lt-</td><td>with Tables</td><td>Phase III</td></tr>
+	<tr><td>(15)</td><td>Compendiums</td><td>-&gt</td><td>in Tables</td><td>Phase III</td></tr>
+	<tr><td colspan=5>ITEMS -</td></tr>
+	<tr><td>(2)</td><td>Items</td><td>-&gt</td><td>in Actors</td><td>Phase I</td></tr>
+	<tr><td>(9)</td><td>Items</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(16-16)</td><td>Items</td><td>&lt&gt</td><td>within Items</td><td>Phase I</td></tr>
+	<tr><td>(17)</td><td>Items</td><td>-&gt</td><td>in Journals</td><td>Phase I</td></tr>
+	<tr><td>(18)</td><td>Items</td><td>&lt-</td><td>with Macros</td><td>Phase I</td></tr>
+	<tr><td>(19)</td><td>Items</td><td>-&gt</td><td>in Tables</td><td>Phase II</td></tr>
+	<tr><td colspan=5>JOURNALS -</td></tr>
+	<tr><td>(3)</td><td>Journals</td><td>&lt-</td><td>with Actors</td><td>Phase I</td></tr>
+	<tr><td>(7)</td><td>Journals</td><td>&lt-</td><td>with Cards</td><td>Phase III</td></tr>
+	<tr><td>(10)</td><td>Journals</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(19)</td><td>Journals</td><td>&lt-</td><td>with Items</td><td>Phase I</td></tr>
+	<tr><td>(20-20)</td><td>Journals</td><td>&lt&gt</td><td>within Journals</td><td>Phase I</td></tr>
+	<tr><td>(21)</td><td>Journals</td><td>&lt-</td><td>with Macros</td><td>Phase I</td></tr>
+	<tr><td>(22)</td><td>Journals</td><td>&lt-</td><td>with Playlists</td><td>Phase II</td></tr>
+	<tr><td>(23)</td><td>Journals</td><td>&lt-</td><td>with Scenes</td><td>Phase I</td></tr>
+	<tr><td>(24)</td><td>Journals</td><td>-&gt</td><td>in Scenes</td><td>Phase I</td></tr>
+	<tr><td>(25)</td><td>Journals</td><td>-&gt</td><td>in Scenes As Pins</td><td>Phase I</td></tr>
+	<tr><td>(26)</td><td>Journals</td><td>-&gt</td><td>in Tables</td><td>Phase II</td></tr>
+	<tr><td>(27)</td><td>Journals</td><td>&lt-</td><td>with Tables</td><td>Phase II</td></tr>
+	<tr><td colspan=5>MACROS -</td></tr>
+	<tr><td>(11)</td><td>Macros</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(18)</td><td>Macros</td><td>-&gt</td><td>in Items</td><td>Phase I</td></tr>
+	<tr><td>(21)</td><td>Macros</td><td>-&gt</td><td>in Journals</td><td>Phase I</td></tr>
+	<tr><td>(28)</td><td>Macros</td><td>-&gt</td><td>in Tables</td><td>Phase II</td></tr>
+	<tr><td>(29)</td><td>Macros</td><td>-&gt</td><td>in Tiles</td><td>Phase II</td></tr>
+	<tr><td colspan=5>PLAYLISTS -</td></tr>
+	<tr><td>(12)</td><td>Playlists</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(22)</td><td>Playlists</td><td>-&gt</td><td>in Journals</td><td>Phase II</td></tr>
+	<tr><td>(30)</td><td>Playlists</td><td>-&gt</td><td>in Scenes</td><td>Phase II</td></tr>
+	<tr><td>(31)</td><td>Playlists</td><td>-&gt</td><td>in Tables</td><td>Phase II</td></tr>
+	<tr><td colspan=5>SCENES -</td></tr>
+	<tr><td>(4)</td><td>Scenes</td><td>&lt-</td><td>with Actors As Tokens</td><td>Phase I</td></tr>
+	<tr><td>(13)</td><td>Scenes</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(23)</td><td>Scenes</td><td>-&gt</td><td>in Journals</td><td>Phase I</td></tr>
+	<tr><td>(24)</td><td>Scenes</td><td>&lt-</td><td>with Journals</td><td>Phase I</td></tr>
+	<tr><td>(25)</td><td>Scenes</td><td>&lt-</td><td>with Journals As Pins</td><td>Phase I</td></tr>
+	<tr><td>(30)</td><td>Scenes</td><td>&lt-</td><td>with Playlists</td><td>Phase II</td></tr>
+	<tr><td>(32)</td><td>Scenes</td><td>-&gt</td><td>in Tables</td><td>Phase II</td></tr>
+	<tr><td>(33)</td><td>Scenes</td><td>&lt-</td><td>with Tiles</td><td>Phase II</td></tr>
+	<tr><td colspan=5>TABLES -</td></tr>
+	<tr><td>(5)</td><td>Tables</td><td>&lt-</td><td>with Actors</td><td>Phase II</td></tr>
+	<tr><td>(8)</td><td>Tables</td><td>&lt-</td><td>with Cards</td><td>Phase II</td></tr>
+	<tr><td>(14)</td><td>Tables</td><td>-&gt</td><td>in Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(15)</td><td>Tables</td><td>&lt-</td><td>with Compendiums</td><td>Phase III</td></tr>
+	<tr><td>(16)</td><td>Tables</td><td>&lt-</td><td>with Items</td><td>Phase II</td></tr>
+	<tr><td>(27)</td><td>Tables</td><td>-&gt</td><td>in Journals</td><td>Phase II</td></tr>
+	<tr><td>(26)</td><td>Tables</td><td>&lt-</td><td>with Journals</td><td>Phase II</td></tr>
+	<tr><td>(25)</td><td>Tables</td><td>&lt-</td><td>with Macros</td><td>Phase II</td></tr>
+	<tr><td>(31)</td><td>Tables</td><td>&lt-</td><td>with Playlists</td><td>Phase II</td></tr>
+	<tr><td>(32)</td><td>Tables</td><td>&lt-</td><td>with Scenes</td><td>Phase II</td></tr>
+	<tr><td>(34-34)</td><td>Tables</td><td>&lt&gt</td><td>within Tables</td><td>Phase II</td></tr>
+	<tr><td colspan=5>TILES -</td></tr>
+	<tr><td>(29)</td><td>Tiles</td><td>&lt-</td><td>with Macros</td><td>Phase II</td></tr>
+	<tr><td>(33)</td><td>Tiles</td><td>-&gt</td><td>in Scenes</td><td>Phase II</td></tr>
 </table>
-
- (1)     Actors      -> in Compendiums         Phase III<br>
- (2)     Actors      <- with Items             Phase I<br>
- (3)     Actors      -> in Journals            Phase I<br>
- (4)     Actors      -> in Scenes As Tokens    Phase I<br>
- (5)     Actors      -> in Tables              Phase II<br>
-
- (6)     Cards       -> in Compendiums         Phase III<br>
- (7)     Cards       -> in Journals            Phase III<br>
- (8)     Cards       -> in Tables              Phase III<br>
-
- (1)     Compendiums <- with Actors            Phase III<br>
- (6)     Compendiums <- with Cards             Phase III<br>
- (9)     Compendiums <- with Items             Phase III<br>
- (10)    Compendiums <- with Journals          Phase III<br>
- (11)    Compendiums <- with Macros            Phase III<br>
- (12)    Compendiums <- with Playlists         Phase III<br>
- (13)    Compendiums <- with Scenes            Phase III<br>
- (14)    Compendiums <- with Tables            Phase III<br>
- (15)    Compendiums -> in Tables              Phase III<br>
-
- (2)     Items       -> in Actors              Phase I<br>
- (9)     Items       -> in Compendiums         Phase III<br>
- (16-16) Items       <> within Items           Phase I<br>
- (17)    Items       -> in Journals            Phase I<br>
- (18)    Items       <- with Macros            Phase I<br>
- (19)    Items       -> in Tables              Phase II<br>
-
- (3)     Journals    <- with Actors            Phase I<br>
- (7)     Journals    <- with Cards             Phase III<br>
- (10)    Journals    -> in Compendiums         Phase III<br>
- (19)    Journals    <- with Items             Phase I<br>
- (20-20) Journals    <> within Journals        Phase I<br>
- (21)    Journals    <- with Macros            Phase I<br>
- (22)    Journals    <- with Playlists         Phase II<br>
- (23)    Journals    <- with Scenes            Phase I<br>
- (24)    Journals    -> in Scenes              Phase I<br>
- (25)    Journals    -> in Scenes As Pins      Phase I<br>
- (26)    Journals    -> in Tables              Phase II<br>
- (27)    Journals    <- with Tables            Phase II<br>
-
- (11)    Macros      -> in Compendiums         Phase III<br>
- (18)    Macros      -> in Items               Phase I<br>
- (21)    Macros      -> in Journals            Phase I<br>
- (28)    Macros      -> in Tables              Phase II<br>
- (29)    Macros      -> in Tiles               Phase II<br>
-
- (12)    Playlists   -> in Compendiums         Phase II<br>
- (22)    Playlists   -> in Journals            Phase II<br>
- (30)    Playlists   -> in Scenes              Phase II<br>
- (31)    Playlists   -> in Tables              Phase II<br>
-
- (4)     Scenes      <- with Actors As Tokens  Phase I<br>
- (13)    Scenes      -> in Compendiums         Phase III<br>
- (23)    Scenes      -> in Journals            Phase I<br>
- (24)    Scenes      <- with Journals          Phase I<br>
- (25)    Scenes      <- with Journals As Pins  Phase I<br>
- (30)    Scenes      <- with Playlists         Phase II<br>
- (32)    Scenes      -> in Tables              Phase II<br>
- (33)    Scenes      <- with Tiles             Phase II<br>
-
- (5)     Tables      <- with Actors            Phase II<br>
- (8)     Tables      <- with Cards             Phase II<br>
- (14)    Tables      -> in Compendiums         Phase III<br>
- (15)    Tables      <- with Compendiums       Phase II<br>
- (19)    Tables      <- with Items             Phase II<br>
- (27)    Tables      -> in Journals            Phase II<br>
- (26)    Tables      <- with Journals          Phase II<br>
- (25)    Tables      <- with Macros            Phase II<br>
- (31)    Tables      <- with Playlists         Phase II<br>
- (32)    Tables      <- with Scenes            Phase II<br>
- (34-34) Tables      <> within Tables          Phase II<br>
-
- (29)    Tiles       <- with Macros            Phase II<br>
- (33)    Tiles       -> in Scenes              Phase II<br>
 
 Where:<br>
 (##) - Relationship identifiers. Each appears twice, once<br>
