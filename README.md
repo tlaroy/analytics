@@ -7,7 +7,7 @@ Foundry VTT entity relationships.
    (3)    Actors      -> in Journals            Phase I
    (4)    Actors      -> in Scenes As Tokens    Phase I
    (5)    Actors      -> in Tables              Phase III
-
+   
    (6)    Cards       -> in Compendiums         Phase III
    (7)    Cards       -> in Journals            Phase III
    (8)    Cards       -> in Tables              Phase III
