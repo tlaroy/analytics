@@ -14,7 +14,7 @@
 
 * Form optimizations.
 
-# v0.0.8 (XXXX-XX-XX)
+# v0.0.8 (2022-02-09)
 
 * Cards       - Form.
 * Compendiums - Form.
