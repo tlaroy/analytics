@@ -2,282 +2,77 @@
 *
 * module/analytics-items.js
 *
-* version 0.0.8
+* version 0.0.9
 *
 */
 
-import * as ANALYTICS from "./const.js";
+import * as ANALYTICS        from "./const.js";
+import { AnalyticsForm }     from "./analytics.js";
+import { ItemOptions }       from "./analytics.js";
+
+import { ActorOptions }      from "./analytics.js";
+import { CompendiumOptions } from "./analytics.js";
+import { JournalOptions }    from "./analytics.js";
+import { MacroOptions }      from "./analytics.js";
+import { TableOptions }      from "./analytics.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
-export class AnalyticsItems extends FormApplication {
+export class AnalyticsItems extends AnalyticsForm {
 
     constructor(parent, formData = {}, options = {}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems constructor(parent, dialogData, options)");
 
         super(formData, options);
 
-        // save parent.
-        this.parent = parent;
-
         /* PRIMARY SORT */
 
         // item options for each tab.
-        this.parent.item_options = Object.assign(this.parent.item_options, {
-            "items_in_actors": {
-                item_count:                       0,
-                item_name_value:                  "",
-                item_case_sensitive_checked:      false,
-                item_exact_match_checked:         false,
-
-                item_weapon_checked:              false,
-                item_equipment_checked:           false,
-                item_consumable_checked:          false,
-                item_tool_checked:                false,
-                item_loot_checked:                false,
-                item_class_checked:               false,
-                item_feat_checked:                false,
-                item_backpack_checked:            false,
-                item_spell_checked:               false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                },
-            "items_in_compendiums": {
-                item_count:                       0,
-                item_name_value:                  "",
-                item_case_sensitive_checked:      false,
-                item_exact_match_checked:         false,
-
-                item_weapon_checked:              false,
-                item_equipment_checked:           false,
-                item_consumable_checked:          false,
-                item_tool_checked:                false,
-                item_loot_checked:                false,
-                item_class_checked:               false,
-                item_feat_checked:                false,
-                item_backpack_checked:            false,
-                item_spell_checked:               false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                },
-            "items_within_items": {
-                item_count:                       0,
-                item_name_value:                  "",
-                item_case_sensitive_checked:      false,
-                item_exact_match_checked:         false,
-
-                item_weapon_checked:              false,
-                item_equipment_checked:           false,
-                item_consumable_checked:          false,
-                item_tool_checked:                false,
-                item_loot_checked:                false,
-                item_class_checked:               false,
-                item_feat_checked:                false,
-                item_backpack_checked:            false,
-                item_spell_checked:               false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                },
-            "items_in_journals": {
-                item_count:                       0,
-                item_name_value:                  "",
-                item_case_sensitive_checked:      false,
-                item_exact_match_checked:         false,
-
-                item_weapon_checked:              false,
-                item_equipment_checked:           false,
-                item_consumable_checked:          false,
-                item_tool_checked:                false,
-                item_loot_checked:                false,
-                item_class_checked:               false,
-                item_feat_checked:                false,
-                item_backpack_checked:            false,
-                item_spell_checked:               false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                },
-            "items_in_tables": {
-                item_count:                       0,
-                item_name_value:                  "",
-                item_case_sensitive_checked:      false,
-                item_exact_match_checked:         false,
-
-                item_weapon_checked:              false,
-                item_equipment_checked:           false,
-                item_consumable_checked:          false,
-                item_tool_checked:                false,
-                item_loot_checked:                false,
-                item_class_checked:               false,
-                item_feat_checked:                false,
-                item_backpack_checked:            false,
-                item_spell_checked:               false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                },
-            "items_with_macros": {
-                item_count:                       0,
-                item_name_value:                  "",
-                item_case_sensitive_checked:      false,
-                item_exact_match_checked:         false,
-
-                item_weapon_checked:              false,
-                item_equipment_checked:           false,
-                item_consumable_checked:          false,
-                item_tool_checked:                false,
-                item_loot_checked:                false,
-                item_class_checked:               false,
-                item_feat_checked:                false,
-                item_backpack_checked:            false,
-                item_spell_checked:               false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                }
+        this.item_options = Object.assign(this.item_options, {
+            "items_in_actors":       new ItemOptions(),
+            "items_in_compendiums":  new ItemOptions(),
+            "items_within_items":    new ItemOptions(),
+            "items_in_journals":     new ItemOptions(),
+            "items_with_macros":     new ItemOptions(),
+            "items_in_tables":       new ItemOptions(),
         });
 
         /* SECONDARY SORT BY TAB */
 
         // (2) in actors options.
-        this.parent.actor_options = Object.assign(this.parent.actor_options, {
-            "items_in_actors": {
-                actor_npc_checked:                false,
-                actor_character_checked:          false,
-                actor_vehicle_checked:            false,
-
-                actor_aberration_checked:         false,
-                actor_beast_checked:              false,
-                actor_celestial_checked:          false,
-                actor_construct_checked:          false,
-                actor_dragon_checked:             false,
-                actor_elemental_checked:          false,
-                actor_fey_checked:                false,
-                actor_fiend_checked:              false,
-                actor_giant_checked:              false,
-                actor_humanoid_checked:           false,
-                actor_monstrosity_checked:        false,
-                actor_ooze_checked:               false,
-                actor_plant_checked:              false,
-                actor_swarm_checked:              false,
-                actor_undead_checked:             false,
-                }
+        this.actor_options = Object.assign(this.actor_options, {
+            "items_in_actors": new ActorOptions(),
         });
 
         // (9) in compendiums options.
-        this.parent.compendium_options = Object.assign(this.parent.compendium_options, {
-            "items_in_compendiums": {
-                compendium_count:                  0,
-                compendium_name_value:             "",
-                compendium_case_sensitive_checked: false,
-                compendium_exact_match_checked:    false,
-
-                compendium_none_checked:           false,
-                compendium_show_checked:           false,
-                }
+        this.compendium_options = Object.assign(this.compendium_options, {
+            "items_in_compendiums": new CompendiumOptions(),
         });
 
         // (16-16) within items options.
-        this.parent.item_options = Object.assign(this.parent.item_options, {
-            "items_within_items_16": {
-                item_count:                  0,
-                item_name_value:             "",
-                item_case_sensitive_checked: false,
-                item_exact_match_checked:    false,
-
-                item_none_checked:           false,
-                item_show_checked:           false,
-
-                item_weapon_checked:         false,
-                item_equipment_checked:      false,
-                item_consumable_checked:     false,
-                item_tool_checked:           false,
-                item_loot_checked:           false,
-                item_class_checked:          false,
-                item_feat_checked:           false,
-                item_backpack_checked:       false,
-                item_spell_checked:          false,
-
-                item_macro_checked:               false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                }
+        this.item_options = Object.assign(this.item_options, {
+            "items_within_items_16": new ItemOptions(),
         });
 
         // (17) in journals options.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "items_in_journals": {
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "items_in_journals": new JournalOptions(),
         });
 
         // (18) with macro options.
-        this.parent.macro_options = Object.assign(this.parent.macro_options, {
-            "items_with_macros": {
-                macro_count:                      0,
-                macro_name_value:                 "",
-                macro_case_sensitive_checked:     false,
-                macro_exact_match_checked:        false,
-                }
+        this.macro_options = Object.assign(this.macro_options, {
+            "items_with_macros": new MacroOptions(),
         });
 
         // (19) in tables options.
-        this.parent.table_options = Object.assign(this.parent.table_options, {
-            "items_in_tables": {
-                table_count:                  0,
-                table_name_value:             "",
-                table_case_sensitive_checked: false,
-                table_exact_match_checked:    false,
-
-                table_none_checked:           false,
-                table_show_checked:           false,
-                }
+        this.table_options = Object.assign(this.table_options, {
+            "items_in_tables": new TableOptions(),
         });
 
         /* OUTPUT BY TAB */
 
         // item lists.
-        this.parent.item_lists = Object.assign(this.parent.item_lists, {
+        this.item_lists = Object.assign(this.item_lists, {
             "items_in_actors":      [],
             "items_in_compendiums": [],
             "items_within_items":   [],
@@ -294,56 +89,55 @@ export class AnalyticsItems extends FormApplication {
             title:          i18n("ANALYTICS.Title") + " v" + ANALYTICS.VERSION,
             id:             "analytics-items",
             template:       "modules/analytics/templates/analytics-items-template.html",
-            classes:       ["sheet", "scene-sheet"],
+            classes:       ["sheet", "scene-sheet", "analytics-items"],
             width:          740,
             height:         690,
             resizable:      true,
             closeOnSubmit:  false,
-            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "items-in-actors"}]
+            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "analytics-items-in-actors"}]
         });
     }
 
-    static get isVisible() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems static get isVisible()");
-
-        for (const app of Object.values(ui.windows)) {
-            if (app instanceof this) return app;
-        }
-    }
-
-    show(inFocus = false) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems show()");
-
-        return this.render(true);
-    }
-
-    hide() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems hide()");
-
-        this.close();
-    }
-
-    optionKeys() {
+    // map tab to sort options.
+    sortOptions() {
         // map tab name to object keys.
         var retval = { };
         switch (this._tabs[0].active) {
-            case "items-in-actors":
-                retval = { primary: "items_in_actors", secondary: "items_in_actors" };
+            case "analytics-items-in-actors":
+                retval = {
+                    primary:   "items_in_actors",
+                    secondary: "items_in_actors"
+                };
                 break;
-            case "items-in-compendiums":
-                retval = { primary: "items_in_compendiums", secondary: "items_in_compendiums" };
+            case "analytics-items-in-compendiums":
+                retval = {
+                    primary:   "items_in_compendiums",
+                    secondary: "items_in_compendiums"
+                };
                 break;
-            case "items-within-items":
-                retval = { primary: "items_within_items", secondary: "items_within_items_16" };
+            case "analytics-items-within-items":
+                retval = {
+                    primary:   "items_within_items",
+                    secondary: "items_within_items_16"
+                };
                 break;
-            case "items-in-journals":
-                retval = { primary: "items_in_journals", secondary: "items_in_journals" };
+            case "analytics-items-in-journals":
+                retval = {
+                    primary:   "items_in_journals",
+                    secondary: "items_in_journals"
+                };
                 break;
-            case "items-with-macros":
-                retval = { primary: "items_with_macros", secondary: "items_with_macros" };
+            case "analytics-items-with-macros":
+                retval = {
+                    primary:   "items_with_macros",
+                    secondary: "items_with_macros"
+                };
                 break;
-            case "items-in-tables":
-                retval = { primary: "items_in_tables", secondary: "items_in_tables" };
+            case "analytics-items-in-tables":
+                retval = {
+                    primary:   "items_in_tables",
+                    secondary: "items_in_tables"
+                };
                 break;
         };
         return retval;
@@ -354,328 +148,162 @@ export class AnalyticsItems extends FormApplication {
 
         super.activateListeners($html);
 
-        // tools
-        if (canvas.background._active) canvas.foreground.activate();
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var item_option = this.item_options[primary];
+        var item_list   = this.item_lists[primary];
 
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        // enable/disable by name or id.
+        document.getElementById("analytics-items-name").disabled           = !document.getElementById("analytics-items-radio-name").checked;
+        document.getElementById("analytics-items-case-sensitive").disabled = !document.getElementById("analytics-items-radio-name").checked;
+        document.getElementById("analytics-items-exact-match").disabled    = !document.getElementById("analytics-items-radio-name").checked;
+        document.getElementById("analytics-items-id").disabled             = !document.getElementById("analytics-items-radio-id").checked;
 
         // disable on use item macros if midi-qol not installed or not active.
         if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-            document.getElementById("item-macro-label").style.display                = "none";
-            document.getElementById("item-macro-note").style.display                 = "none";
-            document.getElementById("item-macro-name-label").style.display           = "none";
-            document.getElementById("item-macro-name-input").style.display           = "none";
-            document.getElementById("item-macro-case-sensitive-label").style.display = "none";
-            document.getElementById("item-macro-exact-match-label").style.display    = "none";
-            document.getElementById("item-macro-thematic-break").style.display       = "none";
+            document.getElementById("analytics-items-macro-label").style.display                = "none";
+            document.getElementById("analytics-items-macro-note").style.display                 = "none";
+            document.getElementById("analytics-items-macro-name-label").style.display           = "none";
+            document.getElementById("analytics-items-macro-name-input").style.display           = "none";
+            document.getElementById("analytics-items-macro-case-sensitive-label").style.display = "none";
+            document.getElementById("analytics-items-macro-exact-match-label").style.display    = "none";
+            document.getElementById("analytics-items-macro-thematic-break").style.display       = "none";
         }
 
         // toggle macro fields.
-        document.getElementById("item-macro-name").disabled           = !this.parent.item_options[option].item_macro_checked;
-        document.getElementById("item-macro-case-sensitive").disabled = !this.parent.item_options[option].item_macro_checked;
-        document.getElementById("item-macro-exact-match").disabled    = !this.parent.item_options[option].item_macro_checked;
+        document.getElementById("analytics-items-macro-name").disabled           = !item_option.item_macro_checked;
+        document.getElementById("analytics-items-macro-case-sensitive").disabled = !item_option.item_macro_checked;
+        document.getElementById("analytics-items-macro-exact-match").disabled    = !item_option.item_macro_checked;
 
-        switch (option) {
+        switch (secondary) {
             case "items_in_actors":
+                // enable/disable by name or id.
+                document.getElementById("analytics-items-in-actor-name").disabled           = !document.getElementById("analytics-items-in-actor-radio-name").checked;
+                document.getElementById("analytics-items-in-actor-case-sensitive").disabled = !document.getElementById("analytics-items-in-actor-radio-name").checked;
+                document.getElementById("analytics-items-in-actor-exact-match").disabled    = !document.getElementById("analytics-items-in-actor-radio-name").checked;
+                document.getElementById("analytics-items-in-actor-id").disabled             = !document.getElementById("analytics-items-in-actor-radio-id").checked;
+
                 // enable/disable npc creature types.
-                document.getElementById("in-actor-aberration").disabled  = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-beast").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-celestial").disabled   = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-construct").disabled   = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-dragon").disabled      = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-elemental").disabled   = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-fey").disabled         = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-fiend").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-giant").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-humanoid").disabled    = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-monstrosity").disabled = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-ooze").disabled        = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-plant").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-swarm").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("in-actor-undead").disabled      = !this.parent.actor_options[option2].actor_npc_checked;
+                document.getElementById("analytics-items-in-actor-aberration").disabled  = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-beast").disabled       = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-celestial").disabled   = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-construct").disabled   = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-dragon").disabled      = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-elemental").disabled   = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-fey").disabled         = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-fiend").disabled       = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-giant").disabled       = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-humanoid").disabled    = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-monstrosity").disabled = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-ooze").disabled        = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-plant").disabled       = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-swarm").disabled       = !document.getElementById("analytics-items-in-actor-npc").checked;
+                document.getElementById("analytics-items-in-actor-undead").disabled      = !document.getElementById("analytics-items-in-actor-npc").checked;
                 break;
-            case "items_within_items":
-                // disable on use item macros if midi-qol not installed or not active.
+            case "items_in_compendiums":
+                // enable/disable by name or id.
+                document.getElementById("analytics-items-in-compendium-name").disabled           = !document.getElementById("analytics-items-in-compendium-radio-name").checked;
+                document.getElementById("analytics-items-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-items-in-compendium-radio-name").checked;
+                document.getElementById("analytics-items-in-compendium-exact-match").disabled    = !document.getElementById("analytics-items-in-compendium-radio-name").checked;
+                document.getElementById("analytics-items-in-compendium-id").disabled             = !document.getElementById("analytics-items-in-compendium-radio-id").checked;
+                break;
+            case "items_within_items_16":
+                // enable/disable by name or id.
+                document.getElementById("analytics-items-within-item-name").disabled           = !document.getElementById("analytics-items-within-item-radio-name").checked;
+                document.getElementById("analytics-items-within-item-case-sensitive").disabled = !document.getElementById("analytics-items-within-item-radio-name").checked;
+                document.getElementById("analytics-items-within-item-exact-match").disabled    = !document.getElementById("analytics-items-within-item-radio-name").checked;
+                document.getElementById("analytics-items-within-item-id").disabled             = !document.getElementById("analytics-items-within-item-radio-id").checked;
+
+                // disable on use macros if midi-qol not installed or not active.
                 if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-                    document.getElementById("within-item-macro-label").style.display                = "none";
-                    document.getElementById("within-item-macro-note").style.display                 = "none";
-                    document.getElementById("within-item-macro-name-label").style.display           = "none";
-                    document.getElementById("within-item-macro-name-input").style.display           = "none";
-                    document.getElementById("within-item-macro-case-sensitive-label").style.display = "none";
-                    document.getElementById("within-item-macro-exact-match-label").style.display    = "none";
-                    document.getElementById("within-item-macro-thematic-break").style.display       = "none";
+                    document.getElementById("analytics-items-item-macro-label").style.display                = "none";
+                    document.getElementById("analytics-items-item-macro-name-input").style.display           = "none";
+                    document.getElementById("analytics-items-item-macro-case-sensitive-label").style.display = "none";
+                    document.getElementById("analytics-items-item-macro-exact-match-label").style.display    = "none";
+                    document.getElementById("analytics-items-item-macro-thematic-break").style.display       = "none";
+                    document.getElementById("analytics-items-item-macro-id").style.display                   = "none";
+                    document.getElementById("analytics-items-item-macro-radio-name").style.display           = "none";
+                    document.getElementById("analytics-items-item-macro-radio-id").style.display             = "none";
+
+                    document.getElementById("analytics-items-within-item-macro-label").style.display                = "none";
+                    document.getElementById("analytics-items-within-item-macro-name-input").style.display           = "none";
+                    document.getElementById("analytics-items-within-item-macro-case-sensitive-label").style.display = "none";
+                    document.getElementById("analytics-items-within-item-macro-exact-match-label").style.display    = "none";
+                    document.getElementById("analytics-items-within-item-macro-thematic-break").style.display       = "none";
+                    document.getElementById("analytics-items-within-item-macro-id").style.display                   = "none";
+                    document.getElementById("analytics-items-within-item-macro-radio-name").style.display           = "none";
+                    document.getElementById("analytics-items-within-item-macro-radio-id").style.display             = "none";
                 }
 
-                // toggle macro fields.
-                document.getElementById("within-item-macro-name").disabled           = !this.parent.item_options[option2].item_macro_checked;
-                document.getElementById("within-item-macro-case-sensitive").disabled = !this.parent.item_options[option2].item_macro_checked;
-                document.getElementById("within-item-macro-exact-match").disabled    = !this.parent.item_options[option2].item_macro_checked;
+                // enable/disable on use macro fields.
+                document.getElementById("analytics-items-macro-name").disabled           = !document.getElementById("analytics-items-macro").checked;
+                document.getElementById("analytics-items-macro-case-sensitive").disabled = !document.getElementById("analytics-items-macro").checked;
+                document.getElementById("analytics-items-macro-exact-match").disabled    = !document.getElementById("analytics-items-macro").checked;
+                document.getElementById("analytics-items-macro-id").disabled             = !document.getElementById("analytics-items-macro").checked;
+                document.getElementById("analytics-items-macro-radio-name").disabled     = !document.getElementById("analytics-items-macro").checked;
+                document.getElementById("analytics-items-macro-radio-id").disabled       = !document.getElementById("analytics-items-macro").checked;
+
+                document.getElementById("analytics-items-within-item-macro-name").disabled           = !document.getElementById("analytics-items-within-item-macro").checked;
+                document.getElementById("analytics-items-within-item-macro-case-sensitive").disabled = !document.getElementById("analytics-items-within-item-macro").checked;
+                document.getElementById("analytics-items-within-item-macro-exact-match").disabled    = !document.getElementById("analytics-items-within-item-macro").checked;
+                document.getElementById("analytics-items-within-item-macro-id").disabled             = !document.getElementById("analytics-items-within-item-macro").checked;
+                document.getElementById("analytics-items-within-item-macro-radio-name").disabled     = !document.getElementById("analytics-items-within-item-macro").checked;
+                document.getElementById("analytics-items-within-item-macro-radio-id").disabled       = !document.getElementById("analytics-items-within-item-macro").checked;
+
+                if (document.getElementById("analytics-items-macro").checked) {
+                    document.getElementById("analytics-items-macro-name").disabled           = !document.getElementById("analytics-items-macro-radio-name").checked;
+                    document.getElementById("analytics-items-macro-case-sensitive").disabled = !document.getElementById("analytics-items-macro-radio-name").checked;
+                    document.getElementById("analytics-items-macro-exact-match").disabled    = !document.getElementById("analytics-items-macro-radio-name").checked;
+                    document.getElementById("analytics-items-macro-id").disabled             = !document.getElementById("analytics-items-macro-radio-id").checked;
+                };
+
+                if (document.getElementById("analytics-items-within-item-macro").checked) {
+                    document.getElementById("analytics-items-within-item-macro-name").disabled           = !document.getElementById("analytics-items-within-item-macro-radio-name").checked;
+                    document.getElementById("analytics-items-within-item-macro-case-sensitive").disabled = !document.getElementById("analytics-items-within-item-macro-radio-name").checked;
+                    document.getElementById("analytics-items-within-item-macro-exact-match").disabled    = !document.getElementById("analytics-items-within-item-macro-radio-name").checked;
+                    document.getElementById("analytics-items-within-item-macro-id").disabled             = !document.getElementById("analytics-items-within-item-macro-radio-id").checked;
+                };
                 break;
             case "items_in_journals":
+                // enable/disable by name or id.
+                document.getElementById("analytics-items-in-journal-name").disabled           = !document.getElementById("analytics-items-in-journal-radio-name").checked;
+                document.getElementById("analytics-items-in-journal-case-sensitive").disabled = !document.getElementById("analytics-items-in-journal-radio-name").checked;
+                document.getElementById("analytics-items-in-journal-exact-match").disabled    = !document.getElementById("analytics-items-in-journal-radio-name").checked;
+                document.getElementById("analytics-items-in-journal-id").disabled             = !document.getElementById("analytics-items-in-journal-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("in-journal-monks-base").style.display         = "none";
-                    document.getElementById("in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("in-journal-monks-organization").style.display = "none";
-                    document.getElementById("in-journal-monks-person").style.display       = "none";
-                    document.getElementById("in-journal-monks-place").style.display        = "none";
-                    document.getElementById("in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("in-journal-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-items-in-journal-monks-base").style.display         = "none";
+                    document.getElementById("analytics-items-in-journal-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-items-in-journal-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-items-in-journal-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-items-in-journal-monks-organization").style.display = "none";
+                    document.getElementById("analytics-items-in-journal-monks-person").style.display       = "none";
+                    document.getElementById("analytics-items-in-journal-monks-place").style.display        = "none";
+                    document.getElementById("analytics-items-in-journal-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-items-in-journal-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-items-in-journal-monks-shop").style.display         = "none";
                 }
+                break;
+            case "items_with_macros":
+                // enable/disable by name or id.
+                document.getElementById("analytics-items-with-macro-name").disabled           = !document.getElementById("analytics-items-with-macro-radio-name").checked;
+                document.getElementById("analytics-items-with-macro-case-sensitive").disabled = !document.getElementById("analytics-items-with-macro-radio-name").checked;
+                document.getElementById("analytics-items-with-macro-exact-match").disabled    = !document.getElementById("analytics-items-with-macro-radio-name").checked;
+                document.getElementById("analytics-items-with-macro-id").disabled             = !document.getElementById("analytics-items-with-macro-radio-id").checked;
+                break;
+            case "items_in_tables":
+                // enable/disable by name or id.
+                document.getElementById("analytics-items-in-table-name").disabled           = !document.getElementById("analytics-items-in-table-radio-name").checked;
+                document.getElementById("analytics-items-in-table-case-sensitive").disabled = !document.getElementById("analytics-items-in-table-radio-name").checked;
+                document.getElementById("analytics-items-in-table-exact-match").disabled    = !document.getElementById("analytics-items-in-table-radio-name").checked;
+                document.getElementById("analytics-items-in-table-id").disabled             = !document.getElementById("analytics-items-in-table-radio-id").checked;
                 break;
         };
 
         // inject list into form.
-        const html_list     = document.getElementById("analytics-list");
-        html_list.innerHTML = this.parent.item_lists[option].join("");
-    }
-
-    getData() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems getData()");
-
-        // SET key (id) values in the form.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
-        var retval  = {};
-        switch (option) {
-            case "items_in_actors":
-                retval = {
-                    "number-of-items":                game.items.size,
-
-                    "item-count":                     this.parent.item_options[option].item_count,
-                    "item-name-value":                this.parent.item_options[option].item_name_value,
-                    "item-case-sensitive-checked":    this.parent.item_options[option].item_case_sensitive_checked    ? "checked" : "",
-                    "item-exact-match-checked":       this.parent.item_options[option].item_exact_match_checked       ? "checked" : "",
-
-                    "item-weapon-checked":            this.parent.item_options[option].item_weapon_checked            ? "checked" : "",
-                    "item-equipment-checked":         this.parent.item_options[option].item_equipment_checked         ? "checked" : "",
-                    "item-consumable-checked":        this.parent.item_options[option].item_consumable_checked        ? "checked" : "",
-                    "item-tool-checked":              this.parent.item_options[option].item_tool_checked              ? "checked" : "",
-                    "item-loot-checked":              this.parent.item_options[option].item_loot_checked              ? "checked" : "",
-                    "item-class-checked":             this.parent.item_options[option].item_class_checked             ? "checked" : "",
-                    "item-feat-checked":              this.parent.item_options[option].item_feat_checked              ? "checked" : "",
-                    "item-backpack-checked":          this.parent.item_options[option].item_backpack_checked          ? "checked" : "",
-                    "item-spell-checked":             this.parent.item_options[option].item_spell_checked             ? "checked" : "",
-
-                    "item-macro-checked":                  this.parent.item_options[option].item_macro_checked                 ? "checked" : "",
-                    "item-macro-name-value":               this.parent.item_options[option].item_macro_name_value,
-                    "item-macro-case-sensitive-checked":   this.parent.item_options[option].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "item-macro-exact-match-checked":      this.parent.item_options[option].item_macro_exact_match_checked     ? "checked" : "",
-
-                    "in-actor-name-value":                 this.parent.actor_options[option2].actor_name_value,
-                    "in-actor-case-sensitive-checked":     this.parent.actor_options[option2].actor_case_sensitive_checked  ? "checked" : "",
-                    "in-actor-exact-match-checked":        this.parent.actor_options[option2].actor_exact_match_checked     ? "checked" : "",
-                    "in-actor-none-checked":               this.parent.actor_options[option2].actor_none_checked            ? "checked" : "",
-                    "in-actor-show-checked":               this.parent.actor_options[option2].actor_show_checked            ? "checked" : "",
-
-                    "in-actor-npc-checked":                this.parent.actor_options[option2].actor_npc_checked             ? "checked" : "",
-                    "in-actor-character-checked":          this.parent.actor_options[option2].actor_character_checked       ? "checked" : "",
-                    "in-actor-vehicle-checked":            this.parent.actor_options[option2].actor_vehicle_checked         ? "checked" : "",
-
-                    "in-actor-aberration-checked":         this.parent.actor_options[option2].actor_aberration_checked      ? "checked" : "",
-                    "in-actor-beast-checked":              this.parent.actor_options[option2].actor_beast_checked           ? "checked" : "",
-                    "in-actor-celestial-checked":          this.parent.actor_options[option2].actor_celestial_checked       ? "checked" : "",
-                    "in-actor-construct-checked":          this.parent.actor_options[option2].actor_construct_checked       ? "checked" : "",
-                    "in-actor-dragon-checked":             this.parent.actor_options[option2].actor_dragon_checked          ? "checked" : "",
-                    "in-actor-elemental-checked":          this.parent.actor_options[option2].actor_elemental_checked       ? "checked" : "",
-                    "in-actor-fey-checked":                this.parent.actor_options[option2].actor_fey_checked             ? "checked" : "",
-                    "in-actor-fiend-checked":              this.parent.actor_options[option2].actor_fiend_checked           ? "checked" : "",
-                    "in-actor-giant-checked":              this.parent.actor_options[option2].actor_giant_checked           ? "checked" : "",
-                    "in-actor-humanoid-checked":           this.parent.actor_options[option2].actor_humanoid_checked        ? "checked" : "",
-                    "in-actor-monstrosity-checked":        this.parent.actor_options[option2].actor_monstrosity_checked     ? "checked" : "",
-                    "in-actor-ooze-checked":               this.parent.actor_options[option2].actor_ooze_checked            ? "checked" : "",
-                    "in-actor-plant-checked":              this.parent.actor_options[option2].actor_plant_checked           ? "checked" : "",
-                    "in-actor-swarm-checked":              this.parent.actor_options[option2].actor_swarm_checked           ? "checked" : "",
-                    "in-actor-undead-checked":             this.parent.actor_options[option2].actor_undead_checked          ? "checked" : "",
-                };
-                break;
-            case "items_in_compendiums":
-                retval = {
-                    "number-of-items":                game.items.size,
-
-                    "item-count":                     this.parent.item_options[option].item_count,
-                    "item-name-value":                this.parent.item_options[option].item_name_value,
-                    "item-case-sensitive-checked":    this.parent.item_options[option].item_case_sensitive_checked    ? "checked" : "",
-                    "item-exact-match-checked":       this.parent.item_options[option].item_exact_match_checked       ? "checked" : "",
-
-                    "item-weapon-checked":            this.parent.item_options[option].item_weapon_checked            ? "checked" : "",
-                    "item-equipment-checked":         this.parent.item_options[option].item_equipment_checked         ? "checked" : "",
-                    "item-consumable-checked":        this.parent.item_options[option].item_consumable_checked        ? "checked" : "",
-                    "item-tool-checked":              this.parent.item_options[option].item_tool_checked              ? "checked" : "",
-                    "item-loot-checked":              this.parent.item_options[option].item_loot_checked              ? "checked" : "",
-                    "item-class-checked":             this.parent.item_options[option].item_class_checked             ? "checked" : "",
-                    "item-feat-checked":              this.parent.item_options[option].item_feat_checked              ? "checked" : "",
-                    "item-backpack-checked":          this.parent.item_options[option].item_backpack_checked          ? "checked" : "",
-                    "item-spell-checked":             this.parent.item_options[option].item_spell_checked             ? "checked" : "",
-
-                    "item-macro-checked":                  this.parent.item_options[option].item_macro_checked               ? "checked" : "",
-                    "item-macro-name-value":               this.parent.item_options[option].item_macro_name_value,
-                    "item-macro-case-sensitive-checked":   this.parent.item_options[option].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "item-macro-exact-match-checked":      this.parent.item_options[option].item_macro_exact_match_checked     ? "checked" : "",
-
-                    "in-compendium-name-value":             this.parent.compendium_options[option2].compendium_name_value,
-                    "in-compendium-case-sensitive-checked": this.parent.compendium_options[option2].compendium_case_sensitive_checked    ? "checked" : "",
-                    "in-compendium-exact-match-checked":    this.parent.compendium_options[option2].compendium_exact_match_checked       ? "checked" : "",
-                    "in-compendium-none-checked":           this.parent.compendium_options[option2].compendium_none_checked              ? "checked" : "",
-                    "in-compendium-show-checked":           this.parent.compendium_options[option2].compendium_show_checked              ? "checked" : "",
-                };
-                break;
-            case "items_within_items":
-                retval = {
-                    "number-of-items":                game.items.size,
-
-                    "item-count":                     this.parent.item_options[option].item_count,
-                    "item-name-value":                this.parent.item_options[option].item_name_value,
-                    "item-case-sensitive-checked":    this.parent.item_options[option].item_case_sensitive_checked    ? "checked" : "",
-                    "item-exact-match-checked":       this.parent.item_options[option].item_exact_match_checked       ? "checked" : "",
-
-                    "item-weapon-checked":            this.parent.item_options[option].item_weapon_checked            ? "checked" : "",
-                    "item-equipment-checked":         this.parent.item_options[option].item_equipment_checked         ? "checked" : "",
-                    "item-consumable-checked":        this.parent.item_options[option].item_consumable_checked        ? "checked" : "",
-                    "item-tool-checked":              this.parent.item_options[option].item_tool_checked              ? "checked" : "",
-                    "item-loot-checked":              this.parent.item_options[option].item_loot_checked              ? "checked" : "",
-                    "item-class-checked":             this.parent.item_options[option].item_class_checked             ? "checked" : "",
-                    "item-feat-checked":              this.parent.item_options[option].item_feat_checked              ? "checked" : "",
-                    "item-backpack-checked":          this.parent.item_options[option].item_backpack_checked          ? "checked" : "",
-                    "item-spell-checked":             this.parent.item_options[option].item_spell_checked             ? "checked" : "",
-
-                    "item-macro-checked":                  this.parent.item_options[option].item_macro_checked               ? "checked" : "",
-                    "item-macro-name-value":               this.parent.item_options[option].item_macro_name_value,
-                    "item-macro-case-sensitive-checked":   this.parent.item_options[option].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "item-macro-exact-match-checked":      this.parent.item_options[option].item_macro_exact_match_checked     ? "checked" : "",
-
-                    "within-item-name-value":                this.parent.item_options[option2].item_name_value,
-                    "within-item-case-sensitive-checked":    this.parent.item_options[option2].item_case_sensitive_checked    ? "checked" : "",
-                    "within-item-exact-match-checked":       this.parent.item_options[option2].item_exact_match_checked       ? "checked" : "",
-                    "within-item-none-checked":              this.parent.item_options[option2].item_none_checked              ? "checked" : "",
-                    "within-item-show-checked":              this.parent.item_options[option2].item_show_checked              ? "checked" : "",
-
-                    "within-item-weapon-checked":            this.parent.item_options[option2].item_weapon_checked            ? "checked" : "",
-                    "within-item-equipment-checked":         this.parent.item_options[option2].item_equipment_checked         ? "checked" : "",
-                    "within-item-consumable-checked":        this.parent.item_options[option2].item_consumable_checked        ? "checked" : "",
-                    "within-item-tool-checked":              this.parent.item_options[option2].item_tool_checked              ? "checked" : "",
-                    "within-item-loot-checked":              this.parent.item_options[option2].item_loot_checked              ? "checked" : "",
-                    "within-item-class-checked":             this.parent.item_options[option2].item_class_checked             ? "checked" : "",
-                    "within-item-feat-checked":              this.parent.item_options[option2].item_feat_checked              ? "checked" : "",
-                    "within-item-backpack-checked":          this.parent.item_options[option2].item_backpack_checked          ? "checked" : "",
-                    "within-item-spell-checked":             this.parent.item_options[option2].item_spell_checked             ? "checked" : "",
-
-                    "within-item-macro-checked":                  this.parent.item_options[option2].item_macro_checked                 ? "checked" : "",
-                    "within-item-macro-name-value":               this.parent.item_options[option2].item_macro_name_value,
-                    "within-item-macro-case-sensitive-checked":   this.parent.item_options[option2].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "within-item-macro-exact-match-checked":      this.parent.item_options[option2].item_macro_exact_match_checked     ? "checked" : "",
-                };
-                break;
-            case "items_in_journals":
-                retval = {
-                    "number-of-items":                game.items.size,
-
-                    "item-count":                     this.parent.item_options[option].item_count,
-                    "item-name-value":                this.parent.item_options[option].item_name_value,
-                    "item-case-sensitive-checked":    this.parent.item_options[option].item_case_sensitive_checked    ? "checked" : "",
-                    "item-exact-match-checked":       this.parent.item_options[option].item_exact_match_checked       ? "checked" : "",
-
-                    "item-weapon-checked":            this.parent.item_options[option].item_weapon_checked            ? "checked" : "",
-                    "item-equipment-checked":         this.parent.item_options[option].item_equipment_checked         ? "checked" : "",
-                    "item-consumable-checked":        this.parent.item_options[option].item_consumable_checked        ? "checked" : "",
-                    "item-tool-checked":              this.parent.item_options[option].item_tool_checked              ? "checked" : "",
-                    "item-loot-checked":              this.parent.item_options[option].item_loot_checked              ? "checked" : "",
-                    "item-class-checked":             this.parent.item_options[option].item_class_checked             ? "checked" : "",
-                    "item-feat-checked":              this.parent.item_options[option].item_feat_checked              ? "checked" : "",
-                    "item-backpack-checked":          this.parent.item_options[option].item_backpack_checked          ? "checked" : "",
-                    "item-spell-checked":             this.parent.item_options[option].item_spell_checked             ? "checked" : "",
-
-                    "item-macro-checked":                  this.parent.item_options[option].item_macro_checked               ? "checked" : "",
-                    "item-macro-name-value":               this.parent.item_options[option].item_macro_name_value,
-                    "item-macro-case-sensitive-checked":   this.parent.item_options[option].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "item-macro-exact-match-checked":      this.parent.item_options[option].item_macro_exact_match_checked     ? "checked" : "",
-
-                    "in-journal-name-value":             this.parent.journal_options[option2].journal_name_value,
-                    "in-journal-case-sensitive-checked": this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "in-journal-exact-match-checked":    this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "in-journal-none-checked":           this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "in-journal-show-checked":           this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "in-journal-base-checked":           this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "in-journal-checklist-checked":      this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "in-journal-encounter-checked":      this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "in-journal-loot-checked":           this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "in-journal-organization-checked":   this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "in-journal-person-checked":         this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "in-journal-place-checked":          this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "in-journal-poi-checked":            this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "in-journal-quest-checked":          this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "in-journal-shop-checked":           this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "items_with_macros":
-                retval = {
-                    "number-of-items":                game.items.size,
-
-                    "item-count":                     this.parent.item_options[option].item_count,
-                    "item-name-value":                this.parent.item_options[option].item_name_value,
-                    "item-case-sensitive-checked":    this.parent.item_options[option].item_case_sensitive_checked    ? "checked" : "",
-                    "item-exact-match-checked":       this.parent.item_options[option].item_exact_match_checked       ? "checked" : "",
-
-                    "item-weapon-checked":            this.parent.item_options[option].item_weapon_checked            ? "checked" : "",
-                    "item-equipment-checked":         this.parent.item_options[option].item_equipment_checked         ? "checked" : "",
-                    "item-consumable-checked":        this.parent.item_options[option].item_consumable_checked        ? "checked" : "",
-                    "item-tool-checked":              this.parent.item_options[option].item_tool_checked              ? "checked" : "",
-                    "item-loot-checked":              this.parent.item_options[option].item_loot_checked              ? "checked" : "",
-                    "item-class-checked":             this.parent.item_options[option].item_class_checked             ? "checked" : "",
-                    "item-feat-checked":              this.parent.item_options[option].item_feat_checked              ? "checked" : "",
-                    "item-backpack-checked":          this.parent.item_options[option].item_backpack_checked          ? "checked" : "",
-                    "item-spell-checked":             this.parent.item_options[option].item_spell_checked             ? "checked" : "",
-
-                    "item-macro-checked":                  this.parent.item_options[option].item_macro_checked               ? "checked" : "",
-                    "item-macro-name-value":               this.parent.item_options[option].item_macro_name_value,
-                    "item-macro-case-sensitive-checked":   this.parent.item_options[option].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "item-macro-exact-match-checked":      this.parent.item_options[option].item_macro_exact_match_checked     ? "checked" : "",
-
-                    "with-macros-name-value":                 this.parent.macro_options[option2].macro_name_value,
-                    "with-macros-case-sensitive-checked":     this.parent.macro_options[option2].macro_case_sensitive_checked ? "checked" : "",
-                    "with-macros-exact-match-checked":        this.parent.macro_options[option2].macro_exact_match_checked    ? "checked" : "",
-                    "with-macros-none-checked":               this.parent.macro_options[option2].macro_none_checked           ? "checked" : "",
-                    "with-macros-show-checked":               this.parent.macro_options[option2].macro_show_checked           ? "checked" : "",
-                };
-                break;
-            case "items_in_tables":
-                retval = {
-                    "number-of-items":                game.items.size,
-
-                    "item-count":                     this.parent.item_options[option].item_count,
-                    "item-name-value":                this.parent.item_options[option].item_name_value,
-                    "item-case-sensitive-checked":    this.parent.item_options[option].item_case_sensitive_checked    ? "checked" : "",
-                    "item-exact-match-checked":       this.parent.item_options[option].item_exact_match_checked       ? "checked" : "",
-
-                    "item-weapon-checked":            this.parent.item_options[option].item_weapon_checked            ? "checked" : "",
-                    "item-equipment-checked":         this.parent.item_options[option].item_equipment_checked         ? "checked" : "",
-                    "item-consumable-checked":        this.parent.item_options[option].item_consumable_checked        ? "checked" : "",
-                    "item-tool-checked":              this.parent.item_options[option].item_tool_checked              ? "checked" : "",
-                    "item-loot-checked":              this.parent.item_options[option].item_loot_checked              ? "checked" : "",
-                    "item-class-checked":             this.parent.item_options[option].item_class_checked             ? "checked" : "",
-                    "item-feat-checked":              this.parent.item_options[option].item_feat_checked              ? "checked" : "",
-                    "item-backpack-checked":          this.parent.item_options[option].item_backpack_checked          ? "checked" : "",
-                    "item-spell-checked":             this.parent.item_options[option].item_spell_checked             ? "checked" : "",
-
-                    "item-macro-checked":                  this.parent.item_options[option].item_macro_checked               ? "checked" : "",
-                    "item-macro-name-value":               this.parent.item_options[option].item_macro_name_value,
-                    "item-macro-case-sensitive-checked":   this.parent.item_options[option].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "item-macro-exact-match-checked":      this.parent.item_options[option].item_macro_exact_match_checked     ? "checked" : "",
-
-                    "in-table-name-value":                  this.parent.table_options[option2].table_name_value,
-                    "in-table-case-sensitive-checked":      this.parent.table_options[option2].table_case_sensitive_checked    ? "checked" : "",
-                    "in-table-exact-match-checked":         this.parent.table_options[option2].table_exact_match_checked       ? "checked" : "",
-                    "in-table-none-checked":                this.parent.table_options[option2].table_none_checked              ? "checked" : "",
-                    "in-table-show-checked":                this.parent.table_options[option2].table_show_checked              ? "checked" : "",
-                };
-                break;
-        };
-        return retval;
+        const html_list     = document.getElementById("analytics-items-list");
+        html_list.innerHTML = item_list.join("");
     }
 
     async _onChangeTab(event, tabs, active) {
@@ -683,32 +311,32 @@ export class AnalyticsItems extends FormApplication {
 
         super._onChangeTab(event, tabs, active);
 
-        var option = "";
+        var output_list = "";
         var retval = false;
         switch (active) {
-            case "items-in-actors":
-                option = "items_in_actors";
-                retval = !this.parent.actor_options["items_in_actors"].actor_submitted;
+            case "analytics-items-in-actors":
+                output_list = this.item_lists["items_in_actors"];
+                retval = !this.actor_options["items_in_actors"].actor_submitted;
                 break;
-            case "items-in-compendiums":
-                option = "items_in_compendiums";
-                retval = !this.parent.compendium_options["items_in_compendiums"].compendium_submitted;
+            case "analytics-items-in-compendiums":
+                output_list = this.item_lists["items_in_compendiums"];
+                retval = !this.compendium_options["items_in_compendiums"].compendium_submitted;
                 break;
-            case "items-within-items":
-                option = "items_witnin_items";
-                retval = !this.parent.item_options["items_within_items"].item_submitted;
+            case "analytics-items-within-items":
+                output_list = this.item_lists["items_within_items"];
+                retval = !this.item_options["items_within_items"].item_submitted;
                 break;
-            case "items-in-journals":
-                option = "items_in_journals";
-                retval = !this.parent.journal_options["items_in_journals"].journal_submitted;
+            case "analytics-items-in-journals":
+                output_list = this.item_lists["items_in_journals"];
+                retval = !this.journal_options["items_in_journals"].journal_submitted;
                 break;
-            case "items-with-macros":
-                option = "items_with_macros";
-                retval = !this.parent.macro_options["items_with_macros"].macro_submitted;
+            case "analytics-items-with-macros":
+                output_list = this.item_lists["items_with_macros"];
+                retval = !this.macro_options["items_with_macros"].macro_submitted;
                 break;
-            case "items-in-tables":
-                option = "items_in_tables";
-                retval = !this.parent.table_options["items_in_tables"].table_submitted;
+            case "analytics-items-in-tables":
+                output_list = this.item_lists["items_in_tables"];
+                retval = !this.table_options["items_in_tables"].table_submitted;
                 break;
         };
 
@@ -719,10 +347,50 @@ export class AnalyticsItems extends FormApplication {
         }
 
         // update with saved list or submitted data.
-        if (this.parent.item_lists[option].length > 0)
+        if (output_list.length > 0)
             await this._updateObject(event, null);
         else
             await this._updateObject(event, this._getSubmitData());
+    }
+
+    // get data for form.
+    getData() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems getData()");
+
+        // get data for form.
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var item_option = this.item_options[primary];
+
+        var retval = item_option.getItemData();
+
+        switch (secondary) {
+            case "items_in_actors":
+                var actor_option = this.actor_options[secondary];
+                retval = Object.assign(retval, actor_option.getActorData(secondary));
+                break;
+            case "items_in_compendiums":
+                var compendium_option = this.compendium_options[secondary];
+                retval = Object.assign(retval, compendium_option.getCompendiumData(secondary));
+                break;
+            case "items_within_items_16":
+                var item_option_sec = this.item_options[secondary];
+                retval = Object.assign(retval, item_option_sec.getItemData(secondary));
+                break;
+            case "items_in_journals":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "items_with_macros":
+                var macro_option = this.macro_options[secondary];
+                retval = Object.assign(retval, macro_option.getMacroData(secondary));
+                break;
+            case "items_in_tables":
+                var table_option = this.table_options[secondary];
+                retval = Object.assign(retval, table_option.getTableData(secondary));
+                break;
+        };
+        return retval;
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -743,32 +411,33 @@ export class AnalyticsItems extends FormApplication {
 
         // get form data
         const formData = this._getSubmitData();
+        var primary = this.sortOptions().primary;
 
         // set update flag when changing tabs if tab never submitted.
-        switch (this.optionKeys().primary) {
+        switch (primary) {
             case "items_in_actors":
-                if (!this.parent.actor_options["items_in_actors"].actor_submitted)
-                     this.parent.actor_options["items_in_actors"].actor_submitted = true;
+                var actor_option = this.actor_options[primary];
+                if (!actor_option.actor_submitted) actor_option.actor_submitted = true;
                 break;
             case "items_in_compendiums":
-                if (!this.parent.compendium_options["items_in_compendiums"].compendium_submitted)
-                     this.parent.compendium_options["items_in_compendiums"].compendium_submitted = true;
+                var compendium_option = this.compendium_options[primary];
+                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
                 break;
-            case "items_within_items":
-                if (!this.parent.item_options["items_within_items"].item_submitted)
-                     this.parent.item_options["items_within_items"].item_submitted = true;
+            case "items_within_items_16":
+                var item_option = this.item_options[primary];
+                if (!item_option.item_submitted) item_option.item_submitted = true;
                 break;
             case "items_in_journals":
-                if (!this.parent.journal_options["items_in_journals"].journal_submitted)
-                     this.parent.journal_options["items_in_journals"].journal_submitted = true;
+                var journal_option = this.journal_options[primary];
+                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
                 break;
             case "items_with_macros":
-                if (!this.parent.macro_options["items_with_macros"].macro_submitted)
-                     this.parent.macro_options["items_with_macros"].macro_submitted = true;
+                var macro_option = this.macro_options[primary];
+                if (!macro_option.macro_submitted) macro_option.macro_submitted = true;
                 break;
             case "items_in_tables":
-                if (!this.parent.table_options["items_in_tables"].table_options)
-                     this.parent.table_options["items_in_tables"].table_options = true;
+                var table_option = this.table_options[primary];
+                if (!table_option.table_options) table_option.table_options = true;
                 break;
         };
 
@@ -790,92 +459,157 @@ export class AnalyticsItems extends FormApplication {
         return formData;
     }
 
+    // create item list.
+    buildList(item) {
+
+        // active tab.
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var item_option = this.item_options[primary];
+        var item_list   = this.item_lists[primary];
+        var item_name   = item.data.name;
+
+        // each tab.
+        switch (secondary) {
+            case "items_in_actors":
+                // reset counters.
+                var actor_option = this.actor_options[secondary];
+                actor_option.actor_count = 0;
+                break;
+            case "items_in_compendiums":
+                // reset counters.
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.compendium_count = 0;
+                break;
+            case "items_with_items":
+                // reset counters.
+                var item_option = this.item_options[secondary];
+                item_option.item_count = 0;
+                break;
+            case "items_with_journals":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "items_with_macros":
+                // reset counters.
+                var macro_option = this.macro_options[secondary];
+                macro_option.macro_count = 0;
+                break;
+            case "items_in_tables":
+                // reset counters.
+                var table_option = this.table_options[secondary];
+                table_option.table_count = 0;
+                break;
+        };
+    }
+
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsItems async _updateObject(event, formData)");
 
-        // null form data - don't rebuild list.
+        // null form data render and return.
         if (!formData) {
             this.render(true);
             return;
         };
 
         // active tab.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var item_option = this.item_options[primary];
+        var item_list   = this.item_lists[primary];
 
-        // reset counters.
-        var list_counter = 0;
+        // set data from form.
+        const data = expandObject(formData);
+        for ( let [k, v] of Object.entries(data) ) {
 
-        // add message to the list.
-        function add_message(parent, message) {
-            (list_counter % 2 == 0) ? parent.parent.item_lists[option][list_counter] = `<p class="analytics-message-even">` + message + `</p>` : parent.parent.item_lists[option][list_counter] = `<p class="analytics-message-odd">` + message + `</p>`;
-            list_counter++;
-        }
+            item_option.setItemData(k, v);
 
-        // reset lists.
-        switch (option) {
+            switch (secondary) {
+                case "items_in_actors":
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.setActorData(k, v, secondary);
+                    break;
+                case "items_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "items_within_items_16":
+                    var item_option_sec = this.item_options[secondary];
+                    item_option_sec.setItemData(k, v, secondary);
+                    break;
+                case "items_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "items_with_macros":
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.setMacroData(k, v, secondary);
+                    break;
+                case "items_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
+
+        // reset counters and lists.
+        item_option.item_count = 0;
+        item_option.item_macro_count = 0;
+        item_list.splice(0, item_list.length);
+
+        // message not available, render and return.
+        switch (secondary) {
             case "items_in_actors":
-                this.parent.item_options[option].item_count = 0;
-                this.parent.item_options[option].item_macro_count = 0;
-                this.parent.actor_options[option2].actor_count = 0;
-                this.parent.item_lists[option].splice(0, this.parent.item_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "items_in_compendiums":
-                this.parent.item_options[option].item_count = 0;
-                this.parent.item_options[option].item_macro_count = 0;
-                this.parent.compendium_options[option2].compendium_count = 0;
-                this.parent.item_lists[option].splice(0, this.parent.item_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase3"));
+                this.addMessage(item_list, i18n("ANALYTICS.Phase3"));
                 this.render(true);
                 return;
                 break;
-            case "items_within_items":
-                this.parent.item_options[option].item_count = 0;
-                this.parent.item_options[option].item_macro_count = 0;
-                this.parent.item_options[option2].item_count = 0;
-                this.parent.item_options[option2].item_macro_count = 0;
-                this.parent.item_lists[option].splice(0, this.parent.item_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+            case "items_within_items_16":
+                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "items_in_journals":
-                this.parent.item_options[option].item_count = 0;
-                this.parent.item_options[option].item_macro_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.item_lists[option].splice(0, this.parent.item_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "items_with_macros":
-                this.parent.item_options[option].item_count = 0;
-                this.parent.item_options[option].item_macro_count = 0;
-                this.parent.macro_options[option2].macro_count = 0;
-                this.parent.item_lists[option].splice(0, this.parent.item_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "items_in_tables":
-                this.parent.item_options[option].item_count = 0;
-                this.parent.item_options[option].item_macro_count = 0;
-                this.parent.table_options[option2].table_count = 0;
-                this.parent.item_lists[option].splice(0, this.parent.item_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(item_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
         };
+
+        // spin the submit button icon and disable.
+        var button      = document.getElementById("analytics-items-submit");
+        button.disabled = true;
+        const icon      = button.querySelector("i");
+        icon.className  = "fas fa-spinner fa-pulse";
+        const delay     = ms => new Promise(res => setTimeout(res, ms));
+        await delay(20);
+
+        // spin through item list ...
+        game.items.contents.forEach((item, i) => {
+            if (game.items.contents[i]) {
+            };
+        }); // forEach Item.
+
+        // reset submit button icon and enable.
+        icon.className  = "fas fa-search";
+        button.disabled = false;
+        await delay(10);
 
         // re-draw the updated form
         this.render(true);

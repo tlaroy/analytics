@@ -2,230 +2,90 @@
 *
 * module/analytics-scenes.js
 *
-* version 0.0.8
+* version 0.0.9
 *
 */
 
-import * as ANALYTICS from "./const.js";
+import * as ANALYTICS        from "./const.js";
+import { AnalyticsForm }     from "./analytics.js";
+import { SceneOptions }      from "./analytics.js";
+
+import { ActorOptions }      from "./analytics.js";
+import { CompendiumOptions } from "./analytics.js";
+import { JournalOptions }    from "./analytics.js";
+import { PlaylistOptions }   from "./analytics.js";
+import { TableOptions }      from "./analytics.js";
+import { TileOptions }       from "./analytics.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
-export class AnalyticsScenes extends FormApplication {
+export class AnalyticsScenes extends AnalyticsForm {
 
     constructor(parent, formData = {}, options = {}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes constructor(parent, formData, options)");
 
         super(formData, options);
 
-        // save parent.
-        this.parent = parent;
-
         /* PRIMARY SORT */
 
         // scene options for each tab.
-        this.parent.scene_options = Object.assign(this.parent.scene_options, {
-            "scenes_with_actors_as_tokens": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_in_compendiums": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_in_journals": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_with_journals": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_with_journals_as_pins": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_with_playlists": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_in_tables": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
-            "scenes_with_tiles": {
-                scene_count:                         0,
-                scene_name_value:                    "",
-                scene_case_sensitive_checked:        false,
-                scene_exact_match_checked:           false,
-                },
+        this.scene_options = Object.assign(this.scene_options, {
+            "scenes_with_actors_as_tokens": new SceneOptions(),
+            "scenes_in_compendiums":        new SceneOptions(),
+            "scenes_in_journals":           new SceneOptions(),
+            "scenes_with_journals":         new SceneOptions(),
+            "scenes_with_journals_as_pins": new SceneOptions(),
+            "scenes_with_playlists":        new SceneOptions(),
+            "scenes_in_tables":             new SceneOptions(),
+            "scenes_with_tiles":            new SceneOptions(),
         });
 
         /* SECONDARY SORT BY TAB */
 
         // (4) with actors as tokens options.
-        this.parent.actor_options = Object.assign(this.parent.actor_options, {
-            "scenes_with_actors_as_tokens": {
-                actor_npc_checked:                   false,
-                actor_character_checked:             false,
-                actor_vehicle_checked:               false,
-
-                actor_aberration_checked:            false,
-                actor_beast_checked:                 false,
-                actor_celestial_checked:             false,
-                actor_construct_checked:             false,
-                actor_dragon_checked:                false,
-                actor_elemental_checked:             false,
-                actor_fey_checked:                   false,
-                actor_fiend_checked:                 false,
-                actor_giant_checked:                 false,
-                actor_humanoid_checked:              false,
-                actor_monstrosity_checked:           false,
-                actor_ooze_checked:                  false,
-                actor_plant_checked:                 false,
-                actor_swarm_checked:                 false,
-                actor_undead_checked:                false,
-                }
+        this.actor_options = Object.assign(this.actor_options, {
+            "scenes_with_actors_as_tokens": new ActorOptions(),
         });
 
         // (13) in compendiums options.
-        this.parent.compendium_options = Object.assign(this.parent.compendium_options, {
-            "scenes_in_compendiums": {
-                compendium_count:                  0,
-                compendium_name_value:             "",
-                compendium_case_sensitive_checked: false,
-                compendium_exact_match_checked:    false,
-
-                compendium_none_checked:           false,
-                compendium_show_checked:           false,
-                }
+        this.compendium_options = Object.assign(this.compendium_options, {
+            "scenes_in_compendiums": new CompendiumOptions(),
         });
 
         // (23) in journals options.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "scenes_in_journals": {
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "scenes_in_journals": new JournalOptions(),
         });
 
         // (24) with journals options.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "scenes_with_journals": {
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "scenes_with_journals": new JournalOptions(),
         });
 
         // (25) with journals as pins option pins.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "scenes_with_journals_as_pins": {
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "scenes_with_journals_as_pins": new JournalOptions(),
         });
 
         // (30) with playlists options.
-        this.parent.playlist_options = Object.assign(this.parent.playlist_options, {
-            "scenes_with_playlists": {
-                playlist_count:                  0,
-                playlist_name_value:             "",
-                playlist_case_sensitive_checked: false,
-                playlist_exact_match_checked:    false,
-
-                playlist_none_checked:           false,
-                playlist_show_checked:           false,
-                }
+        this.playlist_options = Object.assign(this.playlist_options, {
+            "scenes_with_playlists": new PlaylistOptions(),
         });
 
         // (32) in tables options.
-        this.parent.table_options = Object.assign(this.parent.table_options, {
-            "scenes_in_tables": {
-                table_count:                  0,
-                table_name_value:             "",
-                table_case_sensitive_checked: false,
-                table_exact_match_checked:    false,
-
-                table_none_checked:           false,
-                table_show_checked:           false,
-                },
+        this.table_options = Object.assign(this.table_options, {
+            "scenes_in_tables": new TableOptions(),
         });
 
         // (34) with tiles options.
-        this.parent.tile_options = Object.assign(this.parent.tile_options, {
-            "scenes_with_tiles": {
-                tile_count:                         0,
-                tile_name_value:                    "",
-                tile_case_sensitive_checked:        false,
-                tile_exact_match_checked:           false,
-                }
+        this.tile_options = Object.assign(this.tile_options, {
+            "scenes_with_tiles": new TileOptions(),
         });
 
         /* OUTPUT BY TAB */
 
         // scene lists.
-        this.parent.scene_lists = Object.assign(this.parent.scene_lists, {
+        this.scene_lists = Object.assign(this.scene_lists, {
             "scenes_with_actors_as_tokens": [],
             "scenes_in_compendiums":        [],
             "scenes_in_journals":           [],
@@ -244,62 +104,66 @@ export class AnalyticsScenes extends FormApplication {
             title:          i18n("ANALYTICS.Title") + " v" + ANALYTICS.VERSION,
             id:             "analytics-scenes",
             template:       "modules/analytics/templates/analytics-scenes-template.html",
-            classes:       ["sheet", "scene-sheet"],
+            classes:       ["sheet", "scene-sheet", "analytics-scenes"],
             width:          740,
             height:         690,
             resizable:      true,
             closeOnSubmit:  false,
-            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "scenes-with-actors-as-tokens"}]
+            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "analytics-scenes-with-actors-as-tokens"}]
         });
     }
 
-    static get isVisible() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes isVisible()");
-
-        for (const app of Object.values(ui.windows)) {
-            if (app instanceof this) return app;
-        }
-    }
-
-    show(inFocus = false) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes show()");
-
-        return this.render(true);
-    }
-
-    hide() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes hide()");
-
-        this.close();
-    }
-
-    optionKeys() {
-        // map tab name to object keys.
+    // map tab to sort options.
+    sortOptions() {
         var retval = { };
         switch (this._tabs[0].active) {
-            case "scenes-with-actors-as-tokens":
-                retval = { primary: "scenes_with_actors_as_tokens", secondary: "scenes_with_actors_as_tokens" };
+            case "analytics-scenes-with-actors-as-tokens":
+                retval = {
+                    primary:   "scenes_with_actors_as_tokens",
+                    secondary: "scenes_with_actors_as_tokens"
+                };
                 break;
-            case "scenes-in-compendiums":
-                retval = { primary: "scenes_in_compendiums", secondary: "scenes_in_compendiums" };
+            case "analytics-scenes-in-compendiums":
+                retval = {
+                    primary:   "scenes_in_compendiums",
+                    secondary: "scenes_in_compendiums"
+                };
                 break;
-            case "scenes-in-journals":
-                retval = { primary: "scenes_in_journals", secondary: "scenes_in_journals" };
+            case "analytics-scenes-in-journals":
+                retval = {
+                    primary:   "scenes_in_journals",
+                    secondary: "scenes_in_journals"
+                };
                 break;
-            case "scenes-with-journals":
-                retval = { primary: "scenes_with_journals", secondary: "scenes_with_journals" };
+            case "analytics-scenes-with-journals":
+                retval = {
+                    primary:   "scenes_with_journals",
+                    secondary: "scenes_with_journals"
+                };
                 break;
-            case "scenes-with-journals-as-pins":
-                retval = { primary: "scenes_with_journals_as_pins", secondary: "scenes_with_journals_as_pins" };
+            case "analytics-scenes-with-journals-as-pins":
+                retval = {
+                    primary:   "scenes_with_journals_as_pins",
+                    secondary: "scenes_with_journals_as_pins"
+                };
                 break;
-            case "scenes-with-playlists":
-                retval = { primary: "scenes_with_playlists", secondary: "scenes_with_playlists" };
+            case "analytics-scenes-with-playlists":
+                retval = {
+                    primary:   "scenes_with_playlists",
+                    secondary: "scenes_with_playlists"
+                };
                 break;
-            case "scenes-in-tables":
-                retval = { primary: "scenes_in_tables", secondary: "scenes_in_tables" };
+            case "analytics-scenes-in-tables":
+                retval = {
+                    primary:   "scenes_in_tables",
+                    secondary: "scenes_in_tables"
+                };
                 break;
-            case "scenes-with-tiles":
-                retval = { primary: "scenes_with_tiles", secondary: "scenes_with_tiles" };
+            case "analytics-scenes-with-tiles":
+                retval = {
+                    primary:   "scenes_with_tiles",
+                    secondary: "scenes_with_tiles"
+                };
                 break;
         };
         return retval;
@@ -310,274 +174,138 @@ export class AnalyticsScenes extends FormApplication {
 
         super.activateListeners($html);
 
-        // tools
-        if (canvas.background._active) canvas.foreground.activate();
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var scene_option = this.scene_options[primary];
+        var scene_list   = this.scene_lists[primary];
 
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        // enable/disable by name or id.
+        document.getElementById("analytics-scenes-name").disabled           = !document.getElementById("analytics-scenes-radio-name").checked;
+        document.getElementById("analytics-scenes-case-sensitive").disabled = !document.getElementById("analytics-scenes-radio-name").checked;
+        document.getElementById("analytics-scenes-exact-match").disabled    = !document.getElementById("analytics-scenes-radio-name").checked;
+        document.getElementById("analytics-scenes-id").disabled             = !document.getElementById("analytics-scenes-radio-id").checked;
 
-        switch (option) {
+        switch (secondary) {
             case "scenes_with_actors_as_tokens":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-with-actor-as-token-name").disabled           = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-exact-match").disabled    = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-id").disabled             = !document.getElementById("analytics-scenes-with-actor-as-token-radio-id").checked;
+
                 // enable/disable npc creature types.
-                document.getElementById("with-actor-as-token-aberration").disabled  = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-beast").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-celestial").disabled   = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-construct").disabled   = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-dragon").disabled      = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-elemental").disabled   = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-fey").disabled         = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-fiend").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-giant").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-humanoid").disabled    = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-monstrosity").disabled = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-ooze").disabled        = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-plant").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-swarm").disabled       = !this.parent.actor_options[option2].actor_npc_checked;
-                document.getElementById("with-actor-as-token-undead").disabled      = !this.parent.actor_options[option2].actor_npc_checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-aberration").disabled  = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-beast").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-celestial").disabled   = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-construct").disabled   = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-dragon").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-elemental").disabled   = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-fey").disabled         = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-fiend").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-giant").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-humanoid").disabled    = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-monstrosity").disabled = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-ooze").disabled        = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-plant").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-swarm").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                document.getElementById("analytics-scenes-with-actor-as-token-undead").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                break;
+            case "scenes_in_compendiums":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-in-compendium-name").disabled           = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
+                document.getElementById("analytics-scenes-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
+                document.getElementById("analytics-scenes-in-compendium-exact-match").disabled    = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
+                document.getElementById("analytics-scenes-in-compendium-id").disabled             = !document.getElementById("analytics-scenes-in-compendium-radio-id").checked;
                 break;
             case "scenes_in_journals":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-in-journal-name").disabled           = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
+                document.getElementById("analytics-scenes-in-journal-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
+                document.getElementById("analytics-scenes-in-journal-exact-match").disabled    = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
+                document.getElementById("analytics-scenes-in-journal-id").disabled             = !document.getElementById("analytics-scenes-in-journal-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("in-journal-monks-base").style.display         = "none";
-                    document.getElementById("in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("in-journal-monks-organization").style.display = "none";
-                    document.getElementById("in-journal-monks-person").style.display       = "none";
-                    document.getElementById("in-journal-monks-place").style.display        = "none";
-                    document.getElementById("in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("in-journal-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-base").style.display         = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-organization").style.display = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-person").style.display       = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-place").style.display        = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-scenes-in-journal-monks-shop").style.display         = "none";
                 }
                 break;
             case "scenes_with_journals":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-with-journal-name").disabled           = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
+                document.getElementById("analytics-scenes-with-journal-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
+                document.getElementById("analytics-scenes-with-journal-exact-match").disabled    = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
+                document.getElementById("analytics-scenes-with-journal-id").disabled             = !document.getElementById("analytics-scenes-with-journal-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("with-journal-monks-base").style.display         = "none";
-                    document.getElementById("with-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("with-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("with-journal-monks-loot").style.display         = "none";
-                    document.getElementById("with-journal-monks-organization").style.display = "none";
-                    document.getElementById("with-journal-monks-person").style.display       = "none";
-                    document.getElementById("with-journal-monks-place").style.display        = "none";
-                    document.getElementById("with-journal-monks-poi").style.display          = "none";
-                    document.getElementById("with-journal-monks-quest").style.display        = "none";
-                    document.getElementById("with-journal-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-base").style.display         = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-organization").style.display = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-person").style.display       = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-place").style.display        = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-scenes-with-journal-monks-shop").style.display         = "none";
                 }
                 break;
             case "scenes_with_journals_as_pins":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-with-journal-as-pin-name").disabled           = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
+                document.getElementById("analytics-scenes-with-journal-as-pin-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
+                document.getElementById("analytics-scenes-with-journal-as-pin-exact-match").disabled    = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
+                document.getElementById("analytics-scenes-with-journal-as-pin-id").disabled             = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("with-journal-as-pin-monks-base").style.display         = "none";
-                    document.getElementById("with-journal-as-pin-monks-checklist").style.display    = "none";
-                    document.getElementById("with-journal-as-pin-monks-encounter").style.display    = "none";
-                    document.getElementById("with-journal-as-pin-monks-loot").style.display         = "none";
-                    document.getElementById("with-journal-as-pin-monks-organization").style.display = "none";
-                    document.getElementById("with-journal-as-pin-monks-person").style.display       = "none";
-                    document.getElementById("with-journal-as-pin-monks-place").style.display        = "none";
-                    document.getElementById("with-journal-as-pin-monks-poi").style.display          = "none";
-                    document.getElementById("with-journal-as-pin-monks-quest").style.display        = "none";
-                    document.getElementById("with-journal-as-pin-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-base").style.display         = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-organization").style.display = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-person").style.display       = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-place").style.display        = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-shop").style.display         = "none";
                 }
+                break;
+            case "scenes_with_playlists":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-with-playlist-name").disabled           = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
+                document.getElementById("analytics-scenes-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
+                document.getElementById("analytics-scenes-with-playlist-exact-match").disabled    = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
+                document.getElementById("analytics-scenes-with-playlist-id").disabled             = !document.getElementById("analytics-scenes-with-playlist-radio-id").checked;
+                break;
+            case "scenes_in_tables":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-in-table-name").disabled           = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
+                document.getElementById("analytics-scenes-in-table-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
+                document.getElementById("analytics-scenes-in-table-exact-match").disabled    = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
+                document.getElementById("analytics-scenes-in-table-id").disabled             = !document.getElementById("analytics-scenes-in-table-radio-id").checked;
+                break;
+            case "scenes_with_tiles":
+                // enable/disable by name or id.
+                document.getElementById("analytics-scenes-with-tile-name").disabled           = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
+                document.getElementById("analytics-scenes-with-tile-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
+                document.getElementById("analytics-scenes-with-tile-exact-match").disabled    = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
+                document.getElementById("analytics-scenes-with-tile-id").disabled             = !document.getElementById("analytics-scenes-with-tile-radio-id").checked;
                 break;
         };
 
         // inject list into form.
-        const html_list     = document.getElementById("analytics-list");
-        html_list.innerHTML = this.parent.scene_lists[option].join("");
-    }
-
-    getData() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes getData()");
-
-        // SET key (id) values in the form.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
-        var retval  = {};
-        switch (option) {
-            case "scenes_with_actors_as_tokens":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "with-actor-as-token-name-value":                 this.parent.actor_options[option2].actor_name_value,
-                    "with-actor-as-token-case-sensitive-checked":     this.parent.actor_options[option2].actor_case_sensitive_checked  ? "checked" : "",
-                    "with-actor-as-token-exact-match-checked":        this.parent.actor_options[option2].actor_exact_match_checked     ? "checked" : "",
-                    "with-actor-as-token-none-checked":               this.parent.actor_options[option2].actor_none_checked            ? "checked" : "",
-                    "with-actor-as-toekn-show-checked":               this.parent.actor_options[option2].actor_show_checked            ? "checked" : "",
-
-                    "with-actor-as-token-npc-checked":                this.parent.actor_options[option2].actor_npc_checked             ? "checked" : "",
-                    "with-actor-as-token-character-checked":          this.parent.actor_options[option2].actor_character_checked       ? "checked" : "",
-                    "with-actor-as-token-vehicle-checked":            this.parent.actor_options[option2].actor_vehicle_checked         ? "checked" : "",
-
-                    "with-actor-as-token-aberration-checked":         this.parent.actor_options[option2].actor_aberration_checked      ? "checked" : "",
-                    "with-actor-as-token-beast-checked":              this.parent.actor_options[option2].actor_beast_checked           ? "checked" : "",
-                    "with-actor-as-token-celestial-checked":          this.parent.actor_options[option2].actor_celestial_checked       ? "checked" : "",
-                    "with-actor-as-token-construct-checked":          this.parent.actor_options[option2].actor_construct_checked       ? "checked" : "",
-                    "with-actor-as-token-dragon-checked":             this.parent.actor_options[option2].actor_dragon_checked          ? "checked" : "",
-                    "with-actor-as-token-elemental-checked":          this.parent.actor_options[option2].actor_elemental_checked       ? "checked" : "",
-                    "with-actor-as-token-fey-checked":                this.parent.actor_options[option2].actor_fey_checked             ? "checked" : "",
-                    "with-actor-as-token-fiend-checked":              this.parent.actor_options[option2].actor_fiend_checked           ? "checked" : "",
-                    "with-actor-as-token-giant-checked":              this.parent.actor_options[option2].actor_giant_checked           ? "checked" : "",
-                    "with-actor-as-token-humanoid-checked":           this.parent.actor_options[option2].actor_humanoid_checked        ? "checked" : "",
-                    "with-actor-as-token-monstrosity-checked":        this.parent.actor_options[option2].actor_monstrosity_checked     ? "checked" : "",
-                    "with-actor-as-token-ooze-checked":               this.parent.actor_options[option2].actor_ooze_checked            ? "checked" : "",
-                    "with-actor-as-token-plant-checked":              this.parent.actor_options[option2].actor_plant_checked           ? "checked" : "",
-                    "with-actor-as-token-swarm-checked":              this.parent.actor_options[option2].actor_swarm_checked           ? "checked" : "",
-                    "with-actor-as-token-undead-checked":             this.parent.actor_options[option2].actor_undead_checked          ? "checked" : "",
-                };
-                break;
-            case "scenes_in_compendiums":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "in-compendium-name-value":             this.parent.compendium_options[option2].compendium_name_value,
-                    "in-compendium-case-sensitive-checked": this.parent.compendium_options[option2].compendium_case_sensitive_checked    ? "checked" : "",
-                    "in-compendium-exact-match-checked":    this.parent.compendium_options[option2].compendium_exact_match_checked       ? "checked" : "",
-                    "in-compendium-none-checked":           this.parent.compendium_options[option2].compendium_none_checked              ? "checked" : "",
-                    "in-compendium-show-checked":           this.parent.compendium_options[option2].compendium_show_checked              ? "checked" : "",
-                };
-                break;
-            case "scenes_in_journals":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "in-journal-name-value":             this.parent.journal_options[option2].journal_name_value,
-                    "in-journal-case-sensitive-checked": this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "in-journal-exact-match-checked":    this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "in-journal-none-checked":           this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "in-journal-show-checked":           this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "in-journal-base-checked":           this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "in-journal-checklist-checked":      this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "in-journal-encounter-checked":      this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "in-journal-loot-checked":           this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "in-journal-organization-checked":   this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "in-journal-person-checked":         this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "in-journal-place-checked":          this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "in-journal-poi-checked":            this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "in-journal-quest-checked":          this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "in-journal-shop-checked":           this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "scenes_with_journals":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "with-journal-name-value":             this.parent.journal_options[option2].journal_name_value,
-                    "with-journal-case-sensitive-checked": this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "with-journal-exact-match-checked":    this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "with-journal-none-checked":           this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "with-journal-show-checked":           this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "with-journal-base-checked":           this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "with-journal-checklist-checked":      this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "with-journal-encounter-checked":      this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "with-journal-loot-checked":           this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "with-journal-organization-checked":   this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "with-journal-person-checked":         this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "with-journal-place-checked":          this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "with-journal-poi-checked":            this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "with-journal-quest-checked":          this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "with-journal-shop-checked":           this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "scenes_with_journals_as_pins":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "with-journal-as-pin-name-value":             this.parent.journal_options[option2].journal_name_value,
-                    "with-journal-as-pin-case-sensitive-checked": this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "with-journal-as-pin-exact-match-checked":    this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "with-journal-as-pin-none-checked":           this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "with-journal-as-pin-show-checked":           this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "with-journal-as-pin-base-checked":           this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "with-journal-as-pin-checklist-checked":      this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "with-journal-as-pin-encounter-checked":      this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "with-journal-as-pin-loot-checked":           this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "with-journal-as-pin-organization-checked":   this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "with-journal-as-pin-person-checked":         this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "with-journal-as-pin-place-checked":          this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "with-journal-as-pin-poi-checked":            this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "with-journal-as-pin-quest-checked":          this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "with-journal-as-pin-shop-checked":           this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "scenes_with_playlists":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "with-playlists-name-value":              this.parent.playlist_options[option2].playlists_name_value,
-                    "with-playlists-case-sensitive-checked":  this.parent.playlist_options[option2].playlists_case_sensitive_checked ? "checked" : "",
-                    "with-playlists-exact-match-checked":     this.parent.playlist_options[option2].playlists_exact_match_checked    ? "checked" : "",
-                    "with-playlists-none-checked":            this.parent.playlist_options[option2].playlists_none_checked           ? "checked" : "",
-                    "with-playlists-show-checked":            this.parent.playlist_options[option2].playlists_show_checked           ? "checked" : "",
-                };
-                break;
-            case "scenes_in_tables":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "in-table-name-value":                  this.parent.table_options[option2].table_name_value,
-                    "in-table-case-sensitive-checked":      this.parent.table_options[option2].table_case_sensitive_checked    ? "checked" : "",
-                    "in-table-exact-match-checked":         this.parent.table_options[option2].table_exact_match_checked       ? "checked" : "",
-                    "in-table-none-checked":                this.parent.table_options[option2].table_none_checked              ? "checked" : "",
-                    "in-table-show-checked":                this.parent.table_options[option2].table_show_checked              ? "checked" : "",
-                };
-                break;
-            case "scenes_with_tiles":
-                retval = {
-                    "number-of-scenes":             game.scenes.size,
-
-                    "scene-count":                  this.parent.scene_options[option].scene_count,
-                    "scene-name-value":             this.parent.scene_options[option].scene_name_value,
-                    "scene-case-sensitive-checked": this.parent.scene_options[option].scene_case_sensitive_checked  ? "checked" : "",
-                    "scene-exact-match-checked":    this.parent.scene_options[option].scene_exact_match_checked     ? "checked" : "",
-
-                    "with-tile-name-value":                  this.parent.tile_options[option2].tile_name_value,
-                    "with-tile-case-sensitive-checked":      this.parent.tile_options[option2].tile_case_sensitive_checked    ? "checked" : "",
-                    "with-tile-exact-match-checked":         this.parent.tile_options[option2].tile_exact_match_checked       ? "checked" : "",
-                    "with-tile-none-checked":                this.parent.tile_options[option2].tile_none_checked              ? "checked" : "",
-                    "with-tile-show-checked":                this.parent.tile_options[option2].tile_show_checked              ? "checked" : "",
-                };
-                break;
-        };
-        return retval;
+        const html_list     = document.getElementById("analytics-scenes-list");
+        html_list.innerHTML = scene_list.join("");
     }
 
     async _onChangeTab(event, tabs, active) {
@@ -585,40 +313,40 @@ export class AnalyticsScenes extends FormApplication {
 
         super._onChangeTab(event, tabs, active);
 
-        var option = "";
+        var output_list = "";
         var retval = false;
         switch (active) {
-            case "scenes-with-actors-as-tokens":
-                option = "scenes_with_actors_as_tokens";
-                retval = !this.parent.actor_options["scenes_with_actors_as_tokens"].actor_submitted;
+            case "analytics-scenes-with-actors-as-tokens":
+                output_list = this.scene_lists["scenes_with_actors_as_tokens"];
+                retval = !this.actor_options["scenes_with_actors_as_tokens"].actor_submitted;
                 break;
-            case "scenes-in-compendiums":
-                option = "scenes_in_compendiums";
-                retval = !this.parent.compendium_options["scenes_in_compendiums"].compendium_submitted;
+            case "analytics-scenes-in-compendiums":
+                output_list = this.scene_lists["scenes_in_compendiums"];
+                retval = !this.compendium_options["scenes_in_compendiums"].compendium_submitted;
                 break;
-            case "scenes-in-journals":
-                option = "scenes_in_journals";
-                retval = !this.parent.journal_options["scenes_in_journals"].journal_submitted;
+            case "analytics-scenes-in-journals":
+                output_list = this.scene_lists["scenes_in_journals"];
+                retval = !this.journal_options["scenes_in_journals"].journal_submitted;
                 break;
-            case "scenes-with-journals":
-                option = "scenes_with_journals";
-                retval = !this.parent.journal_options["scenes_with_journals"].journal_submitted;
+            case "analytics-scenes-with-journals":
+                output_list = this.scene_lists["scenes_with_journals"];
+                retval = !this.journal_options["scenes_with_journals"].journal_submitted;
                 break;
-            case "scenes-with-journals-as-pins":
-                option = "scenes_with_journals_as_pins";
-                retval = !this.parent.journal_options["scenes_with_journals_as_pins"].journal_submitted;
+            case "analytics-scenes-with-journals-as-pins":
+                output_list = this.scene_lists["scenes_with_journals_as_pins"];
+                retval = !this.journal_options["scenes_with_journals_as_pins"].journal_submitted;
                 break;
-            case "scenes-with-playlists":
-                option = "scenes_with_playlists";
-                retval = !this.parent.playlist_options["scenes_with_playlists"].playlist_submitted;
+            case "analytics-scenes-with-playlists":
+                output_list = this.scene_lists["scenes_with_playlists"];
+                retval = !this.playlist_options["scenes_with_playlists"].playlist_submitted;
                 break;
-            case "scenes-in-tables":
-                option = "scenes_in_tables";
-                retval = !this.parent.table_options["scenes_in_tables"].table_submitted;
+            case "analytics-scenes-in-tables":
+                output_list = this.scene_lists["scenes_in_tables"];
+                retval = !this.table_options["scenes_in_tables"].table_submitted;
                 break;
-            case "scenes-with-tiles":
-                option = "scenes_with_tiles";
-                retval = !this.parent.tile_options["scenes_with_tiles"].tile_submitted;
+            case "analytics-scenes-with-tiles":
+                output_list = this.scene_lists["scenes_with_tiles"];
+                retval = !this.tile_options["scenes_with_tiles"].tile_submitted;
                 break;
         };
 
@@ -629,10 +357,58 @@ export class AnalyticsScenes extends FormApplication {
         }
 
         // update with saved list or submitted data.
-        if (this.parent.scene_lists[option].length > 0)
+        if (output_list.length > 0)
             await this._updateObject(event, null);
         else
             await this._updateObject(event, this._getSubmitData());
+    }
+
+    // get data for form.
+    getData() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes getData()");
+
+        // get data for form.
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var scene_option = this.scene_options[primary];
+
+        var retval = scene_option.getSceneData();
+
+        switch (secondary) {
+            case "scenes_with_actors_as_tokens":
+                var actor_option = this.actor_options[secondary];
+                retval = Object.assign(retval, actor_option.getActorData(secondary));
+                break;
+            case "scenes_in_compendiums":
+                var compendium_option = this.compendium_options[secondary];
+                retval = Object.assign(retval, compendium_option.getCompendiumData(secondary));
+                break;
+            case "scenes_in_journals":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "scenes_with_journals":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "scenes_with_journals_as_pins":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "scenes_with_playlists":
+                var playlist_option = this.playlist_options[secondary];
+                retval = Object.assign(retval, playlist_option.getPlaylistData(secondary));
+                break;
+            case "scenes_in_tables":
+                var table_option = this.table_options[secondary];
+                retval = Object.assign(retval, table_option.getTableData(secondary));
+                break;
+            case "scenes_with_tiles":
+                var tile_option = this.tile_options[secondary];
+                retval = Object.assign(retval, tile_option.getTileData(secondary));
+                break;
+        };
+        return retval;
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -653,36 +429,37 @@ export class AnalyticsScenes extends FormApplication {
 
         // get form data
         const formData = this._getSubmitData();
+        var primary = this.sortOptions().primary;
 
         // set update flag when changing tabs if tab never submitted.
-        switch (this.optionKeys().primary) {
+        switch (primary) {
             case "scenes_with_actors_as_tokens":
-                if (!this.parent.actor_options["scenes_with_actors_as_tokens"].actor_submitted)
-                     this.parent.actor_options["scenes_with_actors_as_tokens"].actor_submitted = true;
+                var actor_option = this.actor_options[primary];
+                if (!actor_option.actor_submitted) actor_option.actor_submitted = true;
                 break;
             case "scenes_in_compendiums":
-                if (!this.parent.compendium_options["scenes_in_compendiums"].compendium_submitted)
-                     this.parent.compendium_options["scenes_in_compendiums"].compendium_submitted = true;
+                var compendium_option = this.compendium_options[primary];
+                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
                 break;
             case "scenes_in_journals":
-                if (!this.parent.journal_options["scenes_in_journals"].journal_submitted)
-                     this.parent.journal_options["scenes_in_journals"].journal_submitted = true;
+                var journal_option = this.journal_options[primary];
+                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
                 break;
             case "scenes_with_journals_as_pins":
-                if (!this.parent.journal_options["scenes_with_journals_as_pins"].journal_submitted)
-                     this.parent.journal_options["scenes_with_journals_as_pins"].journal_submitted = true;
+                var journal_option = this.journal_options[primary];
+                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
                 break;
             case "scenes_with_playlists":
-                if (!this.parent.playlist_options["scenes_with_playlists"].playlist_submitted)
-                     this.parent.playlist_options["scenes_with_playlists"].playlist_submitted = true;
+                var playlist_option = this.playlist_options[primary];
+                if (!playlist_option.playlist_submitted) playlist_option.playlist_submitted = true;
                 break;
             case "scenes_in_tables":
-                if (!this.parent.table_options["scenes_in_tables"].table_options)
-                     this.parent.table_options["scenes_in_tables"].table_options = true;
+                var table_option = this.table_options[primary];
+                if (!table_option.table_options) table_option.table_options = true;
                 break;
             case "scenes_with_tiles":
-                if (!this.parent.tile_options["scenes_with_tiles"].tile_options)
-                     this.parent.tile_options["scenes_with_tiles"].tile_options = true;
+                var tile_option = this.tile_options[primary];
+                if (!tile_option.tile_options) tile_option.tile_options = true;
                 break;
         };
 
@@ -704,103 +481,183 @@ export class AnalyticsScenes extends FormApplication {
         return formData;
     }
 
+    // create scene list.
+    buildList(scene) {
+
+        // active tab.
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var scene_option = this.scene_options[primary];
+        var scene_list   = this.scene_lists[primary];
+        var scene_name   = scene.data.name;
+
+        // each tab.
+        switch (secondary) {
+            case "scenes_with_actors_as_tokens":
+                // reset counters.
+                var actor_option = this.actor_options[secondary];
+                actor_option.actor_count = 0;
+                break;
+            case "scenes_in_compendiums":
+                // reset counters.
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.compendium_count = 0;
+                break;
+            case "scenes_in_journals":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "scenes_with_journals":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "scenes_with_journals_as_pins":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "scenes_with_playlists":
+                // reset counters.
+                var playlist_option = this.playlist_options[secondary];
+                playlist_option.playlist_count = 0;
+                break;
+            case "scenes_in_tables":
+                // reset counters.
+                var table_option = this.table_options[secondary];
+                table_option.table_count = 0;
+                break;
+            case "scenes_with_tiles":
+                // reset counters.
+                var tile_option = this.tile_options[secondary];
+                tile_option.tile_count = 0;
+                break;
+        };
+    }
+
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes async _updateObject(event, formData)");
 
-        // null form data - don't rebuild list.
+        // null form data render and return.
         if (!formData) {
             this.render(true);
             return;
         };
 
         // active tab.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var scene_option = this.scene_options[primary];
+        var scene_list   = this.scene_lists[primary];
 
-        // reset counters.
-        var list_counter = 0;
+        // set data from form.
+        const data = expandObject(formData);
+        for ( let [k, v] of Object.entries(data) ) {
+            scene_option.setSceneData(k, v);
 
-        // add message to the list.
-        function add_message(parent, message) {
-            (list_counter % 2 == 0) ? parent.parent.scene_lists[option][list_counter] = `<p class="analytics-message-even">` + message + `</p>` : parent.parent.scene_lists[option][list_counter] = `<p class="analytics-message-odd">` + message + `</p>`;
-            list_counter++;
-        }
+            switch (secondary) {
+                case "scenes_with_actors_as_tokens":
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.setActorData(k, v, secondary);
+                    break;
+                case "scenes_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "scenes_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "scenes_with_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "scenes_with_journals_as_pins":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "scenes_with_playlists":
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.setPlaylistData(k, v, secondary);
+                    break;
+                case "scenes_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+                case "scenes_with_tiles":
+                    var tile_option = this.tile_options[secondary];
+                    tile_option.setTileData(k, v, secondary);
+                    break;
+            };
+        };
 
-        // reset lists.
-        switch (option) {
+        // reset counters and lists.
+        scene_option.scene_count = 0;
+        scene_list.splice(0, scene_list.length);
+
+        // message not available, render and return.
+        switch (secondary) {
             case "scenes_with_actors_as_tokens":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.actor_options[option2].actor_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "scenes_in_compendiums":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.compendium_options[option2].compendium_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase3"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "scenes_in_journals":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "scenes_with_journals":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "scenes_with_journals_as_pins":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "scenes_with_playlists":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.playlist_options[option2].playlist_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "scenes_in_tables":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.table_options[option2].table_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "scenes_with_tiles":
-                this.parent.scene_options[option].scene_count = 0;
-                this.parent.tile_options[option2].tile_count = 0;
-                this.parent.scene_lists[option].splice(0, this.parent.scene_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
         };
+
+        // spin the submit button icon and disable.
+        var button      = document.getElementById("analytics-scenes-submit");
+        button.disabled = true;
+        const icon      = button.querySelector("i");
+        icon.className  = "fas fa-spinner fa-pulse";
+        const delay     = ms => new Promise(res => setTimeout(res, ms));
+        await delay(20);
+
+        // spin through scene list ...
+        game.scenes.contents.forEach((scene, i) => {
+            if (game.scenes.contents[i]) {
+            };
+        }); // forEach Scene.
+
+        // reset submit button icon and enable.
+        icon.className  = "fas fa-search";
+        button.disabled = false;
+        await delay(10);
 
         // re-draw the updated form
         this.render(true);

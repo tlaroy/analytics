@@ -2,155 +2,71 @@
 *
 * module/analytics-macros.js
 *
-* version 0.0.8
+* version 0.0.9
 *
 */
 
-import * as ANALYTICS from "./const.js";
+import * as ANALYTICS        from "./const.js";
+import { AnalyticsForm }     from "./analytics.js";
+import { MacroOptions }      from "./analytics.js";
+
+import { CompendiumOptions } from "./analytics.js";
+import { ItemOptions }       from "./analytics.js";
+import { JournalOptions }    from "./analytics.js";
+import { TableOptions }      from "./analytics.js";
+import { TileOptions }       from "./analytics.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
-export class AnalyticsMacros extends FormApplication {
+export class AnalyticsMacros extends AnalyticsForm {
 
     constructor(parent, formData = {}, options = {}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros constructor(parent, formData, options)");
 
         super(formData, options);
 
-        // save parent.
-        this.parent = parent;
-
         /* PRIMARY SORT */
 
         // macro options for each tab.
-        this.parent.macro_options = Object.assign(this.parent.macro_options, {
-            "macros_in_compendiums": {
-                macro_count:                    0,
-                macro_name_value:               "",
-                macro_case_sensitive_checked:   false,
-                macro_exact_match_checked:      false,
-                },
-            "macros_in_items": {
-                macro_count:                    0,
-                macro_name_value:               "",
-                macro_case_sensitive_checked:   false,
-                macro_exact_match_checked:      false,
-                },
-            "macros_in_journals": {
-                macro_count:                    0,
-                macro_name_value:               "",
-                macro_case_sensitive_checked:   false,
-                macro_exact_match_checked:      false,
-                },
-            "macros_in_tables": {
-                macro_count:                    0,
-                macro_name_value:               "",
-                macro_case_sensitive_checked:   false,
-                macro_exact_match_checked:      false,
-                },
-            "macros_in_tiles": {
-                macro_count:                    0,
-                macro_name_value:               "",
-                macro_case_sensitive_checked:   false,
-                macro_exact_match_checked:      false,
-                },
+        this.macro_options = Object.assign(this.macro_options, {
+            "macros_in_compendiums": new MacroOptions(),
+            "macros_in_items":       new MacroOptions(),
+            "macros_in_journals":    new MacroOptions(),
+            "macros_in_tables":      new MacroOptions(),
+            "macros_in_tiles":       new MacroOptions(),
         });
 
         /* SECONDARY SORT BY TAB */
 
         // (11) in compendiums options.
-        this.parent.compendium_options = Object.assign(this.parent.compendium_options, {
-            "macros_in_compendiums": {
-                compendium_count:                  0,
-                compendium_name_value:             "",
-                compendium_case_sensitive_checked: false,
-                compendium_exact_match_checked:    false,
-
-                compendium_none_checked:           false,
-                compendium_show_checked:           false,
-                }
+        this.compendium_options = Object.assign(this.compendium_options, {
+            "macros_in_compendiums": new CompendiumOptions(),
         });
 
         // (18) in items options.
-        this.parent.item_options = Object.assign(this.parent.item_options, {
-            "macros_in_items": {
-                item_count:                  0,
-                item_name_value:             "",
-                item_case_sensitive_checked: false,
-                item_exact_match_checked:    false,
-
-                item_none_checked:           false,
-                item_show_checked:           false,
-
-                item_weapon_checked:         false,
-                item_equipment_checked:      false,
-                item_consumable_checked:     false,
-                item_tool_checked:           false,
-                item_loot_checked:           false,
-                item_class_checked:          false,
-                item_feat_checked:           false,
-                item_backpack_checked:       false,
-                item_spell_checked:          false,
-
-                item_macro_checked:                false,
-                item_macro_count:                  0,
-                item_macro_name_value:             "",
-                item_macro_case_sensitive_checked: false,
-                item_macro_exact_match_checked:    false,
-                }
+        this.item_options = Object.assign(this.item_options, {
+            "macros_in_items": new ItemOptions(),
         });
 
         // (21) in journals options.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "macros_in_journals": {
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "macros_in_journals": new JournalOptions(),
         });
 
         // (28) in tables options.
-        this.parent.table_options = Object.assign(this.parent.table_options, {
-            "macros_in_tables": {
-                table_count:                  0,
-                table_name_value:             "",
-                table_case_sensitive_checked: false,
-                table_exact_match_checked:    false,
-
-                table_none_checked:           false,
-                table_show_checked:           false,
-                },
+        this.table_options = Object.assign(this.table_options, {
+            "macros_in_tables": new TableOptions(),
         });
 
         // (29) in tiles options.
-        this.parent.tile_options = Object.assign(this.parent.tile_options, {
-            "macros_in_tiles": {
-                tile_count:                    0,
-                tile_name_value:               "",
-                tile_case_sensitive_checked:   false,
-                tile_exact_match_checked:      false,
-                }
+        this.tile_options = Object.assign(this.tile_options, {
+            "macros_in_tiles": new TileOptions(),
         });
 
         /* OUTPUT BY TAB */
 
         // macro lists.
-        this.parent.macro_lists = Object.assign(this.parent.macro_lists, {
+        this.macro_lists = Object.assign(this.macro_lists, {
             "macros_in_compendiums": [],
             "macros_in_items":       [],
             "macros_in_journals":    [],
@@ -166,53 +82,48 @@ export class AnalyticsMacros extends FormApplication {
             title:          i18n("ANALYTICS.Title") + " v" + ANALYTICS.VERSION,
             id:             "analytics-macros",
             template:       "modules/analytics/templates/analytics-macros-template.html",
-            classes:       ["sheet", "scene-sheet"],
+            classes:       ["sheet", "scene-sheet", "analytics-macros"],
             width:          740,
             height:         690,
             resizable:      true,
             closeOnSubmit:  false,
-            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "macros-in-compendiums"}]
+            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "analytics-macros-in-compendiums"}]
         });
     }
 
-    static get isVisible() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros static get isVisible()");
-
-        for (const app of Object.values(ui.windows)) {
-            if (app instanceof this) return app;
-        }
-    }
-
-    show(inFocus = false) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros show()");
-
-        return this.render(true);
-    }
-
-    hide() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros hide()");
-
-        this.close();
-    }
-
-    optionKeys() {
-        // map tab name to object keys.
+    // map tab to sort options.
+    sortOptions() {
         var retval = { };
         switch (this._tabs[0].active) {
-            case "macros-in-compendiums":
-                retval = { primary: "macros_in_compendiums", secondary: "macros_in_compendiums" };
+            case "analytics-macros-in-compendiums":
+                retval = {
+                    primary:   "macros_in_compendiums",
+                    secondary: "macros_in_compendiums"
+                };
                 break;
-            case "macros-in-items":
-                retval = { primary: "macros_in_items", secondary: "macros_in_items" };
+            case "analytics-macros-in-items":
+                retval = {
+                    primary:   "macros_in_items",
+                    secondary: "macros_in_items"
+                };
                 break;
-            case "macros-in-journals":
-                retval = { primary: "macros_in_journals", secondary: "macros_in_journals" };
+            case "analytics-macros-in-journals":
+                retval = {
+                    primary:   "macros_in_journals",
+                    secondary: "macros_in_journals"
+                };
                 break;
-            case "macros-in-tables":
-                retval = { primary: "macros_in_tables", secondary: "macros_in_tables" };
+            case "analytics-macros-in-tables":
+                retval = {
+                    primary:   "macros_in_tables",
+                    secondary: "macros_in_tables"
+                };
                 break;
-            case "macros-in-tiles":
-                retval = { primary: "macros_in_tiles", secondary: "macros_in_tiles" };
+            case "analytics-macros-in-tiles":
+                retval = {
+                    primary:   "macros_in_tiles",
+                    secondary: "macros_in_tiles"
+                };
                 break;
         };
         return retval;
@@ -223,168 +134,99 @@ export class AnalyticsMacros extends FormApplication {
 
         super.activateListeners($html);
 
-        // tools
-        if (canvas.background._active) canvas.foreground.activate();
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var macro_option = this.macro_options[primary];
+        var macro_list   = this.macro_lists[primary];
 
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        // enable/disable by name or id.
+        document.getElementById("analytics-macros-name").disabled           = !document.getElementById("analytics-macros-radio-name").checked;
+        document.getElementById("analytics-macros-case-sensitive").disabled = !document.getElementById("analytics-macros-radio-name").checked;
+        document.getElementById("analytics-macros-exact-match").disabled    = !document.getElementById("analytics-macros-radio-name").checked;
+        document.getElementById("analytics-macros-id").disabled             = !document.getElementById("analytics-macros-radio-id").checked;
 
-        switch (option) {
+        switch (secondary) {
+            case "macros_in_compendiums":
+                // enable/disable by name or id.
+                document.getElementById("analytics-macros-in-compendium-name").disabled           = !document.getElementById("analytics-macros-in-compendium-radio-name").checked;
+                document.getElementById("analytics-macros-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-macros-in-compendium-radio-name").checked;
+                document.getElementById("analytics-macros-in-compendium-exact-match").disabled    = !document.getElementById("analytics-macros-in-compendium-radio-name").checked;
+                document.getElementById("analytics-macros-in-compendium-id").disabled             = !document.getElementById("analytics-macros-in-compendium-radio-id").checked;
+                break;
             case "macros_in_items":
-                // disable on use item macros if midi-qol not installed or not active.
+                // enable/disable by name or id.
+                document.getElementById("analytics-macros-in-item-name").disabled           = !document.getElementById("analytics-macros-in-item-radio-name").checked;
+                document.getElementById("analytics-macros-in-item-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-radio-name").checked;
+                document.getElementById("analytics-macros-in-item-exact-match").disabled    = !document.getElementById("analytics-macros-in-item-radio-name").checked;
+                document.getElementById("analytics-macros-in-item-id").disabled             = !document.getElementById("analytics-macros-in-item-radio-id").checked;
+
+                // disable on use macros if midi-qol not installed or not active.
                 if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-                    document.getElementById("in-item-macro-label").style.display                = "none";
-                    document.getElementById("in-item-macro-note").style.display                 = "none";
-                    document.getElementById("in-item-macro-name-label").style.display           = "none";
-                    document.getElementById("in-item-macro-name-input").style.display           = "none";
-                    document.getElementById("in-item-macro-case-sensitive-label").style.display = "none";
-                    document.getElementById("in-item-macro-exact-match-label").style.display    = "none";
-                    document.getElementById("in-item-macro-thematic-break").style.display       = "none";
+                    document.getElementById("analytics-macros-in-item-macro-label").style.display                = "none";
+                    document.getElementById("analytics-macros-in-item-macro-name-input").style.display           = "none";
+                    document.getElementById("analytics-macros-in-item-macro-case-sensitive-label").style.display = "none";
+                    document.getElementById("analytics-macros-in-item-macro-exact-match-label").style.display    = "none";
+                    document.getElementById("analytics-macros-in-item-macro-thematic-break").style.display       = "none";
+                    document.getElementById("analytics-macros-in-item-macro-id").style.display                   = "none";
+                    document.getElementById("analytics-macros-in-item-macro-radio-name").style.display           = "none";
+                    document.getElementById("analytics-macros-in-item-macro-radio-id").style.display             = "none";
                 }
 
-                // toggle macro fields.
-                document.getElementById("in-item-macro-name").disabled           = !this.parent.item_options[option2].item_macro_checked;
-                document.getElementById("in-item-macro-case-sensitive").disabled = !this.parent.item_options[option2].item_macro_checked;
-                document.getElementById("in-item-macro-exact-match").disabled    = !this.parent.item_options[option2].item_macro_checked;
+                // enable/disable on use macro fields.
+                document.getElementById("analytics-macros-in-item-macro-name").disabled           = !document.getElementById("analytics-macros-in-item-macro").checked;
+                document.getElementById("analytics-macros-in-item-macro-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-macro").checked;
+                document.getElementById("analytics-macros-in-item-macro-exact-match").disabled    = !document.getElementById("analytics-macros-in-item-macro").checked;
+                document.getElementById("analytics-macros-in-item-macro-id").disabled             = !document.getElementById("analytics-macros-in-item-macro").checked;
+                document.getElementById("analytics-macros-in-item-macro-radio-name").disabled     = !document.getElementById("analytics-macros-in-item-macro").checked;
+                document.getElementById("analytics-macros-in-item-macro-radio-id").disabled       = !document.getElementById("analytics-macros-in-item-macro").checked;
+
+                if (document.getElementById("analytics-macros-in-item-macro").checked) {
+                    document.getElementById("analytics-macros-in-item-macro-name").disabled           = !document.getElementById("analytics-macros-in-item-macro-radio-name").checked;
+                    document.getElementById("analytics-macros-in-item-macro-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-macro-radio-name").checked;
+                    document.getElementById("analytics-macros-in-item-macro-exact-match").disabled    = !document.getElementById("analytics-macros-in-item-macro-radio-name").checked;
+                    document.getElementById("analytics-macros-in-item-macro-id").disabled             = !document.getElementById("analytics-macros-in-item-macro-radio-id").checked;
+                };
                 break;
             case "macros_in_journals":
+                // enable/disable by name or id.
+                document.getElementById("analytics-macros-in-journal-name").disabled           = !document.getElementById("analytics-macros-in-journal-radio-name").checked;
+                document.getElementById("analytics-macros-in-journal-case-sensitive").disabled = !document.getElementById("analytics-macros-in-journal-radio-name").checked;
+                document.getElementById("analytics-macros-in-journal-exact-match").disabled    = !document.getElementById("analytics-macros-in-journal-radio-name").checked;
+                document.getElementById("analytics-macros-in-journal-id").disabled             = !document.getElementById("analytics-macros-in-journal-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("in-journal-monks-base").style.display         = "none";
-                    document.getElementById("in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("in-journal-monks-organization").style.display = "none";
-                    document.getElementById("in-journal-monks-person").style.display       = "none";
-                    document.getElementById("in-journal-monks-place").style.display        = "none";
-                    document.getElementById("in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("in-journal-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-base").style.display         = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-organization").style.display = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-person").style.display       = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-place").style.display        = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-macros-in-journal-monks-shop").style.display         = "none";
                 }
+                break;
+            case "macros_in_tables":
+                // enable/disable by name or id.
+                document.getElementById("analytics-macros-in-table-name").disabled           = !document.getElementById("analytics-macros-in-table-radio-name").checked;
+                document.getElementById("analytics-macros-in-table-case-sensitive").disabled = !document.getElementById("analytics-macros-in-table-radio-name").checked;
+                document.getElementById("analytics-macros-in-table-exact-match").disabled    = !document.getElementById("analytics-macros-in-table-radio-name").checked;
+                document.getElementById("analytics-macros-in-table-id").disabled             = !document.getElementById("analytics-macros-in-table-radio-id").checked;
+                break;
+            case "macros_in_tiles":
+                // enable/disable by name or id.
+                document.getElementById("analytics-macros-in-tile-name").disabled           = !document.getElementById("analytics-macros-in-tile-radio-name").checked;
+                document.getElementById("analytics-macros-in-tile-case-sensitive").disabled = !document.getElementById("analytics-macros-in-tile-radio-name").checked;
+                document.getElementById("analytics-macros-in-tile-exact-match").disabled    = !document.getElementById("analytics-macros-in-tile-radio-name").checked;
+                document.getElementById("analytics-macros-in-tile-id").disabled             = !document.getElementById("analytics-macros-in-tile-radio-id").checked;
                 break;
         };
 
         // inject list into form.
-        const html_list     = document.getElementById("analytics-list");
-        html_list.innerHTML = this.parent.macro_lists[option].join("");
-    }
-
-    getData() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros getData()");
-
-        // SET key (id) values in the form.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
-        var retval  = {};
-        switch (option) {
-            case "macros_in_compendiums":
-                retval = {
-                    "number-of-macros":             game.macros.size,
-
-                    "macro-count":                  this.parent.macro_options[option].macro_count,
-                    "macro-name-value":             this.parent.macro_options[option].macro_name_value,
-                    "macro-case-sensitive-checked": this.parent.macro_options[option].macro_case_sensitive_checked  ? "checked" : "",
-                    "macro-exact-match-checked":    this.parent.macro_options[option].macro_exact_match_checked     ? "checked" : "",
-
-                    "in-compendium-name-value":             this.parent.compendium_options[option2].compendium_name_value,
-                    "in-compendium-case-sensitive-checked": this.parent.compendium_options[option2].compendium_case_sensitive_checked    ? "checked" : "",
-                    "in-compendium-exact-match-checked":    this.parent.compendium_options[option2].compendium_exact_match_checked       ? "checked" : "",
-                    "in-compendium-none-checked":           this.parent.compendium_options[option2].compendium_none_checked              ? "checked" : "",
-                    "in-compendium-show-checked":           this.parent.compendium_options[option2].compendium_show_checked              ? "checked" : "",
-                };
-                break;
-            case "macros_in_items":
-                retval = {
-                    "number-of-macros":             game.macros.size,
-
-                    "macro-count":                  this.parent.macro_options[option].macro_count,
-                    "macro-name-value":             this.parent.macro_options[option].macro_name_value,
-                    "macro-case-sensitive-checked": this.parent.macro_options[option].macro_case_sensitive_checked  ? "checked" : "",
-                    "macro-exact-match-checked":    this.parent.macro_options[option].macro_exact_match_checked     ? "checked" : "",
-
-                    "in-item-name-value":                   this.parent.item_options[option2].item_name_value,
-                    "in-item-case-sensitive-checked":       this.parent.item_options[option2].item_case_sensitive_checked    ? "checked" : "",
-                    "in-item-exact-match-checked":          this.parent.item_options[option2].item_exact_match_checked       ? "checked" : "",
-                    "in-item-none-checked":                 this.parent.item_options[option2].item_none_checked              ? "checked" : "",
-                    "in-item-show-checked":                 this.parent.item_options[option2].item_show_checked              ? "checked" : "",
-
-                    "in-item-weapon-checked":               this.parent.item_options[option2].item_weapon_checked            ? "checked" : "",
-                    "in-item-equipment-checked":            this.parent.item_options[option2].item_equipment_checked         ? "checked" : "",
-                    "in-item-consumable-checked":           this.parent.item_options[option2].item_consumable_checked        ? "checked" : "",
-                    "in-item-tool-checked":                 this.parent.item_options[option2].item_tool_checked              ? "checked" : "",
-                    "in-item-loot-checked":                 this.parent.item_options[option2].item_loot_checked              ? "checked" : "",
-                    "in-item-class-checked":                this.parent.item_options[option2].item_class_checked             ? "checked" : "",
-                    "in-item-feat-checked":                 this.parent.item_options[option2].item_feat_checked              ? "checked" : "",
-                    "in-item-backpack-checked":             this.parent.item_options[option2].item_backpack_checked          ? "checked" : "",
-                    "in-item-spell-checked":                this.parent.item_options[option2].item_spell_checked             ? "checked" : "",
-
-                    "in-item-macro-checked":                  this.parent.item_options[option2].item_macro_checked                 ? "checked" : "",
-                    "in-item-macro-name-value":               this.parent.item_options[option2].item_macro_name_value,
-                    "in-item-macro-case-sensitive-checked":   this.parent.item_options[option2].item_macro_case_sensitive_checked  ? "checked" : "",
-                    "in-item-macro-exact-match-checked":      this.parent.item_options[option2].item_macro_exact_match_checked     ? "checked" : "",
-                };
-                break;
-            case "macros_in_journals":
-                retval = {
-                    "number-of-macros":             game.macros.size,
-
-                    "macro-count":                  this.parent.macro_options[option].macro_count,
-                    "macro-name-value":             this.parent.macro_options[option].macro_name_value,
-                    "macro-case-sensitive-checked": this.parent.macro_options[option].macro_case_sensitive_checked  ? "checked" : "",
-                    "macro-exact-match-checked":    this.parent.macro_options[option].macro_exact_match_checked     ? "checked" : "",
-
-                    "in-journal-name-value":             this.parent.journal_options[option2].journal_name_value,
-                    "in-journal-case-sensitive-checked": this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "in-journal-exact-match-checked":    this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "in-journal-none-checked":           this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "in-journal-show-checked":           this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "in-journal-base-checked":           this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "in-journal-checklist-checked":      this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "in-journal-encounter-checked":      this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "in-journal-loot-checked":           this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "in-journal-organization-checked":   this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "in-journal-person-checked":         this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "in-journal-place-checked":          this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "in-journal-poi-checked":            this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "in-journal-quest-checked":          this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "in-journal-shop-checked":           this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "macros_in_tables":
-                retval = {
-                    "number-of-macros":             game.macros.size,
-
-                    "macro-count":                  this.parent.macro_options[option].macro_count,
-                    "macro-name-value":             this.parent.macro_options[option].macro_name_value,
-                    "macro-case-sensitive-checked": this.parent.macro_options[option].macro_case_sensitive_checked  ? "checked" : "",
-                    "macro-exact-match-checked":    this.parent.macro_options[option].macro_exact_match_checked     ? "checked" : "",
-
-                    "in-table-name-value":                  this.parent.table_options[option2].table_name_value,
-                    "in-table-case-sensitive-checked":      this.parent.table_options[option2].table_case_sensitive_checked    ? "checked" : "",
-                    "in-table-exact-match-checked":         this.parent.table_options[option2].table_exact_match_checked       ? "checked" : "",
-                    "in-table-none-checked":                this.parent.table_options[option2].table_none_checked              ? "checked" : "",
-                    "in-table-show-checked":                this.parent.table_options[option2].table_show_checked              ? "checked" : "",
-                };
-                break;
-            case "macros_in_tiles":
-                retval = {
-                    "number-of-macros":             game.macros.size,
-
-                    "macro-count":                  this.parent.macro_options[option].macro_count,
-                    "macro-name-value":             this.parent.macro_options[option].macro_name_value,
-                    "macro-case-sensitive-checked": this.parent.macro_options[option].macro_case_sensitive_checked  ? "checked" : "",
-                    "macro-exact-match-checked":    this.parent.macro_options[option].macro_exact_match_checked     ? "checked" : "",
-
-                    "in-tile-name-value":                  this.parent.tile_options[option2].tile_name_value,
-                    "in-tile-case-sensitive-checked":      this.parent.tile_options[option2].tile_case_sensitive_checked    ? "checked" : "",
-                    "in-tile-exact-match-checked":         this.parent.tile_options[option2].tile_exact_match_checked       ? "checked" : "",
-                    "in-tile-none-checked":                this.parent.tile_options[option2].tile_none_checked              ? "checked" : "",
-                    "in-tile-show-checked":                this.parent.tile_options[option2].tile_show_checked              ? "checked" : "",
-                };
-                break;
-        };
-        return retval;
+        const html_list     = document.getElementById("analytics-macros-list");
+        html_list.innerHTML = macro_list.join("");
     }
 
     async _onChangeTab(event, tabs, active) {
@@ -392,28 +234,28 @@ export class AnalyticsMacros extends FormApplication {
 
         super._onChangeTab(event, tabs, active);
 
-        var option = "";
+        var output_list = "";
         var retval = false;
         switch (active) {
-            case "macros-in-compendiums":
-                option = "macros_in_compendiums";
-                retval = !this.parent.compendium_options["macros_in_compendiums"].compendium_submitted;
+            case "analytics-macros-in-compendiums":
+                output_list = this.macro_lists["macros_in_compendiums"];
+                retval = !this.compendium_options["macros_in_compendiums"].compendium_submitted;
                 break;
-            case "macros-in-items":
-                option = "macros_in_items";
-                retval = !this.parent.item_options["macros_in_items"].item_submitted;
+            case "analytics-macros-in-items":
+                output_list = this.macro_lists["macros_in_items"];
+                retval = !this.item_options["macros_in_items"].item_submitted;
                 break;
-            case "macros-in-journals":
-                option = "macros_in_journals";
-                retval = !this.parent.journal_options["macros_in_journals"].journal_submitted;
+            case "analytics-macros-in-journals":
+                output_list = this.macro_lists["macros_in_journals"];
+                retval = !this.journal_options["macros_in_journals"].journal_submitted;
                 break;
-            case "macros-in-tables":
-                option = "macros_in_tables";
-                retval = !this.parent.table_options["macros_in_tables"].table_submitted;
+            case "analytics-macros-in-tables":
+                output_list = this.macro_lists["macros_in_tables"];
+                retval = !this.table_options["macros_in_tables"].table_submitted;
                 break;
-            case "macros-in-tiles":
-                option = "macros_in_tiles";
-                retval = !this.parent.tile_options["macros_in_tiles"].tile_submitted;
+            case "analytics-macros-in-tiles":
+                output_list = this.macro_lists["macros_in_tiles"];
+                retval = !this.tile_options["macros_in_tiles"].tile_submitted;
                 break;
         };
 
@@ -424,10 +266,46 @@ export class AnalyticsMacros extends FormApplication {
         }
 
         // update with saved list or submitted data.
-        if (this.parent.macro_lists[option].length > 0)
+        if (output_list.length > 0)
             await this._updateObject(event, null);
         else
             await this._updateObject(event, this._getSubmitData());
+    }
+
+    // get data for form.
+    getData() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros getData()");
+
+        // get data for form.
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var macro_option = this.macro_options[primary];
+
+        var retval = macro_option.getMacroData();
+
+        switch (secondary) {
+            case "macros_in_compendiums":
+                var compendium_option = this.compendium_options[secondary];
+                retval = Object.assign(retval, compendium_option.getCompendiumData(secondary));
+                break;
+            case "macros_in_items":
+                var item_option = this.item_options[secondary];
+                retval = Object.assign(retval, item_option.getItemData(secondary));
+                break;
+            case "macros_in_journals":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "macros_in_tables":
+                var table_option = this.table_options[secondary];
+                retval = Object.assign(retval, table_option.getTableData(secondary));
+                break;
+            case "macros_in_tiles":
+                var tile_option = this.tile_options[secondary];
+                retval = Object.assign(retval, tile_option.getTileData(secondary));
+                break;
+        };
+        return retval;
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -448,28 +326,29 @@ export class AnalyticsMacros extends FormApplication {
 
         // get form data
         const formData = this._getSubmitData();
+        var primary = this.sortOptions().primary;
 
         // set update flag when changing tabs if tab never submitted.
-        switch (this.optionKeys().primary) {
+        switch (primary) {
             case "macros_in_compendiums":
-                if (!this.parent.compendium_options["macros_in_compendiums"].compendium_submitted)
-                     this.parent.compendium_options["macros_in_compendiums"].compendium_submitted = true;
+                var compendium_option = this.compendium_options[primary];
+                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
                 break;
             case "macros_in_items":
-                if (!this.parent.item_options["macros_in_items"].item_submitted)
-                     this.parent.item_options["macros_in_items"].item_submitted = true;
+                var item_option = this.item_options[primary];
+                if (!item_option.item_submitted) item_option.item_submitted = true;
                 break;
             case "macros_in_journals":
-                if (!this.parent.journal_options["macros_in_journals"].journal_submitted)
-                     this.parent.journal_options["macros_in_journals"].journal_submitted = true;
+                var journal_option = this.journal_options[primary];
+                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
                 break;
             case "macros_in_tables":
-                if (!this.parent.table_options["macros_in_tables"].table_options)
-                     this.parent.table_options["macros_in_tables"].table_options = true;
+                var table_option = this.table_options[primary];
+                if (!table_option.table_options) table_option.table_options = true;
                 break;
             case "macros_in_tiles":
-                if (!this.parent.tile_options["macros_in_tiles"].tile_options)
-                     this.parent.tile_options["macros_in_tiles"].tile_options = true;
+                var tile_option = this.tile_options[primary];
+                if (!tile_option.tile_options) tile_option.tile_options = true;
                 break;
         };
 
@@ -491,77 +370,141 @@ export class AnalyticsMacros extends FormApplication {
         return formData;
     }
 
+    // create macro list.
+    buildList(macro) {
+
+        // active tab.
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var macro_option = this.macro_options[primary];
+        var macro_list   = this.macro_lists[primary];
+        var macro_name   = macro.data.name;
+
+        // each tab.
+        switch (secondary) {
+            case "macros_in_compendiums":
+                // reset counters.
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.compendium_count = 0;
+                break;
+            case "macros_in_items":
+                // reset counters.
+                var item_option = this.item_options[secondary];
+                item_option.item_count = 0;
+                break;
+            case "macros_with_journals":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "macros_in_tables":
+                // reset counters.
+                var table_option = this.table_options[secondary];
+                table_option.table_count = 0;
+                break;
+            case "macros_in_tiles":
+                // reset counters.
+                var tile_option = this.tile_options[secondary];
+                tile_option.tile_count = 0;
+                break;
+        };
+    }
+
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros async _updateObject(event, formData)");
 
-        // null form data - don't rebuild list.
+        // null form data render and return.
         if (!formData) {
             this.render(true);
             return;
         };
 
         // active tab.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var macro_option = this.macro_options[primary];
+        var macro_list   = this.macro_lists[primary];
 
-        // reset counters.
-        var list_counter = 0;
+        // set data from form.
+        const data = expandObject(formData);
+        for ( let [k, v] of Object.entries(data) ) {
+            macro_option.setMacroData(k, v);
 
-        // add message to the list.
-        function add_message(parent, message) {
-            (list_counter % 2 == 0) ? parent.parent.macro_lists[option][list_counter] = `<p class="analytics-message-even">` + message + `</p>` : parent.parent.macro_lists[option][list_counter] = `<p class="analytics-message-odd">` + message + `</p>`;
-            list_counter++;
-        }
+            switch (secondary) {
+                case "macros_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "macros_in_items":
+                    var item_option = this.item_options[secondary];
+                    item_option.setItemData(k, v, secondary);
+                    break;
+                case "macros_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "macros_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+                case "macros_in_tiles":
+                    var tile_option = this.tile_options[secondary];
+                    tile_option.setTileData(k, v, secondary);
+                    break;
+            };
+        };
 
-        // reset lists.
-        switch (option) {
+        // reset counters and lists.
+        macro_option.macro_count = 0;
+        macro_list.splice(0, macro_list.length);
+
+        // message not available, render and return.
+        switch (secondary) {
             case "macros_in_compendiums":
-                this.parent.macro_options[option].macro_count = 0;
-                this.parent.compendium_options[option2].compendium_count = 0;
-                this.parent.macro_lists[option].splice(0, this.parent.macro_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase3"));
+                this.addMessage(macro_list, i18n("ANALYTICS.Phase3"));
                 this.render(true);
                 return;
                 break;
             case "macros_in_items":
-                this.parent.macro_options[option].macro_count = 0;
-                this.parent.item_options[option2].item_count = 0;
-                this.parent.item_options[option2].item_macro_count = 0;
-                this.parent.macro_lists[option].splice(0, this.parent.macro_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(macro_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "macros_in_journals":
-                this.parent.macro_options[option].macro_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.macro_lists[option].splice(0, this.parent.macro_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase1"));
+                this.addMessage(macro_list, i18n("ANALYTICS.Phase1"));
                 this.render(true);
                 return;
                 break;
             case "macros_in_tables":
-                this.parent.macro_options[option].macro_count = 0;
-                this.parent.table_options[option2].table_count = 0;
-                this.parent.macro_lists[option].splice(0, this.parent.macro_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(macro_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "macros_in_tiles":
-                this.parent.macro_options[option].macro_count = 0;
-                this.parent.tile_options[option2].tile_count = 0;
-                this.parent.macro_lists[option].splice(0, this.parent.macro_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(macro_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
         };
+
+        // spin the submit button icon and disable.
+        var button      = document.getElementById("analytics-macros-submit");
+        button.disabled = true;
+        const icon      = button.querySelector("i");
+        icon.className  = "fas fa-spinner fa-pulse";
+        const delay     = ms => new Promise(res => setTimeout(res, ms));
+        await delay(20);
+
+        // spin through macro list ...
+        game.macros.contents.forEach((macro, i) => {
+            if (game.macros.contents[i]) {
+            };
+        }); // forEach Macro.
+
+        // reset submit button icon and enable.
+        icon.className  = "fas fa-search";
+        button.disabled = false;
+        await delay(10);
 
         // re-draw the updated form
         this.render(true);

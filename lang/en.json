@@ -3,6 +3,7 @@
     "ANALYTICS.FailedToInitialize": "Analytics failed to initialize. Check console F12 for details.",
     "ANALYTICS.SettingsEnableName": "Enable",
     "ANALYTICS.SettingsEnableHint": "Enable Analytics",
+    "ANALYTICS.ID": "ID",
     "ANALYTICS.NumberOf": "Number of",
     "ANALYTICS.With": "With",
     "ANALYTICS.Without": "Without",

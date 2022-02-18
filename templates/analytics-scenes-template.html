@@ -1,750 +1,689 @@
-<form id="analytics-form" onsubmit="event.preventDefault();">
-
-    <style>
-		/* form */
-        #analytics-scenes {
-            min-width: 740px;
-            min-height: 690px;
-        }
-
-		/* ------------ */
-
-		/* tabbed controls position */
-        .analytics-scenes-tabbed-controls {
-            position: absolute;
-            top: 145px;
-            bottom: 45px;
-            width: 200px;
-            right: 8px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-		
-		/* controls position */
-        .analytics-scenes-controls {
-            position: absolute;
-            top: 145px;
-            bottom: 45px;
-            width: 200px;
-            right: 225px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-		/* list header position */
-        .analytics-scenes-header {
-            position: absolute;
-            top: 145px;
-            height: 20px;
-            left: 8px;
-            right: 440px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-		/* list position */
-        .analytics-scenes-list {
-            position: absolute;
-            top: 165px;
-            bottom: 5px;
-            left: 8px;
-            right: 440px;
-			border-radius: 3px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-			background: rgba(0, 0, 0, 0.05);
-			border: 1px solid var(--color-border-light-tertiary);
-        }
-
-		/* submit position */
-        .analytics-scenes-submit {
-            position: absolute;
-            bottom: 5px;
-            right: 25px;
-            width: 390px;
-        }
-
-		/* ------------ */
-
-        .analytics-message-even {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-message-odd {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-actor-name-even {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            font-weight: bold;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-actor-name-odd {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            font-weight: bold;
-        }
-
-        .analytics-item-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-item-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-macro-name-even {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-macro-name-odd {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-        }
-
-        .analytics-macro-name-error-even {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-			color: var(--color-border-highlight-alt);
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-macro-name-error-odd {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-			color: var(--color-border-highlight-alt);
-        }
-
-        .analytics-journal-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-journal-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-scene-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-scene-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-    </style>
+<form onsubmit="event.preventDefault();">
 
     <script>
-        function toggle_creature_types() {
-            document.getElementById("with-actor-as-token-aberration").disabled     = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-beast").disabled          = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-celestial").disabled      = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-construct").disabled      = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-dragon").disabled         = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-elemental").disabled      = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-fey").disabled            = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-fiend").disabled          = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-giant").disabled          = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-humanoid").disabled       = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-monstrosity").disabled    = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-ooze").disabled           = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-plant").disabled          = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-swarm").disabled          = !document.getElementById("with-actor-as-token-npc").checked;
-            document.getElementById("with-actor-as-token-undead").disabled         = !document.getElementById("with-actor-as-token-npc").checked;
+        function toggle_analytics_scenes_creature_types() {
+            document.getElementById("analytics-scenes-with-actor-as-token-aberration").disabled     = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-beast").disabled          = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-celestial").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-construct").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-dragon").disabled         = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-elemental").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-fey").disabled            = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-fiend").disabled          = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-giant").disabled          = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-humanoid").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-monstrosity").disabled    = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-ooze").disabled           = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-plant").disabled          = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-swarm").disabled          = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-undead").disabled         = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+        }
+        function toggle_analytics_scenes_radio() {
+            document.getElementById("analytics-scenes-scene-name").disabled              = !document.getElementById("analytics-scenes-scene-radio-name").checked;
+            document.getElementById("analytics-scenes-scene-case-sensitive").disabled = !document.getElementById("analytics-scenes-scene-radio-name").checked;
+            document.getElementById("analytics-scenes-scene-exact-match").disabled    = !document.getElementById("analytics-scenes-scene-radio-name").checked;
+            document.getElementById("analytics-scenes-scene-id").disabled                = !document.getElementById("analytics-scenes-scene-radio-id").checked;
+        }
+        function toggle_analytics_scenes_with_actor_as_token_radio() {
+            document.getElementById("analytics-scenes-with-actor-as-token-name").disabled          = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-exact-match").disabled    = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
+            document.getElementById("analytics-scenes-with-actor-as-token-id").disabled            = !document.getElementById("analytics-scenes-with-actor-as-token-radio-id").checked;
+        }
+        function toggle_analytics_scenes_in_compendium_radio() {
+            document.getElementById("analytics-scenes-in-compendium-name").disabled              = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
+            document.getElementById("analytics-scenes-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
+            document.getElementById("analytics-scenes-in-compendium-exact-match").disabled    = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
+            document.getElementById("analytics-scenes-in-compendium-id").disabled                = !document.getElementById("analytics-scenes-in-compendium-radio-id").checked;
+        }
+        function toggle_analytics_scenes_in_journal_radio() {
+            document.getElementById("analytics-scenes-in-journal-name").disabled          = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
+            document.getElementById("analytics-scenes-in-journal-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
+            document.getElementById("analytics-scenes-in-journal-exact-match").disabled    = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
+            document.getElementById("analytics-scenes-in-journal-id").disabled            = !document.getElementById("analytics-scenes-in-journal-radio-id").checked;
+        }
+        function toggle_analytics_scenes_with_journal_radio() {
+            document.getElementById("analytics-scenes-with-journal-name").disabled          = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
+            document.getElementById("analytics-scenes-with-journal-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
+            document.getElementById("analytics-scenes-with-journal-exact-match").disabled    = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
+            document.getElementById("analytics-scenes-with-journal-id").disabled            = !document.getElementById("analytics-scenes-with-journal-radio-id").checked;
+        }
+        function toggle_analytics_scenes_with_journal_as_pin_radio() {
+            document.getElementById("analytics-scenes-with-journal-as-pin-name").disabled          = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
+            document.getElementById("analytics-scenes-with-journal-as-pin-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
+            document.getElementById("analytics-scenes-with-journal-as-pin-exact-match").disabled    = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
+            document.getElementById("analytics-scenes-with-journal-as-pin-id").disabled            = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-id").checked;
+        }
+        function toggle_analytics_scenes_with_playlist_radio() {
+            document.getElementById("analytics-scenes-with-playlist-name").disabled              = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
+            document.getElementById("analytics-scenes-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
+            document.getElementById("analytics-scenes-with-playlist-exact-match").disabled    = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
+            document.getElementById("analytics-scenes-with-playlist-id").disabled                = !document.getElementById("analytics-scenes-with-playlist-radio-id").checked;
+        }
+        function toggle_analytics_scenes_in_table_radio() {
+            document.getElementById("analytics-scenes-in-table-name").disabled          = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
+            document.getElementById("analytics-scenes-in-table-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
+            document.getElementById("analytics-scenes-in-table-exact-match").disabled    = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
+            document.getElementById("analytics-scenes-in-table-id").disabled            = !document.getElementById("analytics-scenes-in-table-radio-id").checked;
+        }
+        function toggle_analytics_scenes_with_tile_radio() {
+            document.getElementById("analytics-scenes-with-tile-name").disabled              = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
+            document.getElementById("analytics-scenes-with-tile-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
+            document.getElementById("analytics-scenes-with-tile-exact-match").disabled    = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
+            document.getElementById("analytics-scenes-with-tile-id").disabled                = !document.getElementById("analytics-scenes-with-tile-radio-id").checked;
         }
     </script>
 
-	<h3 align="center"><i class="fas fa-map"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Scenes'}}</h3>
+    <h3 align="center"><i class="fas fa-map"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Scenes'}}</h3>
 
     <!-- Navigation -->
-    <nav class="sheet-tabs tabs" data-group="components">
-        <a class="item" data-tab="scenes-with-actors-as-tokens" id="analytics-tab" title="(4) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}">
-			{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}}<br>{{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}<br><i class="fas fa-users"></i></a>
-        <a class="item" data-tab="scenes-in-compendiums"        id="analytics-tab" title="(13) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
-        <a class="item" data-tab="scenes-in-journals"           id="analytics-tab" title="(23) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
-			{{localize 'ANALYTICS.With'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
-        <a class="item" data-tab="scenes-with-journals"         id="analytics-tab" title="(24) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}">
-			{{localize 'ANALYTICS.With'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
-        <a class="item" data-tab="scenes-with-journals-as-pins" id="analytics-tab" title="(25) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}">
-			{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}<br>{{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}<br><i class="fas fa-book-open"></i></a>
-        <a class="item" data-tab="scenes-with-playlists"        id="analytics-tab" title="(30) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}">
-			{{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Playlists'}}<br><i class="fas fa-music"></i></a>
-        <a class="item" data-tab="scenes-in-tables"             id="analytics-tab" title="(32) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-map"></i></a>
-        <a class="item" data-tab="scenes-with-tiles"            id="analytics-tab" title="(33) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Tiles'}}">
-			{{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Tiles'}}<br><i class="fas fa-cubes"></i></a>
+    <nav class="sheet-tabs tabs" data-group="analytics-scenes-group">
+        <a class="item" data-tab="analytics-scenes-with-actors-as-tokens" id="analytics-tab" title="(4) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}">
+            {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}}<br>{{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}<br><i class="fas fa-users"></i></a>
+        <a class="item" data-tab="analytics-scenes-in-compendiums"        id="analytics-tab" title="(13) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
+        <a class="item" data-tab="analytics-scenes-in-journals"           id="analytics-tab" title="(23) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
+        <a class="item" data-tab="analytics-scenes-with-journals"         id="analytics-tab" title="(24) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}">
+            {{localize 'ANALYTICS.With'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
+        <a class="item" data-tab="analytics-scenes-with-journals-as-pins" id="analytics-tab" title="(25) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}">
+            {{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}<br>{{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}<br><i class="fas fa-book-open"></i></a>
+        <a class="item" data-tab="analytics-scenes-with-playlists"        id="analytics-tab" title="(30) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}">
+            {{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Playlists'}}<br><i class="fas fa-music"></i></a>
+        <a class="item" data-tab="analytics-scenes-in-tables"             id="analytics-tab" title="(32) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-map"></i></a>
+        <a class="item" data-tab="analytics-scenes-with-tiles"            id="analytics-tab" title="(33) {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Tiles'}}">
+            {{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Tiles'}}<br><i class="fas fa-cubes"></i></a>
     </nav>
 
-	<!-- SCENES -->
-	<div class="analytics-scenes-controls">
+    <!-- SCENES -->
+    <div class="analytics-scenes-controls">
 
-		<!-- SCENE NAME -->
-		<label for="scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'DOCUMENT.Scenes'}}</label>
-		<div class="form-group">
-			<input type="text" id="scene-name" name="scene-name" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{scene-name-value}}" >
-		</div>
-		<div class="form-group">
-			<label for="scene-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-			<input type="checkbox" id="scene-case-sensitive" name="scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-case-sensitive-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="scene-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-			<input type="checkbox" id="scene-exact-match" name="scene-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{scene-exact-match-checked}} />
-		</div>
-		<hr>
+        <!-- SCENE NAME -->
+        <label for="analytics-scenes-name"><i class="fas fa-map"></i>&nbsp;{{localize 'DOCUMENT.Scenes'}}</label>
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-scenes-radio-name" name="analytics-scenes-radio" onClick="toggle_analytics_scenes_radio()" value="name" {{analytics-scenes-radio-name-checked}} >
+            <input type="text" class="analytics-name" id="analytics-scenes-name" name="analytics-scenes-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-name-value}}" >
+        </div>
+        <!-- SCENE ID -->
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-scenes-radio-id" name="analytics-scenes-radio" onClick="toggle_analytics_scenes_radio()" value="id" {{analytics-scenes-radio-id-checked}} >
+            <input type="text" class="analytics-id" id="analytics-scenes-id" name="analytics-scenes-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-id-value}}" >
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-scenes-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+            <input type="checkbox" id="analytics-scenes-case-sensitive" name="analytics-scenes-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-case-sensitive-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-scenes-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+            <input type="checkbox" id="analytics-scenes-exact-match" name="analytics-scenes-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-exact-match-checked}} />
+        </div>
+        <hr>
 
-		<!-- SCENE OPTIONS -->
-	</div>
+        <!-- SHOW -->
+        <div class="form-group" id="analytics">
+            <label for="analytics-scenes-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+            <input type="checkbox" id="analytics-scenes-show-id" name="analytics-scenes-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-show-id-checked}} />
+        </div>
+    </div>
 
-	<!-- Tabs -->
-	<div class="analytics-scenes-tabbed-controls">
-		
-		<!-- (4) WITH ACTORS AS TOKENS -->
-		<div class="tab" data-tab="scenes-with-actors-as-tokens" data-group="components">
+    <!-- Tabs -->
+    <div class="analytics-scenes-tabbed-controls">
 
-			<!-- ACTOR NAME -->
-			<label for="with-actor-as-token-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-actor-as-token-name" name="with-actor-as-token-name" title="{{localize 'DOCUMENT.Actor'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{with-actor-as-token-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-actor-as-token-case-sensitive" name="with-actor-as-token-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-actor-as-token-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-actor-as-token-exact-match" name="with-actor-as-token-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-actor-as-token-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- (4) WITH ACTORS AS TOKENS -->
+        <div class="tab" data-tab="analytics-scenes-with-actors-as-tokens" data-group="analytics-scenes-group">
 
-			<!-- ACTOR OPTIONS -->
-			<div class="form-group">
-				<label for="with-actor-as-token-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-actor-as-token-none" name="with-actor-as-token-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Actor'}} {{localize 'DOCUMENT.Tokens'}}" data-dtype="Boolean" {{item-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Actor'}} {{localize 'DOCUMENT.Tokens'}}</p>
-			<div class="form-group">
-				<label for="with-actor-as-token-character">{{localize 'ACTOR.TypeCharacter'}}</label>
-				<input type="checkbox" id="with-actor-as-token-character" name="with-actor-as-token-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{with-actor-as-token-character-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-vehicle">{{localize 'ACTOR.TypeVehicle'}}</label>
-				<input type="checkbox" id="with-actor-as-token-vehicle" name="with-actor-as-token-vehicle" title="{{localize 'ACTOR.TypeVehicle'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{with-actor-as-token-vehicle-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-npc">{{localize 'ACTOR.TypeNpc'}}</label>
-				<input type="checkbox" id="with-actor-as-token-npc" name="with-actor-as-token-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_creature_types()" {{with-actor-as-token-npc-checked}} />
-			</div>
-			<hr> 
+            <!-- ACTOR NAME -->
+            <label for="analytics-scenes-with-actor-as-token-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-actor-as-token-radio-name" name="analytics-scenes-with-actor-as-token-radio" onClick="toggle_analytics_scenes_with_actor_as_token_radio()" value="name" {{analytics-scenes-with-actor-as-token-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-with-actor-as-token-name" name="analytics-scenes-with-actor-as-token-name" data-dtype="String" title="{{localize 'DOCUMENT.Actor'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-actor-as-token-name-value}}" >
+            </div>
+            <!-- ACTOR ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-actor-as-token-radio-id" name="analytics-scenes-with-actor-as-token-radio" onClick="toggle_analytics_scenes_with_actor_as_token_radio()" value="id" {{analytics-scenes-with-actor-as-token-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-with-actor-as-token-id" name="analytics-scenes-with-actor-as-token-id" data-dtype="String" title="{{localize 'DOCUMENT.Actor'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-actor-as-token-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-case-sensitive" name="analytics-scenes-with-actor-as-token-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-exact-match" name="analytics-scenes-with-actor-as-token-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- CREATURE TYPES -->
-			<div class="form-group">
-				<label for="with-actor-as-token-aberration">{{localize 'DND5E.CreatureAberration'}}</label>
-				<input type="checkbox" id="with-actor-as-token-aberration" name="with-actor-as-token-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-aberration-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-beast">{{localize 'DND5E.CreatureBeast'}}</label>
-				<input type="checkbox" id="with-actor-as-token-beast" name="with-actor-as-token-beast" title="{{localize 'DND5E.CreatureBeast'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-beast-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-celestial">{{localize 'DND5E.CreatureCelestial'}}</label>
-				<input type="checkbox" id="with-actor-as-token-celestial" name="with-actor-as-token-celestial" title="{{localize 'DND5E.CreatureCelestial'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-celestial-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-construct">{{localize 'DND5E.CreatureConstruct'}}</label>
-				<input type="checkbox" id="with-actor-as-token-construct" name="with-actor-as-token-construct" title="{{localize 'DND5E.CreatureConstruct'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-construct-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-dragon">{{localize 'DND5E.CreatureDragon'}}</label>
-				<input type="checkbox" id="with-actor-as-token-dragon" name="with-actor-as-token-dragon" title="{{localize 'DND5E.CreatureDragon'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-dragon-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-elemental">{{localize 'DND5E.CreatureElemental'}}</label>
-				<input type="checkbox" id="with-actor-as-token-elemental" name="with-actor-as-token-elemental" title="{{localize 'DND5E.CreatureElemental'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-elemental-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-fey">{{localize 'DND5E.CreatureFey'}}</label>
-				<input type="checkbox" id="with-actor-as-token-fey" name="with-actor-as-token-fey" title="{{localize 'DND5E.CreatureFey'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-fey-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-fiend">{{localize 'DND5E.CreatureFiend'}}</label>
-				<input type="checkbox" id="with-actor-as-token-fiend" name="with-actor-as-token-fiend" title="{{localize 'DND5E.CreatureFiend'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-fiend-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-giant">{{localize 'DND5E.CreatureGiant'}}</label>
-				<input type="checkbox" id="with-actor-as-token-giant" name="with-actor-as-token-giant" title="{{localize 'DND5E.CreatureGiant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-giant-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-humanoid">{{localize 'DND5E.CreatureHumanoid'}}</label>
-				<input type="checkbox" id="with-actor-as-token-humanoid" name="with-actor-as-token-humanoid" title="{{localize 'DND5E.CreatureHumanoid'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-humanoid-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-monstrosity">{{localize 'DND5E.CreatureMonstrosity'}}</label>
-				<input type="checkbox" id="with-actor-as-token-monstrosity" name="with-actor-as-token-monstrosity" title="{{localize 'DND5E.CreatureMonstrosity'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-monstrosity-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-ooze">{{localize 'DND5E.CreatureOoze'}}</label>
-				<input type="checkbox" id="with-actor-as-token-ooze" name="with-actor-as-token-ooze" title="{{localize 'DND5E.CreatureOoze'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-ooze-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-plant">{{localize 'DND5E.CreaturePlant'}}</label>
-				<input type="checkbox" id="with-actor-as-token-plant" name="with-actor-as-token-plant" title="{{localize 'DND5E.CreaturePlant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-plant-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-swarm">{{localize 'DND5E.CreatureSwarm'}}</label>
-				<input type="checkbox" id="with-actor-as-token-swarm" name="with-actor-as-token-swarm" title="{{localize 'DND5E.CreatureSwarm'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-swarm-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-actor-as-token-undead">{{localize 'DND5E.CreatureUndead'}}</label>
-				<input type="checkbox" id="with-actor-as-token-undead" name="with-actor-as-token-undead" title="{{localize 'DND5E.CreatureUndead'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{with-actor-as-token-undead-checked}} />
-			</div>
-			<hr> 
+            <!-- ACTOR OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-none" name="analytics-scenes-with-actor-as-token-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Actor'}} {{localize 'DOCUMENT.Tokens'}}" data-dtype="Boolean" {{item-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Actor'}} {{localize 'DOCUMENT.Tokens'}}</p>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-character">{{localize 'ACTOR.TypeCharacter'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-character" name="analytics-scenes-with-actor-as-token-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-character-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-vehicle">{{localize 'ACTOR.TypeVehicle'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-vehicle" name="analytics-scenes-with-actor-as-token-vehicle" title="{{localize 'ACTOR.TypeVehicle'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-vehicle-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-npc">{{localize 'ACTOR.TypeNpc'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-npc" name="analytics-scenes-with-actor-as-token-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_analytics_scenes_creature_types()" {{analytics-scenes-with-actor-as-token-npc-checked}} />
+            </div>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-actor-as-token-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-actor-as-token-show" name="item-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{item-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- CREATURE TYPES -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-aberration">{{localize 'DND5E.CreatureAberration'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-aberration" name="analytics-scenes-with-actor-as-token-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-aberration-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-beast">{{localize 'DND5E.CreatureBeast'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-beast" name="analytics-scenes-with-actor-as-token-beast" title="{{localize 'DND5E.CreatureBeast'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-beast-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-celestial">{{localize 'DND5E.CreatureCelestial'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-celestial" name="analytics-scenes-with-actor-as-token-celestial" title="{{localize 'DND5E.CreatureCelestial'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-celestial-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-construct">{{localize 'DND5E.CreatureConstruct'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-construct" name="analytics-scenes-with-actor-as-token-construct" title="{{localize 'DND5E.CreatureConstruct'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-construct-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-dragon">{{localize 'DND5E.CreatureDragon'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-dragon" name="analytics-scenes-with-actor-as-token-dragon" title="{{localize 'DND5E.CreatureDragon'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-dragon-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-elemental">{{localize 'DND5E.CreatureElemental'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-elemental" name="analytics-scenes-with-actor-as-token-elemental" title="{{localize 'DND5E.CreatureElemental'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-elemental-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-fey">{{localize 'DND5E.CreatureFey'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-fey" name="analytics-scenes-with-actor-as-token-fey" title="{{localize 'DND5E.CreatureFey'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-fey-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-fiend">{{localize 'DND5E.CreatureFiend'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-fiend" name="analytics-scenes-with-actor-as-token-fiend" title="{{localize 'DND5E.CreatureFiend'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-fiend-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-giant">{{localize 'DND5E.CreatureGiant'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-giant" name="analytics-scenes-with-actor-as-token-giant" title="{{localize 'DND5E.CreatureGiant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-giant-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-humanoid">{{localize 'DND5E.CreatureHumanoid'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-humanoid" name="analytics-scenes-with-actor-as-token-humanoid" title="{{localize 'DND5E.CreatureHumanoid'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-humanoid-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-monstrosity">{{localize 'DND5E.CreatureMonstrosity'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-monstrosity" name="analytics-scenes-with-actor-as-token-monstrosity" title="{{localize 'DND5E.CreatureMonstrosity'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-monstrosity-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-ooze">{{localize 'DND5E.CreatureOoze'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-ooze" name="analytics-scenes-with-actor-as-token-ooze" title="{{localize 'DND5E.CreatureOoze'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-ooze-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-plant">{{localize 'DND5E.CreaturePlant'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-plant" name="analytics-scenes-with-actor-as-token-plant" title="{{localize 'DND5E.CreaturePlant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-plant-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-swarm">{{localize 'DND5E.CreatureSwarm'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-swarm" name="analytics-scenes-with-actor-as-token-swarm" title="{{localize 'DND5E.CreatureSwarm'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-swarm-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-undead">{{localize 'DND5E.CreatureUndead'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-undead" name="analytics-scenes-with-actor-as-token-undead" title="{{localize 'DND5E.CreatureUndead'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-undead-checked}} />
+            </div>
+            <hr>
 
-		<!-- (13) IN COMPENDIUMS -->
-		<div class="tab" data-tab="scenes-in-compendiums" data-group="components">
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Actors'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-show" name="analytics-scenes-with-actor-as-token-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-with-actor-as-token-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-actor-as-token-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-actor-as-token-show-id" name="analytics-scenes-with-actor-as-token-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {with-actor-as-token-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- COMPENDIUM NAME -->
-			<label for="in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-compendium-name" name="in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-compendium-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-compendium-case-sensitive" name="in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-compendium-exact-match" name="in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- (13) IN COMPENDIUMS -->
+        <div class="tab" data-tab="analytics-scenes-in-compendiums" data-group="analytics-scenes-group">
 
-			<!-- COMPENDIUM OPTIONS -->
-			<div class="form-group">
-				<label for="in-compendium-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-compendium-none" name="in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
-			<hr> 
+            <!-- COMPENDIUM NAME -->
+            <label for="analytics-scenes-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-in-compendium-radio-name" name="analytics-scenes-in-compendium-radio" onClick="toggle_analytics_scenes_in_compendium_radio()" value="name" {{analytics-scenes-in-compendium-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-in-compendium-name" name="analytics-scenes-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-in-compendium-name-value}}" >
+            </div>
+            <!-- COMPENDIUM ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-in-compendium-radio-id" name="analytics-scenes-in-compendium-radio" onClick="toggle_analytics_scenes_in_compendium_radio()" value="id" {{analytics-scenes-in-compendium-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-in-compendium-id" name="analytics-scenes-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.ANALYTICS.ID'}} {{localize 'Name'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-in-compendium-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-compendium-case-sensitive" name="analytics-scenes-in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-in-compendium-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-compendium-exact-match" name="analytics-scenes-in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-in-compendium-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-compendium-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-compendium-show" name="in-compendium-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- COMPENDIUM OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-compendium-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-compendium-none" name="analytics-scenes-in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{analytics-scenes-in-compendium-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
+            <hr>
 
-		<!-- (23) IN JOURNALS -->
-		<div class="tab" data-tab="scenes-in-journals" data-group="components">
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-compendium-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-compendium-show" name="analytics-scenes-in-compendium-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-in-compendium-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-compendium-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-compendium-show-id" name="analytics-scenes-in-compendium-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-compendium-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- JOURNAL NAME -->
-			<label for="in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-journal-name" name="in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-journal-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-journal-case-sensitive" name="in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-journal-exact-match" name="in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- (23) IN JOURNALS -->
+        <div class="tab" data-tab="analytics-scenes-in-journals" data-group="analytics-scenes-group">
 
-			<!-- JOURNAL OPTIONS -->
-			<div class="form-group">
-				<label for="in-journal-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-journal-none" name="in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
+            <!-- JOURNAL NAME -->
+            <label for="analytics-scenes-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-in-journal-radio-name" name="analytics-scenes-in-journal-radio" onClick="toggle_analytics_scenes_in_journal_radio()" value="name" {{analytics-scenes-in-journal-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-in-journal-name" name="analytics-scenes-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-in-journal-name-value}}" >
+            </div>
+            <!-- JOURNAL ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-in-journal-radio-id" name="analytics-scenes-in-journal-radio" onClick="toggle_analytics_scenes_in_journal_radio()" value="id" {{analytics-scenes-in-journal-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-in-journal-id" name="analytics-scenes-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-in-journal-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-case-sensitive" name="analytics-scenes-in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-exact-match" name="analytics-scenes-in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- MONK'S -->
-			<div class="form-group">
-				<label for="in-journal-base" id="in-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
-				<input type="checkbox" id="in-journal-base" name="in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{in-journal-base-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-checklist" id="in-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
-				<input type="checkbox" id="in-journal-checklist" name="in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{in-journal-checklist-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-encounter" id="in-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
-				<input type="checkbox" id="in-journal-encounter" name="in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{in-journal-encounter-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-loot" id="in-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
-				<input type="checkbox" id="in-journal-loot" name="in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{in-journal-loot-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-organization" id="in-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
-				<input type="checkbox" id="in-journal-organization" name="in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{in-journal-organization-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-person" id="in-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
-				<input type="checkbox" id="in-journal-person" name="in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{in-journal-person-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-place" id="in-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
-				<input type="checkbox" id="in-journal-place" name="in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{in-journal-place-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-poi" id="in-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
-				<input type="checkbox" id="in-journal-poi" name="in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{in-journal-poi-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-quest" id="in-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
-				<input type="checkbox" id="in-journal-quest" name="in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{in-journal-quest-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-shop" id="in-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
-				<input type="checkbox" id="in-journal-shop" name="in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{in-journal-shop-checked}} />
-			</div>
-			<hr>
+            <!-- JOURNAL OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-none" name="analytics-scenes-in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-journal-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-journal-show" name="in-journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- MONK'S -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-base" id="analytics-scenes-in-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-base" name="analytics-scenes-in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-base-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-checklist" id="analytics-scenes-in-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-checklist" name="analytics-scenes-in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-checklist-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-encounter" id="analytics-scenes-in-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-encounter" name="analytics-scenes-in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-encounter-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-loot" id="analytics-scenes-in-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-loot" name="analytics-scenes-in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-loot-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-organization" id="analytics-scenes-in-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-organization" name="analytics-scenes-in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-organization-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-person" id="analytics-scenes-in-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-person" name="analytics-scenes-in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-person-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-place" id="analytics-scenes-in-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-place" name="analytics-scenes-in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-place-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-poi" id="analytics-scenes-in-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-poi" name="analytics-scenes-in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-poi-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-quest" id="analytics-scenes-in-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-quest" name="analytics-scenes-in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-quest-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-shop" id="analytics-scenes-in-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-shop" name="analytics-scenes-in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-shop-checked}} />
+            </div>
+            <hr>
 
-		<!-- (24) WITH JOURNALS -->
-		<div class="tab" data-tab="scenes-with-journals" data-group="components">
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-show" name="analytics-scenes-in-journal-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-in-journal-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-journal-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-journal-show-id" name="analytics-scenes-in-journal-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-journal-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- JOURNAL NAME -->
-			<label for="with-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-journal-name" name="with-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-journal-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-journal-case-sensitive" name="with-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-journal-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-journal-exact-match" name="with-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-journal-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- (24) WITH JOURNALS -->
+        <div class="tab" data-tab="analytics-scenes-with-journals" data-group="analytics-scenes-group">
 
-			<!-- JOURNAL OPTIONS -->
-			<div class="form-group">
-				<label for="with-journal-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-journal-none" name="with-journal-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{with-journal-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'ANALYTICS.Journals'}}</p>
+            <!-- JOURNAL NAME -->
+            <label for="analytics-scenes-with-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-radio-name" name="analytics-scenes-with-journal-radio" onClick="toggle_analytics_scenes_with_journal_radio()" value="name" {{analytics-scenes-with-journal-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-with-journal-name" name="analytics-scenes-with-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-journal-name-value}}" >
+            </div>
+            <!-- JOURNAL ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-radio-id" name="analytics-scenes-with-journal-radio" onClick="toggle_analytics_scenes_with_journal_radio()" value="id" {{analytics-scenes-with-journal-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-with-journal-id" name="analytics-scenes-with-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-journal-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-case-sensitive" name="analytics-scenes-with-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-exact-match" name="analytics-scenes-with-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- MONK'S -->
-			<div class="form-group">
-				<label for="with-journal-base" id="with-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
-				<input type="checkbox" id="with-journal-base" name="with-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{with-journal-base-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-checklist" id="with-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
-				<input type="checkbox" id="with-journal-checklist" name="with-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{with-journal-checklist-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-encounter" id="with-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
-				<input type="checkbox" id="with-journal-encounter" name="with-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{with-journal-encounter-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-loot" id="with-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
-				<input type="checkbox" id="with-journal-loot" name="with-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{with-journal-loot-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-organization" id="with-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
-				<input type="checkbox" id="with-journal-organization" name="with-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{with-journal-organization-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-person" id="with-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
-				<input type="checkbox" id="with-journal-person" name="with-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{with-journal-person-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-place" id="with-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
-				<input type="checkbox" id="with-journal-place" name="with-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{with-journal-place-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-poi" id="with-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
-				<input type="checkbox" id="with-journal-poi" name="with-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{with-journal-poi-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-quest" id="with-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
-				<input type="checkbox" id="with-journal-quest" name="with-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{with-journal-quest-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-shop" id="with-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
-				<input type="checkbox" id="with-journal-shop" name="with-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{with-journal-shop-checked}} />
-			</div>
-			<hr>
+            <!-- JOURNAL OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-none" name="analytics-scenes-with-journal-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'ANALYTICS.Journals'}}</p>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-journal-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-journal-show" name="with-journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{with-journal-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
-		
-		<!-- (25) WITH JOURNALS AS PINS -->
-		<div class="tab" data-tab="scenes-with-journals-as-pins" data-group="components">
+            <!-- MONK'S -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-base" id="analytics-scenes-with-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-base" name="analytics-scenes-with-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-base-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-checklist" id="analytics-scenes-with-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-checklist" name="analytics-scenes-with-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-checklist-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-encounter" id="analytics-scenes-with-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-encounter" name="analytics-scenes-with-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-encounter-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-loot" id="analytics-scenes-with-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-loot" name="analytics-scenes-with-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-loot-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-organization" id="analytics-scenes-with-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-organization" name="analytics-scenes-with-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-organization-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-person" id="analytics-scenes-with-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-person" name="analytics-scenes-with-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-person-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-place" id="analytics-scenes-with-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-place" name="analytics-scenes-with-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-place-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-poi" id="analytics-scenes-with-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-poi" name="analytics-scenes-with-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-poi-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-quest" id="analytics-scenes-with-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-quest" name="analytics-scenes-with-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-quest-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-shop" id="analytics-scenes-with-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-shop" name="analytics-scenes-with-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-shop-checked}} />
+            </div>
+            <hr>
 
-			<!-- JOURNAL PIN NAME -->
-			<label for="with-journal-as-pin-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-journal-as-pin-name" name="with-journal-as-pin-name" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} ({{localize 'ANALYTICS.Pins'}}) {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-journal-as-pin-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-case-sensitive" name="with-journal-as-pin-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-journal-as-pin-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-exact-match" name="with-journal-as-pin-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-journal-as-pin-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-show" name="analytics-scenes-with-journal-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-show-id" name="analytics-scenes-with-journal-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {with-journal-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- JOURNAL PIN OPTIONS -->
-			<div class="form-group">
-				<label for="with-journal-as-pin-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-none" name="with-journal-as-pin-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}}" data-dtype="Boolean" {{with-journal-as-pin-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}}</p>
+        <!-- (25) WITH JOURNALS AS PINS -->
+        <div class="tab" data-tab="analytics-scenes-with-journals-as-pins" data-group="analytics-scenes-group">
 
-			<!-- MONK'S -->
-			<div class="form-group">
-				<label for="with-journal-as-pin-base" id="with-journal-as-pin-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-base" name="with-journal-as-pin-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{with-journal-as-pin-base-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-checklist" id="with-journal-as-pin-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-checklist" name="with-journal-as-pin-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{with-journal-as-pin-checklist-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-encounter" id="with-journal-as-pin-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-encounter" name="with-journal-as-pin-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{with-journal-as-pin-encounter-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-loot" id="with-journal-as-pin-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-loot" name="with-journal-as-pin-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{with-journal-as-pin-loot-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-organization" id="with-journal-as-pin-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-organization" name="with-journal-as-pin-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{with-journal-as-pin-organization-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-person" id="with-journal-as-pin-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-person" name="with-journal-as-pin-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{with-journal-as-pin-person-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-place" id="with-journal-as-pin-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-place" name="with-journal-as-pin-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{with-journal-as-pin-place-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-poi" id="with-journal-as-pin-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-poi" name="with-journal-as-pin-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{with-journal-as-pin-poi-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-quest" id="with-journal-as-pin-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-quest" name="with-journal-as-pin-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{with-journal-as-pin-quest-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-journal-as-pin-shop" id="with-journal-as-pin-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
-				<input type="checkbox" id="with-journal-as-pin-shop" name="with-journal-as-pin-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{with-journal-as-pin-shop-checked}} />
-			</div>
-			<hr>
+            <!-- JOURNAL PIN NAME -->
+            <label for="analytics-scenes-with-journal-as-pin-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-as-pin-radio-name" name="analytics-scenes-with-journal-as-pin-radio" onClick="toggle_analytics_scenes_with_journal_as_pin_radio()" value="name" {{analytics-scenes-with-journal-as-pin-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-with-journal-as-pin-name" name="analytics-scenes-with-journal-as-pin-name" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} ({{localize 'ANALYTICS.Pins'}}) {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-journal-as-pin-name-value}}" >
+            </div>
+            <!-- JOURNAL ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-as-pin-radio-id" name="analytics-scenes-with-journal-as-pin-radio" onClick="toggle_analytics_scenes_with_journal_as_pin_radio()" value="id" {{analytics-scenes-with-journal-as-pin-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-with-journal-as-pin-id" name="analytics-scenes-with-journal-as-pin-id" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} ({{localize 'ANALYTICS.Pins'}}) {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-journal-as-pin-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-case-sensitive" name="analytics-scenes-with-journal-as-pin-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-exact-match" name="analytics-scenes-with-journal-as-pin-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-journal-as-pinshow">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-journal-as-pinshow" name="with-journal-as-pinshow" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}}" data-dtype="Boolean" {{with-journal-as-pinshow-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- JOURNAL PIN OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-none" name="analytics-scenes-with-journal-as-pin-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}}</p>
 
-		<!-- (30) WITH PLAYLISTS -->
-		<div class="tab" data-tab="scenes-with-playlists" data-group="components">
+            <!-- MONK'S -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-base" id="analytics-scenes-with-journal-as-pin-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-base" name="analytics-scenes-with-journal-as-pin-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-base-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-checklist" id="analytics-scenes-with-journal-as-pin-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-checklist" name="analytics-scenes-with-journal-as-pin-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-checklist-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-encounter" id="analytics-scenes-with-journal-as-pin-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-encounter" name="analytics-scenes-with-journal-as-pin-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-encounter-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-loot" id="analytics-scenes-with-journal-as-pin-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-loot" name="analytics-scenes-with-journal-as-pin-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-loot-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-organization" id="analytics-scenes-with-journal-as-pin-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-organization" name="analytics-scenes-with-journal-as-pin-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-organization-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-person" id="analytics-scenes-with-journal-as-pin-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-person" name="analytics-scenes-with-journal-as-pin-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-person-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-place" id="analytics-scenes-with-journal-as-pin-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-place" name="analytics-scenes-with-journal-as-pin-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-place-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-poi" id="analytics-scenes-with-journal-as-pin-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-poi" name="analytics-scenes-with-journal-as-pin-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-poi-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-quest" id="analytics-scenes-with-journal-as-pin-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-quest" name="analytics-scenes-with-journal-as-pin-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-quest-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-shop" id="analytics-scenes-with-journal-as-pin-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-shop" name="analytics-scenes-with-journal-as-pin-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-shop-checked}} />
+            </div>
+            <hr>
 
-			<!-- PLAYLIST NAME -->
-			<label for="with-playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-playlist-name" name="with-playlist-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlist'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-playlist-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-playlist-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-playlist-case-sensitive" name="with-playlist-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-playlist-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-playlist-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-playlist-exact-match" name="with-playlist-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-playlist-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.JournalEntries'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-show" name="analytics-scenes-with-journal-as-pin-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.JournalEntries'}} {{localize 'ANALYTICS.Pins'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-with-journal-as-pin-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-journal-as-pin-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-journal-as-pin-show-id" name="analytics-scenes-with-journal-as-pin-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {with-journal-as-pin-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- PLAYLIST OPTIONS -->
-			<div class="form-group">
-				<label for="with-playlist-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-playlist-none" name="with-playlist-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Playlists'}}" data-dtype="Boolean" {{with-playlist-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Playlists'}}</p>
-			<hr>
+        <!-- (30) WITH PLAYLISTS -->
+        <div class="tab" data-tab="analytics-scenes-with-playlists" data-group="analytics-scenes-group">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-playlist-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-playlist-show" name="with-playlist-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Playlists'}}" data-dtype="Boolean" {{with-playlist-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- PLAYLIST NAME -->
+            <label for="analytics-scenes-with-playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-playlist-radio-name" name="analytics-scenes-with-playlist-radio" onClick="toggle_analytics_scenes_with_playlist_radio()" value="name" {{analytics-scenes-with-playlist-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-with-playlist-name" name="analytics-scenes-with-playlist-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlist'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-playlist-name-value}}" >
+            </div>
+            <!-- PLAYLIST ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-playlist-radio-id" name="analytics-scenes-with-playlist-radio" onClick="toggle_analytics_scenes_with_playlist_radio()" value="id" {{analytics-scenes-with-playlist-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-with-playlist-id" name="analytics-scenes-with-playlist-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlist'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-playlist-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-playlist-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-playlist-case-sensitive" name="analytics-scenes-with-playlist-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-playlist-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-playlist-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-playlist-exact-match" name="analytics-scenes-with-playlist-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-playlist-exact-match-checked}} />
+            </div>
+            <hr>
 
-		<!-- (32) IN TABLES -->
-		<div class="tab" data-tab="scenes-in-tables" data-group="components">
+            <!-- PLAYLIST OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-playlist-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-playlist-none" name="analytics-scenes-with-playlist-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Playlists'}}" data-dtype="Boolean" {{analytics-scenes-with-playlist-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Playlists'}}</p>
+            <hr>
 
-			<!-- TABLE NAME -->
-			<label for="with-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-table-name" name="with-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-table-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-table-case-sensitive" name="with-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-table-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-table-exact-match" name="with-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-table-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-playlist-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Playlists'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-playlist-show" name="analytics-scenes-with-playlist-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-with-playlist-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-playlist-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-playlist-show-id" name="analytics-scenes-with-playlist-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {with-playlist-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- TABLE OPTIONS -->
-			<div class="form-group">
-				<label for="with-table-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-table-none" name="with-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{with-table-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
-			<hr> 
+        <!-- (32) IN TABLES -->
+        <div class="tab" data-tab="analytics-scenes-in-tables" data-group="analytics-scenes-group">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-table-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-table-show" name="with-table-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{with-table-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- TABLE NAME -->
+            <label for="analytics-scenes-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-in-table-radio-name" name="analytics-scenes-in-table-radio" onClick="toggle_analytics_scenes_in_table_radio()" value="name" {{analytics-scenes-in-table-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-in-table-name" name="analytics-scenes-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-in-table-name-value}}" >
+            </div>
+            <!-- TABLE ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-in-table-radio-id" name="analytics-scenes-in-table-radio" onClick="toggle_analytics_scenes_in_table_radio()" value="id" {{analytics-scenes-in-table-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-in-table-id" name="analytics-scenes-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-in-table-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-table-case-sensitive" name="analytics-scenes-in-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-in-table-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-table-exact-match" name="analytics-scenes-in-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-in-table-exact-match-checked}} />
+            </div>
+            <hr>
 
-		<!-- (33) WITH TILES -->
-		<div class="tab" data-tab="scenes-with-tiles" data-group="components">
+            <!-- TABLE OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-table-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-table-none" name="analytics-scenes-in-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{analytics-scenes-in-table-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
+            <hr>
 
-			<!-- TILE NAME -->
-			<label for="with-tile-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Tiles'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-tile-name" name="with-tile-name" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-tile-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-tile-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-tile-case-sensitive" name="with-tile-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-tile-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-tile-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-tile-exact-match" name="with-tile-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-tile-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-table-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-table-show" name="analytics-scenes-in-table-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-in-table-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-in-table-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-in-table-show-id" name="in-tablet-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-table-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- TILE OPTIONS -->
-			<div class="form-group">
-				<label for="with-tile-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-tile-none" name="with-tile-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Tiles'}}" data-dtype="Boolean" {{with-tile-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Tiles'}}</p>
-			<hr>
+        <!-- (33) WITH TILES -->
+        <div class="tab" data-tab="analytics-scenes-with-tiles" data-group="analytics-scenes-group">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-tile-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-tile-show" name="with-tile-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Tiles'}}" data-dtype="Boolean" {{with-tile-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
-	</div>
+            <!-- TILE NAME -->
+            <label for="analytics-scenes-with-tile-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Tiles'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-tile-radio-name" name="analytics-scenes-with-tile-radio" onClick="toggle_analytics_scenes_with_tile_radio()" value="name" {{analytics-scenes-with-tile-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-scenes-with-tile-name" name="analytics-scenes-with-tile-name" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-tile-name-value}}" >
+            </div>
+            <!-- TILE ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-scenes-with-tile-radio-id" name="analytics-scenes-with-tile-radio" onClick="toggle_analytics_scenes_with_tile_radio()" value="id" {{analytics-scenes-with-tile-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-scenes-with-tile-id" name="analytics-scenes-with-tile-id" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-tile-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-tile-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-tile-case-sensitive" name="analytics-scenes-with-tile-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-tile-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-tile-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-tile-exact-match" name="analytics-scenes-with-tile-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-scenes-with-tile-exact-match-checked}} />
+            </div>
+            <hr>
 
-	<!-- SUBMIT -->
-	<button type="submit" class="analytics-scenes-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Scenes'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+            <!-- TILE OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-tile-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-tile-none" name="analytics-scenes-with-tile-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Tiles'}}" data-dtype="Boolean" {{analytics-scenes-with-tile-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Tiles'}}</p>
+            <hr>
 
-	<!-- LIST HEADER -->	
-	<div class="analytics-scenes-header">
-		<i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Scenes'}} {{scene-count}}&nbsp;/&nbsp;{{number-of-scenes}}
-	</div>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-tile-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Tiles'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-tile-show" name="analytics-scenes-with-tile-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-with-tile-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-scenes-with-tile-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-scenes-with-tile-show-id" name="analytics-scenes-with-tile-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-scenes-with-tile-show-id-checked}} />
+            </div>
+        </div>
+    </div>
 
-	<!-- LIST -->
-	<div class="analytics-scenes-list" id="analytics-list"></div>
+    <!-- SUBMIT -->
+    <button type="submit" class="analytics-scenes-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Scenes'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+
+    <!-- LIST HEADER -->
+    <div class="analytics-scenes-header">
+        <i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Scenes'}} {{analytics-scenes-scene-count}}&nbsp;/&nbsp;{{analytics-scenes-number-of-scenes}}
+    </div>
+
+    <!-- LIST -->
+    <div class="analytics-scenes-list" id="analytics-scenes-list"></div>
 </form>
- 

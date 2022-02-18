@@ -2,123 +2,64 @@
 *
 * module/analytics-playlists.js
 *
-* version 0.0.8
+* version 0.0.9
 *
 */
 
-import * as ANALYTICS from "./const.js";
+import * as ANALYTICS        from "./const.js";
+import { AnalyticsForm }     from "./analytics.js";
+import { PlaylistOptions }   from "./analytics.js";
+
+import { CompendiumOptions } from "./analytics.js";
+import { JournalOptions }    from "./analytics.js";
+import { SceneOptions }      from "./analytics.js";
+import { TableOptions }      from "./analytics.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
-export class AnalyticsPlaylists extends FormApplication {
+export class AnalyticsPlaylists extends AnalyticsForm {
 
     constructor(parent, formData = {}, options = {}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists constructor(parent, formData, options)");
 
         super(formData, options);
 
-        // save parent.
-        this.parent = parent;
-
         /* PRIMARY SORT */
 
         // playlist options for each tab.
-        this.parent.playlist_options = Object.assign(this.parent.playlist_options, {
-            "playlists_in_compendiums": {
-                playlist_count:                  0,
-                playlist_name_value:             "",
-                playlist_case_sensitive_checked: false,
-                playlist_exact_match_checked:    false,
-                },
-            "playlists_in_journals": {
-                playlist_count:                  0,
-                playlist_name_value:             "",
-                playlist_case_sensitive_checked: false,
-                playlist_exact_match_checked:    false,
-                },
-            "playlists_in_scenes": {
-                playlist_count:                  0,
-                playlist_name_value:             "",
-                playlist_case_sensitive_checked: false,
-                playlist_exact_match_checked:    false,
-                },
-            "playlists_in_tables": {
-                playlist_count:                  0,
-                playlist_name_value:             "",
-                playlist_case_sensitive_checked: false,
-                playlist_exact_match_checked:    false,
-                },
+        this.playlist_options = Object.assign(this.playlist_options, {
+            "playlists_in_compendiums": new PlaylistOptions(),
+            "playlists_in_journals":    new PlaylistOptions(),
+            "playlists_in_scenes":      new PlaylistOptions(),
+            "playlists_in_tables":      new PlaylistOptions(),
         });
 
         /* SECONDARY SORT BY TAB */
 
         // (12) in compendiums options.
-        this.parent.compendium_options = Object.assign(this.parent.compendium_options, {
-            "playlists_in_compendiums": {
-                compendium_count:                  0,
-                compendium_name_value:             "",
-                compendium_case_sensitive_checked: false,
-                compendium_exact_match_checked:    false,
-
-                compendium_none_checked:           false,
-                compendium_show_checked:           false,
-                }
+        this.compendium_options = Object.assign(this.compendium_options, {
+            "playlists_in_compendiums": new CompendiumOptions(),
         });
 
         // (22) in journals options.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "playlists_in_journals": {
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "playlists_in_journals": new JournalOptions(),
         });
 
         // (30) in scenes options.
-        this.parent.scene_options = Object.assign(this.parent.scene_options, {
-            "playlists_in_scenes": {
-                scene_count:                  0,
-                scene_name_value:             "",
-                scene_case_sensitive_checked: false,
-                scene_exact_match_checked:    false,
-
-                scene_none_checked:           false,
-                scene_show_checked:           false,
-                }
+        this.scene_options = Object.assign(this.scene_options, {
+            "playlists_in_scenes": new SceneOptions(),
         });
 
         // (31) in tables options.
-        this.parent.table_options = Object.assign(this.parent.table_options, {
-            "playlists_in_tables": {
-                table_count:                  0,
-                table_name_value:             "",
-                table_case_sensitive_checked: false,
-                table_exact_match_checked:    false,
-
-                table_none_checked:           false,
-                table_show_checked:           false,
-                },
+        this.table_options = Object.assign(this.table_options, {
+            "playlists_in_tables":  new TableOptions(),
         });
 
         /* OUTPUT BY TAB */
 
         // playlist lists.
-        this.parent.playlist_lists = Object.assign(this.parent.playlist_lists, {
+        this.playlist_lists = Object.assign(this.playlist_lists, {
             "playlists_in_compendiums": [],
             "playlists_in_journals":    [],
             "playlists_in_scenes":      [],
@@ -133,50 +74,42 @@ export class AnalyticsPlaylists extends FormApplication {
             title:          i18n("ANALYTICS.Title") + " v" + ANALYTICS.VERSION,
             id:             "analytics-playlists",
             template:       "modules/analytics/templates/analytics-playlists-template.html",
-            classes:       ["sheet", "scene-sheet"],
+            classes:       ["sheet", "scene-sheet", "analytics-playlists"],
             width:          740,
             height:         690,
             resizable:      true,
             closeOnSubmit:  false,
-            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "playlists-in-compendiums"}]
+            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "analytics-playlists-in-compendiums"}]
         });
     }
 
-    static get isVisible() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists static get isVisible()");
-
-        for (const app of Object.values(ui.windows)) {
-            if (app instanceof this) return app;
-        }
-    }
-
-    show(inFocus = false) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists show()");
-
-        return this.render(true);
-    }
-
-    hide() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists hide()");
-
-        this.close();
-    }
-
-    optionKeys() {
-        // map tab name to object keys.
+    // map tab to sort options.
+    sortOptions() {
         var retval = { };
         switch (this._tabs[0].active) {
-            case "playlists-in-compendiums":
-                retval = { primary: "playlists_in_compendiums", secondary: "playlists_in_compendiums" };
+            case "analytics-playlists-in-compendiums":
+                retval = {
+                    primary:   "playlists_in_compendiums",
+                    secondary: "playlists_in_compendiums"
+                };
                 break;
-            case "playlists-in-journals":
-                retval = { primary: "playlists_in_journals", secondary: "playlists_in_journals" };
+            case "analytics-playlists-in-journals":
+                retval = {
+                    primary:   "playlists_in_journals",
+                    secondary: "playlists_in_journals"
+                };
                 break;
-            case "playlists-in-scenes":
-                retval = { primary: "playlists_in_scenes", secondary: "playlists_in_scenes" };
+            case "analytics-playlists-in-scenes":
+                retval = {
+                    primary:   "playlists_in_scenes",
+                    secondary: "playlists_in_scenes"
+                };
                 break;
-            case "playlists-in-tables":
-                retval = { primary: "playlists_in_tables", secondary: "playlists_in_tables" };
+            case "analytics-playlists-in-tables":
+                retval = {
+                    primary:   "playlists_in_tables",
+                    secondary: "playlists_in_tables"
+                };
                 break;
         };
         return retval;
@@ -187,120 +120,65 @@ export class AnalyticsPlaylists extends FormApplication {
 
         super.activateListeners($html);
 
-        // tools
-        if (canvas.background._active) canvas.foreground.activate();
+        var primary         = this.sortOptions().primary;
+        var secondary       = this.sortOptions().secondary;
+        var playlist_option = this.playlist_options[primary];
+        var playlist_list   = this.playlist_lists[primary];
 
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        // enable/disable by name or id.
+        document.getElementById("analytics-playlists-name").disabled           = !document.getElementById("analytics-playlists-radio-name").checked;
+        document.getElementById("analytics-playlists-case-sensitive").disabled = !document.getElementById("analytics-playlists-radio-name").checked;
+        document.getElementById("analytics-playlists-exact-match").disabled    = !document.getElementById("analytics-playlists-radio-name").checked;
+        document.getElementById("analytics-playlists-id").disabled             = !document.getElementById("analytics-playlists-radio-id").checked;
 
-        switch (option) {
+        switch (secondary) {
+            case "playlists_in_compendiums":
+                // enable/disable by name or id.
+                document.getElementById("analytics-playlists-in-compendium-name").disabled           = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
+                document.getElementById("analytics-playlists-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
+                document.getElementById("analytics-playlists-in-compendium-exact-match").disabled    = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
+                document.getElementById("analytics-playlists-in-compendium-id").disabled             = !document.getElementById("analytics-playlists-in-compendium-radio-id").checked;
+                break;
             case "playlists_in_journals":
+                // enable/disable by name or id.
+                document.getElementById("analytics-playlists-in-journal-name").disabled           = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
+                document.getElementById("analytics-playlists-in-journal-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
+                document.getElementById("analytics-playlists-in-journal-exact-match").disabled    = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
+                document.getElementById("analytics-playlists-in-journal-id").disabled             = !document.getElementById("analytics-playlists-in-journal-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("in-journal-monks-base").style.display         = "none";
-                    document.getElementById("in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("in-journal-monks-organization").style.display = "none";
-                    document.getElementById("in-journal-monks-person").style.display       = "none";
-                    document.getElementById("in-journal-monks-place").style.display        = "none";
-                    document.getElementById("in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("in-journal-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-base").style.display         = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-organization").style.display = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-person").style.display       = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-place").style.display        = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-playlists-in-journal-monks-shop").style.display         = "none";
                 }
+                break;
+            case "playlists_in_scenes":
+                // enable/disable by name or id.
+                document.getElementById("analytics-playlists-in-scene-name").disabled           = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
+                document.getElementById("analytics-playlists-in-scene-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
+                document.getElementById("analytics-playlists-in-scene-exact-match").disabled    = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
+                document.getElementById("analytics-playlists-in-scene-id").disabled             = !document.getElementById("analytics-playlists-in-scene-radio-id").checked;
+                break;
+            case "playlists_in_tables":
+                // enable/disable by name or id.
+                document.getElementById("analytics-playlists-in-table-name").disabled           = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
+                document.getElementById("analytics-playlists-in-table-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
+                document.getElementById("analytics-playlists-in-table-exact-match").disabled    = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
+                document.getElementById("analytics-playlists-in-table-id").disabled             = !document.getElementById("analytics-playlists-in-table-radio-id").checked;
                 break;
         };
 
         // inject list into form.
-        const html_list     = document.getElementById("analytics-list");
-        html_list.innerHTML = this.parent.playlist_lists[option].join("");
-    }
-
-    getData() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists getData()");
-
-        // SET key (id) values in the form.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
-        var retval  = {};
-        switch (option) {
-            case "playlists_in_compendiums":
-                retval = {
-                    "number-of-playlists":             game.playlists.size,
-
-                    "playlist-count":                  this.parent.playlist_options[option].playlist_count,
-                    "playlist-name-value":             this.parent.playlist_options[option].playlist_name_value,
-                    "playlist-case-sensitive-checked": this.parent.playlist_options[option].playlist_case_sensitive_checked  ? "checked" : "",
-                    "playlist-exact-match-checked":    this.parent.playlist_options[option].playlist_exact_match_checked     ? "checked" : "",
-
-                    "in-compendium-name-value":             this.parent.compendium_options[option2].compendium_name_value,
-                    "in-compendium-case-sensitive-checked": this.parent.compendium_options[option2].compendium_case_sensitive_checked    ? "checked" : "",
-                    "in-compendium-exact-match-checked":    this.parent.compendium_options[option2].compendium_exact_match_checked       ? "checked" : "",
-                    "in-compendium-none-checked":           this.parent.compendium_options[option2].compendium_none_checked              ? "checked" : "",
-                    "in-compendium-show-checked":           this.parent.compendium_options[option2].compendium_show_checked              ? "checked" : "",
-                };
-                break;
-            case "playlists_in_journals":
-                retval = {
-                    "number-of-playlists":             game.playlists.size,
-
-                    "playlist-count":                  this.parent.playlist_options[option].playlist_count,
-                    "playlist-name-value":             this.parent.playlist_options[option].playlist_name_value,
-                    "playlist-case-sensitive-checked": this.parent.playlist_options[option].playlist_case_sensitive_checked  ? "checked" : "",
-                    "playlist-exact-match-checked":    this.parent.playlist_options[option].playlist_exact_match_checked     ? "checked" : "",
-
-                    "in-journal-name-value":             this.parent.journal_options[option2].journal_name_value,
-                    "in-journal-case-sensitive-checked": this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "in-journal-exact-match-checked":    this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "in-journal-none-checked":           this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "in-journal-show-checked":           this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "in-journal-base-checked":           this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "in-journal-checklist-checked":      this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "in-journal-encounter-checked":      this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "in-journal-loot-checked":           this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "in-journal-organization-checked":   this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "in-journal-person-checked":         this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "in-journal-place-checked":          this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "in-journal-poi-checked":            this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "in-journal-quest-checked":          this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "in-journal-shop-checked":           this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "playlists_in_scenes":
-                retval = {
-                    "number-of-playlists":             game.playlists.size,
-
-                    "playlist-count":                  this.parent.playlist_options[option].playlist_count,
-                    "playlist-name-value":             this.parent.playlist_options[option].playlist_name_value,
-                    "playlist-case-sensitive-checked": this.parent.playlist_options[option].playlist_case_sensitive_checked  ? "checked" : "",
-                    "playlist-exact-match-checked":    this.parent.playlist_options[option].playlist_exact_match_checked     ? "checked" : "",
-
-                    "in-scene-name-value":                  this.parent.scene_options[option2].scene_name_value,
-                    "in-scene-case-sensitive-checked":      this.parent.scene_options[option2].scene_case_sensitive_checked   ? "checked" : "",
-                    "in-scene-exact-match-checked":         this.parent.scene_options[option2].scene_exact_match_checked      ? "checked" : "",
-                    "in-scene-none-checked":                this.parent.scene_options[option2].scene_none_checked             ? "checked" : "",
-                    "in-scene-show-checked":                this.parent.scene_options[option2].scene_show_checked             ? "checked" : "",
-                };
-                break;
-            case "playlists_in_tables":
-                retval = {
-                    "number-of-playlists":             game.playlists.size,
-
-                    "playlist-count":                  this.parent.playlist_options[option].playlist_count,
-                    "playlist-name-value":             this.parent.playlist_options[option].playlist_name_value,
-                    "playlist-case-sensitive-checked": this.parent.playlist_options[option].playlist_case_sensitive_checked  ? "checked" : "",
-                    "playlist-exact-match-checked":    this.parent.playlist_options[option].playlist_exact_match_checked     ? "checked" : "",
-
-                    "in-table-name-value":                  this.parent.table_options[option2].table_name_value,
-                    "in-table-case-sensitive-checked":      this.parent.table_options[option2].table_case_sensitive_checked    ? "checked" : "",
-                    "in-table-exact-match-checked":         this.parent.table_options[option2].table_exact_match_checked       ? "checked" : "",
-                    "in-table-none-checked":                this.parent.table_options[option2].table_none_checked              ? "checked" : "",
-                    "in-table-show-checked":                this.parent.table_options[option2].table_show_checked              ? "checked" : "",
-                };
-                break;
-        };
-        return retval;
+        const html_list     = document.getElementById("analytics-playlists-list");
+        html_list.innerHTML = playlist_list.join("");
     }
 
     async _onChangeTab(event, tabs, active) {
@@ -308,24 +186,24 @@ export class AnalyticsPlaylists extends FormApplication {
 
         super._onChangeTab(event, tabs, active);
 
-        var option = "";
+        var output_list = "";
         var retval = false;
         switch (active) {
-            case "playlists-in-compendiums":
-                option = "playlists_in_compendiums";
-                retval = !this.parent.compendium_options["playlists_in_compendiums"].compendium_submitted;
+            case "analytics-playlists-in-compendiums":
+                output_list = this.playlist_lists["playlists_in_compendiums"];
+                retval = !this.compendium_options["playlists_in_compendiums"].compendium_submitted;
                 break;
-            case "playlists-in-journals":
-                option = "playlists_in_journals";
-                retval = !this.parent.journal_options["playlists_in_journals"].journal_submitted;
+            case "analytics-playlists-in-journals":
+                output_list = this.playlist_lists["playlists_in_journals"];
+                retval = !this.journal_options["playlists_in_journals"].journal_submitted;
                 break;
-            case "playlists-in-scenes":
-                option = "playlists_in_scenes";
-                retval = !this.parent.scene_options["playlists_in_scenes"].scene_submitted;
+            case "analytics-playlists-in-scenes":
+                output_list = this.playlist_lists["playlists_in_scenes"];
+                retval = !this.scene_options["playlists_in_scenes"].scene_submitted;
                 break;
-            case "playlists-in-tables":
-                option = "playlists_in_tables";
-                retval = !this.parent.table_options["playlists_in_tables"].table_submitted;
+            case "analytics-playlists-in-tables":
+                output_list = this.playlist_lists["playlists_in_tables"];
+                retval = !this.table_options["playlists_in_tables"].table_submitted;
                 break;
         };
 
@@ -336,10 +214,42 @@ export class AnalyticsPlaylists extends FormApplication {
         }
 
         // update with saved list or submitted data.
-        if (this.parent.playlist_lists[option].length > 0)
+        if (output_list.length > 0)
             await this._updateObject(event, null);
         else
             await this._updateObject(event, this._getSubmitData());
+    }
+
+    // get data for form.
+    getData() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists getData()");
+
+        // get data for form.
+        var primary         = this.sortOptions().primary;
+        var secondary       = this.sortOptions().secondary;
+        var playlist_option = this.playlist_options[primary];
+
+        var retval = playlist_option.getPlaylistData();
+
+        switch (secondary) {
+            case "playlists_in_compendiums":
+                var compendium_option = this.compendium_options[secondary];
+                retval = Object.assign(retval, compendium_option.getCompendiumData(secondary));
+                break;
+            case "playlists_in_journals":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "playlists_in_scenes":
+                var scene_option = this.scene_options[secondary];
+                retval = Object.assign(retval, scene_option.getSceneData(secondary));
+                break;
+            case "playlists_in_tables":
+                var table_option = this.table_options[secondary];
+                retval = Object.assign(retval, table_option.getTableData(secondary));
+                break;
+        };
+        return retval;
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -360,24 +270,25 @@ export class AnalyticsPlaylists extends FormApplication {
 
         // get form data
         const formData = this._getSubmitData();
+        var primary = this.sortOptions().primary;
 
         // set update flag when changing tabs if tab never submitted.
-        switch (this.optionKeys().primary) {
+        switch (primary) {
             case "playlists_in_compendiums":
-                if (!this.parent.compendium_options["playlists_in_compendiums"].compendium_submitted)
-                     this.parent.compendium_options["playlists_in_compendiums"].compendium_submitted = true;
+                var compendium_option = this.compendium_options[primary];
+                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
                 break;
             case "playlists_in_journals":
-                if (!this.parent.journal_options["playlists_in_journals"].journal_submitted)
-                     this.parent.journal_options["playlists_in_journals"].journal_submitted = true;
+                var journal_option = this.journal_options[primary];
+                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
                 break;
             case "playlists_in_scenes":
-                if (!this.parent.scene_options["playlists_in_scenes"].scene_submitted)
-                     this.parent.scene_options["playlists_in_scenes"].scene_submitted = true;
+                var scene_option = this.scene_options[primary];
+                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
                 break;
             case "playlists_in_tables":
-                if (!this.parent.table_options["playlists_in_tables"].table_options)
-                     this.parent.table_options["playlists_in_tables"].table_options = true;
+                var table_option = this.table_options[primary];
+                if (!table_option.table_options) table_option.table_options = true;
                 break;
         };
 
@@ -399,67 +310,127 @@ export class AnalyticsPlaylists extends FormApplication {
         return formData;
     }
 
+    // create playlist list.
+    buildList(playlist) {
+
+        // active tab.
+        var primary         = this.sortOptions().primary;
+        var secondary       = this.sortOptions().secondary;
+        var playlist_option = this.playlist_options[primary];
+        var playlist_list   = this.playlist_lists[primary];
+        var playlist_name   = playlist.data.name;
+
+        // each tab.
+        switch (secondary) {
+            case "playlists_in_compendiums":
+                // reset counters.
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.compendium_count = 0;
+                break;
+            case "playlists_in_journals":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "playlists_in_scenes":
+                // reset counters.
+                var scene_option = this.scene_options[secondary];
+                scene_option.scene_count = 0;
+                break;
+            case "playlists_in_tables":
+                // reset counters.
+                var table_option = this.table_options[secondary];
+                table_option.table_count = 0;
+                break;
+        };
+    }
+
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists async _updateObject(event, formData)");
 
-        // null form data - don't rebuild list.
+        // null form data render and return.
         if (!formData) {
             this.render(true);
             return;
         };
 
         // active tab.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        var primary         = this.sortOptions().primary;
+        var secondary       = this.sortOptions().secondary;
+        var playlist_option = this.playlist_options[primary];
+        var playlist_list   = this.playlist_lists[primary];
 
-        // reset counters.
-        var list_counter = 0;
+        // set data from form.
+        const data = expandObject(formData);
+        for ( let [k, v] of Object.entries(data) ) {
+            playlist_option.setPlaylistData(k, v);
 
-        // add message to the list.
-        function add_message(parent, message) {
-            (list_counter % 2 == 0) ? parent.parent.playlist_lists[option][list_counter] = `<p class="analytics-message-even">` + message + `</p>` : parent.parent.playlist_lists[option][list_counter] = `<p class="analytics-message-odd">` + message + `</p>`;
-            list_counter++;
-        }
+            switch (secondary) {
+                case "playlists_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "playlists_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "playlists_in_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "playlists_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
 
-        // reset lists.
-        switch (option) {
+        // reset counters and lists.
+        playlist_option.playlist_count = 0;
+        playlist_list.splice(0, playlist_list.length);
+
+        // message not available, render and return.
+        switch (secondary) {
             case "playlists_in_compendiums":
-                this.parent.playlist_options[option].playlist_count = 0;
-                this.parent.compendium_options[option2].compendium_count = 0;
-                this.parent.playlist_lists[option].splice(0, this.parent.playlist_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "playlists_in_journals":
-                this.parent.playlist_options[option].playlist_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.playlist_lists[option].splice(0, this.parent.playlist_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "playlists_in_scenes":
-                this.parent.playlist_options[option].playlist_count = 0;
-                this.parent.scene_options[option2].scene_count = 0;
-                this.parent.playlist_lists[option].splice(0, this.parent.playlist_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
             case "playlists_in_tables":
-                this.parent.playlist_options[option].playlist_count = 0;
-                this.parent.table_options[option2].table_count = 0;
-                this.parent.playlist_lists[option].splice(0, this.parent.playlist_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase2"));
+                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
                 this.render(true);
                 return;
                 break;
         };
+
+        // spin the submit button icon and disable.
+        var button      = document.getElementById("analytics-playlists-submit");
+        button.disabled = true;
+        const icon      = button.querySelector("i");
+        icon.className  = "fas fa-spinner fa-pulse";
+        const delay     = ms => new Promise(res => setTimeout(res, ms));
+        await delay(20);
+
+        // spin through playlist list ...
+        game.playlists.contents.forEach((playlist, i) => {
+            if (game.playlists.contents[i]) {
+            };
+        }); // forEach Playlist.
+
+        // reset submit button icon and enable.
+        icon.className  = "fas fa-search";
+        button.disabled = false;
+        await delay(10);
 
         // re-draw the updated form
         this.render(true);

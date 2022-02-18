@@ -1,0 +1,309 @@
+/* forms */
+.analytics-actors,
+.analytics-cards,
+.analytics-compendiums,
+.analytics-items,
+.analytics-journals,
+.analytics-macros,
+.analytics-playlists,
+.analytics-scenes,
+.analytics-tables,
+.analytics-tiles {
+    min-width: 740px;
+    min-height: 690px;
+}
+
+.form-group[id$=label],
+.form-group[id$=analytics] {
+    margin: 0 0 0 0;
+}
+
+.analytics-radio[id$=radio-name],
+.analytics-radio[id$=radio-id] {
+    margin: 0 5px 0 0;
+}
+
+.analytics-name[id$=name] {
+    width: 170px;
+    margin: 5px 0 0 0;
+}
+
+.analytics-id[id$=id] {
+    width: 170px;
+    margin: 5px 0 0 0;
+}
+
+/* tabbed controls position */
+.analytics-actors-tabbed-controls,
+.analytics-cards-tabbed-controls,
+.analytics-compendiums-tabbed-controls,
+.analytics-items-tabbed-controls,
+.analytics-journals-tabbed-controls,
+.analytics-macros-tabbed-controls,
+.analytics-playlists-tabbed-controls,
+.analytics-scenes-tabbed-controls,
+.analytics-tables-tabbed-controls,
+.analytics-tiles-tabbed-controls {
+    position: absolute;
+    top: 145px;
+    bottom: 45px;
+    width: 200px;
+    right: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* controls position */
+.analytics-actors-controls,
+.analytics-cards-controls,
+.analytics-compendiums-controls,
+.analytics-items-controls,
+.analytics-journals-controls,
+.analytics-macros-controls,
+.analytics-playlists-controls,
+.analytics-scenes-controls,
+.analytics-tables-controls,
+.analytics-tiles-controls {
+    position: absolute;
+    top: 145px;
+    bottom: 45px;
+    width: 200px;
+    right: 225px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* list header position */
+.analytics-actors-header,
+.analytics-cards-header,
+.analytics-compendiums-header,
+.analytics-items-header,
+.analytics-journals-header,
+.analytics-macros-header,
+.analytics-playlists-header,
+.analytics-scenes-header,
+.analytics-tables-header,
+.analytics-tiles-header {
+    position: absolute;
+    top: 145px;
+    height: 20px;
+    left: 8px;
+    right: 440px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* list position */
+.analytics-actors-list,
+.analytics-cards-list,
+.analytics-compendiums-list,
+.analytics-items-list,
+.analytics-journals-list,
+.analytics-macros-list,
+.analytics-playlists-list,
+.analytics-scenes-list,
+.analytics-tables-list,
+.analytics-tiles-list {
+    position: absolute;
+    top: 168px;
+    bottom: 5px;
+    left: 8px;
+    right: 440px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border-light-tertiary);
+}
+
+/* submit position */
+.analytics-actors-submit,
+.analytics-cards-submit,
+.analytics-compendiums-submit,
+.analytics-items-submit,
+.analytics-journals-submit,
+.analytics-macros-submit,
+.analytics-playlists-submit,
+.analytics-scenes-submit,
+.analytics-tables-submit,
+.analytics-tiles-submit {
+    position: absolute;
+    bottom: 5px;
+    right: 25px;
+    width: 390px;
+}
+
+/* list output rows */
+
+.analytics-message-even {
+    position: relative;
+    margin: 10px 0 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-message-odd {
+    position: relative;
+    margin: 10px 0 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* primary sort group */
+.analytics-primary-even-actor,
+.analytics-primary-even-card,
+.analytics-primary-even-compendium,
+.analytics-primary-even-item,
+.analytics-primary-even-journal
+.analytics-primary-even-macro,
+.analytics-primary-even-playlist,
+.analytics-primary-even-scene,
+.analytics-primary-even-table,
+.analytics-primary-even-tile {
+    position: relative;
+    margin: 10px 0 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-primary-even-item-macro {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-primary-even-item-macro-error {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    color: var(--color-border-highlight-alt);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-primary-odd-actor,
+.analytics-primary-odd-card,
+.analytics-primary-odd-compendium,
+.analytics-primary-odd-item,
+.analytics-primary-odd-journal,
+.analytics-primary-odd-macro,
+.analytics-primary-odd-playlist,
+.analytics-primary-odd-scene,
+.analytics-primary-odd-table,
+.analytics-primary-odd-tile {
+    position: relative;
+    margin: 10px 0 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.analytics-primary-odd-item-macro {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+}
+
+.analytics-primary-odd-item-macro-error {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    color: var(--color-border-highlight-alt);
+}
+
+/* secondary sort group */
+.analytics-secondary-even-actor,
+.analytics-secondary-even-card,
+.analytics-secondary-even-compendium,
+.analytics-secondary-even-item,
+.analytics-secondary-even-journal,
+.analytics-secondary-even-macro,
+.analytics-secondary-even-playlist,
+.analytics-secondary-even-scene,
+.analytics-secondary-even-table,
+.analytics-secondary-even-tile {
+    position: relative;
+    margin: 0 0 2px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-secondary-even-item-macro {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-secondary-even-item-macro-error {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    color: var(--color-border-highlight-alt);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+.analytics-secondary-odd-actor,
+.analytics-secondary-odd-card,
+.analytics-secondary-odd-compendium,
+.analytics-secondary-odd-item,
+.analytics-secondary-odd-journal,
+.analytics-secondary-odd-macro,
+.analytics-secondary-odd-playlist,
+.analytics-secondary-odd-scene,
+.analytics-secondary-odd-table,
+.analytics-secondary-odd-tile {
+    position: relative;
+    margin: 0 0 2px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.analytics-secondary-odd-item-macro {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+}
+
+.analytics-secondary-odd-item-macro-error {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    color: var(--color-border-highlight-alt);
+}

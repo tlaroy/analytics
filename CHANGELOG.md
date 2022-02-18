@@ -13,6 +13,7 @@
 # v0.0.9 (XXXX-XX-XX)
 
 * Form optimizations.
+* Search by ID.
 
 # v0.0.8 (2022-02-09)
 

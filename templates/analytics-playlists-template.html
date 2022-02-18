@@ -1,429 +1,309 @@
-<form id="analytics-form" onsubmit="event.preventDefault();">
-
-    <style>
-		/* form */
-        #analytics-playlists {
-            min-width: 740px;
-            min-height: 690px;
-        }
-
-		/* ------------ */
-
-		/* tabbed controls position */
-        .analytics-playlists-tabbed-controls {
-            position: absolute;
-            top: 145px;
-            bottom: 45px;
-            width: 200px;
-            right: 8px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-		
-		/* controls position */
-        .analytics-playlists-controls {
-            position: absolute;
-            top: 145px;
-            bottom: 45px;
-            width: 200px;
-            right: 225px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-		/* list header position */
-        .analytics-playlists-header {
-            position: absolute;
-            top: 145px;
-            height: 20px;
-            left: 8px;
-            right: 440px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-		/* list position */
-        .analytics-playlists-list {
-            position: absolute;
-            top: 165px;
-            bottom: 5px;
-            left: 8px;
-            right: 440px;
-			border-radius: 3px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-			background: rgba(0, 0, 0, 0.05);
-			border: 1px solid var(--color-border-light-tertiary);
-        }
-
-		/* submit position */
-        .analytics-playlists-submit {
-            position: absolute;
-            bottom: 5px;
-            right: 25px;
-            width: 390px;
-        }
-
-		/* ------------ */
-
-        .analytics-message-even {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-message-odd {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-actor-name-even {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            font-weight: bold;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-actor-name-odd {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            font-weight: bold;
-        }
-
-        .analytics-item-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-item-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-macro-name-even {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-macro-name-odd {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-        }
-
-        .analytics-macro-name-error-even {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-			color: var(--color-border-highlight-alt);
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-macro-name-error-odd {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-			color: var(--color-border-highlight-alt);
-        }
-
-        .analytics-journal-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-journal-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-scene-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-scene-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-    </style>
+<form onsubmit="event.preventDefault();">
 
     <script>
+        function toggle_analytics_playlists_radio() {
+            document.getElementById("analytics-playlists-playlist-name").disabled           = !document.getElementById("analytics-playlists-playlist-radio-name").checked;
+            document.getElementById("analytics-playlists-playlist-case-sensitive").disabled = !document.getElementById("analytics-playlists-playlist-radio-name").checked;
+            document.getElementById("analytics-playlists-playlist-exact-match").disabled    = !document.getElementById("analytics-playlists-playlist-radio-name").checked;
+            document.getElementById("analytics-playlists-playlist-id").disabled             = !document.getElementById("analytics-playlists-playlist-radio-id").checked;
+        }
+        function toggle_analytics_playlists_in_compendium_radio() {
+            document.getElementById("analytics-playlists-in-compendium-name").disabled           = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
+            document.getElementById("analytics-playlists-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
+            document.getElementById("analytics-playlists-in-compendium-exact-match").disabled    = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
+            document.getElementById("analytics-playlists-in-compendium-id").disabled             = !document.getElementById("analytics-playlists-in-compendium-radio-id").checked;
+        }
+        function toggle_analytics_playlists_in_journal_radio() {
+            document.getElementById("analytics-playlists-in-journal-name").disabled           = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
+            document.getElementById("analytics-playlists-in-journal-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
+            document.getElementById("analytics-playlists-in-journal-exact-match").disabled    = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
+            document.getElementById("analytics-playlists-in-journal-id").disabled             = !document.getElementById("analytics-playlists-in-journal-radio-id").checked;
+        }
+        function toggle_analytics_playlists_in_scene_radio() {
+            document.getElementById("analytics-playlists-in-scene-name").disabled           = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
+            document.getElementById("analytics-playlists-in-scene-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
+            document.getElementById("analytics-playlists-in-scene-exact-match").disabled    = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
+            document.getElementById("analytics-playlists-in-scene-id").disabled             = !document.getElementById("analytics-playlists-in-scene-radio-id").checked;
+        }
+        function toggle_analytics_playlists_in_table_radio() {
+            document.getElementById("analytics-playlists-in-table-name").disabled           = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
+            document.getElementById("analytics-playlists-in-table-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
+            document.getElementById("analytics-playlists-in-table-exact-match").disabled    = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
+            document.getElementById("analytics-playlists-in-table-id").disabled             = !document.getElementById("analytics-playlists-in-table-radio-id").checked;
+        }
     </script>
 
-	<h3 align="center"><i class="fas fa-music"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Playlists'}}</h3>
+    <h3 align="center"><i class="fas fa-music"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Playlists'}}</h3>
 
     <!-- Navigation -->
-    <nav class="sheet-tabs tabs" data-group="components">
-        <a class="item" data-tab="playlists-in-compendiums" id="analytics-tab" title="(12) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
-        <a class="item" data-tab="playlists-in-journals"    id="analytics-tab" title="(22) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
-        <a class="item" data-tab="playlists-in-scenes"      id="analytics-tab" title="(30) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'DOCUMENT.Scenes'}}<br><i class="fas fa-map"></i></a>
-        <a class="item" data-tab="playlists-in-tables"      id="analytics-tab" title="(31) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-map"></i></a>
+    <nav class="sheet-tabs tabs" data-group="analytics-playlists-group">
+        <a class="item" data-tab="analytics-playlists-in-compendiums" id="analytics-tab" title="(12) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
+        <a class="item" data-tab="analytics-playlists-in-journals"    id="analytics-tab" title="(22) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
+        <a class="item" data-tab="analytics-playlists-in-scenes"      id="analytics-tab" title="(30) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'DOCUMENT.Scenes'}}<br><i class="fas fa-map"></i></a>
+        <a class="item" data-tab="analytics-playlists-in-tables"      id="analytics-tab" title="(31) {{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-map"></i></a>
     </nav>
 
-	<!-- PLAYLISTS -->
-	<div class="analytics-playlists-controls">
+    <!-- PLAYLISTS -->
+    <div class="analytics-playlists-controls">
 
-		<!-- PLAYLIST NAME -->
-		<label for="playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'DOCUMENT.Playlists'}}</label>
-		<div class="form-group">
-			<input type="text" id="playlist-name" name="playlist-name" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{playlist-name-value}}" >
-		</div>
-		<div class="form-group">
-			<label for="playlist-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-			<input type="checkbox" id="playlist-case-sensitive" name="playlist-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{playlist-case-sensitive-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="playlist-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-			<input type="checkbox" id="playlist-exact-match" name="playlist-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{playlist-exact-match-checked}} />
-		</div>
-		<hr>
-		
-		<!-- PLAYLIST OPTIONS -->
-	</div>
-	
-	<!-- Tabs -->
-	<div class="analytics-playlists-tabbed-controls">
-		
-		<!-- (12) IN COMPENDIUMS -->
-		<div class="tab" data-tab="playlists-in-compendiums" data-group="components">
+        <!-- PLAYLIST NAME -->
+        <label for="analytics-playlists-name"><i class="fas fa-music"></i>&nbsp;{{localize 'DOCUMENT.Playlists'}}</label>
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-playlists-radio-name" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="name" {{analytics-playlists-radio-name-checked}} >
+            <input type="text" class="analytics-name" id="analytics-playlists-name" name="analytics-playlists-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-name-value}}" >
+        </div>
+        <!-- PLAYLIST ID -->
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-playlists-radio-id" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="id" {{analytics-playlists-radio-id-checked}} >
+            <input type="text" class="analytics-id" id="analytics-playlists-id" name="analytics-playlists-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-id-value}}" >
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-playlists-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+            <input type="checkbox" id="analytics-playlists-case-sensitive" name="analytics-playlists-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-case-sensitive-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-playlists-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+            <input type="checkbox" id="analytics-playlists-exact-match" name="analytics-playlists-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-exact-match-checked}} />
+        </div>
+        <hr>
 
-			<!-- COMPENDIUM NAME -->
-			<label for="in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-compendium-name" name="in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-compendium-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-compendium-case-sensitive" name="in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-compendium-exact-match" name="in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- SHOW -->
+        <div class="form-group" id="analytics">
+            <label for="analytics-playlists-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+            <input type="checkbox" id="analytics-playlists-show-id" name="analytics-playlists-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-playlists-show-id-checked}} />
+        </div>
+    </div>
 
-			<!-- COMPENDIUM OPTIONS -->
-			<div class="form-group">
-				<label for="in-compendium-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-compendium-none" name="in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
-			<hr> 
+    <!-- Tabs -->
+    <div class="analytics-playlists-tabbed-controls">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-compendium-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-compendium-show" name="in-compendium-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+        <!-- (12) IN COMPENDIUMS -->
+        <div class="tab" data-tab="analytics-playlists-in-compendiums" data-group="analytics-playlists-group">
 
-		<!-- (22) IN JOURNALS -->
-		<div class="tab" data-tab="playlists-in-journals" data-group="components">
+            <!-- COMPENDIUM NAME -->
+            <label for="analytics-playlists-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-radio-name" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="name" {{analytics-playlists-in-compendium-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-playlists-in-compendium-name" name="analytics-playlists-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-compendium-name-value}}" >
+            </div>
+            <!-- COMPENDIUM ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-radio-id" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="id" {{analytics-playlists-in-compendium-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-playlists-in-compendium-id" name="analytics-playlists-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-compendium-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-compendium-case-sensitive" name="analytics-playlists-in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-compendium-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-compendium-exact-match" name="analytics-playlists-in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-compendium-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- JOURNAL NAME -->
-			<label for="in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-journal-name" name="in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-journal-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-journal-case-sensitive" name="in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-journal-exact-match" name="in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- COMPENDIUM OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-compendium-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-compendium-none" name="analytics-playlists-in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{analytics-playlists-in-compendium-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
+            <hr>
 
-			<!-- JOURNAL OPTIONS -->
-			<div class="form-group">
-				<label for="in-journal-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-journal-none" name="in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-compendium-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-compendium-show" name="analytics-playlists-in-compendium-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-playlists-in-compendium-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-compendium-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-compendium-show-id" name="analytics-playlists-in-compendium-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-compendium-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- MONK'S -->
-			<div class="form-group">
-				<label for="in-journal-base" id="in-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
-				<input type="checkbox" id="in-journal-base" name="in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{in-journal-base-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-checklist" id="in-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
-				<input type="checkbox" id="in-journal-checklist" name="in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{in-journal-checklist-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-encounter" id="in-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
-				<input type="checkbox" id="in-journal-encounter" name="in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{in-journal-encounter-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-loot" id="in-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
-				<input type="checkbox" id="in-journal-loot" name="in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{in-journal-loot-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-organization" id="in-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
-				<input type="checkbox" id="in-journal-organization" name="in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{in-journal-organization-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-person" id="in-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
-				<input type="checkbox" id="in-journal-person" name="in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{in-journal-person-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-place" id="in-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
-				<input type="checkbox" id="in-journal-place" name="in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{in-journal-place-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-poi" id="in-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
-				<input type="checkbox" id="in-journal-poi" name="in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{in-journal-poi-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-quest" id="in-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
-				<input type="checkbox" id="in-journal-quest" name="in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{in-journal-quest-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-shop" id="in-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
-				<input type="checkbox" id="in-journal-shop" name="in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{in-journal-shop-checked}} />
-			</div>
-			<hr>
+        <!-- (22) IN JOURNALS -->
+        <div class="tab" data-tab="analytics-playlists-in-journals" data-group="analytics-playlists-group">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-journal-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-journal-show" name="in-journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- JOURNAL NAME -->
+            <label for="analytics-playlists-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-radio-name" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="name" {{analytics-playlists-in-journal-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-playlists-in-journal-name" name="analytics-playlists-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-journal-name-value}}" >
+            </div>
+            <!-- JOURNAL ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-radio-id" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="id" {{analytics-playlists-in-journal-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-playlists-in-journal-id" name="analytics-playlists-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-journal-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-case-sensitive" name="analytics-playlists-in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-exact-match" name="analytics-playlists-in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-exact-match-checked}} />
+            </div>
+            <hr>
 
-		<!-- (30) IN SCENES -->
-		<div class="tab" data-tab="playlists-in-scenes" data-group="components">
+            <!-- JOURNAL OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-none" name="analytics-playlists-in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
 
-			<!-- SCENE NAME -->
-			<label for="in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-scene-name" name="in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-scene-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-scene-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-scene-case-sensitive" name="in-scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-scene-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-scene-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-scene-exact-match" name="in-scene-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-scene-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- MONK'S -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-base" id="analytics-playlists-in-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-base" name="analytics-playlists-in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-base-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-checklist" id="analytics-playlists-in-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-checklist" name="analytics-playlists-in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-checklist-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-encounter" id="analytics-playlists-in-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-encounter" name="analytics-playlists-in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-encounter-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-loot" id="analytics-playlists-in-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-loot" name="analytics-playlists-in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-loot-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-organization" id="analytics-playlists-in-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-organization" name="analytics-playlists-in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-organization-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-person" id="analytics-playlists-in-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-person" name="analytics-playlists-in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-person-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-place" id="analytics-playlists-in-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-place" name="analytics-playlists-in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-place-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-poi" id="analytics-playlists-in-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-poi" name="analytics-playlists-in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-poi-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-quest" id="analytics-playlists-in-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-quest" name="analytics-playlists-in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-quest-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-shop" id="analytics-playlists-in-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-shop" name="analytics-playlists-in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-shop-checked}} />
+            </div>
+            <hr>
 
-			<!-- SCENE OPTIONS -->
-			<div class="form-group">
-				<label for="in-scene-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-scene-none" name="in-scene-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{in-scene-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}</p>
-			<hr>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-show" name="analytics-playlists-in-journal-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-playlists-in-journal-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-journal-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-journal-show-id" name="analytics-playlists-in-journal-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-journal-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-scene-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-scene-show" name="in-scene-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{in-scene-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>		
+        <!-- (30) IN SCENES -->
+        <div class="tab" data-tab="analytics-playlists-in-scenes" data-group="analytics-playlists-group">
 
-		<!-- (31) IN TABLES -->
-		<div class="tab" data-tab="playlists-in-tables" data-group="components">
+            <!-- SCENE NAME -->
+            <label for="analytics-playlists-in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-radio-name" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="name" {{analytics-playlists-in-scene-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-playlists-in-scene-name" name="analytics-playlists-in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-scene-name-value}}" >
+            </div>
+            <!-- SCENE ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-radio-id" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="id" {{analytics-playlists-in-scene-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-playlists-in-scene-id" name="analytics-playlists-in-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-scene-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-scene-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-scene-case-sensitive" name="analytics-playlists-in-scene-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-scene-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-scene-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-scene-exact-match" name="analytics-playlists-in-scene-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-scene-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- TABLE NAME -->
-			<label for="in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-table-name" name="in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-table-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-table-case-sensitive" name="in-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-table-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-table-exact-match" name="in-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-table-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- SCENE OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-scene-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-scene-none" name="analytics-playlists-in-scene-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}" data-dtype="Boolean" {{analytics-playlists-in-scene-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Scenes'}}</p>
+            <hr>
 
-			<!-- TABLE OPTIONS -->
-			<div class="form-group">
-				<label for="in-table-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-table-none" name="in-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{in-table-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
-			<hr> 
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-scene-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Scenes'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-scene-show" name="analytics-playlists-in-scene-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-playlists-in-scene-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-scene-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-scene-show-id" name="analytics-playlists-in-scene-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-scene-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-table-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-table-show" name="in-table-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{in-table-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
-	</div>
+        <!-- (31) IN TABLES -->
+        <div class="tab" data-tab="analytics-playlists-in-tables" data-group="analytics-playlists-group">
 
-	<!-- SUBMIT -->
-	<button type="submit" class="analytics-playlists-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Playlists'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+            <!-- TABLE NAME -->
+            <label for="analytics-playlists-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-radio-name" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="name" {{analytics-playlists-in-table-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-playlists-in-table-name" name="analytics-playlists-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-table-name-value}}" >
+            </div>
+            <!-- TABLE ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-radio-id" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="id" {{analytics-playlists-in-table-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-playlists-in-table-id" name="analytics-playlists-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-table-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-table-case-sensitive" name="analytics-playlists-in-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-table-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-table-exact-match" name="analytics-playlists-in-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-playlists-in-table-exact-match-checked}} />
+            </div>
+            <hr>
 
-	<!-- LIST HEADER -->	
-	<div class="analytics-playlists-header">
-		<i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Playlists'}} {{playlist-count}}&nbsp;/&nbsp;{{number-of-playlists}}
-	</div>
+            <!-- TABLE OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-table-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-table-none" name="analytics-playlists-in-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{analytics-playlists-in-table-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
+            <hr>
 
-	<!-- LIST -->
-	<div class="analytics-playlists-list" id="analytics-list"></div>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-table-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-table-show" name="analytics-playlists-in-table-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-playlists-in-table-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-playlists-in-table-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-playlists-in-table-show-id" name="analytics-playlists-in-table-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {in-table-show-id-checked}} />
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="analytics-playlists-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Playlists'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+
+    <!-- LIST HEADER -->
+    <div class="analytics-playlists-header">
+        <i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Playlists'}} {{analytics-playlists-playlist-count}}&nbsp;/&nbsp;{{analytics-playlists-number-of-playlists}}
+    </div>
+
+    <!-- LIST -->
+    <div class="analytics-playlists-list" id="analytics-playlists-list"></div>
 </form>

@@ -2,104 +2,57 @@
 *
 * module/analytics-cards.js
 *
-* version 0.0.8
+* version 0.0.9
 *
 */
 
-import * as ANALYTICS from "./const.js";
+import * as ANALYTICS        from "./const.js";
+import { AnalyticsForm }     from "./analytics.js";
+import { CardOptions }       from "./analytics.js";
+
+import { CompendiumOptions } from "./analytics.js";
+import { JournalOptions }    from "./analytics.js";
+import { TableOptions }      from "./analytics.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
-export class AnalyticsCards extends FormApplication {
+export class AnalyticsCards extends AnalyticsForm {
 
     constructor(parent, formData = {}, options = {}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards constructor(parent, formData, options)");
 
         super(formData, options);
 
-        // save parent.
-        this.parent = parent;
-
         /* PRIMARY SORT */
 
         // card options for each tab.
-        this.parent.card_options = Object.assign(this.parent.card_options, {
-            "cards_in_compendiums": {
-                card_count:                    0,
-                card_name_value:               "",
-                card_case_sensitive_checked:   false,
-                card_exact_match_checked:      false,
-                },
-            "cards_in_journals": {
-                card_count:                    0,
-                card_name_value:               "",
-                card_case_sensitive_checked:   false,
-                card_exact_match_checked:      false,
-                },
-            "cards_in_tables": {
-                card_count:                    0,
-                card_name_value:               "",
-                card_case_sensitive_checked:   false,
-                card_exact_match_checked:      false,
-                },
+        this.card_options = Object.assign(this.card_options, {
+            "cards_in_compendiums": new CardOptions(),
+            "cards_in_journals":    new CardOptions(),
+            "cards_in_tables":      new CardOptions(),
         });
 
         /* SECONDARY SORT BY TAB */
 
         // (6) in compendium options.
-        this.parent.compendium_options = Object.assign(this.parent.compendium_options, {
-            "cards_in_compendiums": {
-                compendium_submitted:              false,
-                compendium_count:                  0,
-                compendium_name_value:             "",
-                compendium_case_sensitive_checked: false,
-                compendium_exact_match_checked:    false,
-                compendium_none_checked:           false,
-                compendium_show_checked:           false,
-                }
+        this.compendium_options = Object.assign(this.compendium_options, {
+            "cards_in_compendiums": new CompendiumOptions(),
         });
 
         // (7) in journal options.
-        this.parent.journal_options = Object.assign(this.parent.journal_options, {
-            "cards_in_journals": {
-                journal_submitted:              false,
-                journal_count:                  0,
-                journal_name_value:             "",
-                journal_case_sensitive_checked: false,
-                journal_exact_match_checked:    false,
-                journal_none_checked:           false,
-                journal_show_checked:           false,
-
-                journal_base_checked:           false,
-                journal_checklist_checked:      false,
-                journal_encounter_checked:      false,
-                journal_loot_checked:           false,
-                journal_organization_checked:   false,
-                journal_person_checked:         false,
-                journal_place_checked:          false,
-                journal_poi_checked:            false,
-                journal_quest_checked:          false,
-                journal_shop_checked:           false,
-                }
+        this.journal_options = Object.assign(this.journal_options, {
+            "cards_in_journals": new JournalOptions(),
         });
 
         // (8) in table options.
-        this.parent.table_options = Object.assign(this.parent.table_options, {
-            "cards_in_tables": {
-                table_submitted:              false,
-                table_count:                  0,
-                table_name_value:             "",
-                table_case_sensitive_checked: false,
-                table_exact_match_checked:    false,
-                table_none_checked:           false,
-                table_show_checked:           false,
-                }
+        this.table_options = Object.assign(this.table_options, {
+            "cards_in_tables": new TableOptions(),
         });
 
         /* OUTPUT BY TAB */
 
         // card lists.
-        this.parent.card_lists = Object.assign(this.parent.card_lists, {
+        this.card_lists = Object.assign(this.card_lists, {
             "cards_in_compendiums": [],
             "cards_in_journals":    [],
             "cards_in_tables":      [],
@@ -113,47 +66,36 @@ export class AnalyticsCards extends FormApplication {
             title:          i18n("ANALYTICS.Title") + " v" + ANALYTICS.VERSION,
             id:             "analytics-cards",
             template:       "modules/analytics/templates/analytics-cards-template.html",
-            classes:       ["sheet", "scene-sheet"],
+            classes:       ["sheet", "scene-sheet", "analytics-cards"],
             width:          740,
             height:         690,
             resizable:      true,
             closeOnSubmit:  false,
-            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "cards-in-compendiums"}]
+            tabs:          [{navSelector: ".tabs", contentSelector: "form", initial: "analytics-cards-in-compendiums"}]
         });
     }
 
-    static get isVisible() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards static get isVisible()");
-
-        for (const app of Object.values(ui.windows)) {
-            if (app instanceof this) return app;
-        }
-    }
-
-    show(inFocus = false) {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards show()");
-
-        return this.render(true);
-    }
-
-    hide() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards hide()");
-
-        this.close();
-    }
-
-    optionKeys() {
-        // map tab name to object keys.
+    // map tab to sort options.
+    sortOptions() {
         var retval = { };
         switch (this._tabs[0].active) {
-            case "cards-in-compendiums":
-                retval = { primary: "cards_in_compendiums", secondary: "cards_in_compendiums" };
+            case "analytics-cards-in-compendiums":
+                retval = {
+                    primary:   "cards_in_compendiums",
+                    secondary: "cards_in_compendiums"
+                };
                 break;
-            case "cards-in-journals":
-                retval = { primary: "cards_in_journals", secondary: "cards_in_journals" };
+            case "analytics-cards-in-journals":
+                retval = {
+                    primary:   "cards_in_journals",
+                    secondary: "cards_in_journals"
+                };
                 break;
-            case "cards-in-tables":
-                retval = { primary: "cards_in_tables", secondary: "cards_in_tables" };
+            case "analytics-cards-in-tables":
+                retval = {
+                    primary:   "cards_in_tables",
+                    secondary: "cards_in_tables"
+                };
                 break;
         };
         return retval;
@@ -164,104 +106,57 @@ export class AnalyticsCards extends FormApplication {
 
         super.activateListeners($html);
 
-        // tools
-        if (canvas.background._active) canvas.foreground.activate();
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var card_option = this.card_options[primary];
+        var card_list   = this.card_lists[primary];
 
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        // enable/disable by name or id.
+        document.getElementById("analytics-cards-name").disabled           = !document.getElementById("analytics-cards-radio-name").checked;
+        document.getElementById("analytics-cards-case-sensitive").disabled = !document.getElementById("analytics-cards-radio-name").checked;
+        document.getElementById("analytics-cards-exact-match").disabled    = !document.getElementById("analytics-cards-radio-name").checked;
+        document.getElementById("analytics-cards-id").disabled             = !document.getElementById("analytics-cards-radio-id").checked;
 
-        switch (option) {
+        switch (secondary) {
+            case "cards_in_compendiums":
+                // enable/disable by name or id.
+                document.getElementById("analytics-cards-in-compendium-name").disabled           = !document.getElementById("analytics-cards-in-compendium-radio-name").checked;
+                document.getElementById("analytics-cards-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-cards-in-compendium-radio-name").checked;
+                document.getElementById("analytics-cards-in-compendium-exact-match").disabled    = !document.getElementById("analytics-cards-in-compendium-radio-name").checked;
+                document.getElementById("analytics-cards-in-compendium-id").disabled             = !document.getElementById("analytics-cards-in-compendium-radio-id").checked;
+                break;
             case "cards_in_journals":
+                document.getElementById("analytics-cards-in-journal-name").disabled           = !document.getElementById("analytics-cards-in-journal-radio-name").checked;
+                document.getElementById("analytics-cards-in-journal-case-sensitive").disabled = !document.getElementById("analytics-cards-in-journal-radio-name").checked;
+                document.getElementById("analytics-cards-in-journal-exact-match").disabled    = !document.getElementById("analytics-cards-in-journal-radio-name").checked;
+                document.getElementById("analytics-cards-in-journal-id").disabled             = !document.getElementById("analytics-cards-in-journal-radio-id").checked;
+
                 // disable journal subtypes if monk's enhanced journal not installed or not active.
                 if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("in-journal-monks-base").style.display         = "none";
-                    document.getElementById("in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("in-journal-monks-organization").style.display = "none";
-                    document.getElementById("in-journal-monks-person").style.display       = "none";
-                    document.getElementById("in-journal-monks-place").style.display        = "none";
-                    document.getElementById("in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("in-journal-monks-shop").style.display         = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-base").style.display         = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-checklist").style.display    = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-encounter").style.display    = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-loot").style.display         = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-organization").style.display = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-person").style.display       = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-place").style.display        = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-poi").style.display          = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-quest").style.display        = "none";
+                    document.getElementById("analytics-cards-in-journal-monks-shop").style.display         = "none";
                 }
+                break;
+            case "cards_in_tables":
+                // enable/disable by name or id.
+                document.getElementById("analytics-cards-in-table-name").disabled           = !document.getElementById("analytics-cards-in-table-radio-name").checked;
+                document.getElementById("analytics-cards-in-table-case-sensitive").disabled = !document.getElementById("analytics-cards-in-table-radio-name").checked;
+                document.getElementById("analytics-cards-in-table-exact-match").disabled    = !document.getElementById("analytics-cards-in-table-radio-name").checked;
+                document.getElementById("analytics-cards-in-table-id").disabled             = !document.getElementById("analytics-cards-in-table-radio-id").checked;
                 break;
         };
 
         // inject list into form.
-        const html_list     = document.getElementById("analytics-list");
-        html_list.innerHTML = this.parent.card_lists[option].join("");
-    }
-
-    getData() {
-        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards getData()");
-
-        // SET key (id) values in the form.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
-        var retval  = {};
-        switch (option) {
-            case "cards_in_compendiums":
-                retval = {
-                    "number-of-cards":                   game.cards.size,
-
-                    "card-count":                        this.parent.card_options[option].card_count,
-                    "card-name-value":                   this.parent.card_options[option].card_name_value,
-                    "card-case-sensitive-checked":       this.parent.card_options[option].card_case_sensitive_checked  ? "checked" : "",
-                    "card-exact-match-checked":          this.parent.card_options[option].card_exact_match_checked     ? "checked" : "",
-
-                    "in-compendium-name-value":             this.parent.compendium_options[option2].compendium_name_value,
-                    "in-compendium-case-sensitive-checked": this.parent.compendium_options[option2].compendium_case_sensitive_checked    ? "checked" : "",
-                    "in-compendium-exact-match-checked":    this.parent.compendium_options[option2].compendium_exact_match_checked       ? "checked" : "",
-                    "in-compendium-none-checked":           this.parent.compendium_options[option2].compendium_none_checked              ? "checked" : "",
-                    "in-compendium-show-checked":           this.parent.compendium_options[option2].compendium_show_checked              ? "checked" : "",
-                };
-                break;
-            case "cards_in_journals":
-                retval = {
-                    "number-of-cards":                   game.cards.size,
-
-                    "card-count":                        this.parent.card_options[option].card_count,
-                    "card-name-value":                   this.parent.card_options[option].card_name_value,
-                    "card-case-sensitive-checked":       this.parent.card_options[option].card_case_sensitive_checked  ? "checked" : "",
-                    "card-exact-match-checked":          this.parent.card_options[option].card_exact_match_checked     ? "checked" : "",
-
-                    "in-journal-name-value":                this.parent.journal_options[option2].journal_name_value,
-                    "in-journal-case-sensitive-checked":    this.parent.journal_options[option2].journal_case_sensitive_checked ? "checked" : "",
-                    "in-journal-exact-match-checked":       this.parent.journal_options[option2].journal_exact_match_checked    ? "checked" : "",
-                    "in-journal-none-checked":              this.parent.journal_options[option2].journal_none_checked           ? "checked" : "",
-                    "in-journal-show-checked":              this.parent.journal_options[option2].journal_show_checked           ? "checked" : "",
-
-                    "in-journal-base-checked":              this.parent.journal_options[option2].journal_base_checked           ? "checked" : "",
-                    "in-journal-checklist-checked":         this.parent.journal_options[option2].journal_checklist_checked      ? "checked" : "",
-                    "in-journal-encounter-checked":         this.parent.journal_options[option2].journal_encounter_checked      ? "checked" : "",
-                    "in-journal-loot-checked":              this.parent.journal_options[option2].journal_loot_checked           ? "checked" : "",
-                    "in-journal-organization-checked":      this.parent.journal_options[option2].journal_organization_checked   ? "checked" : "",
-                    "in-journal-person-checked":            this.parent.journal_options[option2].journal_person_checked         ? "checked" : "",
-                    "in-journal-place-checked":             this.parent.journal_options[option2].journal_place_checked          ? "checked" : "",
-                    "in-journal-poi-checked":               this.parent.journal_options[option2].journal_poi_checked            ? "checked" : "",
-                    "in-journal-quest-checked":             this.parent.journal_options[option2].journal_quest_checked          ? "checked" : "",
-                    "in-journal-shop-checked":              this.parent.journal_options[option2].journal_shop_checked           ? "checked" : "",
-                };
-                break;
-            case "cards_in_tables":
-                retval = {
-                    "number-of-cards":                   game.cards.size,
-
-                    "card-count":                        this.parent.card_options[option].card_count,
-                    "card-name-value":                   this.parent.card_options[option].card_name_value,
-                    "card-case-sensitive-checked":       this.parent.card_options[option].card_case_sensitive_checked  ? "checked" : "",
-                    "card-exact-match-checked":          this.parent.card_options[option].card_exact_match_checked     ? "checked" : "",
-
-                    "in-table-name-value":                  this.parent.table_options[option2].table_name_value,
-                    "in-table-case-sensitive-checked":      this.parent.table_options[option2].table_case_sensitive_checked    ? "checked" : "",
-                    "in-table-exact-match-checked":         this.parent.table_options[option2].table_exact_match_checked       ? "checked" : "",
-                    "in-table-none-checked":                this.parent.table_options[option2].table_none_checked              ? "checked" : "",
-                    "in-table-show-checked":                this.parent.table_options[option2].table_show_checked              ? "checked" : "",
-                };
-                break;
-        };
-        return retval;
+        const html_list     = document.getElementById("analytics-cards-list");
+        html_list.innerHTML = card_list.join("");
     }
 
     async _onChangeTab(event, tabs, active) {
@@ -269,20 +164,20 @@ export class AnalyticsCards extends FormApplication {
 
         super._onChangeTab(event, tabs, active);
 
-        var option = "";
+        var output_list = "";
         var retval = false;
         switch (active) {
-            case "cards-in-compendiums":
-                option = "cards_in_compendiums";
-                retval = !this.parent.compendium_options["cards_in_compendiums"].compendium_submitted;
+            case "analytics-cards-in-compendiums":
+                output_list = this.card_lists["cards_in_compendiums"];
+                retval = !this.compendium_options["cards_in_compendiums"].compendium_submitted;
                 break;
-            case "cards-in-journals":
-                option = "cards_in_journals";
-                retval = !this.parent.journal_options["cards_in_journals"].journal_submitted;
+            case "analytics-cards-in-journals":
+                output_list = this.card_lists["cards_in_journals"];
+                retval = !this.journal_options["cards_in_journals"].journal_submitted;
                 break;
-            case "cards-in-tables":
-                option = "cards_in_tables";
-                retval = !this.parent.table_options["cards_in_tables"].table_submitted;
+            case "analytics-cards-in-tables":
+                output_list = this.card_lists["cards_in_tables"];
+                retval = !this.table_options["cards_in_tables"].table_submitted;
                 break;
         };
 
@@ -293,10 +188,39 @@ export class AnalyticsCards extends FormApplication {
         }
 
         // update with saved list or submitted data.
-        if (this.parent.card_lists[option].length > 0)
+        if (output_list.length > 0)
             await this._updateObject(event, null);
         else
             await this._updateObject(event, this._getSubmitData());
+    }
+
+    // get data for form.
+    getData() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards getData()");
+
+        // get data for form.
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var card_option = this.card_options[primary];
+
+        var retval = card_option.getCardData();
+
+        switch (secondary) {
+            case "cards_in_compendiums":
+                var compendium_option = this.compendium_options[secondary];
+                retval = Object.assign(retval, compendium_option.getCompendiumData(secondary));
+                break;
+            case "cards_in_journals":
+                var journal_option = this.journal_options[secondary];
+                retval = Object.assign(retval, journal_option.getJournalData(secondary));
+                break;
+            case "cards_in_tables":
+                var table_option = this.table_options[secondary];
+                retval = Object.assign(retval, table_option.getTableData(secondary));
+                break;
+        };
+
+        return retval;
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -317,20 +241,21 @@ export class AnalyticsCards extends FormApplication {
 
         // get form data
         const formData = this._getSubmitData();
+        var primary = this.sortOptions().primary;
 
         // set update flag when changing tabs if tab never submitted.
-        switch (this.optionKeys().primary) {
+        switch (primary) {
             case "cards_in_compendiums":
-                if (!this.parent.compendium_options["cards_in_compendiums"].compendium_submitted)
-                     this.parent.compendium_options["cards_in_compendiums"].compendium_submitted = true;
+                var compendium_option = this.compendium_options[primary];
+                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
                 break;
             case "cards_in_journals":
-                if (!this.parent.journal_options["cards_in_journals"].journal_submitted)
-                     this.parent.journal_options["cards_in_journals"].journal_submitted = true;
+                var journal_option = this.journal_options[primary];
+                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
                 break;
             case "cards_in_tables":
-                if (!this.parent.table_options["cards_in_tables"].table_options)
-                     this.parent.table_options["cards_in_tables"].table_options = true;
+                var table_option = this.table_options[primary];
+                if (!table_option.table_options) table_option.table_options = true;
                 break;
         };
 
@@ -352,58 +277,113 @@ export class AnalyticsCards extends FormApplication {
         return formData;
     }
 
+    // create card list.
+    buildList(card) {
+
+        // active tab.
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var card_option = this.card_options[primary];
+        var card_list   = this.card_lists[primary];
+        var card_name   = card.data.name;
+
+        // each tab.
+        switch (secondary) {
+            case "cards_in_compendiums":
+                // reset counters.
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.compendium_count = 0;
+                break;
+            case "cards_in_journals":
+                // reset counters.
+                var journal_option = this.journal_options[secondary];
+                journal_option.journal_count = 0;
+                break;
+            case "cards_in_tables":
+                // reset counters.
+                var table_option = this.table_options[secondary];
+                table_option.table_count = 0;
+                break;
+        };
+    }
+
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards async _updateObject(event, formData)");
 
-        // null form data - don't rebuild list.
+        // null form data render and return.
         if (!formData) {
             this.render(true);
             return;
         };
 
         // active tab.
-        var option  = this.optionKeys().primary;
-        var option2 = this.optionKeys().secondary;
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var card_option = this.card_options[primary];
+        var card_list   = this.card_lists[primary];
 
-        // reset counters.
-        var list_counter = 0;
+        // set data from form.
+        const data = expandObject(formData);
+        for ( let [k, v] of Object.entries(data) ) {
+            card_option.setCardData(k, v);
 
-        // add message to the list.
-        function add_message(parent, message) {
-            (list_counter % 2 == 0) ? parent.parent.card_lists[option][list_counter] = `<p class="analytics-message-even">` + message + `</p>` : parent.parent.card_lists[option][list_counter] = `<p class="analytics-message-odd">` + message + `</p>`;
-            list_counter++;
-        }
+            switch (secondary) {
+                case "cards_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "cards_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "cards_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
 
-        // reset lists.
-        switch (option) {
+        // reset counters and lists.
+        card_option.card_count = 0;
+        card_list.splice(0, card_list.length);
+
+        // message not available, render and return.
+        switch (secondary) {
             case "cards_in_compendiums":
-                this.parent.card_options[option].card_count = 0;
-                this.parent.compendium_options[option2].compendium_count = 0;
-                this.parent.card_lists[option].splice(0, this.parent.card_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase3"));
+                this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
                 this.render(true);
                 return;
                 break;
             case "cards_in_journals":
-                this.parent.card_options[option].card_count = 0;
-                this.parent.journal_options[option2].journal_count = 0;
-                this.parent.card_lists[option].splice(0, this.parent.card_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase3"));
+                this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
                 this.render(true);
                 return;
                 break;
             case "cards_in_tables":
-                this.parent.card_options[option].card_count = 0;
-                this.parent.table_options[option2].table_count = 0;
-                this.parent.card_lists[option].splice(0, this.parent.card_lists[option].length);
-
-                add_message(this, i18n("ANALYTICS.Phase3"));
+                this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
                 this.render(true);
                 return;
                 break;
         };
+
+        // spin the submit button icon and disable.
+        var button      = document.getElementById("analytics-cards-submit");
+        button.disabled = true;
+        const icon      = button.querySelector("i");
+        icon.className  = "fas fa-spinner fa-pulse";
+        const delay     = ms => new Promise(res => setTimeout(res, ms));
+        await delay(20);
+
+        // spin through card list ...
+        game.cards.contents.forEach((card, i) => {
+            if (game.cards.contents[i]) {
+            };
+        }); // forEach Card.
+
+        // reset submit button icon and enable.
+        icon.className  = "fas fa-search";
+        button.disabled = false;
+        await delay(10);
 
         // re-draw the updated form
         this.render(true);

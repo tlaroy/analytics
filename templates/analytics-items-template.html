@@ -1,720 +1,655 @@
-<form id="analytics-form" onsubmit="event.preventDefault();">
-
-    <style>
-		/* form */
-        #analytics-items {
-            min-width: 740px;
-            min-height: 690px;
-        }
-
-		/* ------------ */
-
-		/* tabbed controls position */
-        .analytics-items-tabbed-controls {
-            position: absolute;
-            top: 145px;
-            bottom: 45px;
-            width: 200px;
-            right: 8px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-		
-		/* controls position */
-        .analytics-items-controls {
-            position: absolute;
-            top: 145px;
-            bottom: 45px;
-            width: 200px;
-            right: 225px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-		/* list header position */
-        .analytics-items-header {
-            position: absolute;
-            top: 145px;
-            height: 20px;
-            left: 8px;
-            right: 440px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-		/* list position */
-        .analytics-items-list {
-            position: absolute;
-            top: 165px;
-            bottom: 5px;
-            left: 8px;
-            right: 440px;
-			border-radius: 3px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-			background: rgba(0, 0, 0, 0.05);
-			border: 1px solid var(--color-border-light-tertiary);
-        }
-
-		/* submit position */
-        .analytics-items-submit {
-            position: absolute;
-            bottom: 5px;
-            right: 25px;
-            width: 390px;
-        }
-
-		/* ------------ */
-
-        .analytics-message-even {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-message-odd {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-actor-name-even {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            font-weight: bold;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-actor-name-odd {
-            position: relative;
-            margin: 10px 0 2px 5px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            font-weight: bold;
-        }
-
-        .analytics-item-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-item-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-macro-name-even {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-macro-name-odd {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-        }
-
-        .analytics-macro-name-error-even {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-			color: var(--color-border-highlight-alt);
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-macro-name-error-odd {
-            position: relative;
-            margin: 0 0 2px 25px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-			color: var(--color-border-highlight-alt);
-        }
-
-        .analytics-journal-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-journal-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-
-        .analytics-scene-name-even {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-            xbackground-color: var(--color-text-light-highlight);
-        }
-
-        .analytics-scene-name-odd {
-            position: relative;
-            margin: 0 0 2px 15px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-        }
-    </style>
+<form onsubmit="event.preventDefault();">
 
     <script>
-        function toggle_creature_types() {
-            document.getElementById("in-actor-aberration").disabled     = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-beast").disabled          = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-celestial").disabled      = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-construct").disabled      = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-dragon").disabled         = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-elemental").disabled      = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-fey").disabled            = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-fiend").disabled          = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-giant").disabled          = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-humanoid").disabled       = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-monstrosity").disabled    = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-ooze").disabled           = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-plant").disabled          = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-swarm").disabled          = !document.getElementById("in-actor-npc").checked;
-            document.getElementById("in-actor-undead").disabled         = !document.getElementById("in-actor-npc").checked;
+        function toggle_analytics_items_creature_types() {
+            document.getElementById("analytics-items-in-actor-aberration").disabled     = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-beast").disabled          = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-celestial").disabled      = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-construct").disabled      = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-dragon").disabled         = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-elemental").disabled      = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-fey").disabled            = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-fiend").disabled          = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-giant").disabled          = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-humanoid").disabled       = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-monstrosity").disabled    = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-ooze").disabled           = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-plant").disabled          = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-swarm").disabled          = !document.getElementById("analytics-items-in-actor-npc").checked;
+            document.getElementById("analytics-items-in-actor-undead").disabled         = !document.getElementById("analytics-items-in-actor-npc").checked;
         }
-        function toggle_item_macro() {
-            document.getElementById("item-macro-name").disabled           = !document.getElementById("item-macro").checked;
-            document.getElementById("item-macro-case-sensitive").disabled = !document.getElementById("item-macro").checked;
-            document.getElementById("item-macro-exact-match").disabled    = !document.getElementById("item-macro").checked;
+        function toggle_analytics_items_macro() {
+            document.getElementById("analytics-items-item-macro-name").disabled           = !document.getElementById("analytics-items-item-macro").checked;
+            document.getElementById("analytics-items-item-macro-case-sensitive").disabled = !document.getElementById("analytics-items-item-macro").checked;
+            document.getElementById("analytics-items-item-macro-exact-match").disabled    = !document.getElementById("analytics-items-item-macro").checked;
+            document.getElementById("analytics-items-item-macro-id").disabled             = !document.getElementById("analytics-items-item-macro").checked;
+            document.getElementById("analytics-items-item-macro-radio-name").disabled     = !document.getElementById("analytics-items-item-macro").checked;
+            document.getElementById("analytics-items-item-macro-radio-id").disabled       = !document.getElementById("analytics-items-item-macro").checked;
+            if (document.getElementById("analytics-items-item-macro").checked) toggle_analytics_items_macro_radio();
         }
-        function toggle_within_item_macro() {
-            document.getElementById("within-item-macro-name").disabled           = !document.getElementById("within-item-macro").checked;
-            document.getElementById("within-item-macro-case-sensitive").disabled = !document.getElementById("within-item-macro").checked;
-            document.getElementById("within-item-macro-exact-match").disabled    = !document.getElementById("within-item-macro").checked;
+        function toggle_analytics_items_within_item_macro() {
+            document.getElementById("analytics-items-within-item-macro-name").disabled           = !document.getElementById("analytics-items-within-item-macro").checked;
+            document.getElementById("analytics-items-within-item-macro-case-sensitive").disabled = !document.getElementById("analytics-items-within-item-macro").checked;
+            document.getElementById("analytics-items-within-item-macro-exact-match").disabled    = !document.getElementById("analytics-items-within-item-macro").checked;
+            document.getElementById("analytics-items-within-item-macro-id").disabled             = !document.getElementById("analytics-items-within-item-macro").checked;
+            document.getElementById("analytics-items-within-item-macro-radio-name").disabled     = !document.getElementById("analytics-items-within-item-macro").checked;
+            document.getElementById("analytics-items-within-item-macro-radio-id").disabled       = !document.getElementById("analytics-items-within-item-macro").checked;
+            if (document.getElementById("analytics-items-within-item-macro").checked) toggle_analytics_items_within_item_macro_radio();
+        }
+        function toggle_analytics_items_radio() {
+            document.getElementById("analytics-items-item-name").disabled           = !document.getElementById("analytics-items-item-radio-name").checked;
+            document.getElementById("analytics-items-item-case-sensitive").disabled = !document.getElementById("analytics-items-item-radio-name").checked;
+            document.getElementById("analytics-items-item-exact-match").disabled    = !document.getElementById("analytics-items-item-radio-name").checked;
+            document.getElementById("analytics-items-item-id").disabled             = !document.getElementById("analytics-items-item-radio-id").checked;
+        }
+        function toggle_analytics_items_in_actor_radio() {
+            document.getElementById("analytics-items-in-actor-name").disabled           = !document.getElementById("analytics-items-in-actor-radio-name").checked;
+            document.getElementById("analytics-items-in-actor-case-sensitive").disabled = !document.getElementById("analytics-items-in-actor-radio-name").checked;
+            document.getElementById("analytics-items-in-actor-exact-match").disabled    = !document.getElementById("analytics-items-in-actor-radio-name").checked;
+            document.getElementById("analytics-items-in-actor-id").disabled             = !document.getElementById("analytics-items-in-actor-radio-id").checked;
+        }
+        function toggle_analytics_items_in_compendium_radio() {
+            document.getElementById("analytics-items-in-compendium-name").disabled           = !document.getElementById("analytics-items-in-compendium-radio-name").checked;
+            document.getElementById("analytics-items-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-items-in-compendium-radio-name").checked;
+            document.getElementById("analytics-items-in-compendium-exact-match").disabled    = !document.getElementById("analytics-items-in-compendium-radio-name").checked;
+            document.getElementById("analytics-items-in-compendium-id").disabled             = !document.getElementById("analytics-items-in-compendium-radio-id").checked;
+        }
+        function toggle_analytics_items_within_item_radio() {
+            document.getElementById("analytics-items-within-item-name").disabled           = !document.getElementById("analytics-items-within-item-radio-name").checked;
+            document.getElementById("analytics-items-within-item-case-sensitive").disabled = !document.getElementById("analytics-items-within-item-radio-name").checked;
+            document.getElementById("analytics-items-within-item-exact-match").disabled    = !document.getElementById("analytics-items-within-item-radio-name").checked;
+            document.getElementById("analytics-items-within-item-id").disabled             = !document.getElementById("analytics-items-within-item-radio-id").checked;
+        }
+        function toggle_analytics_items_macro_radio() {
+            document.getElementById("analytics-items-item-macro-name").disabled           = !document.getElementById("analytics-items-item-macro-radio-name").checked;
+            document.getElementById("analytics-items-item-macro-case-sensitive").disabled = !document.getElementById("analytics-items-item-macro-radio-name").checked;
+            document.getElementById("analytics-items-item-macro-exact-match").disabled    = !document.getElementById("analytics-items-item-macro-radio-name").checked;
+            document.getElementById("analytics-items-item-macro-id").disabled             = !document.getElementById("analytics-items-item-macro-radio-id").checked;
+        }
+        function toggle_analytics_items_within_item_macro_radio() {
+            document.getElementById("analytics-items-within-item-macro-name").disabled           = !document.getElementById("analytics-items-within-item-macro-radio-name").checked;
+            document.getElementById("analytics-items-within-item-macro-case-sensitive").disabled = !document.getElementById("analytics-items-within-item-macro-radio-name").checked;
+            document.getElementById("analytics-items-within-item-macro-exact-match").disabled    = !document.getElementById("analytics-items-within-item-macro-radio-name").checked;
+            document.getElementById("analytics-items-within-item-macro-id").disabled             = !document.getElementById("analytics-items-within-item-macro-radio-id").checked;
+        }
+        function toggle_analytics_items_in_journal_radio() {
+            document.getElementById("analytics-items-in-journal-name").disabled           = !document.getElementById("analytics-items-in-journal-radio-name").checked;
+            document.getElementById("analytics-items-in-journal-case-sensitive").disabled = !document.getElementById("analytics-items-in-journal-radio-name").checked;
+            document.getElementById("analytics-items-in-journal-exact-match").disabled    = !document.getElementById("analytics-items-in-journal-radio-name").checked;
+            document.getElementById("analytics-items-in-journal-id").disabled             = !document.getElementById("analytics-items-in-journal-radio-id").checked;
+        }
+        function toggle_analytics_items_in_table_radio() {
+            document.getElementById("analytics-items-in-table-name").disabled           = !document.getElementById("analytics-items-in-table-radio-name").checked;
+            document.getElementById("analytics-items-in-table-case-sensitive").disabled = !document.getElementById("analytics-items-in-table-radio-name").checked;
+            document.getElementById("analytics-items-in-table-exact-match").disabled    = !document.getElementById("analytics-items-in-table-radio-name").checked;
+            document.getElementById("analytics-items-in-table-id").disabled             = !document.getElementById("analytics-items-in-table-radio-id").checked;
         }
     </script>
 
-	<h3 align="center"><i class="fas fa-suitcase"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Items'}}</h3>
+    <h3 align="center"><i class="fas fa-suitcase"></i>&nbsp;&nbsp;{{localize 'DOCUMENT.Items'}}</h3>
 
     <!-- Navigation -->
-    <nav class="sheet-tabs tabs" data-group="components">
-        <a class="item" data-tab="items-in-actors"      id="analytics-tab" title="(2) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Actors'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'DOCUMENT.Actors'}}<br><i class="fas fa-suitcase"></i></a>
-        <a class="item" data-tab="items-in-compendiums" id="analytics-tab" title="(9) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
-        <a class="item" data-tab="items-within-items"   id="analytics-tab" title="(16-16) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.Within'}} {{localize 'DOCUMENT.Items'}}">
-			{{localize 'ANALYTICS.Within'}}<br>{{localize 'DOCUMENT.Items'}}<br><i class="fas fa-map"></i></a>
-        <a class="item" data-tab="items-in-journals"    id="analytics-tab" title="(17) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
-        <a class="item" data-tab="items-with-macros"    id="analytics-tab" title="(18) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}">
-			{{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Macros'}}<br><i class="fas fa-map"></i></a>
-        <a class="item" data-tab="items-in-tables"      id="analytics-tab" title="(19) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
-			{{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-map"></i></a>
+    <nav class="sheet-tabs tabs" data-group="analytics-items-group">
+        <a class="item" data-tab="analytics-items-in-actors"      id="analytics-tab" title="(2) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Actors'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'DOCUMENT.Actors'}}<br><i class="fas fa-suitcase"></i></a>
+        <a class="item" data-tab="analytics-items-in-compendiums" id="analytics-tab" title="(9) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Compendiums'}}<br><i class="fas fa-atlas"></i></a>
+        <a class="item" data-tab="analytics-items-within-items"   id="analytics-tab" title="(16-16) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.Within'}} {{localize 'DOCUMENT.Items'}}">
+            {{localize 'ANALYTICS.Within'}}<br>{{localize 'DOCUMENT.Items'}}<br><i class="fas fa-map"></i></a>
+        <a class="item" data-tab="analytics-items-in-journals"    id="analytics-tab" title="(17) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Journals'}}<br><i class="fas fa-book-open"></i></a>
+        <a class="item" data-tab="analytics-items-with-macros"    id="analytics-tab" title="(18) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}">
+            {{localize 'ANALYTICS.With'}}<br>{{localize 'DOCUMENT.Macros'}}<br><i class="fas fa-map"></i></a>
+        <a class="item" data-tab="analytics-items-in-tables"      id="analytics-tab" title="(19) {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}">
+            {{localize 'ANALYTICS.In'}}<br>{{localize 'ANALYTICS.Tables'}}<br><i class="fas fa-map"></i></a>
     </nav>
 
-	<!-- ITEMS -->
-	<div class="analytics-items-controls">
+    <!-- ITEMS -->
+    <div class="analytics-items-controls">
 
-		<!-- ITEM NAME -->
-		<label for="item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'DOCUMENT.Items'}}</label>
-		<div class="form-group">
-			<input type="text" id="item-name" name="item-name" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{item-name-value}}" >
-		</div>
-		<div class="form-group">
-			<label for="item-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-			<input type="checkbox" id="item-case-sensitive" name="item-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-case-sensitive-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-			<input type="checkbox" id="item-exact-match" name="item-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-exact-match-checked}} />
-		</div>
-		<hr>
-		
-		<!-- ITEM OPTIONS -->
-		<div class="form-group">
-			<label for="item-none">{{localize 'DND5E.None'}}</label>
-			<input type="checkbox" id="item-none" name="item-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-none-checked}} />
-		</div>
-		<p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
-		<div class="form-group">
-			<label for="item-weapon">{{localize 'ITEM.TypeWeapon'}}</label>
-			<input type="checkbox" id="item-weapon" name="item-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-weapon-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-equipment">{{localize 'ITEM.TypeEquipment'}}</label>
-			<input type="checkbox" id="item-equipment" name="item-equipment" title="{{localize 'ITEM.TypeEquipment'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-equipment-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-consumable">{{localize 'ITEM.TypeConsumable'}}</label>
-			<input type="checkbox" id="item-consumable" name="item-consumable" title="{{localize 'ITEM.TypeConsumable'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-consumable-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-tool">{{localize 'ITEM.TypeTool'}}</label>
-			<input type="checkbox" id="item-tool" name="item-tool" title="{{localize 'ITEM.TypeTool'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-tool-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-loot">{{localize 'ITEM.TypeLoot'}}</label>
-			<input type="checkbox" id="item-loot" name="item-loot" title="{{localize 'ITEM.TypeLoot'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-loot-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-class">{{localize 'ITEM.TypeClass'}}</label>
-			<input type="checkbox" id="item-class" name="item-class" title="{{localize 'ITEM.TypeClass'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-class-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-feat">{{localize 'ITEM.TypeFeat'}}</label>
-			<input type="checkbox" id="item-feat" name="item-feat" title="{{localize 'ITEM.TypeFeat'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-feat-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-backpack">{{localize 'ITEM.TypeBackpack'}}</label>
-			<input type="checkbox" id="item-backpack" name="item-backpack" title="{{localize 'ITEM.TypeBackpack'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-backpack-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-spell">{{localize 'ITEM.TypeSpell'}}</label>
-			<input type="checkbox" id="item-spell" name="item-spell" title="{{localize 'ITEM.TypeSpell'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{item-spell-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-macro" id="item-macro-label">{{localize 'midi-qol.onUseMacroLabel'}}</label>
-			<input type="checkbox" id="item-macro" name="item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_item_macro()" {{item-macro-checked}} />
-		</div>
-		<p class="notes" id="item-macro-note">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}</p>
-		<hr>
+        <!-- ITEM NAME -->
+        <label for="analytics-items-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'DOCUMENT.Items'}}</label>
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-items-radio-name" name="analytics-items-radio" onClick="toggle_analytics_items_radio()" value="name" {{analytics-items-radio-name-checked}} >
+            <input type="text" class="analytics-name" id="analytics-items-name" name="analytics-items-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-name-value}}" >
+        </div>
+        <!-- ITEM ID -->
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-items-radio-id" name="analytics-items-radio" onClick="toggle_analytics_items_radio()" value="id" {{analytics-items-radio-id-checked}} >
+            <input type="text" class="analytics-id" id="analytics-items-id" name="analytics-items-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-id-value}}" >
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+            <input type="checkbox" id="analytics-items-case-sensitive" name="analytics-items-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-case-sensitive-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+            <input type="checkbox" id="analytics-items-exact-match" name="analytics-items-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-exact-match-checked}} />
+        </div>
+        <hr>
 
-		<!-- ON USE MACRO -->
-		<label for="item-macro-name" id="item-macro-name-label"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
-		<div class="form-group">
-			<input type="text" id="item-macro-name" name="item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{item-macro-name-value}}" >
-		</div>
-		<div class="form-group">
-			<label for="item-macro-case-sensitive" id="item-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-			<input type="checkbox" id="item-macro-case-sensitive" name="item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-macro-case-sensitive-checked}} />
-		</div>
-		<div class="form-group">
-			<label for="item-macro-exact-match" id="item-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-			<input type="checkbox" id="item-macro-exact-match" name="item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{item-macro-exact-match-checked}} />
-		</div>
-	</div>
-	
-	<!-- Tabs -->
-	<div class="analytics-items-tabbed-controls">
-		
-		<!-- (2) IN ACTORS -->
-		<div class="tab" data-tab="items-in-actors" data-group="components">
+        <!-- ITEM OPTIONS -->
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-none">{{localize 'DND5E.None'}}</label>
+            <input type="checkbox" id="analytics-items-none" name="analytics-items-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-none-checked}} />
+        </div>
+        <p class="notes">{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-weapon">{{localize 'ITEM.TypeWeapon'}}</label>
+            <input type="checkbox" id="analytics-items-weapon" name="analytics-items-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-weapon-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-equipment">{{localize 'ITEM.TypeEquipment'}}</label>
+            <input type="checkbox" id="analytics-items-equipment" name="analytics-items-equipment" title="{{localize 'ITEM.TypeEquipment'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-equipment-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-consumable">{{localize 'ITEM.TypeConsumable'}}</label>
+            <input type="checkbox" id="analytics-items-consumable" name="analytics-items-consumable" title="{{localize 'ITEM.TypeConsumable'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-consumable-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-tool">{{localize 'ITEM.TypeTool'}}</label>
+            <input type="checkbox" id="analytics-items-tool" name="analytics-items-tool" title="{{localize 'ITEM.TypeTool'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-tool-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-loot">{{localize 'ITEM.TypeLoot'}}</label>
+            <input type="checkbox" id="analytics-items-loot" name="analytics-items-loot" title="{{localize 'ITEM.TypeLoot'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-loot-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-class">{{localize 'ITEM.TypeClass'}}</label>
+            <input type="checkbox" id="analytics-items-class" name="analytics-items-class" title="{{localize 'ITEM.TypeClass'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-class-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-feat">{{localize 'ITEM.TypeFeat'}}</label>
+            <input type="checkbox" id="analytics-items-feat" name="analytics-items-feat" title="{{localize 'ITEM.TypeFeat'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-feat-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-backpack">{{localize 'ITEM.TypeBackpack'}}</label>
+            <input type="checkbox" id="analytics-items-backpack" name="analytics-items-backpack" title="{{localize 'ITEM.TypeBackpack'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-backpack-checked}} />
+        </div>
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-spell">{{localize 'ITEM.TypeSpell'}}</label>
+            <input type="checkbox" id="analytics-items-spell" name="analytics-items-spell" title="{{localize 'ITEM.TypeSpell'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-spell-checked}} />
+        </div>
+        <hr>
 
-			<!-- ACTOR NAME -->
-			<label for="in-actor-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Actors'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-actor-name" name="in-actor-name" title="{{localize 'DOCUMENT.Actor'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{in-actor-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-actor-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-actor-case-sensitive" name="in-actor-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-actor-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-actor-exact-match" name="in-actor-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-actor-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- ON USE MACRO NAME -->
+        <div class="form-group" id="analytics-items-macro-label">
+            <label for="analytics-items-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
+            <input type="checkbox" id="analytics-items-macro" name="analytics-items-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_items_macro()" {{analytics-items-macro-checked}} />
+        </div>
+        <div id="analytics-items-macro-name-input">
+            <input type="radio" class="analytics-radio" id="analytics-items-macro-radio-name" name="analytics-items-macro-radio" onClick="toggle_analytics_items_macro_radio()" value="name" {{analytics-items-macro-radio-name-checked}} >
+            <input type="text" class="analytics-name" id="analytics-items-macro-name" name="analytics-items-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-items-macro-name-value}}" >
+        </div>
+        <!-- ON USE MACRO ID -->
+        <div>
+            <input type="radio" class="analytics-radio" id="analytics-items-macro-radio-id" name="analytics-items-macro-radio" onClick="toggle_analytics_items_macro_radio()" value="id" {{analytics-items-macro-radio-id-checked}} >
+            <input type="text" class="analytics-id" id="analytics-items-macro-id" name="analytics-items-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-macro-id-value}}" >
+        </div>
+        <div class="form-group" id="analytics-items-macro-case-sensitive-label">
+            <label for="analytics-items-macro-case-sensitive" id="analytics-items-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+            <input type="checkbox" id="analytics-items-macro-case-sensitive" name="analytics-items-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-macro-case-sensitive-checked}} />
+        </div>
+        <div class="form-group" id="analytics-items-macro-exact-match-label">
+            <label for="analytics-items-macro-exact-match" id="analytics-items-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
+            <input type="checkbox" id="analytics-items-macro-exact-match" name="analytics-items-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-macro-exact-match-checked}} />
+        </div>
+        <hr id="analytics-items-macro-thematic-break">
 
-			<!-- ACTOR OPTIONS -->
-			<div class="form-group">
-				<label for="in-actor-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-actor-none" name="in-actor-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{item-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Actors'}}</p>
-			<div class="form-group">
-				<label for="in-actor-character">{{localize 'ANALYTICS.In'}} {{localize 'ACTOR.TypeCharacter'}}</label>
-				<input type="checkbox" id="in-actor-character" name="in-actor-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{in-actor-character-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-vehicle">{{localize 'ACTOR.TypeVehicle'}}</label>
-				<input type="checkbox" id="in-actor-vehicle" name="in-actor-vehicle" title="{{localize 'ACTOR.TypeVehicle'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{in-actor-vehicle-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-npc">{{localize 'ACTOR.TypeNpc'}}</label>
-				<input type="checkbox" id="in-actor-npc" name="in-actor-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_creature_types()" {{in-actor-npc-checked}} />
-			</div>
-			<hr> 
+        <!-- SHOW -->
+        <div class="form-group" id="analytics">
+            <label for="analytics-items-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+            <input type="checkbox" id="analytics-items-show-id" name="analytics-items-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-show-id-checked}} />
+        </div>
+    </div>
 
-			<!-- CREATURE TYPES -->
-			<div class="form-group">
-				<label for="in-actor-aberration">{{localize 'DND5E.CreatureAberration'}}</label>
-				<input type="checkbox" id="in-actor-aberration" name="in-actor-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-aberration-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-beast">{{localize 'DND5E.CreatureBeast'}}</label>
-				<input type="checkbox" id="in-actor-beast" name="in-actor-beast" title="{{localize 'DND5E.CreatureBeast'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-beast-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-celestial">{{localize 'DND5E.CreatureCelestial'}}</label>
-				<input type="checkbox" id="in-actor-celestial" name="in-actor-celestial" title="{{localize 'DND5E.CreatureCelestial'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-celestial-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-construct">{{localize 'DND5E.CreatureConstruct'}}</label>
-				<input type="checkbox" id="in-actor-construct" name="in-actor-construct" title="{{localize 'DND5E.CreatureConstruct'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-construct-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-dragon">{{localize 'DND5E.CreatureDragon'}}</label>
-				<input type="checkbox" id="in-actor-dragon" name="in-actor-dragon" title="{{localize 'DND5E.CreatureDragon'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-dragon-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-elemental">{{localize 'DND5E.CreatureElemental'}}</label>
-				<input type="checkbox" id="in-actor-elemental" name="in-actor-elemental" title="{{localize 'DND5E.CreatureElemental'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-elemental-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-fey">{{localize 'DND5E.CreatureFey'}}</label>
-				<input type="checkbox" id="in-actor-fey" name="in-actor-fey" title="{{localize 'DND5E.CreatureFey'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-fey-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-fiend">{{localize 'DND5E.CreatureFiend'}}</label>
-				<input type="checkbox" id="in-actor-fiend" name="in-actor-fiend" title="{{localize 'DND5E.CreatureFiend'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-fiend-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-giant">{{localize 'DND5E.CreatureGiant'}}</label>
-				<input type="checkbox" id="in-actor-giant" name="in-actor-giant" title="{{localize 'DND5E.CreatureGiant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-giant-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-humanoid">{{localize 'DND5E.CreatureHumanoid'}}</label>
-				<input type="checkbox" id="in-actor-humanoid" name="in-actor-humanoid" title="{{localize 'DND5E.CreatureHumanoid'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-humanoid-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-monstrosity">{{localize 'DND5E.CreatureMonstrosity'}}</label>
-				<input type="checkbox" id="in-actor-monstrosity" name="in-actor-monstrosity" title="{{localize 'DND5E.CreatureMonstrosity'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-monstrosity-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-ooze">{{localize 'DND5E.CreatureOoze'}}</label>
-				<input type="checkbox" id="in-actor-ooze" name="in-actor-ooze" title="{{localize 'DND5E.CreatureOoze'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-ooze-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-plant">{{localize 'DND5E.CreaturePlant'}}</label>
-				<input type="checkbox" id="in-actor-plant" name="in-actor-plant" title="{{localize 'DND5E.CreaturePlant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-plant-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-swarm">{{localize 'DND5E.CreatureSwarm'}}</label>
-				<input type="checkbox" id="in-actor-swarm" name="in-actor-swarm" title="{{localize 'DND5E.CreatureSwarm'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-swarm-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-actor-undead">{{localize 'DND5E.CreatureUndead'}}</label>
-				<input type="checkbox" id="in-actor-undead" name="in-actor-undead" title="{{localize 'DND5E.CreatureUndead'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{in-actor-undead-checked}} />
-			</div>
-			<hr> 
+    <!-- Tabs -->
+    <div class="analytics-items-tabbed-controls">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-actor-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-actor-show" name="item-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{item-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+        <!-- (2) IN ACTORS -->
+        <div class="tab" data-tab="analytics-items-in-actors" data-group="analytics-items-group">
 
-		<!-- (9) IN COMPENDIUMS -->
-		<div class="tab" data-tab="items-in-compendiums" data-group="components">
+            <!-- ACTOR NAME -->
+            <label for="analytics-items-in-actor-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Actors'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-actor-radio-name" name="analytics-items-in-actor-radio" onClick="toggle_analytics_items_in_actor_radio()" value="name" {{analytics-items-in-actor-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-in-actor-name" name="analytics-items-in-actor-name" data-dtype="String" title="{{localize 'DOCUMENT.Actor'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-in-actor-name-value}}" >
+            </div>
+            <!-- ACTOR ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-actor-radio-id" name="analytics-items-in-actor-radio" onClick="toggle_analytics_items_in_actor_radio()" value="id" {{analytics-items-in-actor-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-in-actor-id" name="analytics-items-in-actor-id" data-dtype="String" title="{{localize 'DOCUMENT.Actor'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-in-actor-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-case-sensitive" name="analytics-items-in-actor-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-actor-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-exact-match" name="analytics-items-in-actor-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-actor-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- COMPENDIUM NAME -->
-			<label for="in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-compendium-name" name="in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-compendium-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-compendium-case-sensitive" name="in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-compendium-exact-match" name="in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-compendium-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- ACTOR OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-none" name="analytics-items-in-actor-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{item-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'DOCUMENT.Actors'}}</p>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-character">{{localize 'ANALYTICS.In'}} {{localize 'ACTOR.TypeCharacter'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-character" name="analytics-items-in-actor-character" title="{{localize 'ACTOR.TypeCharacter'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{analytics-items-in-actor-character-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-vehicle">{{localize 'ACTOR.TypeVehicle'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-vehicle" name="analytics-items-in-actor-vehicle" title="{{localize 'ACTOR.TypeVehicle'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" {{analytics-items-in-actor-vehicle-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-npc">{{localize 'ACTOR.TypeNpc'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-npc" name="analytics-items-in-actor-npc" title="{{localize 'ACTOR.TypeNpc'}} {{localize 'DOCUMENT.Actors'}}" data-dtype="Boolean" onClick="toggle_analytics_items_creature_types()" {{analytics-items-in-actor-npc-checked}} />
+            </div>
+            <hr>
 
-			<!-- COMPENDIUM OPTIONS -->
-			<div class="form-group">
-				<label for="in-compendium-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-compendium-none" name="in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
-			<hr> 
+            <!-- CREATURE TYPES -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-aberration">{{localize 'DND5E.CreatureAberration'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-aberration" name="analytics-items-in-actor-aberration" title="{{localize 'DND5E.CreatureAberration'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-aberration-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-beast">{{localize 'DND5E.CreatureBeast'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-beast" name="analytics-items-in-actor-beast" title="{{localize 'DND5E.CreatureBeast'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-beast-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-celestial">{{localize 'DND5E.CreatureCelestial'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-celestial" name="analytics-items-in-actor-celestial" title="{{localize 'DND5E.CreatureCelestial'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-celestial-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-construct">{{localize 'DND5E.CreatureConstruct'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-construct" name="analytics-items-in-actor-construct" title="{{localize 'DND5E.CreatureConstruct'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-construct-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-dragon">{{localize 'DND5E.CreatureDragon'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-dragon" name="analytics-items-in-actor-dragon" title="{{localize 'DND5E.CreatureDragon'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-dragon-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-elemental">{{localize 'DND5E.CreatureElemental'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-elemental" name="analytics-items-in-actor-elemental" title="{{localize 'DND5E.CreatureElemental'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-elemental-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-fey">{{localize 'DND5E.CreatureFey'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-fey" name="analytics-items-in-actor-fey" title="{{localize 'DND5E.CreatureFey'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-fey-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-fiend">{{localize 'DND5E.CreatureFiend'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-fiend" name="analytics-items-in-actor-fiend" title="{{localize 'DND5E.CreatureFiend'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-fiend-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-giant">{{localize 'DND5E.CreatureGiant'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-giant" name="analytics-items-in-actor-giant" title="{{localize 'DND5E.CreatureGiant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-giant-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-humanoid">{{localize 'DND5E.CreatureHumanoid'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-humanoid" name="analytics-items-in-actor-humanoid" title="{{localize 'DND5E.CreatureHumanoid'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-humanoid-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-monstrosity">{{localize 'DND5E.CreatureMonstrosity'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-monstrosity" name="analytics-items-in-actor-monstrosity" title="{{localize 'DND5E.CreatureMonstrosity'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-monstrosity-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-ooze">{{localize 'DND5E.CreatureOoze'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-ooze" name="analytics-items-in-actor-ooze" title="{{localize 'DND5E.CreatureOoze'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-ooze-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-plant">{{localize 'DND5E.CreaturePlant'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-plant" name="analytics-items-in-actor-plant" title="{{localize 'DND5E.CreaturePlant'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-plant-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-swarm">{{localize 'DND5E.CreatureSwarm'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-swarm" name="analytics-items-in-actor-swarm" title="{{localize 'DND5E.CreatureSwarm'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-swarm-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-undead">{{localize 'DND5E.CreatureUndead'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-undead" name="analytics-items-in-actor-undead" title="{{localize 'DND5E.CreatureUndead'}} {{localize 'ACTOR.TypeNpc'}}" data-dtype="Boolean" {{analytics-items-in-actor-undead-checked}} />
+            </div>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-compendium-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-compendium-show" name="in-compendium-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{in-compendium-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Actors'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-show" name="analytics-items-in-actor-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-actor-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-actor-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-items-in-actor-show-id" name="analytics-items-in-actor-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-actor-show-id-checked}} />
+            </div>
+        </div>
 
-		<!-- (16-16) WITHIN ITEMS -->
-		<div class="tab" data-tab="items-within-items" data-group="components">
+        <!-- (9) IN COMPENDIUMS -->
+        <div class="tab" data-tab="analytics-items-in-compendiums" data-group="analytics-items-group">
 
-			<!-- ITEM NAME -->
-			<label for="within-item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.Within'}} {{localize 'DOCUMENT.Items'}}</label>
-			<div class="form-group">
-				<input type="text" id="within-item-name" name="within-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{within-item-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="within-item-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="within-item-case-sensitive" name="within-item-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{within-item-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="within-item-exact-match" name="within-item-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{within-item-exact-match-checked}} />
-			</div>
-			<hr>
-			
-			<!-- ITEM OPTIONS -->
-			<div class="form-group">
-				<label for="within-item-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="within-item-none" name="within-item-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
-			<div class="form-group">
-				<label for="within-item-weapon">{{localize 'ITEM.TypeWeapon'}}</label>
-				<input type="checkbox" id="within-item-weapon" name="within-item-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-weapon-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-equipment">{{localize 'ITEM.TypeEquipment'}}</label>
-				<input type="checkbox" id="within-item-equipment" name="within-item-equipment" title="{{localize 'ITEM.TypeEquipment'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-equipment-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-consumable">{{localize 'ITEM.TypeConsumable'}}</label>
-				<input type="checkbox" id="within-item-consumable" name="within-item-consumable" title="{{localize 'ITEM.TypeConsumable'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-consumable-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-tool">{{localize 'ITEM.TypeTool'}}</label>
-				<input type="checkbox" id="within-item-tool" name="within-item-tool" title="{{localize 'ITEM.TypeTool'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-tool-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-loot">{{localize 'ITEM.TypeLoot'}}</label>
-				<input type="checkbox" id="within-item-loot" name="within-item-loot" title="{{localize 'ITEM.TypeLoot'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-loot-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-class">{{localize 'ITEM.TypeClass'}}</label>
-				<input type="checkbox" id="within-item-class" name="within-item-class" title="{{localize 'ITEM.TypeClass'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-class-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-feat">{{localize 'ITEM.TypeFeat'}}</label>
-				<input type="checkbox" id="within-item-feat" name="within-item-feat" title="{{localize 'ITEM.TypeFeat'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-feat-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-backpack">{{localize 'ITEM.TypeBackpack'}}</label>
-				<input type="checkbox" id="within-item-backpack" name="within-item-backpack" title="{{localize 'ITEM.TypeBackpack'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-backpack-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-spell">{{localize 'ITEM.TypeSpell'}}</label>
-				<input type="checkbox" id="within-item-spell" name="within-item-spell" title="{{localize 'ITEM.TypeSpell'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-spell-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-macro" id="within-item-macro-label">{{localize 'midi-qol.onUseMacroLabel'}}</label>
-				<input type="checkbox" id="within-item-macro" name="within-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_within_item_macro()" {{within-item-macro-checked}} />
-			</div>
-			<p class="notes" id="within-item-macro-note">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}</p>
-			<hr>
+            <!-- COMPENDIUM NAME -->
+            <label for="analytics-items-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-compendium-radio-name" name="analytics-items-in-compendium-radio" onClick="toggle_analytics_items_in_compendium_radio()" value="name" {{analytics-items-in-compendium-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-in-compendium-name" name="analytics-items-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-in-compendium-name-value}}" >
+            </div>
+            <!-- COMPENDIUM ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-compendium-radio-id" name="analytics-items-in-compendium-radio" onClick="toggle_analytics_items_in_compendium_radio()" value="id" {{analytics-items-in-compendium-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-in-compendium-id" name="analytics-items-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-in-compendium-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-in-compendium-case-sensitive" name="analytics-items-in-compendium-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-compendium-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-compendium-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-in-compendium-exact-match" name="analytics-items-in-compendium-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-compendium-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- ON USE MACRO -->
-			<label for="within-item-macro-name" id="within-item-macro-name-label"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
-			<div class="form-group">
-				<input type="text" id="within-item-macro-name" name="within-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{within-item-macro-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="within-item-macro-case-sensitive" id="within-item-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="within-item-macro-case-sensitive" name="within-item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{within-item-macro-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="within-item-macro-exact-match" id="within-item-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="within-item-macro-exact-match" name="within-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{within-item-macro-exact-match-checked}} />
-			</div>
-			<hr id="within-item-macro-thematic-break">
+            <!-- COMPENDIUM OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-compendium-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-items-in-compendium-none" name="analytics-items-in-compendium-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}" data-dtype="Boolean" {{analytics-items-in-compendium-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Compendiums'}}</p>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="within-item-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="within-item-show" name="within-item-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{within-item-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
-		
-		<!-- (17) IN JOURNALS -->
-		<div class="tab" data-tab="items-in-journals" data-group="components">
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-compendium-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}</label>
+                <input type="checkbox" id="analytics-items-in-compendium-show" name="analytics-items-in-compendium-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-compendium-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-compendium-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-items-in-compendium-show-id" name="analytics-items-in-compendium-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-compendium-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- JOURNAL NAME -->
-			<label for="in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-journal-name" name="in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-journal-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-journal-case-sensitive" name="in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-journal-exact-match" name="in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-journal-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- (16-16) WITHIN ITEMS -->
+        <div class="tab" data-tab="analytics-items-within-items" data-group="analytics-items-group">
 
-			<!-- JOURNAL OPTIONS -->
-			<div class="form-group">
-				<label for="in-journal-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-journal-none" name="in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{in-journal-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
+            <!-- ITEM NAME -->
+            <label for="analytics-items-within-item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.Within'}} {{localize 'DOCUMENT.Items'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-within-item-radio-name" name="analytics-items-within-item-radio" onClick="toggle_analytics_items_within_item_radio()" value="name" {{analytics-items-within-item-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-within-item-name" name="analytics-items-within-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-within-item-name-value}}" >
+            </div>
+            <!-- ITEM ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-within-item-radio-id" name="analytics-items-within-item-radio" onClick="toggle_analytics_items_within_item_radio()" value="id" {{analytics-items-within-item-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-within-item-id" name="analytics-items-within-item-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-within-item-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-case-sensitive" name="analytics-items-within-item-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-within-item-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-exact-match" name="analytics-items-within-item-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-within-item-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- MONK'S -->
-			<div class="form-group">
-				<label for="in-journal-base" id="in-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
-				<input type="checkbox" id="in-journal-base" name="in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{in-journal-base-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-checklist" id="in-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
-				<input type="checkbox" id="in-journal-checklist" name="in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{in-journal-checklist-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-encounter" id="in-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
-				<input type="checkbox" id="in-journal-encounter" name="in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{in-journal-encounter-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-loot" id="in-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
-				<input type="checkbox" id="in-journal-loot" name="in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{in-journal-loot-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-organization" id="in-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
-				<input type="checkbox" id="in-journal-organization" name="in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{in-journal-organization-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-person" id="in-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
-				<input type="checkbox" id="in-journal-person" name="in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{in-journal-person-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-place" id="in-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
-				<input type="checkbox" id="in-journal-place" name="in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{in-journal-place-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-poi" id="in-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
-				<input type="checkbox" id="in-journal-poi" name="in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{in-journal-poi-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-quest" id="in-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
-				<input type="checkbox" id="in-journal-quest" name="in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{in-journal-quest-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-journal-shop" id="in-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
-				<input type="checkbox" id="in-journal-shop" name="in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{in-journal-shop-checked}} />
-			</div>
-			<hr>
+            <!-- ITEM OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-none" name="analytics-items-within-item-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Items'}}</p>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-weapon">{{localize 'ITEM.TypeWeapon'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-weapon" name="analytics-items-within-item-weapon" title="{{localize 'ITEM.TypeWeapon'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-weapon-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-equipment">{{localize 'ITEM.TypeEquipment'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-equipment" name="analytics-items-within-item-equipment" title="{{localize 'ITEM.TypeEquipment'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-equipment-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-consumable">{{localize 'ITEM.TypeConsumable'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-consumable" name="analytics-items-within-item-consumable" title="{{localize 'ITEM.TypeConsumable'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-consumable-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-tool">{{localize 'ITEM.TypeTool'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-tool" name="analytics-items-within-item-tool" title="{{localize 'ITEM.TypeTool'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-tool-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-loot">{{localize 'ITEM.TypeLoot'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-loot" name="analytics-items-within-item-loot" title="{{localize 'ITEM.TypeLoot'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-loot-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-class">{{localize 'ITEM.TypeClass'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-class" name="analytics-items-within-item-class" title="{{localize 'ITEM.TypeClass'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-class-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-feat">{{localize 'ITEM.TypeFeat'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-feat" name="analytics-items-within-item-feat" title="{{localize 'ITEM.TypeFeat'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-feat-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-backpack">{{localize 'ITEM.TypeBackpack'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-backpack" name="analytics-items-within-item-backpack" title="{{localize 'ITEM.TypeBackpack'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-backpack-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-spell">{{localize 'ITEM.TypeSpell'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-spell" name="analytics-items-within-item-spell" title="{{localize 'ITEM.TypeSpell'}} {{localize 'DOCUMENT.Items'}}" data-dtype="Boolean" {{analytics-items-within-item-spell-checked}} />
+            </div>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-journal-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-journal-show" name="in-journal-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.JournalEntries'}}" data-dtype="Boolean" {{in-journal-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- ON USE MACRO NAME -->
+            <div class="form-group" id="analytics-items-within-item-macro-label">
+                <label for="analytics-items-within-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-macro" name="analytics-items-within-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_items_within_item_macro()" {{analytics-items-within-item-macro-checked}} />
+            </div>
+            <div id="analytics-items-within-item-macro-name-input">
+                <input type="radio" class="analytics-radio" id="analytics-items-within-item-macro-radio-name" name="analytics-items-within-item-macro-radio" onClick="toggle_analytics_items_within_item_macro_radio()" value="name" {{analytics-items-within-item-macro-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-within-item-macro-name" name="analytics-items-within-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-items-within-item-macro-name-value}}" >
+            </div>
+            <!-- ON USE MACRO ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-within-item-macro-radio-id" name="analytics-items-within-item-macro-radio" onClick="toggle_analytics_items_within_item_macro_radio()" value="id" {{analytics-items-within-item-macro-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-within-item-macro-id" name="analytics-items-within-item-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-within-item-macro-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics-items-within-item-macro-case-sensitive-label">
+                <label for="analytics-items-within-item-macro-case-sensitive" id="analytics-items-within-item-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-macro-case-sensitive" name="analytics-items-within-item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-within-item-macro-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics-items-within-item-macro-exact-match-label">
+                <label for="analytics-items-within-item-macro-exact-match" id="analytics-items-within-item-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-macro-exact-match" name="analytics-items-within-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-within-item-macro-exact-match-checked}} />
+            </div>
+            <hr id="analytics-items-within-item-macro-thematic-break">
 
-		<!-- (18) WITH MACROS -->
-		<div class="tab" data-tab="items-with-macros" data-group="components">
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Items'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-show" name="analytics-items-within-item-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-within-item-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-within-item-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-items-within-item-show-id" name="analytics-items-within-item-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-within-item-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- MACRO NAME -->
-			<label for="with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
-			<div class="form-group">
-				<input type="text" id="with-macro-name" name="with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{with-macro-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="with-macro-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="with-macro-case-sensitive" name="with-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-macro-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="with-macro-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="with-macro-exact-match" name="with-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{with-macro-exact-match-checked}} />
-			</div>
-			<hr>
+        <!-- (17) IN JOURNALS -->
+        <div class="tab" data-tab="analytics-items-in-journals" data-group="analytics-items-group">
 
-			<!-- MACRO OPTIONS -->
-			<div class="form-group">
-				<label for="with-macro-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="with-macro-none" name="with-macro-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Macros'}}" data-dtype="Boolean" {{with-macro-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Macros'}}</p>
-			<hr> 
+            <!-- JOURNAL NAME -->
+            <label for="analytics-items-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-journal-radio-name" name="analytics-items-in-journal-radio" onClick="toggle_analytics_items_in_journal_radio()" value="name" {{analytics-items-in-journal-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-in-journal-name" name="analytics-items-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-in-journal-name-value}}" >
+            </div>
+            <!-- JOURNAL ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-journal-radio-id" name="analytics-items-in-journal-radio" onClick="toggle_analytics_items_in_journal_radio()" value="id" {{analytics-items-in-journal-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-in-journal-id" name="analytics-items-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-in-journal-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-case-sensitive" name="analytics-items-in-journal-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-journal-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-exact-match" name="analytics-items-in-journal-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-journal-exact-match-checked}} />
+            </div>
+            <hr>
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="with-macro-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="with-macro-show" name="with-macro-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Macros'}}" data-dtype="Boolean" {{with-macro-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
+            <!-- JOURNAL OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-none" name="analytics-items-in-journal-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}" data-dtype="Boolean" {{analytics-items-in-journal-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Journals'}}</p>
 
-		<!-- (19) IN TABLES -->
-		<div class="tab" data-tab="items-in-tables" data-group="components">
+            <!-- MONK'S -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-base" id="analytics-items-in-journal-base-label">{{localize 'MonksEnhancedJournal.base'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-base" name="analytics-items-in-journal-base" title="{{localize 'MonksEnhancedJournal.base'}}" data-dtype="Boolean" {{analytics-items-in-journal-base-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-checklist" id="analytics-items-in-journal-checklist-label">{{localize 'MonksEnhancedJournal.checklist'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-checklist" name="analytics-items-in-journal-checklist" title="{{localize 'MonksEnhancedJournal.checklist'}}" data-dtype="Boolean" {{analytics-items-in-journal-checklist-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-encounter" id="analytics-items-in-journal-encounter-label">{{localize 'MonksEnhancedJournal.encounter'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-encounter" name="analytics-items-in-journal-encounter" title="{{localize 'MonksEnhancedJournal.encounter'}}" data-dtype="Boolean" {{analytics-items-in-journal-encounter-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-loot" id="analytics-items-in-journal-loot-label">{{localize 'MonksEnhancedJournal.loot'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-loot" name="analytics-items-in-journal-loot" title="{{localize 'MonksEnhancedJournal.loot'}}" data-dtype="Boolean" {{analytics-items-in-journal-loot-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-organization" id="analytics-items-in-journal-organization-label">{{localize 'MonksEnhancedJournal.organization'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-organization" name="analytics-items-in-journal-organization" title="{{localize 'MonksEnhancedJournal.organization'}}" data-dtype="Boolean" {{analytics-items-in-journal-organization-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-person" id="analytics-items-in-journal-person-label">{{localize 'MonksEnhancedJournal.person'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-person" name="analytics-items-in-journal-person" title="{{localize 'MonksEnhancedJournal.person'}}" data-dtype="Boolean" {{analytics-items-in-journal-person-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-place" id="analytics-items-in-journal-place-label">{{localize 'MonksEnhancedJournal.place'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-place" name="analytics-items-in-journal-place" title="{{localize 'MonksEnhancedJournal.place'}}" data-dtype="Boolean" {{analytics-items-in-journal-place-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-poi" id="analytics-items-in-journal-poi-label">{{localize 'MonksEnhancedJournal.poi'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-poi" name="analytics-items-in-journal-poi" title="{{localize 'MonksEnhancedJournal.poi'}}" data-dtype="Boolean" {{analytics-items-in-journal-poi-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-quest" id="analytics-items-in-journal-quest-label">{{localize 'MonksEnhancedJournal.quest'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-quest" name="analytics-items-in-journal-quest" title="{{localize 'MonksEnhancedJournal.quest'}}" data-dtype="Boolean" {{analytics-items-in-journal-quest-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-shop" id="analytics-items-in-journal-shop-label">{{localize 'MonksEnhancedJournal.shop'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-shop" name="analytics-items-in-journal-shop" title="{{localize 'MonksEnhancedJournal.shop'}}" data-dtype="Boolean" {{analytics-items-in-journal-shop-checked}} />
+            </div>
+            <hr>
 
-			<!-- TABLE NAME -->
-			<label for="in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
-			<div class="form-group">
-				<input type="text" id="in-table-name" name="in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{in-table-name-value}}" >
-			</div>
-			<div class="form-group">
-				<label for="in-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-				<input type="checkbox" id="in-table-case-sensitive" name="in-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-table-case-sensitive-checked}} />
-			</div>
-			<div class="form-group">
-				<label for="in-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
-				<input type="checkbox" id="in-table-exact-match" name="in-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{in-table-exact-match-checked}} />
-			</div>
-			<hr>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Journals'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-show" name="analytics-items-in-journal-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-journal-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-journal-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-items-in-journal-show-id" name="analytics-items-in-journal-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-journal-show-id-checked}} />
+            </div>
+        </div>
 
-			<!-- TABLE OPTIONS -->
-			<div class="form-group">
-				<label for="in-table-none">{{localize 'DND5E.None'}}</label>
-				<input type="checkbox" id="in-table-none" name="in-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{in-table-none-checked}} />
-			</div>
-			<p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
-			<hr> 
+        <!-- (18) WITH MACROS -->
+        <div class="tab" data-tab="analytics-items-with-macros" data-group="analytics-items-group">
 
-			<!-- SHOW -->
-			<div class="form-group">
-				<label for="in-table-show">{{localize 'ANALYTICS.Show'}}</label>
-				<input type="checkbox" id="in-table-show" name="in-table-show" title="{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{in-table-show-checked}} />
-			</div>
-			<p class="notes">{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}</p>
-		</div>
-	</div>
-	
-	<!-- SUBMIT -->
-	<button type="submit" class="analytics-items-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Items'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+            <!-- MACRO NAME -->
+            <label for="analytics-items-with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-with-macro-radio-name" name="analytics-items-with-macro-radio" onClick="toggle_with_macro_radio()" value="name" {{analytics-items-with-macro-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-with-macro-name" name="analytics-items-with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-with-macro-name-value}}" >
+            </div>
+            <!-- MACRO ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-with-macro-radio-id" name="analytics-items-with-macro-radio" onClick="toggle_with_macro_radio()" value="id" {{analytics-items-with-macro-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-with-macro-id" name="analytics-items-with-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-with-macro-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-with-macro-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-with-macro-case-sensitive" name="analytics-items-with-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-with-macro-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-with-macro-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-with-macro-exact-match" name="analytics-items-with-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-with-macro-exact-match-checked}} />
+            </div>
+            <hr>
 
-	<!-- LIST HEADER -->	
-	<div class="analytics-items-header">
-		<i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Items'}} {{item-count}}&nbsp;/&nbsp;{{number-of-items}}
-	</div>
+            <!-- MACRO OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-with-macro-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-items-with-macro-none" name="analytics-items-with-macro-none" title="{{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Macros'}}" data-dtype="Boolean" {{analytics-items-with-macro-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.Without'}} {{localize 'DOCUMENT.Macros'}}</p>
+            <hr>
 
-	<!-- LIST -->
-	<div class="analytics-items-list" id="analytics-list"></div>
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-with-macro-show">{{localize 'ANALYTICS.Show'}} {{localize 'DOCUMENT.Macros'}}</label>
+                <input type="checkbox" id="analytics-items-with-macro-show" name="analytics-items-with-macro-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-with-macro-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-with-macro-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-items-with-macro-show-id" name="analytics-items-with-macro-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-with-macro-show-id-checked}} />
+            </div>
+        </div>
+
+        <!-- (19) IN TABLES -->
+        <div class="tab" data-tab="analytics-items-in-tables" data-group="analytics-items-group">
+
+            <!-- TABLE NAME -->
+            <label for="analytics-items-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-table-radio-name" name="analytics-items-in-table-radio" onClick="toggle_analytics_items_in_table_radio()" value="name" {{analytics-items-in-table-radio-name-checked}} >
+                <input type="text" class="analytics-name" id="analytics-items-in-table-name" name="analytics-items-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-items-in-table-name-value}}" >
+            </div>
+            <!-- TABLE ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-items-in-table-radio-id" name="analytics-items-in-table-radio" onClick="toggle_analytics_items_in_table_radio()" value="id" {{analytics-items-in-table-radio-id-checked}} >
+                <input type="text" class="analytics-id" id="analytics-items-in-table-id" name="analytics-items-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-items-in-table-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-table-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-items-in-table-case-sensitive" name="analytics-items-in-table-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-table-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-table-exact-match">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-items-in-table-exact-match" name="analytics-items-in-table-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-items-in-table-exact-match-checked}} />
+            </div>
+            <hr>
+
+            <!-- TABLE OPTIONS -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-table-none">{{localize 'DND5E.None'}}</label>
+                <input type="checkbox" id="analytics-items-in-table-none" name="analytics-items-in-table-none" title="{{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}" data-dtype="Boolean" {{analytics-items-in-table-none-checked}} />
+            </div>
+            <p class="notes">{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.NotIn'}} {{localize 'ANALYTICS.Tables'}}</p>
+            <hr>
+
+            <!-- SHOW -->
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-table-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Tables'}}</label>
+                <input type="checkbox" id="analytics-items-in-table-show" name="analytics-items-in-table-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-table-show-checked}} />
+            </div>
+            <div class="form-group" id="analytics">
+                <label for="analytics-items-in-table-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
+                <input type="checkbox" id="analytics-items-in-table-show-id" name="analytics-items-in-table-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-items-in-table-show-id-checked}} />
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="analytics-items-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Items'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+
+    <!-- LIST HEADER -->
+    <div class="analytics-items-header">
+        <i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.NumberOf'}} {{localize 'DOCUMENT.Items'}} {{analytics-items-item-count}}&nbsp;/&nbsp;{{analytics-items-number-of-items}}
+    </div>
+
+    <!-- LIST -->
+    <div class="analytics-items-list" id="analytics-items-list"></div>
 </form>
