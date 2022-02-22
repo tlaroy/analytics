@@ -1,8 +1,8 @@
 # Analytics v0.0.10
 
-Phase I - Actors, Items, Journals, Macros, Scenes.
-Phase II - Playlists, Tables, Tiles.
-Phase III - Compendiums, Cards.<
+Phase I - Actors, Items, Journals, Macros, Scenes.<br>
+Phase II - Playlists, Tables, Tiles.<br>
+Phase III - Compendiums, Cards.<br>
 
 Foundry VTT entity relationships.
 
@@ -13,7 +13,7 @@ ACTORS -
 (3) Actors -> in Journals - Phase I<br>
 (4) Actors -> in Scenes As Tokens - Phase I<br>
 (5) Actors -> in Tables - Phase II<br>
-<
+
 CARDS -
 
 (6) Cards -> in Compendiums - Phase III<br>
@@ -98,8 +98,8 @@ TABLES -
 
 TILES -
 
-(29) Tiles &lt- with Macros - Phase II<br>
-(33) Tiles -&gt in Scenes - Phase II<br>
+(29) Tiles <- with Macros - Phase II<br>
+(33) Tiles -> in Scenes - Phase II<br>
 
 Where:
 (##) - Relationship identifiers. Each appears twice, once<br>
