@@ -1,4 +1,4 @@
-# Analytics v0.0.10
+# Analytics
 
 Phase I - Actors, Items, Journals, Macros, Scenes.<br>
 Phase II - Playlists, Tables, Tiles.<br>
