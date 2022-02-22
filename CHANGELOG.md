@@ -26,7 +26,7 @@ Actors - Labeling and Localization.
 # v0.0.6
 2022-02-01
 
-Actors/Journals - Journal Searches (Phase I).
+Actors/Journals - Journal Searches (Phase I).<br>
 Actors/Scenes - Scene Searches (Phase I).
 
 # v0.0.5
