@@ -1,27 +1,27 @@
-# Analytics v0.0.10<br>
-<br>
-Phase I - Actors, Items, Journals, Macros, Scenes.<br>
-Phase II - Playlists, Tables, Tiles.<br>
-Phase III - Compendiums, Cards.<br>
-<br>
-Foundry VTT entity relationships.<br>
-<br>
-ACTORS -<br>
-<br>
+# Analytics v0.0.10
+
+Phase I - Actors, Items, Journals, Macros, Scenes.
+Phase II - Playlists, Tables, Tiles.
+Phase III - Compendiums, Cards.
+
+Foundry VTT entity relationships.
+
+ACTORS -
+
 (1) Actors -> in Compendiums - Phase III<br>
 (2) Actors <- with Items - Phase I<br>
 (3) Actors -> in Journals - Phase I<br>
 (4) Actors -> in Scenes As Tokens - Phase I<br>
 (5) Actors -> in Tables - Phase II<br>
-<br>
-CARDS -<br>
-<br>
+
+CARDS -
+
 (6) Cards -> in Compendiums - Phase III<br>
 (7) Cards -> in Journals - Phase III<br>
 (8) Cards -> in Tables - Phase III<br>
-<br>
-COMPENDIUMS -<br>
-<br>
+
+COMPENDIUMS -
+
 (1) Compendiums <- with Actors - Phase III<br>
 (6) Compendiums <- with Cards - Phase III<br>
 (9) Compendiums <- with Items - Phase III<br>
@@ -31,18 +31,18 @@ COMPENDIUMS -<br>
 (13) Compendiums <- with Scenes - Phase III<br>
 (14) Compendiums <- with Tables - Phase III<br>
 (15) Compendiums >- in Tables - Phase III<br>
-<br>
-ITEMS -<br>
-<br>
+
+ITEMS -
+
 (2) Items -> in Actors - Phase I<br>
 (9) Items -> in Compendiums - Phase III<br>
 (16-16) Items <> within Items - Phase I<br>
 (17) Items -> in Journals - Phase I<br>
 (18) Items <- with Macros - Phase I<br>
 (19) Items -> in Tables - Phase II<br>
-<br>
-JOURNALS -<br>
-<br>
+
+JOURNALS -
+
 (3) Journals <- with Actors - Phase I<br>
 (7) Journals <- with Cards - Phase III<br>
 (10) Journals -> in Compendiums - Phase III<br>
@@ -55,9 +55,9 @@ JOURNALS -<br>
 (25) Journals -> in Scenes As Pins - Phase I<br>
 (26) Journals -> in Tables - Phase II<br>
 (27) Journals <- with Tables - Phase II<br>
-<br>
-MACROS -<br>
-<br>
+
+MACROS -
+
 (11) Macros -> in Compendiums - Phase III<br>
 (18) Macros -> in Items - Phase I<br>
 (21) Macros -> in Journals - Phase I<br>
