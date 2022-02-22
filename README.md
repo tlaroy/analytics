@@ -2,7 +2,7 @@
 
 Phase I - Actors, Items, Journals, Macros, Scenes.
 Phase II - Playlists, Tables, Tiles.
-Phase III - Compendiums, Cards.
+Phase III - Compendiums, Cards.<
 
 Foundry VTT entity relationships.
 
@@ -13,7 +13,7 @@ ACTORS -
 (3) Actors -> in Journals - Phase I<br>
 (4) Actors -> in Scenes As Tokens - Phase I<br>
 (5) Actors -> in Tables - Phase II<br>
-
+<
 CARDS -
 
 (6) Cards -> in Compendiums - Phase III<br>
@@ -63,16 +63,16 @@ MACROS -
 (21) Macros -> in Journals - Phase I<br>
 (28) Macros -> in Tables - Phase II<br>
 (29) Macros -> in Tiles - Phase II<br>
-<br>
-PLAYLISTS -<br>
-<br>
+
+PLAYLISTS -
+
 (12) Playlists -> in Compendiums - Phase III<br>
 (22) Playlists -> in Journals - Phase II<br>
 (30) Playlists -> in Scenes - Phase II<br>
 (31) Playlists -> in Tables - Phase II<br>
-<br>
-SCENES -<br>
-<br>
+
+SCENES -
+
 (4) Scenes <- with Actors As Tokens - Phase I<br>
 (13) Scenes -> in Compendiums - Phase III<br>
 (23) Scenes -> in Journals - Phase I<br>
@@ -81,9 +81,9 @@ SCENES -<br>
 (30) Scenes <- with Playlists - Phase II<br>
 (32) Scenes -> in Tables - Phase II<br>
 (33) Scenes <- with Tiles - Phase II<br>
-<br>
-TABLES -<br>
-<br>
+
+TABLES -
+
 (5) Tables <- with Actors - Phase II<br>
 (8) Tables <- with Cards - Phase II<br>
 (14) Tables -> in Compendiums - Phase III<br>
@@ -95,21 +95,21 @@ TABLES -<br>
 (31) Tables <- with Playlists - Phase II<br>
 (32) Tables <- with Scenes - Phase II<br>
 (34-34) Tables <> within Tables - Phase II<br>
-<br>
-TILES -<br>
-<br>
+
+TILES -
+
 (29) Tiles &lt- with Macros - Phase II<br>
 (33) Tiles -&gt in Scenes - Phase II<br>
-<br>
-Where:<br>
+
+Where:
 (##) - Relationship identifiers. Each appears twice, once<br>
 for each “direction” of the relationship with exception<br>
 of self-referencing (16, 20 & 32).<br>
-<br>
-An Example:<br>
+
+An Example:
 (1) Actors -> in Compendiums<br>
 (1) Compendiums <- with Actors<br>
-<br>
-Phase - Availability of functional searches.<br>
-<br>
+
+Phase - Availability of functional searches.
+
 <i>Nokturnel</i>
