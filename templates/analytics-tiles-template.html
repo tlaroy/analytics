@@ -2,22 +2,22 @@
 
     <script>
         function toggle_analytics_tiles_radio() {
-            document.getElementById("analytics-tiles-tile-name").disabled           = !document.getElementById("analytics-tiles-tile-radio-name").checked;
-            document.getElementById("analytics-tiles-tile-case-sensitive").disabled = !document.getElementById("analytics-tiles-tile-radio-name").checked;
-            document.getElementById("analytics-tiles-tile-exact-match").disabled    = !document.getElementById("analytics-tiles-tile-radio-name").checked;
-            document.getElementById("analytics-tiles-tile-id").disabled             = !document.getElementById("analytics-tiles-tile-radio-id").checked;
+            document.getElementById("analytics-tiles-tile-name").disabled           = !document.getElementById("analytics-tiles-tile-name-radio").checked;
+            document.getElementById("analytics-tiles-tile-case-sensitive").disabled = !document.getElementById("analytics-tiles-tile-name-radio").checked;
+            document.getElementById("analytics-tiles-tile-exact-match").disabled    = !document.getElementById("analytics-tiles-tile-name-radio").checked;
+            document.getElementById("analytics-tiles-tile-id").disabled             = !document.getElementById("analytics-tiles-tile-id-radio").checked;
         }
         function toggle_analytics_tiles_with_macro_radio() {
-            document.getElementById("analytics-tiles-with-macro-name").disabled           = !document.getElementById("analytics-tiles-with-macro-radio-name").checked;
-            document.getElementById("analytics-tiles-with-macro-case-sensitive").disabled = !document.getElementById("analytics-tiles-with-macro-radio-name").checked;
-            document.getElementById("analytics-tiles-with-macro-exact-match").disabled    = !document.getElementById("analytics-tiles-with-macro-radio-name").checked;
-            document.getElementById("analytics-tiles-with-macro-id").disabled             = !document.getElementById("analytics-tiles-with-macro-radio-id").checked;
+            document.getElementById("analytics-tiles-with-macro-name").disabled           = !document.getElementById("analytics-tiles-with-macro-name-radio").checked;
+            document.getElementById("analytics-tiles-with-macro-case-sensitive").disabled = !document.getElementById("analytics-tiles-with-macro-name-radio").checked;
+            document.getElementById("analytics-tiles-with-macro-exact-match").disabled    = !document.getElementById("analytics-tiles-with-macro-name-radio").checked;
+            document.getElementById("analytics-tiles-with-macro-id").disabled             = !document.getElementById("analytics-tiles-with-macro-id-radio").checked;
         }
         function toggle_analytics_tiles_in_scene_radio() {
-            document.getElementById("analytics-tiles-in-scene-name").disabled           = !document.getElementById("analytics-tiles-in-scene-radio-name").checked;
-            document.getElementById("analytics-tiles-in-scene-case-sensitive").disabled = !document.getElementById("analytics-tiles-in-scene-radio-name").checked;
-            document.getElementById("analytics-tiles-in-scene-exact-match").disabled    = !document.getElementById("analytics-tiles-in-scene-radio-name").checked;
-            document.getElementById("analytics-tiles-in-scene-id").disabled             = !document.getElementById("analytics-tiles-in-scene-radio-id").checked;
+            document.getElementById("analytics-tiles-in-scene-name").disabled           = !document.getElementById("analytics-tiles-in-scene-name-radio").checked;
+            document.getElementById("analytics-tiles-in-scene-case-sensitive").disabled = !document.getElementById("analytics-tiles-in-scene-name-radio").checked;
+            document.getElementById("analytics-tiles-in-scene-exact-match").disabled    = !document.getElementById("analytics-tiles-in-scene-name-radio").checked;
+            document.getElementById("analytics-tiles-in-scene-id").disabled             = !document.getElementById("analytics-tiles-in-scene-id-radio").checked;
         }
     </script>
 
@@ -37,12 +37,12 @@
         <!-- TILE NAME -->
         <label for="analytics-tiles-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'DOCUMENT.Tiles'}}</label>
         <div>
-            <input type="radio" class="analytics-radio" id="analytics-tiles-radio-name" name="analytics-tiles-radio" onClick="toggle_analytics_tiles_radio()" value="name" {{analytics-tiles-radio-name-checked}} >
+            <input type="radio" class="analytics-radio" id="analytics-tiles-name-radio" name="analytics-tiles-radio" onClick="toggle_analytics_tiles_radio()" value="name" {{analytics-tiles-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-tiles-name" name="analytics-tiles-name" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tiles-name-value}}" >
         </div>
         <!-- TILE ID -->
         <div>
-            <input type="radio" class="analytics-radio" id="analytics-tiles-radio-id" name="analytics-tiles-radio" onClick="toggle_analytics_tiles_radio()" value="id" {{analytics-tiles-radio-id-checked}} >
+            <input type="radio" class="analytics-radio" id="analytics-tiles-id-radio" name="analytics-tiles-radio" onClick="toggle_analytics_tiles_radio()" value="id" {{analytics-tiles-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-tiles-id" name="analytics-tiles-id" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tiles-id-value}}" >
         </div>
         <div class="form-group" id="analytics">
@@ -71,12 +71,12 @@
             <!-- MACRO NAME -->
             <label for="analytics-tiles-with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tiles-with-macro-radio-name" name="analytics-tiles-with-macro-radio" onClick="toggle_analytics_tiles_with_macro_radio()" value="name" {{analytics-tiles-with-macro-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tiles-with-macro-name-radio" name="analytics-tiles-with-macro-radio" onClick="toggle_analytics_tiles_with_macro_radio()" value="name" {{analytics-tiles-with-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tiles-with-macro-name" name="analytics-tiles-with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{journal-name-value}}" >
             </div>
             <!-- MACRO ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tiles-with-macro-radio-id" name="analytics-tiles-with-macro-radio" onClick="toggle_analytics_tiles_with_macro_radio()" value="id" {{analytics-tiles-with-macro-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tiles-with-macro-id-radio" name="analytics-tiles-with-macro-radio" onClick="toggle_analytics_tiles_with_macro_radio()" value="id" {{analytics-tiles-with-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tiles-with-macro-id" name="analytics-tiles-with-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tiles-with-macro-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -114,12 +114,12 @@
             <!-- SCENE NAME -->
             <label for="analytics-tiles-in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tiles-in-scene-radio-name" name="analytics-tiles-in-scene-radio" onClick="toggle_analytics_tiles_in_scene_radio()" value="name" {{analytics-tiles-in-scene-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tiles-in-scene-name-radio" name="analytics-tiles-in-scene-radio" onClick="toggle_analytics_tiles_in_scene_radio()" value="name" {{analytics-tiles-in-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tiles-in-scene-name" name="analytics-tiles-in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scene'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tiles-in-scene-name-value}}" >
             </div>
             <!-- SCENE ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tiles-in-scene-radio-id" name="analytics-tiles-in-scene-radio" onClick="toggle_analytics_tiles_in_scene_radio()" value="id" {{analytics-tiles-in-scene-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tiles-in-scene-id-radio" name="analytics-tiles-in-scene-radio" onClick="toggle_analytics_tiles_in_scene_radio()" value="id" {{analytics-tiles-in-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tiles-in-scene-id" name="analytics-tiles-in-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scene'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tiles-in-scene-id-value}}" >
             </div>
             <div class="form-group" id="analytics">

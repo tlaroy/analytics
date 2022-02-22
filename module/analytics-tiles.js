@@ -2,7 +2,7 @@
 *
 * module/analytics-tiles.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -97,26 +97,16 @@ export class AnalyticsTiles extends AnalyticsForm {
         var tile_option = this.tile_options[primary];
         var tile_list   = this.tile_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-tiles-name").disabled           = !document.getElementById("analytics-tiles-radio-name").checked;
-        document.getElementById("analytics-tiles-case-sensitive").disabled = !document.getElementById("analytics-tiles-radio-name").checked;
-        document.getElementById("analytics-tiles-exact-match").disabled    = !document.getElementById("analytics-tiles-radio-name").checked;
-        document.getElementById("analytics-tiles-id").disabled             = !document.getElementById("analytics-tiles-radio-id").checked;
+        tile_option.activateListeners();
 
         switch (secondary) {
             case "tiles_with_macros":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tiles-with-macro-name").disabled           = !document.getElementById("analytics-tiles-with-macro-radio-name").checked;
-                document.getElementById("analytics-tiles-with-macro-case-sensitive").disabled = !document.getElementById("analytics-tiles-with-macro-radio-name").checked;
-                document.getElementById("analytics-tiles-with-macro-exact-match").disabled    = !document.getElementById("analytics-tiles-with-macro-radio-name").checked;
-                document.getElementById("analytics-tiles-with-macro-id").disabled             = !document.getElementById("analytics-tiles-with-macro-radio-id").checked;
+                var macro_option = this.macro_options[secondary];
+                macro_option.activateListeners(secondary);
                 break;
             case "tiles_in_scenes":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tiles-in-scene-name").disabled           = !document.getElementById("analytics-tiles-in-scene-radio-name").checked;
-                document.getElementById("analytics-tiles-in-scene-case-sensitive").disabled = !document.getElementById("analytics-tiles-in-scene-radio-name").checked;
-                document.getElementById("analytics-tiles-in-scene-exact-match").disabled    = !document.getElementById("analytics-tiles-in-scene-radio-name").checked;
-                document.getElementById("analytics-tiles-in-scene-id").disabled             = !document.getElementById("analytics-tiles-in-scene-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
         };
 
@@ -179,6 +169,31 @@ export class AnalyticsTiles extends AnalyticsForm {
         };
 
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles setData()");
+
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var tile_option = this.tile_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            tile_option.setTileData(k, v);
+
+            switch (secondary) {
+                case "tiles_with_macros":
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.setMacroData(k, v, secondary);
+                    break;
+                case "tiles_in_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -272,21 +287,7 @@ export class AnalyticsTiles extends AnalyticsForm {
         var tile_list   = this.tile_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            tile_option.setTileData(k, v);
-
-            switch (secondary) {
-                case "tiles_with_macros":
-                    var macro_option = this.macro_options[secondary];
-                    macro_option.setMacroData(k, v, secondary);
-                    break;
-                case "tiles_in_scenes":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         tile_option.tile_count = 0;

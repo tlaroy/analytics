@@ -2,7 +2,7 @@
 *
 * module/analytics-journals.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -233,168 +233,56 @@ export class AnalyticsJournals extends AnalyticsForm {
         var journal_option = this.journal_options[primary];
         var journal_list   = this.journal_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-journals-name").disabled           = !document.getElementById("analytics-journals-radio-name").checked;
-        document.getElementById("analytics-journals-case-sensitive").disabled = !document.getElementById("analytics-journals-radio-name").checked;
-        document.getElementById("analytics-journals-exact-match").disabled    = !document.getElementById("analytics-journals-radio-name").checked;
-        document.getElementById("analytics-journals-id").disabled             = !document.getElementById("analytics-journals-radio-id").checked;
-
-        // disable journal subtypes if monk's enhanced journal not installed or not active.
-        if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-            document.getElementById("analytics-journals-monks-base").style.display         = "none";
-            document.getElementById("analytics-journals-monks-checklist").style.display    = "none";
-            document.getElementById("analytics-journals-monks-encounter").style.display    = "none";
-            document.getElementById("analytics-journals-monks-loot").style.display         = "none";
-            document.getElementById("analytics-journals-monks-organization").style.display = "none";
-            document.getElementById("analytics-journals-monks-person").style.display       = "none";
-            document.getElementById("analytics-journals-monks-place").style.display        = "none";
-            document.getElementById("analytics-journals-monks-poi").style.display          = "none";
-            document.getElementById("analytics-journals-monks-quest").style.display        = "none";
-            document.getElementById("analytics-journals-monks-shop").style.display         = "none";
-        }
+        journal_option.activateListeners();
 
         switch (secondary) {
             case "journals_with_actors":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-actor-name").disabled           = !document.getElementById("analytics-journals-with-actor-radio-name").checked;
-                document.getElementById("analytics-journals-with-actor-case-sensitive").disabled = !document.getElementById("analytics-journals-with-actor-radio-name").checked;
-                document.getElementById("analytics-journals-with-actor-exact-match").disabled    = !document.getElementById("analytics-journals-with-actor-radio-name").checked;
-                document.getElementById("analytics-journals-with-actor-id").disabled             = !document.getElementById("analytics-journals-with-actor-radio-id").checked;
-
-                // enable/disable npc creature types.
-                document.getElementById("analytics-journals-with-actor-aberration").disabled  = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-beast").disabled       = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-celestial").disabled   = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-construct").disabled   = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-dragon").disabled      = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-elemental").disabled   = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-fey").disabled         = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-fiend").disabled       = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-giant").disabled       = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-humanoid").disabled    = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-monstrosity").disabled = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-ooze").disabled        = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-plant").disabled       = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-swarm").disabled       = !document.getElementById("analytics-journals-with-actor-npc").checked;
-                document.getElementById("analytics-journals-with-actor-undead").disabled      = !document.getElementById("analytics-journals-with-actor-npc").checked;
+                var actor_option = this.actor_options[secondary];
+                actor_option.activateListeners(secondary);
                 break;
             case "journals_with_cards":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-card-name").disabled           = !document.getElementById("analytics-journals-with-card-radio-name").checked;
-                document.getElementById("analytics-journals-with-card-case-sensitive").disabled = !document.getElementById("analytics-journals-with-card-radio-name").checked;
-                document.getElementById("analytics-journals-with-card-exact-match").disabled    = !document.getElementById("analytics-journals-with-card-radio-name").checked;
-                document.getElementById("analytics-journals-with-card-id").disabled             = !document.getElementById("analytics-journals-with-card-radio-id").checked;
+                var card_option = this.card_options[secondary];
+                card_option.activateListeners(secondary);
                 break;
             case "journals_in_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-in-compendium-name").disabled           = !document.getElementById("analytics-journals-in-compendium-radio-name").checked;
-                document.getElementById("analytics-journals-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-journals-in-compendium-radio-name").checked;
-                document.getElementById("analytics-journals-in-compendium-exact-match").disabled    = !document.getElementById("analytics-journals-in-compendium-radio-name").checked;
-                document.getElementById("analytics-journals-in-compendium-id").disabled             = !document.getElementById("analytics-journals-in-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "journals_with_items":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-item-name").disabled           = !document.getElementById("analytics-journals-with-item-radio-name").checked;
-                document.getElementById("analytics-journals-with-item-case-sensitive").disabled = !document.getElementById("analytics-journals-with-item-radio-name").checked;
-                document.getElementById("analytics-journals-with-item-exact-match").disabled    = !document.getElementById("analytics-journals-with-item-radio-name").checked;
-                document.getElementById("analytics-journals-with-item-id").disabled             = !document.getElementById("analytics-journals-with-item-radio-id").checked;
-
-                // disable on use macros if midi-qol not installed or not active.
-                if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-                    document.getElementById("analytics-journals-with-item-macro-label").style.display                = "none";
-                    document.getElementById("analytics-journals-with-item-macro-name-input").style.display           = "none";
-                    document.getElementById("analytics-journals-with-item-macro-case-sensitive-label").style.display = "none";
-                    document.getElementById("analytics-journals-with-item-macro-exact-match-label").style.display    = "none";
-                    document.getElementById("analytics-journals-with-item-macro-thematic-break").style.display       = "none";
-                    document.getElementById("analytics-journals-with-item-macro-id").style.display                   = "none";
-                    document.getElementById("analytics-journals-with-item-macro-radio-name").style.display           = "none";
-                    document.getElementById("analytics-journals-with-item-macro-radio-id").style.display             = "none";
-                }
-
-                // enable/disable on use macro fields.
-                document.getElementById("analytics-journals-with-item-macro-name").disabled           = !document.getElementById("analytics-journals-with-item-macro").checked;
-                document.getElementById("analytics-journals-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-journals-with-item-macro").checked;
-                document.getElementById("analytics-journals-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-journals-with-item-macro").checked;
-                document.getElementById("analytics-journals-with-item-macro-id").disabled             = !document.getElementById("analytics-journals-with-item-macro").checked;
-                document.getElementById("analytics-journals-with-item-macro-radio-name").disabled     = !document.getElementById("analytics-journals-with-item-macro").checked;
-                document.getElementById("analytics-journals-with-item-macro-radio-id").disabled       = !document.getElementById("analytics-journals-with-item-macro").checked;
-
-                if (document.getElementById("analytics-journals-with-item-macro").checked) {
-                    document.getElementById("analytics-journals-with-item-macro-name").disabled           = !document.getElementById("analytics-journals-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-journals-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-journals-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-journals-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-journals-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-journals-with-item-macro-id").disabled             = !document.getElementById("analytics-journals-with-item-macro-radio-id").checked;
-                };
+                var item_option = this.item_options[secondary];
+                item_option.activateListeners(secondary);
                 break;
             case "journals_within_journals_20":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-within-journal-name").disabled           = !document.getElementById("analytics-journals-within-journal-radio-name").checked;
-                document.getElementById("analytics-journals-within-journal-case-sensitive").disabled = !document.getElementById("analytics-journals-within-journal-radio-name").checked;
-                document.getElementById("analytics-journals-within-journal-exact-match").disabled    = !document.getElementById("analytics-journals-within-journal-radio-name").checked;
-                document.getElementById("analytics-journals-within-journal-id").disabled             = !document.getElementById("analytics-journals-within-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-journals-within-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-journals-within-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "journals_with_macros":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-macro-name").disabled           = !document.getElementById("analytics-journals-with-macro-radio-name").checked;
-                document.getElementById("analytics-journals-with-macro-case-sensitive").disabled = !document.getElementById("analytics-journals-with-macro-radio-name").checked;
-                document.getElementById("analytics-journals-with-macro-exact-match").disabled    = !document.getElementById("analytics-journals-with-macro-radio-name").checked;
-                document.getElementById("analytics-journals-with-macro-id").disabled             = !document.getElementById("analytics-journals-with-macro-radio-id").checked;
+                var macro_option = this.macro_options[secondary];
+                macro_option.activateListeners(secondary);
                 break;
             case "journals_with_playlists":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-playlist-name").disabled           = !document.getElementById("analytics-journals-with-playlist-radio-name").checked;
-                document.getElementById("analytics-journals-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-journals-with-playlist-radio-name").checked;
-                document.getElementById("analytics-journals-with-playlist-exact-match").disabled    = !document.getElementById("analytics-journals-with-playlist-radio-name").checked;
-                document.getElementById("analytics-journals-with-playlist-id").disabled             = !document.getElementById("analytics-journals-with-playlist-radio-id").checked;
+                var playlist_option = this.playlist_options[secondary];
+                playlist_option.activateListeners(secondary);
                 break;
             case "journals_with_scenes":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-scene-name").disabled           = !document.getElementById("analytics-journals-with-scene-radio-name").checked;
-                document.getElementById("analytics-journals-with-scene-case-sensitive").disabled = !document.getElementById("analytics-journals-with-scene-radio-name").checked;
-                document.getElementById("analytics-journals-with-scene-exact-match").disabled    = !document.getElementById("analytics-journals-with-scene-radio-name").checked;
-                document.getElementById("analytics-journals-with-scene-id").disabled             = !document.getElementById("analytics-journals-with-scene-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "journals_in_scenes":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-in-scene-name").disabled           = !document.getElementById("analytics-journals-in-scene-radio-name").checked;
-                document.getElementById("analytics-journals-in-scene-case-sensitive").disabled = !document.getElementById("analytics-journals-in-scene-radio-name").checked;
-                document.getElementById("analytics-journals-in-scene-exact-match").disabled    = !document.getElementById("analytics-journals-in-scene-radio-name").checked;
-                document.getElementById("analytics-journals-in-scene-id").disabled             = !document.getElementById("analytics-journals-in-scene-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "journals_in_scenes_as_pins":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-in-scene-as-pin-name").disabled           = !document.getElementById("analytics-journals-in-scene-as-pin-radio-name").checked;
-                document.getElementById("analytics-journals-in-scene-as-pin-case-sensitive").disabled = !document.getElementById("analytics-journals-in-scene-as-pin-radio-name").checked;
-                document.getElementById("analytics-journals-in-scene-as-pin-exact-match").disabled    = !document.getElementById("analytics-journals-in-scene-as-pin-radio-name").checked;
-                document.getElementById("analytics-journals-in-scene-as-pin-id").disabled             = !document.getElementById("analytics-journals-in-scene-as-pin-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "journals_in_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-in-table-name").disabled           = !document.getElementById("analytics-journals-in-table-radio-name").checked;
-                document.getElementById("analytics-journals-in-table-case-sensitive").disabled = !document.getElementById("analytics-journals-in-table-radio-name").checked;
-                document.getElementById("analytics-journals-in-table-exact-match").disabled    = !document.getElementById("analytics-journals-in-table-radio-name").checked;
-                document.getElementById("analytics-journals-in-table-id").disabled             = !document.getElementById("analytics-journals-in-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
             case "journals_with_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-journals-with-table-name").disabled           = !document.getElementById("analytics-journals-with-table-radio-name").checked;
-                document.getElementById("analytics-journals-with-table-case-sensitive").disabled = !document.getElementById("analytics-journals-with-table-radio-name").checked;
-                document.getElementById("analytics-journals-with-table-exact-match").disabled    = !document.getElementById("analytics-journals-with-table-radio-name").checked;
-                document.getElementById("analytics-journals-with-table-id").disabled             = !document.getElementById("analytics-journals-with-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
         };
 
@@ -536,6 +424,71 @@ export class AnalyticsJournals extends AnalyticsForm {
                 break;
         };
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals setData()");
+
+        var primary        = this.sortOptions().primary;
+        var secondary      = this.sortOptions().secondary;
+        var journal_option = this.journal_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            journal_option.setJournalData(k, v);
+
+            switch (secondary) {
+                case "journals_with_actors":
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.setActorData(k, v, secondary);
+                    break;
+                case "journals_with_cards":
+                    var card_option = this.card_options[secondary];
+                    card_option.setCardData(k, v, secondary);
+                    break;
+                case "journals_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "journals_with_items":
+                    var item_option = this.item_options[secondary];
+                    item_option.setItemData(k, v, secondary);
+                    break;
+                case "journals_within_journals_20":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "journals_with_macros":
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.setMacroData(k, v, secondary);
+                    break;
+                case "journals_with_playlists":
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.setPlaylistData(k, v, secondary);
+                    break;
+                case "journals_with_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "journals_in_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "journals_in_scenes_as_pins":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "journals_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+                case "journals_with_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -719,61 +672,7 @@ export class AnalyticsJournals extends AnalyticsForm {
         var journal_list   = this.journal_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            journal_option.setJournalData(k, v);
-
-            switch (secondary) {
-                case "journals_with_actors":
-                    var actor_option = this.actor_options[secondary];
-                    actor_option.setActorData(k, v, secondary);
-                    break;
-                case "journals_with_cards":
-                    var card_option = this.card_options[secondary];
-                    card_option.setCardData(k, v, secondary);
-                    break;
-                case "journals_in_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "journals_with_items":
-                    var item_option = this.item_options[secondary];
-                    item_option.setItemData(k, v, secondary);
-                    break;
-                case "journals_within_journals_20":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "journals_with_macros":
-                    var macro_option = this.macro_options[secondary];
-                    macro_option.setMacroData(k, v, secondary);
-                    break;
-                case "journals_with_playlists":
-                    var playlist_option = this.playlist_options[secondary];
-                    playlist_option.setPlaylistData(k, v, secondary);
-                    break;
-                case "journals_with_scenes":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "journals_in_scenes":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "journals_in_scenes_as_pins":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "journals_in_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-                case "journals_with_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         journal_option.journal_count = 0;

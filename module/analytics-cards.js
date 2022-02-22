@@ -2,7 +2,7 @@
 *
 * module/analytics-cards.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -111,46 +111,20 @@ export class AnalyticsCards extends AnalyticsForm {
         var card_option = this.card_options[primary];
         var card_list   = this.card_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-cards-name").disabled           = !document.getElementById("analytics-cards-radio-name").checked;
-        document.getElementById("analytics-cards-case-sensitive").disabled = !document.getElementById("analytics-cards-radio-name").checked;
-        document.getElementById("analytics-cards-exact-match").disabled    = !document.getElementById("analytics-cards-radio-name").checked;
-        document.getElementById("analytics-cards-id").disabled             = !document.getElementById("analytics-cards-radio-id").checked;
+        card_option.activateListeners();
 
         switch (secondary) {
             case "cards_in_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-cards-in-compendium-name").disabled           = !document.getElementById("analytics-cards-in-compendium-radio-name").checked;
-                document.getElementById("analytics-cards-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-cards-in-compendium-radio-name").checked;
-                document.getElementById("analytics-cards-in-compendium-exact-match").disabled    = !document.getElementById("analytics-cards-in-compendium-radio-name").checked;
-                document.getElementById("analytics-cards-in-compendium-id").disabled             = !document.getElementById("analytics-cards-in-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "cards_in_journals":
-                document.getElementById("analytics-cards-in-journal-name").disabled           = !document.getElementById("analytics-cards-in-journal-radio-name").checked;
-                document.getElementById("analytics-cards-in-journal-case-sensitive").disabled = !document.getElementById("analytics-cards-in-journal-radio-name").checked;
-                document.getElementById("analytics-cards-in-journal-exact-match").disabled    = !document.getElementById("analytics-cards-in-journal-radio-name").checked;
-                document.getElementById("analytics-cards-in-journal-id").disabled             = !document.getElementById("analytics-cards-in-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-cards-in-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-cards-in-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "cards_in_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-cards-in-table-name").disabled           = !document.getElementById("analytics-cards-in-table-radio-name").checked;
-                document.getElementById("analytics-cards-in-table-case-sensitive").disabled = !document.getElementById("analytics-cards-in-table-radio-name").checked;
-                document.getElementById("analytics-cards-in-table-exact-match").disabled    = !document.getElementById("analytics-cards-in-table-radio-name").checked;
-                document.getElementById("analytics-cards-in-table-id").disabled             = !document.getElementById("analytics-cards-in-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
         };
 
@@ -221,6 +195,35 @@ export class AnalyticsCards extends AnalyticsForm {
         };
 
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards setData()");
+
+        var primary     = this.sortOptions().primary;
+        var secondary   = this.sortOptions().secondary;
+        var card_option = this.card_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            card_option.setCardData(k, v);
+
+            switch (secondary) {
+                case "cards_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "cards_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "cards_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -323,25 +326,7 @@ export class AnalyticsCards extends AnalyticsForm {
         var card_list   = this.card_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            card_option.setCardData(k, v);
-
-            switch (secondary) {
-                case "cards_in_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "cards_in_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "cards_in_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         card_option.card_count = 0;

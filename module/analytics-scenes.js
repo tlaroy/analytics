@@ -2,7 +2,7 @@
 *
 * module/analytics-scenes.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -179,127 +179,40 @@ export class AnalyticsScenes extends AnalyticsForm {
         var scene_option = this.scene_options[primary];
         var scene_list   = this.scene_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-scenes-name").disabled           = !document.getElementById("analytics-scenes-radio-name").checked;
-        document.getElementById("analytics-scenes-case-sensitive").disabled = !document.getElementById("analytics-scenes-radio-name").checked;
-        document.getElementById("analytics-scenes-exact-match").disabled    = !document.getElementById("analytics-scenes-radio-name").checked;
-        document.getElementById("analytics-scenes-id").disabled             = !document.getElementById("analytics-scenes-radio-id").checked;
+        scene_option.activateListeners();
 
         switch (secondary) {
             case "scenes_with_actors_as_tokens":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-with-actor-as-token-name").disabled           = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-exact-match").disabled    = !document.getElementById("analytics-scenes-with-actor-as-token-radio-name").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-id").disabled             = !document.getElementById("analytics-scenes-with-actor-as-token-radio-id").checked;
-
-                // enable/disable npc creature types.
-                document.getElementById("analytics-scenes-with-actor-as-token-aberration").disabled  = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-beast").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-celestial").disabled   = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-construct").disabled   = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-dragon").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-elemental").disabled   = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-fey").disabled         = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-fiend").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-giant").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-humanoid").disabled    = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-monstrosity").disabled = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-ooze").disabled        = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-plant").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-swarm").disabled       = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
-                document.getElementById("analytics-scenes-with-actor-as-token-undead").disabled      = !document.getElementById("analytics-scenes-with-actor-as-token-npc").checked;
+                var actor_option = this.actor_options[secondary];
+                actor_option.activateListeners(secondary);
                 break;
             case "scenes_in_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-in-compendium-name").disabled           = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
-                document.getElementById("analytics-scenes-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
-                document.getElementById("analytics-scenes-in-compendium-exact-match").disabled    = !document.getElementById("analytics-scenes-in-compendium-radio-name").checked;
-                document.getElementById("analytics-scenes-in-compendium-id").disabled             = !document.getElementById("analytics-scenes-in-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "scenes_in_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-in-journal-name").disabled           = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
-                document.getElementById("analytics-scenes-in-journal-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
-                document.getElementById("analytics-scenes-in-journal-exact-match").disabled    = !document.getElementById("analytics-scenes-in-journal-radio-name").checked;
-                document.getElementById("analytics-scenes-in-journal-id").disabled             = !document.getElementById("analytics-scenes-in-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-scenes-in-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-scenes-in-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "scenes_with_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-with-journal-name").disabled           = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
-                document.getElementById("analytics-scenes-with-journal-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
-                document.getElementById("analytics-scenes-with-journal-exact-match").disabled    = !document.getElementById("analytics-scenes-with-journal-radio-name").checked;
-                document.getElementById("analytics-scenes-with-journal-id").disabled             = !document.getElementById("analytics-scenes-with-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-scenes-with-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-scenes-with-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "scenes_with_journals_as_pins":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-with-journal-as-pin-name").disabled           = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
-                document.getElementById("analytics-scenes-with-journal-as-pin-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
-                document.getElementById("analytics-scenes-with-journal-as-pin-exact-match").disabled    = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-name").checked;
-                document.getElementById("analytics-scenes-with-journal-as-pin-id").disabled             = !document.getElementById("analytics-scenes-with-journal-as-pin-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-base").style.display         = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-organization").style.display = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-person").style.display       = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-place").style.display        = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-scenes-with-journal-as-pin-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "scenes_with_playlists":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-with-playlist-name").disabled           = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
-                document.getElementById("analytics-scenes-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
-                document.getElementById("analytics-scenes-with-playlist-exact-match").disabled    = !document.getElementById("analytics-scenes-with-playlist-radio-name").checked;
-                document.getElementById("analytics-scenes-with-playlist-id").disabled             = !document.getElementById("analytics-scenes-with-playlist-radio-id").checked;
+                var playlist_option = this.playlist_options[secondary];
+                playlist_option.activateListeners(secondary);
                 break;
             case "scenes_in_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-in-table-name").disabled           = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
-                document.getElementById("analytics-scenes-in-table-case-sensitive").disabled = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
-                document.getElementById("analytics-scenes-in-table-exact-match").disabled    = !document.getElementById("analytics-scenes-in-table-radio-name").checked;
-                document.getElementById("analytics-scenes-in-table-id").disabled             = !document.getElementById("analytics-scenes-in-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
             case "scenes_with_tiles":
-                // enable/disable by name or id.
-                document.getElementById("analytics-scenes-with-tile-name").disabled           = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
-                document.getElementById("analytics-scenes-with-tile-case-sensitive").disabled = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
-                document.getElementById("analytics-scenes-with-tile-exact-match").disabled    = !document.getElementById("analytics-scenes-with-tile-radio-name").checked;
-                document.getElementById("analytics-scenes-with-tile-id").disabled             = !document.getElementById("analytics-scenes-with-tile-radio-id").checked;
+                var tile_option = this.tile_options[secondary];
+                tile_option.activateListeners(secondary);
                 break;
         };
 
@@ -409,6 +322,55 @@ export class AnalyticsScenes extends AnalyticsForm {
                 break;
         };
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes setData()");
+
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var scene_option = this.scene_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            scene_option.setSceneData(k, v);
+
+            switch (secondary) {
+                case "scenes_with_actors_as_tokens":
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.setActorData(k, v, secondary);
+                    break;
+                case "scenes_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "scenes_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "scenes_with_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "scenes_with_journals_as_pins":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "scenes_with_playlists":
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.setPlaylistData(k, v, secondary);
+                    break;
+                case "scenes_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+                case "scenes_with_tiles":
+                    var tile_option = this.tile_options[secondary];
+                    tile_option.setTileData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -552,45 +514,7 @@ export class AnalyticsScenes extends AnalyticsForm {
         var scene_list   = this.scene_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            scene_option.setSceneData(k, v);
-
-            switch (secondary) {
-                case "scenes_with_actors_as_tokens":
-                    var actor_option = this.actor_options[secondary];
-                    actor_option.setActorData(k, v, secondary);
-                    break;
-                case "scenes_in_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "scenes_in_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "scenes_with_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "scenes_with_journals_as_pins":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "scenes_with_playlists":
-                    var playlist_option = this.playlist_options[secondary];
-                    playlist_option.setPlaylistData(k, v, secondary);
-                    break;
-                case "scenes_in_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-                case "scenes_with_tiles":
-                    var tile_option = this.tile_options[secondary];
-                    tile_option.setTileData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         scene_option.scene_count = 0;

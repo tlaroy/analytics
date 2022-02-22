@@ -2,7 +2,7 @@
 *
 * module/analytics-tables.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -220,161 +220,52 @@ export class AnalyticsTables extends AnalyticsForm {
         var table_option = this.table_options[primary];
         var table_list   = this.table_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-tables-name").disabled           = !document.getElementById("analytics-tables-radio-name").checked;
-        document.getElementById("analytics-tables-case-sensitive").disabled = !document.getElementById("analytics-tables-radio-name").checked;
-        document.getElementById("analytics-tables-exact-match").disabled    = !document.getElementById("analytics-tables-radio-name").checked;
-        document.getElementById("analytics-tables-id").disabled             = !document.getElementById("analytics-tables-radio-id").checked;
+        table_option.activateListeners();
 
         switch (secondary) {
             case "tables_with_actors":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-actor-name").disabled           = !document.getElementById("analytics-tables-with-actor-radio-name").checked;
-                document.getElementById("analytics-tables-with-actor-case-sensitive").disabled = !document.getElementById("analytics-tables-with-actor-radio-name").checked;
-                document.getElementById("analytics-tables-with-actor-exact-match").disabled    = !document.getElementById("analytics-tables-with-actor-radio-name").checked;
-                document.getElementById("analytics-tables-with-actor-id").disabled             = !document.getElementById("analytics-tables-with-actor-radio-id").checked;
-
-                // enable/disable npc creature types.
-                document.getElementById("analytics-tables-with-actor-aberration").disabled  = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-beast").disabled       = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-celestial").disabled   = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-construct").disabled   = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-dragon").disabled      = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-elemental").disabled   = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-fey").disabled         = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-fiend").disabled       = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-giant").disabled       = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-humanoid").disabled    = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-monstrosity").disabled = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-ooze").disabled        = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-plant").disabled       = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-swarm").disabled       = !document.getElementById("analytics-tables-with-actor-npc").checked;
-                document.getElementById("analytics-tables-with-actor-undead").disabled      = !document.getElementById("analytics-tables-with-actor-npc").checked;
+                var actor_option = this.actor_options[secondary];
+                actor_option.activateListeners(secondary);
                 break;
             case "tables_with_cards":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-card-name").disabled           = !document.getElementById("analytics-tables-with-card-radio-name").checked;
-                document.getElementById("analytics-tables-with-card-case-sensitive").disabled = !document.getElementById("analytics-tables-with-card-radio-name").checked;
-                document.getElementById("analytics-tables-with-card-exact-match").disabled    = !document.getElementById("analytics-tables-with-card-radio-name").checked;
-                document.getElementById("analytics-tables-with-card-id").disabled             = !document.getElementById("analytics-tables-with-card-radio-id").checked;
+                var card_option = this.card_options[secondary];
+                card_option.activateListeners(secondary);
                 break;
             case "tables_in_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-in-compendium-name").disabled           = !document.getElementById("analytics-tables-in-compendium-radio-name").checked;
-                document.getElementById("analytics-tables-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-tables-in-compendium-radio-name").checked;
-                document.getElementById("analytics-tables-in-compendium-exact-match").disabled    = !document.getElementById("analytics-tables-in-compendium-radio-name").checked;
-                document.getElementById("analytics-tables-in-compendium-id").disabled             = !document.getElementById("analytics-tables-in-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "tables_with_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-compendium-name").disabled           = !document.getElementById("analytics-tables-with-compendium-radio-name").checked;
-                document.getElementById("analytics-tables-with-compendium-case-sensitive").disabled = !document.getElementById("analytics-tables-with-compendium-radio-name").checked;
-                document.getElementById("analytics-tables-with-compendium-exact-match").disabled    = !document.getElementById("analytics-tables-with-compendium-radio-name").checked;
-                document.getElementById("analytics-tables-with-compendium-id").disabled             = !document.getElementById("analytics-tables-with-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "tables_with_items":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-item-name").disabled           = !document.getElementById("analytics-tables-with-item-radio-name").checked;
-                document.getElementById("analytics-tables-with-item-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-radio-name").checked;
-                document.getElementById("analytics-tables-with-item-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-radio-name").checked;
-                document.getElementById("analytics-tables-with-item-id").disabled             = !document.getElementById("analytics-tables-with-item-radio-id").checked;
-
-                // disable on use item macros if midi-qol not installed or not active.
-                if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-                    document.getElementById("analytics-tables-with-item-macro-label").style.display                = "none";
-                    document.getElementById("analytics-tables-with-item-macro-name-input").style.display           = "none";
-                    document.getElementById("analytics-tables-with-item-macro-case-sensitive-label").style.display = "none";
-                    document.getElementById("analytics-tables-with-item-macro-exact-match-label").style.display    = "none";
-                    document.getElementById("analytics-tables-with-item-macro-thematic-break").style.display       = "none";
-                    document.getElementById("analytics-tables-with-item-macro-id").style.display                   = "none";
-                    document.getElementById("analytics-tables-with-item-macro-radio-name").style.display           = "none";
-                    document.getElementById("analytics-tables-with-item-macro-radio-id").style.display             = "none";
-                }
-
-                // enable/disable on use macro fields.
-                document.getElementById("analytics-tables-with-item-macro-name").disabled           = !document.getElementById("analytics-tables-with-item-macro").checked;
-                document.getElementById("analytics-tables-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-macro").checked;
-                document.getElementById("analytics-tables-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-macro").checked;
-                document.getElementById("analytics-tables-with-item-macro-id").disabled             = !document.getElementById("analytics-tables-with-item-macro").checked;
-                document.getElementById("analytics-tables-with-item-macro-radio-name").disabled     = !document.getElementById("analytics-tables-with-item-macro").checked;
-                document.getElementById("analytics-tables-with-item-macro-radio-id").disabled       = !document.getElementById("analytics-tables-with-item-macro").checked;
-
-                if (document.getElementById("analytics-tables-with-item-macro").checked) {
-                    document.getElementById("analytics-tables-with-item-macro-name").disabled           = !document.getElementById("analytics-tables-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-tables-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-tables-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-tables-with-item-macro-id").disabled             = !document.getElementById("analytics-tables-with-item-macro-radio-id").checked;
-                };
+                var item_option = this.item_options[secondary];
+                item_option.activateListeners(secondary);
                 break;
             case "tables_in_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-in-journal-name").disabled           = !document.getElementById("analytics-tables-in-journal-radio-name").checked;
-                document.getElementById("analytics-tables-in-journal-case-sensitive").disabled = !document.getElementById("analytics-tables-in-journal-radio-name").checked;
-                document.getElementById("analytics-tables-in-journal-exact-match").disabled    = !document.getElementById("analytics-tables-in-journal-radio-name").checked;
-                document.getElementById("analytics-tables-in-journal-id").disabled             = !document.getElementById("analytics-tables-in-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-tables-in-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-tables-in-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "tables_with_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-journal-name").disabled           = !document.getElementById("analytics-tables-with-journal-radio-name").checked;
-                document.getElementById("analytics-tables-with-journal-case-sensitive").disabled = !document.getElementById("analytics-tables-with-journal-radio-name").checked;
-                document.getElementById("analytics-tables-with-journal-exact-match").disabled    = !document.getElementById("analytics-tables-with-journal-radio-name").checked;
-                document.getElementById("analytics-tables-with-journal-id").disabled             = !document.getElementById("analytics-tables-with-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-tables-with-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-tables-with-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "tables_with_macros":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-macro-name").disabled           = !document.getElementById("analytics-tables-with-macro-radio-name").checked;
-                document.getElementById("analytics-tables-with-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-macro-radio-name").checked;
-                document.getElementById("analytics-tables-with-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-macro-radio-name").checked;
-                document.getElementById("analytics-tables-with-macro-id").disabled             = !document.getElementById("analytics-tables-with-macro-radio-id").checked;
+                var macro_option = this.macro_options[secondary];
+                macro_option.activateListeners(secondary);
                 break;
             case "tables_with_playlists":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-playlist-name").disabled           = !document.getElementById("analytics-tables-with-playlist-radio-name").checked;
-                document.getElementById("analytics-tables-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-tables-with-playlist-radio-name").checked;
-                document.getElementById("analytics-tables-with-playlist-exact-match").disabled    = !document.getElementById("analytics-tables-with-playlist-radio-name").checked;
-                document.getElementById("analytics-tables-with-playlist-id").disabled             = !document.getElementById("analytics-tables-with-playlist-radio-id").checked;
+                var playlist_option = this.playlist_options[secondary];
+                playlist_option.activateListeners(secondary);
                 break;
             case "tables_with_scenes":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-with-scene-name").disabled           = !document.getElementById("analytics-tables-with-scene-radio-name").checked;
-                document.getElementById("analytics-tables-with-scene-case-sensitive").disabled = !document.getElementById("analytics-tables-with-scene-radio-name").checked;
-                document.getElementById("analytics-tables-with-scene-exact-match").disabled    = !document.getElementById("analytics-tables-with-scene-radio-name").checked;
-                document.getElementById("analytics-tables-with-scene-id").disabled             = !document.getElementById("analytics-tables-with-scene-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "tables_within_tables_34":
-                // enable/disable by name or id.
-                document.getElementById("analytics-tables-within-table-name").disabled           = !document.getElementById("analytics-tables-within-table-radio-name").checked;
-                document.getElementById("analytics-tables-within-table-case-sensitive").disabled = !document.getElementById("analytics-tables-within-table-radio-name").checked;
-                document.getElementById("analytics-tables-within-table-exact-match").disabled    = !document.getElementById("analytics-tables-within-table-radio-name").checked;
-                document.getElementById("analytics-tables-within-table-id").disabled             = !document.getElementById("analytics-tables-within-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
         };
 
@@ -508,6 +399,67 @@ export class AnalyticsTables extends AnalyticsForm {
                 break;
         };
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables setData()");
+
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var table_option = this.table_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            table_option.setTableData(k, v);
+
+            switch (secondary) {
+                case "tables_with_actors":
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.setActorData(k, v, secondary);
+                    break;
+                case "tables_with_cards":
+                    var card_option = this.card_options[secondary];
+                    card_option.setCardData(k, v, secondary);
+                    break;
+                case "tables_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "tables_with_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "tables_with_items":
+                    var item_option = this.item_options[secondary];
+                    item_option.setItemData(k, v, secondary);
+                    break;
+                case "tables_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "tables_with_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "tables_with_macros":
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.setMacroData(k, v, secondary);
+                    break;
+                case "tables_with_playlists":
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.setPlaylistData(k, v, secondary);
+                    break;
+                case "tables_with_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "tables_within_tables_34":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -677,57 +629,7 @@ export class AnalyticsTables extends AnalyticsForm {
         var table_list   = this.table_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            table_option.setTableData(k, v);
-
-            switch (secondary) {
-                case "tables_with_actors":
-                    var actor_option = this.actor_options[secondary];
-                    actor_option.setActorData(k, v, secondary);
-                    break;
-                case "tables_with_cards":
-                    var card_option = this.card_options[secondary];
-                    card_option.setCardData(k, v, secondary);
-                    break;
-                case "tables_in_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "tables_with_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "tables_with_items":
-                    var item_option = this.item_options[secondary];
-                    item_option.setItemData(k, v, secondary);
-                    break;
-                case "tables_in_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "tables_with_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "tables_with_macros":
-                    var macro_option = this.macro_options[secondary];
-                    macro_option.setMacroData(k, v, secondary);
-                    break;
-                case "tables_with_playlists":
-                    var playlist_option = this.playlist_options[secondary];
-                    playlist_option.setPlaylistData(k, v, secondary);
-                    break;
-                case "tables_with_scenes":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "tables_within_tables_34":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         table_option.table_count = 0;

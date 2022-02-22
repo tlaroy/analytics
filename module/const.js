@@ -2,7 +2,7 @@
 *
 * module/const.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -17,5 +17,5 @@ export const MIN_DND5E_VERSION   = "1.5.7";
 export const MODULE_NAME         = "analytics";
 export const NAME                = "Analytics";
 export const LABEL               = "*** | ";
-export const VERSION             = "0.0.9";
+export const VERSION             = "0.0.10";
 export const ENABLED             = "enabled";

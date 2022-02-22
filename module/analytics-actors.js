@@ -2,7 +2,7 @@
 *
 * module/analytics-actors.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -139,105 +139,28 @@ export class AnalyticsActors extends AnalyticsForm {
         var actor_option = this.actor_options[primary];
         var actor_list   = this.actor_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-actors-name").disabled           = !document.getElementById("analytics-actors-radio-name").checked;
-        document.getElementById("analytics-actors-case-sensitive").disabled = !document.getElementById("analytics-actors-radio-name").checked;
-        document.getElementById("analytics-actors-exact-match").disabled    = !document.getElementById("analytics-actors-radio-name").checked;
-        document.getElementById("analytics-actors-id").disabled             = !document.getElementById("analytics-actors-radio-id").checked;
-
-        // enable/disable npc creature types.
-        document.getElementById("analytics-actors-aberration").disabled  = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-beast").disabled       = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-celestial").disabled   = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-construct").disabled   = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-dragon").disabled      = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-elemental").disabled   = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-fey").disabled         = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-fiend").disabled       = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-giant").disabled       = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-humanoid").disabled    = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-monstrosity").disabled = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-ooze").disabled        = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-plant").disabled       = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-swarm").disabled       = !document.getElementById("analytics-actors-npc").checked;
-        document.getElementById("analytics-actors-undead").disabled      = !document.getElementById("analytics-actors-npc").checked;
+        actor_option.activateListeners();
 
         switch (secondary) {
             case "actors_in_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-actors-in-compendium-name").disabled           = !document.getElementById("analytics-actors-in-compendium-radio-name").checked;
-                document.getElementById("analytics-actors-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-actors-in-compendium-radio-name").checked;
-                document.getElementById("analytics-actors-in-compendium-exact-match").disabled    = !document.getElementById("analytics-actors-in-compendium-radio-name").checked;
-                document.getElementById("analytics-actors-in-compendium-id").disabled             = !document.getElementById("analytics-actors-in-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "actors_with_items":
-                // enable/disable by name or id.
-                document.getElementById("analytics-actors-with-item-name").disabled           = !document.getElementById("analytics-actors-with-item-radio-name").checked;
-                document.getElementById("analytics-actors-with-item-case-sensitive").disabled = !document.getElementById("analytics-actors-with-item-radio-name").checked;
-                document.getElementById("analytics-actors-with-item-exact-match").disabled    = !document.getElementById("analytics-actors-with-item-radio-name").checked;
-                document.getElementById("analytics-actors-with-item-id").disabled             = !document.getElementById("analytics-actors-with-item-radio-id").checked;
-
-                // disable on use macros if midi-qol not installed or not active.
-                if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-                    document.getElementById("analytics-actors-with-item-macro-label").style.display                = "none";
-                    document.getElementById("analytics-actors-with-item-macro-name-input").style.display           = "none";
-                    document.getElementById("analytics-actors-with-item-macro-case-sensitive-label").style.display = "none";
-                    document.getElementById("analytics-actors-with-item-macro-exact-match-label").style.display    = "none";
-                    document.getElementById("analytics-actors-with-item-macro-thematic-break").style.display       = "none";
-                    document.getElementById("analytics-actors-with-item-macro-id").style.display                   = "none";
-                    document.getElementById("analytics-actors-with-item-macro-radio-name").style.display           = "none";
-                    document.getElementById("analytics-actors-with-item-macro-radio-id").style.display             = "none";
-                }
-
-                // enable/disable on use macro fields.
-                document.getElementById("analytics-actors-with-item-macro-name").disabled           = !document.getElementById("analytics-actors-with-item-macro").checked;
-                document.getElementById("analytics-actors-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-actors-with-item-macro").checked;
-                document.getElementById("analytics-actors-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-actors-with-item-macro").checked;
-                document.getElementById("analytics-actors-with-item-macro-id").disabled             = !document.getElementById("analytics-actors-with-item-macro").checked;
-                document.getElementById("analytics-actors-with-item-macro-radio-name").disabled     = !document.getElementById("analytics-actors-with-item-macro").checked;
-                document.getElementById("analytics-actors-with-item-macro-radio-id").disabled       = !document.getElementById("analytics-actors-with-item-macro").checked;
-
-                if (document.getElementById("analytics-actors-with-item-macro").checked) {
-                    document.getElementById("analytics-actors-with-item-macro-name").disabled           = !document.getElementById("analytics-actors-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-actors-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-actors-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-actors-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-actors-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-actors-with-item-macro-id").disabled             = !document.getElementById("analytics-actors-with-item-macro-radio-id").checked;
-                };
+                var item_option = this.item_options[secondary];
+                item_option.activateListeners(secondary);
                 break;
             case "actors_in_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-actors-in-journal-name").disabled           = !document.getElementById("analytics-actors-in-journal-radio-name").checked;
-                document.getElementById("analytics-actors-in-journal-case-sensitive").disabled = !document.getElementById("analytics-actors-in-journal-radio-name").checked;
-                document.getElementById("analytics-actors-in-journal-exact-match").disabled    = !document.getElementById("analytics-actors-in-journal-radio-name").checked;
-                document.getElementById("analytics-actors-in-journal-id").disabled             = !document.getElementById("analytics-actors-in-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-actors-in-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-actors-in-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "actors_in_scenes_as_tokens":
-                // enable/disable by name or id.
-                document.getElementById("analytics-actors-in-scene-as-token-name").disabled           = !document.getElementById("analytics-actors-in-scene-as-token-radio-name").checked;
-                document.getElementById("analytics-actors-in-scene-as-token-case-sensitive").disabled = !document.getElementById("analytics-actors-in-scene-as-token-radio-name").checked;
-                document.getElementById("analytics-actors-in-scene-as-token-exact-match").disabled    = !document.getElementById("analytics-actors-in-scene-as-token-radio-name").checked;
-                document.getElementById("analytics-actors-in-scene-as-token-id").disabled             = !document.getElementById("analytics-actors-in-scene-as-token-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "actors_in_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-actors-in-table-name").disabled           = !document.getElementById("analytics-actors-in-table-radio-name").checked;
-                document.getElementById("analytics-actors-in-table-case-sensitive").disabled = !document.getElementById("analytics-actors-in-table-radio-name").checked;
-                document.getElementById("analytics-actors-in-table-exact-match").disabled    = !document.getElementById("analytics-actors-in-table-radio-name").checked;
-                document.getElementById("analytics-actors-in-table-id").disabled             = !document.getElementById("analytics-actors-in-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
         };
 
@@ -330,6 +253,43 @@ export class AnalyticsActors extends AnalyticsForm {
         return retval;
     }
 
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors setData()");
+
+        var primary      = this.sortOptions().primary;
+        var secondary    = this.sortOptions().secondary;
+        var actor_option = this.actor_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            actor_option.setActorData(k, v);
+
+            switch (secondary) {
+                case "actors_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "actors_with_items":
+                    var item_option = this.item_options[secondary];
+                    item_option.setItemData(k, v, secondary);
+                    break;
+                case "actors_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "actors_in_scenes_as_tokens":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "actors_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
+    }
+
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors async _onSubmit(event)");
 
@@ -413,12 +373,12 @@ export class AnalyticsActors extends AnalyticsForm {
                 // reset counters.
                 var item_option = this.item_options[secondary];
                 item_option.item_count = 0;
-                item_option.item_macro_count = 0;
+                item_option.item_on_use_macro_count = 0;
 
                 // actors without items.
                 if (actor.items.size == 0) {
-                    // when looking for macros add actor to list if no item filters or looking for actors without items.
-                    if (!item_option.item_macro_checked && (item_option.item_none_checked || item_option.noItemTypesSelected())) {
+                    // when looking for on use macros add actor to list if no item filters or looking for actors without items.
+                    if (!item_option.item_on_use_macro_checked && (item_option.item_none_checked || item_option.noItemTypesSelected())) {
                         this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
                         actor_option.actor_count++;
                     };
@@ -466,10 +426,10 @@ export class AnalyticsActors extends AnalyticsForm {
                             else if (item_option.item_spell_checked      && item.type == 'spell')      selected = true;
 
                             if (selected) {
-                                item_option.item_macro_count = 0;
+                                item_option.item_on_use_macro_count = 0;
 
-                                // any macros?
-                                if (item_option.item_macro_checked &&
+                                // any on use macros?
+                                if (item_option.item_on_use_macro_checked &&
                                     item.data.flags['midi-qol'] &&
                                     item.data.flags['midi-qol'].onUseMacroParts &&
                                     (item.data.flags['midi-qol'].onUseMacroParts.items.length > 0)) {
@@ -479,17 +439,17 @@ export class AnalyticsActors extends AnalyticsForm {
 
                                         var macro_match = false;
                                         var macro_name  = item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName;
-                                        var search_name = this.escapeRegExp(item_option.item_macro_name_value);
+                                        var search_name = this.escapeRegExp(item_option.item_on_use_macro_name_value);
 
                                         // lowercase for non-case-sensitive search.
-                                        if ((search_name.length > 0) && !item_option.item_macro_case_sensitive_checked) {
+                                        if ((search_name.length > 0) && !item_option.item_on_use_macro_case_sensitive_checked) {
                                             search_name = search_name.toLowerCase();
                                             macro_name  = macro_name.toLowerCase();
                                         };
 
                                         // do macros match?
-                                        if ((!item_option.item_macro_exact_match_checked && (macro_name.search(search_name) > -1)) ||
-                                             (item_option.item_macro_exact_match_checked && (macro_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(macro_name).length)) ||
+                                        if ((!item_option.item_on_use_macro_exact_match_checked && (macro_name.search(search_name) > -1)) ||
+                                             (item_option.item_on_use_macro_exact_match_checked && (macro_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(macro_name).length)) ||
                                              (search_name.length == 0)) {
                                             macro_match = true;
                                         };
@@ -503,7 +463,7 @@ export class AnalyticsActors extends AnalyticsForm {
                                                 actor_option.actor_count++;
                                             };
                                             // only add one item to list.
-                                            if (item_option.item_macro_count == 0) {
+                                            if (item_option.item_on_use_macro_count == 0) {
                                                 // add item to the list.
                                                 if (item_option.item_show_checked) {
                                                     this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
@@ -511,18 +471,18 @@ export class AnalyticsActors extends AnalyticsForm {
                                                 // increase item count.
                                                 item_option.item_count++;
                                             };
-                                            // add macro to the list.
+                                            // add on use macro to the list.
                                             if (item_option.item_show_checked) {
                                                 this.addItemMacroSecondary(actor_list, macro, item_option.item_show_id_checked);
                                             };
-                                            // increase macro count.
-                                            item_option.item_macro_count++;
+                                            // increase on use macro count.
+                                            item_option.item_on_use_macro_count++;
                                         }
-                                    }); // forEach Macro.
+                                    }); // forEach On Use Macro.
                                 }
 
-                                // no macros.
-                                else if (!item_option.item_macro_checked) {
+                                // no on use macros.
+                                else if (!item_option.item_on_use_macro_checked) {
                                     // only add one actor to list.
                                     if (item_option.item_count == 0) {
                                         // add actor to the list.
@@ -530,7 +490,7 @@ export class AnalyticsActors extends AnalyticsForm {
                                         actor_option.actor_count++;
                                     };
                                     // only add one item to list.
-                                    if (item_option.item_macro_count == 0) {
+                                    if (item_option.item_on_use_macro_count == 0) {
                                         // add item to the list.
                                         if (item_option.item_show_checked) {
                                             this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
@@ -717,33 +677,7 @@ export class AnalyticsActors extends AnalyticsForm {
         var actor_list   = this.actor_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            actor_option.setActorData(k, v);
-
-            switch (secondary) {
-                case "actors_in_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "actors_with_items":
-                    var item_option = this.item_options[secondary];
-                    item_option.setItemData(k, v, secondary);
-                    break;
-                case "actors_in_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "actors_in_scenes_as_tokens":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "actors_in_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         actor_option.actor_count = 0;

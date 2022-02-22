@@ -2,7 +2,7 @@
 *
 * module/analytics-compendiums.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -194,133 +194,44 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         var compendium_option = this.compendium_options[primary];
         var compendium_list   = this.compendium_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-compendiums-name").disabled           = !document.getElementById("analytics-compendiums-radio-name").checked;
-        document.getElementById("analytics-compendiums-case-sensitive").disabled = !document.getElementById("analytics-compendiums-radio-name").checked;
-        document.getElementById("analytics-compendiums-exact-match").disabled    = !document.getElementById("analytics-compendiums-radio-name").checked;
-        document.getElementById("analytics-compendiums-id").disabled             = !document.getElementById("analytics-compendiums-radio-id").checked;
+        compendium_option.activateListeners();
 
         switch (secondary) {
             case "compendiums_with_actors":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-actor-name").disabled           = !document.getElementById("analytics-compendiums-with-actor-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-actor-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-actor-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-actor-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-actor-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-actor-id").disabled             = !document.getElementById("analytics-compendiums-with-actor-radio-id").checked;
-
-                // enable/disable npc creature types.
-                document.getElementById("analytics-compendiums-with-actor-aberration").disabled  = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-beast").disabled       = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-celestial").disabled   = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-construct").disabled   = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-dragon").disabled      = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-elemental").disabled   = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-fey").disabled         = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-fiend").disabled       = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-giant").disabled       = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-humanoid").disabled    = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-monstrosity").disabled = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-ooze").disabled        = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-plant").disabled       = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-swarm").disabled       = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
-                document.getElementById("analytics-compendiums-with-actor-undead").disabled      = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
+                var actor_option = this.actor_options[secondary];
+                actor_option.activateListeners(secondary);
                 break;
             case "compendiums_with_cards":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-card-name").disabled           = !document.getElementById("analytics-compendiums-with-card-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-card-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-card-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-card-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-card-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-card-id").disabled             = !document.getElementById("analytics-compendiums-with-card-radio-id").checked;
+                var card_option = this.card_options[secondary];
+                card_option.activateListeners(secondary);
                 break;
             case "compendiums_with_items":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-item-name").disabled           = !document.getElementById("analytics-compendiums-with-item-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-item-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-item-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-item-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-item-id").disabled             = !document.getElementById("analytics-compendiums-with-item-radio-id").checked;
-
-                // disable on use macros if midi-qol not installed or not active.
-                if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
-                    document.getElementById("analytics-compendiums-with-item-macro-label").style.display                = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-name-input").style.display           = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-case-sensitive-label").style.display = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-exact-match-label").style.display    = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-thematic-break").style.display       = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-id").style.display                   = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-radio-name").style.display           = "none";
-                    document.getElementById("analytics-compendiums-with-item-macro-radio-id").style.display             = "none";
-                }
-
-                // enable/disable on use macro fields.
-                document.getElementById("analytics-compendiums-with-item-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-                document.getElementById("analytics-compendiums-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-                document.getElementById("analytics-compendiums-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-                document.getElementById("analytics-compendiums-with-item-macro-id").disabled             = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-                document.getElementById("analytics-compendiums-with-item-macro-radio-name").disabled     = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-                document.getElementById("analytics-compendiums-with-item-macro-radio-id").disabled       = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-
-                if (document.getElementById("analytics-compendiums-with-item-macro").checked) {
-                    document.getElementById("analytics-compendiums-with-item-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-compendiums-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-compendiums-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-item-macro-radio-name").checked;
-                    document.getElementById("analytics-compendiums-with-item-macro-id").disabled             = !document.getElementById("analytics-compendiums-with-item-macro-radio-id").checked;
-                };
+                var item_option = this.item_options[secondary];
+                item_option.activateListeners(secondary);
                 break;
             case "compendiums_with_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-journal-name").disabled           = !document.getElementById("analytics-compendiums-with-journal-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-journal-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-journal-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-journal-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-journal-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-journal-id").disabled             = !document.getElementById("analytics-compendiums-with-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-compendiums-with-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-compendiums-with-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "compendiums_with_macros":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-macro-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-macro-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-macro-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-macro-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-macro-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-macro-id").disabled             = !document.getElementById("analytics-compendiums-with-macro-radio-id").checked;
+                var macro_option = this.macro_options[secondary];
+                macro_option.activateListeners(secondary);
                 break;
             case "compendiums_with_playlists":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-playlist-name").disabled           = !document.getElementById("analytics-compendiums-with-playlist-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-playlist-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-playlist-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-playlist-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-playlist-id").disabled             = !document.getElementById("analytics-compendiums-with-playlist-radio-id").checked;
+                var playlist_option = this.playlist_options[secondary];
+                playlist_option.activateListeners(secondary);
                 break;
             case "compendiums_with_scenes":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-scene-name").disabled           = !document.getElementById("analytics-compendiums-with-scene-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-scene-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-scene-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-scene-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-scene-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-scene-id").disabled             = !document.getElementById("analytics-compendiums-with-scene-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "compendiums_with_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-with-table-name").disabled           = !document.getElementById("analytics-compendiums-with-table-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-table-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-table-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-table-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-table-radio-name").checked;
-                document.getElementById("analytics-compendiums-with-table-id").disabled             = !document.getElementById("analytics-compendiums-with-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
             case "compendiums_in_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-compendiums-in-table-name").disabled           = !document.getElementById("analytics-compendiums-in-table-radio-name").checked;
-                document.getElementById("analytics-compendiums-in-table-case-sensitive").disabled = !document.getElementById("analytics-compendiums-in-table-radio-name").checked;
-                document.getElementById("analytics-compendiums-in-table-exact-match").disabled    = !document.getElementById("analytics-compendiums-in-table-radio-name").checked;
-                document.getElementById("analytics-compendiums-in-table-id").disabled             = !document.getElementById("analytics-compendiums-in-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
         };
 
@@ -439,6 +350,59 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         };
 
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums setData()");
+
+        var primary           = this.sortOptions().primary;
+        var secondary         = this.sortOptions().secondary;
+        var compendium_option = this.compendium_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            compendium_option.setCompendiumData(k, v);
+
+            switch (secondary) {
+                case "compendiums_with_actors":
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.setActorData(k, v, secondary);
+                    break;
+                case "compendiums_with_cards":
+                    var card_option = this.card_options[secondary];
+                    card_option.setCardData(k, v, secondary);
+                    break;
+                case "compendiums_with_items":
+                    var item_option = this.item_options[secondary];
+                    item_option.setItemData(k, v, secondary);
+                    break;
+                case "compendiums_with_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "compendiums_with_macros":
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.setMacroData(k, v, secondary);
+                    break;
+                case "compendiums_with_playlists":
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.setPlaylistData(k, v, secondary);
+                    break;
+                case "compendiums_with_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "compendiums_with_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+                case "compendiums_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -595,50 +559,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         var compendium_list   = this.compendium_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-
-            compendium_option.setCompendiumData(k, v);
-
-            switch (secondary) {
-                case "compendiums_with_actors":
-                    var actor_option = this.actor_options[secondary];
-                    actor_option.setActorData(k, v, secondary);
-                    break;
-                case "compendiums_with_cards":
-                    var card_option = this.card_options[secondary];
-                    card_option.setCardData(k, v, secondary);
-                    break;
-                case "compendiums_with_items":
-                    var item_option = this.item_options[secondary];
-                    item_option.setItemData(k, v, secondary);
-                    break;
-                case "compendiums_with_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "compendiums_with_macros":
-                    var macro_option = this.macro_options[secondary];
-                    macro_option.setMacroData(k, v, secondary);
-                    break;
-                case "compendiums_with_playlists":
-                    var playlist_option = this.playlist_options[secondary];
-                    playlist_option.setPlaylistData(k, v, secondary);
-                    break;
-                case "compendiums_with_scenes":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "compendiums_with_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-                case "compendiums_in_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         compendium_option.compendium_count = 0;

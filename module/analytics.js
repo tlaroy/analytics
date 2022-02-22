@@ -2,7 +2,7 @@
 *
 * module/analytics.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -72,10 +72,9 @@ export class ActorOptions {
                 !this.actor_undead_checked);
     }
 
-    // get data for form.
-    getActorData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary = "") {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "compendiums_with_actors":
                 prefix = "analytics-compendiums-with-actor-";
@@ -96,14 +95,49 @@ export class ActorOptions {
                 prefix = "analytics-actors-";
                 break;
         };
+        return prefix;
+    }
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+
+        // enable/disable npc creature types.
+        document.getElementById(prefix + "aberration").disabled  = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "beast").disabled       = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "celestial").disabled   = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "construct").disabled   = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "dragon").disabled      = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "elemental").disabled   = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "fey").disabled         = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "fiend").disabled       = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "giant").disabled       = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "humanoid").disabled    = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "monstrosity").disabled = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "ooze").disabled        = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "plant").disabled       = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "swarm").disabled       = !document.getElementById(prefix + "npc").checked;
+        document.getElementById(prefix + "undead").disabled      = !document.getElementById(prefix + "npc").checked;
+    }
+
+    // get data for form.
+    getActorData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-actors"]       = game.actors.size;
         retval[prefix + "actor-count"]            = this.actor_count;
 
         retval[prefix + "name-value"]             = this.actor_name_value;
         retval[prefix + "id-value"]               = this.actor_id_value;
-        retval[prefix + "radio-name-checked"]     = this.actor_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.actor_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.actor_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.actor_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.actor_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.actor_exact_match_checked    ? "checked" : "";
 
@@ -136,31 +170,10 @@ export class ActorOptions {
 
     // set data from form.
     setActorData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "compendiums_with_actors":
-                prefix = "analytics-compendiums-with-actor-";
-                break;
-            case "items_in_actors":
-                prefix = "analytics-items-in-actor-";
-                break;
-            case "journals_with_actors":
-                prefix = "analytics-journals-with-actor-";
-                break;
-            case "scenes_with_actors_as_tokens":
-                prefix = "analytics-scenes-with-actor-as-token-";
-                break;
-            case "tables_with_actors":
-                prefix = "analytics-tables-with-actor-";
-                break;
-            default:
-                prefix = "analytics-actors-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.actor_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.actor_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.actor_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.actor_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.actor_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.actor_id_value               = v ? v : ""; }
@@ -186,9 +199,9 @@ export class ActorOptions {
         if (k == prefix + "swarm")          { this.actor_swarm_checked          = v; }
         if (k == prefix + "undead")         { this.actor_undead_checked         = v; }
 
-        if (k == prefix + "none")           { this.actor_none_checked            = v; }
-        if (k == prefix + "show")           { this.actor_show_checked            = v; }
-        if (k == prefix + "show-id")        { this.actor_show_id_checked         = v; }
+        if (k == prefix + "none")           { this.actor_none_checked           = v; }
+        if (k == prefix + "show")           { this.actor_show_checked           = v; }
+        if (k == prefix + "show-id")        { this.actor_show_id_checked        = v; }
     };
 }
 
@@ -208,10 +221,9 @@ export class CardOptions {
         this.card_show_id_checked        = false;
     }
 
-    // get data for form.
-    getCardData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "compendiums_with_cards":
                 prefix = "analytics-compendiums-with-card-";
@@ -226,14 +238,32 @@ export class CardOptions {
                 prefix = "analytics-cards-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    }
+
+    // get data for form.
+    getCardData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-cards"]        = game.cards.size;
         retval[prefix + "card-count"]             = this.card_count;
 
         retval[prefix + "name-value"]             = this.card_name_value;
         retval[prefix + "id-value"]               = this.card_id_value;
-        retval[prefix + "radio-name-checked"]     = this.card_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.card_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.card_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.card_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.card_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.card_exact_match_checked    ? "checked" : "";
 
@@ -246,25 +276,10 @@ export class CardOptions {
 
     // set data from form.
     setCardData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "compendiums_with_cards":
-                prefix = "analytics-compendiums-with-card-";
-                break;
-            case "journals_with_cards":
-                prefix = "analytics-journals-with-card-";
-                break;
-            case "tables_with_cards":
-                prefix = "analytics-tables-with-card-";
-                break;
-            default:
-                prefix = "analytics-cards-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.card_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.card_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.card_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.card_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.card_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.card_id_value               = v ? v : ""; }
@@ -294,10 +309,9 @@ export class CompendiumOptions {
         this.compendium_show_id_checked        = false;
     }
 
-    // get data for form.
-    getCompendiumData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "actors_in_compendiums":
                 prefix = "analytics-actors-in-compendium-";
@@ -330,14 +344,32 @@ export class CompendiumOptions {
                 prefix = "analytics-compendiums-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    };
+
+    // get data for form.
+    getCompendiumData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-compendiums"]  = game.packs.size;
         retval[prefix + "compendium-count"]       = this.compendium_count;
 
         retval[prefix + "name-value"]             = this.compendium_name_value;
         retval[prefix + "id-value"]               = this.compendium_id_value;
-        retval[prefix + "radio-name-checked"]     = this.compendium_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.compendium_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.compendium_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.compendium_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.compendium_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.compendium_exact_match_checked    ? "checked" : "";
 
@@ -350,43 +382,10 @@ export class CompendiumOptions {
 
     // set data from form.
     setCompendiumData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "actors_in_compendiums":
-                prefix = "analytics-actors-in-compendium-";
-                break;
-            case "cards_in_compendiums":
-                prefix = "analytics-cards-in-compendium-";
-                break;
-            case "items_in_compendiums":
-                prefix = "analytics-items-in-compendium-";
-                break;
-            case "journals_in_compendiums":
-                prefix = "analytics-journals-in-compendium-";
-                break;
-            case "macros_in_compendiums":
-                prefix = "analytics-macros-in-compendium-";
-                break;
-            case "playlists_in_compendiums":
-                prefix = "analytics-playlists-in-compendium-";
-                break;
-            case "scenes_in_compendiums":
-                prefix = "analytics-scenes-in-compendium-";
-                break;
-            case "tables_in_compendiums":
-                prefix = "analytics-tables-in-compendium-";
-                break;
-            case "tables_with_compendiums":
-                prefix = "analytics-tables-with-compendium-";
-                break;
-            default:
-                prefix = "analytics-compendiums-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.compendium_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.compendium_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.compendium_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.compendium_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.compendium_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.compendium_id_value               = v ? v : ""; }
@@ -402,36 +401,46 @@ export class CompendiumOptions {
 export class ItemOptions {
 
     constructor() {
-        this.item_submitted                    = false;
-        this.item_count                        = 0;
-        this.item_name_value                   = "";
-        this.item_id_value                     = "";
-        this.item_radio_name_checked           = true;
-        this.item_radio_id_checked             = false;
-        this.item_case_sensitive_checked       = false;
-        this.item_exact_match_checked          = false;
+        this.item_submitted                           = false;
+        this.item_count                               = 0;
+        this.item_name_value                          = "";
+        this.item_id_value                            = "";
+        this.item_radio_name_checked                  = true;
+        this.item_radio_id_checked                    = false;
+        this.item_case_sensitive_checked              = false;
+        this.item_exact_match_checked                 = false;
 
-        this.item_weapon_checked               = false;
-        this.item_equipment_checked            = false;
-        this.item_consumable_checked           = false;
-        this.item_tool_checked                 = false;
-        this.item_loot_checked                 = false;
-        this.item_class_checked                = false;
-        this.item_feat_checked                 = false;
-        this.item_backpack_checked             = false;
-        this.item_spell_checked                = false;
-        this.item_macro_checked                = false;
-        this.item_macro_count                  = 0;
-        this.item_macro_name_value             = "";
-        this.item_macro_id_value               = "";
-        this.item_macro_radio_name_checked     = true;
-        this.item_macro_radio_id_checked       = false;
-        this.item_macro_case_sensitive_checked = false;
-        this.item_macro_exact_match_checked    = false;
+        this.item_weapon_checked                      = false;
+        this.item_equipment_checked                   = false;
+        this.item_consumable_checked                  = false;
+        this.item_tool_checked                        = false;
+        this.item_loot_checked                        = false;
+        this.item_class_checked                       = false;
+        this.item_feat_checked                        = false;
+        this.item_backpack_checked                    = false;
+        this.item_spell_checked                       = false;
 
-        this.item_none_checked                 = false;
-        this.item_show_checked                 = false;
-        this.item_show_id_checked              = false;
+        this.item_macro_checked                       = false;
+        this.item_macro_count                         = 0;
+        this.item_macro_name_value                    = "";
+        this.item_macro_id_value                      = "";
+        this.item_macro_radio_name_checked            = true;
+        this.item_macro_radio_id_checked              = false;
+        this.item_macro_case_sensitive_checked        = false;
+        this.item_macro_exact_match_checked           = false;
+
+        this.item_on_use_macro_checked                = false;
+        this.item_on_use_macro_count                  = 0;
+        this.item_on_use_macro_name_value             = "";
+        this.item_on_use_macro_id_value               = "";
+        this.item_on_use_macro_radio_name_checked     = true;
+        this.item_on_use_macro_radio_id_checked       = false;
+        this.item_on_use_macro_case_sensitive_checked = false;
+        this.item_on_use_macro_exact_match_checked    = false;
+
+        this.item_none_checked                        = false;
+        this.item_show_checked                        = false;
+        this.item_show_id_checked                     = false;
     }
 
     // no item options?
@@ -447,10 +456,9 @@ export class ItemOptions {
                 !this.item_spell_checked);
     }
 
-    // get data for form.
-    getItemData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "actors_with_items":
                 prefix = "analytics-actors-with-item-";
@@ -474,14 +482,86 @@ export class ItemOptions {
                 prefix = "analytics-items-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+
+        // disable item macros if itemacro not installed or not active.
+        if (!game.modules.get("itemacro") || !game.modules.get("itemacro").active) {
+            document.getElementById(prefix + "macro-label").style.display                = "none";
+            document.getElementById(prefix + "macro-name-input").style.display           = "none";
+            document.getElementById(prefix + "macro-case-sensitive-label").style.display = "none";
+            document.getElementById(prefix + "macro-exact-match-label").style.display    = "none";
+            document.getElementById(prefix + "macro-thematic-break").style.display       = "none";
+            document.getElementById(prefix + "macro-id").style.display                   = "none";
+            document.getElementById(prefix + "macro-name-radio").style.display           = "none";
+            document.getElementById(prefix + "macro-id-radio").style.display             = "none";
+        }
+
+        // enable/disable on use macro fields.
+        document.getElementById(prefix + "macro-name").disabled           = !document.getElementById(prefix + "macro").checked;
+        document.getElementById(prefix + "macro-case-sensitive").disabled = !document.getElementById(prefix + "macro").checked;
+        document.getElementById(prefix + "macro-exact-match").disabled    = !document.getElementById(prefix + "macro").checked;
+        document.getElementById(prefix + "macro-id").disabled             = !document.getElementById(prefix + "macro").checked;
+        document.getElementById(prefix + "macro-name-radio").disabled     = !document.getElementById(prefix + "macro").checked;
+        document.getElementById(prefix + "macro-id-radio").disabled       = !document.getElementById(prefix + "macro").checked;
+
+        if (document.getElementById(prefix + "macro").checked) {
+            document.getElementById(prefix + "macro-name").disabled           = !document.getElementById(prefix + "macro-name-radio").checked;
+            document.getElementById(prefix + "macro-case-sensitive").disabled = !document.getElementById(prefix + "macro-name-radio").checked;
+            document.getElementById(prefix + "macro-exact-match").disabled    = !document.getElementById(prefix + "macro-name-radio").checked;
+            document.getElementById(prefix + "macro-id").disabled             = !document.getElementById(prefix + "macro-id-radio").checked;
+        };
+
+        // disable on use macros if midi-qol not installed or not active.
+        if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
+            document.getElementById(prefix + "on-use-macro-label").style.display                = "none";
+            document.getElementById(prefix + "on-use-macro-name-input").style.display           = "none";
+            document.getElementById(prefix + "on-use-macro-case-sensitive-label").style.display = "none";
+            document.getElementById(prefix + "on-use-macro-exact-match-label").style.display    = "none";
+            document.getElementById(prefix + "on-use-macro-thematic-break").style.display       = "none";
+            document.getElementById(prefix + "on-use-macro-id").style.display                   = "none";
+            document.getElementById(prefix + "on-use-macro-name-radio").style.display           = "none";
+            document.getElementById(prefix + "on-use-macro-id-radio").style.display             = "none";
+        }
+
+        // enable/disable on use macro fields.
+        document.getElementById(prefix + "on-use-macro-name").disabled           = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-case-sensitive").disabled = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-exact-match").disabled    = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-id").disabled             = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-name-radio").disabled     = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-id-radio").disabled       = !document.getElementById(prefix + "on-use-macro").checked;
+
+        if (document.getElementById(prefix + "on-use-macro").checked) {
+            document.getElementById(prefix + "on-use-macro-name").disabled           = !document.getElementById(prefix + "on-use-macro-name-radio").checked;
+            document.getElementById(prefix + "on-use-macro-case-sensitive").disabled = !document.getElementById(prefix + "on-use-macro-name-radio").checked;
+            document.getElementById(prefix + "on-use-macro-exact-match").disabled    = !document.getElementById(prefix + "on-use-macro-name-radio").checked;
+            document.getElementById(prefix + "on-use-macro-id").disabled             = !document.getElementById(prefix + "on-use-macro-id-radio").checked;
+        };
+    }
+
+    // get data for form.
+    getItemData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-items"]              = game.items.size;
         retval[prefix + "item-count"]                   = this.item_count;
 
         retval[prefix + "name-value"]                   = this.item_name_value,
         retval[prefix + "id-value"]                     = this.item_id_value,
-        retval[prefix + "radio-name-checked"]           = this.item_radio_name_checked           ? "checked" : "";
-        retval[prefix + "radio-id-checked"]             = this.item_radio_id_checked             ? "checked" : "";
+        retval[prefix + "name-radio-checked"]           = this.item_radio_name_checked           ? "checked" : "";
+        retval[prefix + "id-radio-checked"]             = this.item_radio_id_checked             ? "checked" : "";
         retval[prefix + "case-sensitive-checked"]       = this.item_case_sensitive_checked       ? "checked" : "";
         retval[prefix + "exact-match-checked"]          = this.item_exact_match_checked          ? "checked" : "";
 
@@ -494,13 +574,22 @@ export class ItemOptions {
         retval[prefix + "feat-checked"]                 = this.item_feat_checked                 ? "checked" : "";
         retval[prefix + "backpack-checked"]             = this.item_backpack_checked             ? "checked" : "";
         retval[prefix + "spell-checked"]                = this.item_spell_checked                ? "checked" : "";
+
         retval[prefix + "macro-checked"]                = this.item_macro_checked                ? "checked" : "";
         retval[prefix + "macro-name-value"]             = this.item_macro_name_value;
         retval[prefix + "macro-name-id"]                = this.item_macro_id_value;
-        retval[prefix + "macro-radio-name-checked"]     = this.item_macro_radio_name_checked     ? "checked" : "";
-        retval[prefix + "macro-radio-id-checked"]       = this.item_macro_radio_id_checked       ? "checked" : "";
+        retval[prefix + "macro-name-radio-checked"]     = this.item_macro_radio_name_checked     ? "checked" : "";
+        retval[prefix + "macro-id-radio-checked"]       = this.item_macro_radio_id_checked       ? "checked" : "";
         retval[prefix + "macro-case-sensitive-checked"] = this.item_macro_case_sensitive_checked ? "checked" : "";
         retval[prefix + "macro-exact-match-checked"]    = this.item_macro_exact_match_checked    ? "checked" : "";
+
+        retval[prefix + "on-use-macro-checked"]                = this.item_on_use_macro_checked                ? "checked" : "";
+        retval[prefix + "on-use-macro-name-value"]             = this.item_on_use_macro_name_value;
+        retval[prefix + "on-use-macro-name-id"]                = this.item_on_use_macro_id_value;
+        retval[prefix + "on-use-macro-name-radio-checked"]     = this.item_on_use_macro_radio_name_checked     ? "checked" : "";
+        retval[prefix + "on-use-macro-id-radio-checked"]       = this.item_on_use_macro_radio_id_checked       ? "checked" : "";
+        retval[prefix + "on-use-macro-case-sensitive-checked"] = this.item_on_use_macro_case_sensitive_checked ? "checked" : "";
+        retval[prefix + "on-use-macro-exact-match-checked"]    = this.item_on_use_macro_exact_match_checked    ? "checked" : "";
 
         retval[prefix + "none-checked"]                 = this.item_none_checked                 ? "checked" : "";
         retval[prefix + "show-checked"]                 = this.item_show_checked                 ? "checked" : "";
@@ -511,36 +600,12 @@ export class ItemOptions {
 
     // set data from form.
     setItemData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "actors_with_items":
-                prefix = "analytics-actors-with-item-";
-                break;
-            case "compendiums_with_items":
-                prefix = "analytics-compendiums-with-item-";
-                break;
-            case "items_within_items_16":
-                prefix = "analytics-items-within-item-";
-                break;
-            case "journals_with_items":
-                prefix = "analytics-journals-with-item-";
-                break;
-            case "macros_in_items":
-                prefix = "analytics-macros-in-item-";
-                break;
-            case "tables_with_items":
-                prefix = "analytics-tables-with-item-";
-                break;
-            default:
-                prefix = "analytics-items-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.item_radio_name_checked       = document.getElementById(prefix + "radio-name").checked;
-        this.item_radio_id_checked         = document.getElementById(prefix + "radio-id").checked;
-        this.item_macro_radio_name_checked = document.getElementById(prefix + "macro-radio-name").checked;
-        this.item_macro_radio_id_checked   = document.getElementById(prefix + "macro-radio-id").checked;
+        this.item_radio_name_checked       = document.getElementById(prefix + "name-radio").checked;
+        this.item_radio_id_checked         = document.getElementById(prefix + "id-radio").checked;
+        this.item_on_use_macro_radio_name_checked = document.getElementById(prefix + "on-use-macro-name-radio").checked;
+        this.item_on_use_macro_radio_id_checked   = document.getElementById(prefix + "on-use-macro-id-radio").checked;
 
         if (k == prefix + "name")                 { this.item_name_value                   = v ? v : ""; }
         if (k == prefix + "id")                   { this.item_id_value                     = v ? v : ""; }
@@ -556,11 +621,18 @@ export class ItemOptions {
         if (k == prefix + "feat")                 { this.item_feat_checked                 = v; }
         if (k == prefix + "backpack")             { this.item_backpack_checked             = v; }
         if (k == prefix + "spell")                { this.item_spell_checked                = v; }
+
         if (k == prefix + "macro")                { this.item_macro_checked                = v; }
         if (k == prefix + "macro-name")           { this.item_macro_name_value             = v ? v : ""; }
         if (k == prefix + "macro-id")             { this.item_macro_id_value               = v ? v : ""; }
         if (k == prefix + "macro-case-sensitive") { this.item_macro_case_sensitive_checked = v; }
         if (k == prefix + "macro-exact-match")    { this.item_macro_exact_match_checked    = v; }
+
+        if (k == prefix + "on-use-macro")                { this.item_on_use_macro_checked                = v; }
+        if (k == prefix + "on-use-macro-name")           { this.item_on_use_macro_name_value             = v ? v : ""; }
+        if (k == prefix + "on-use-macro-id")             { this.item_on_use_macro_id_value               = v ? v : ""; }
+        if (k == prefix + "on-use-macro-case-sensitive") { this.item_on_use_macro_case_sensitive_checked = v; }
+        if (k == prefix + "on-use-macro-exact-match")    { this.item_on_use_macro_exact_match_checked    = v; }
 
         if (k == prefix + "none")                 { this.item_none_checked                 = v; }
         if (k == prefix + "show")                 { this.item_show_checked                 = v; }
@@ -609,10 +681,9 @@ export class JournalOptions {
                 !this.journal_shop_checked);
     }
 
-    // get data for form.
-    getJournalData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "actors_in_journals":
                 prefix = "analytics-actors-in-journal-";
@@ -654,14 +725,46 @@ export class JournalOptions {
                 prefix = "analytics-journals-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+
+        // disable journal subtypes if monk's enhanced journal not installed or not active.
+        if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
+            document.getElementById(prefix + "monks-base").style.display         = "none";
+            document.getElementById(prefix + "monks-checklist").style.display    = "none";
+            document.getElementById(prefix + "monks-encounter").style.display    = "none";
+            document.getElementById(prefix + "monks-loot").style.display         = "none";
+            document.getElementById(prefix + "monks-organization").style.display = "none";
+            document.getElementById(prefix + "monks-person").style.display       = "none";
+            document.getElementById(prefix + "monks-place").style.display        = "none";
+            document.getElementById(prefix + "monks-poi").style.display          = "none";
+            document.getElementById(prefix + "monks-quest").style.display        = "none";
+            document.getElementById(prefix + "monks-shop").style.display         = "none";
+        };
+    }
+
+    // get data for form.
+    getJournalData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-journals"]     = game.journal.size;
         retval[prefix + "journal-count"]          = this.journal_count;
 
         retval[prefix + "name-value"]             = this.journal_name_value;
         retval[prefix + "id-value"]               = this.journal_id_value;
-        retval[prefix + "radio-name-checked"]     = this.journal_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.journal_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.journal_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.journal_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.journal_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.journal_exact_match_checked    ? "checked" : "";
 
@@ -685,52 +788,10 @@ export class JournalOptions {
 
     // set data from form.
     setJournalData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "actors_in_journals":
-                prefix = "analytics-actors-in-journal-";
-                break;
-            case "cards_in_journals":
-                prefix = "analytics-cards-in-journal-";
-                break;
-            case "compendiums_with_journals":
-                prefix = "analytics-compendiums-with-journal-";
-                break;
-            case "items_in_journals":
-                prefix = "analytics-items-in-journal-";
-                break;
-            case "journals_within_journals_20":
-                prefix = "analytics-journals-within-journal-";
-                break;
-            case "macros_in_journals":
-                prefix = "analytics-macros-in-journal-";
-                break;
-            case "playlists_in_journals":
-                prefix = "analytics-playlists-in-journal-";
-                break;
-            case "scenes_in_journals":
-                prefix = "analytics-scenes-in-journal-";
-                break;
-            case "scenes_with_journals":
-                prefix = "analytics-scenes-with-journal-";
-                break;
-            case "scenes_with_journals_as_pins":
-                prefix = "analytics-scenes-with-journal-as-pin-";
-                break;
-            case "tables_in_journals":
-                prefix = "analytics-tables-in-journal-";
-                break;
-            case "tables_with_journals":
-                prefix = "analytics-tables-with-journal-";
-                break;
-            default:
-                prefix = "analytics-journals-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.journal_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.journal_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.journal_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.journal_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.journal_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.journal_id_value               = v ? v : ""; }
@@ -770,10 +831,9 @@ export class MacroOptions {
         this.macro_show_id_checked        = false;
     }
 
-    // get data for form.
-    getMacroData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "compendiums_with_macros":
                 prefix = "analytics-compendiums-with-macro-";
@@ -794,14 +854,32 @@ export class MacroOptions {
                 prefix = "analytics-macros-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    }
+
+    // get data for form.
+    getMacroData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-macros"]       = game.macros.size;
         retval[prefix + "macro-count"]            = this.macro_count;
 
         retval[prefix + "name-value"]             = this.macro_name_value;
         retval[prefix + "id-value"]               = this.macro_id_value;
-        retval[prefix + "radio-name-checked"]     = this.macro_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.macro_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.macro_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.macro_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.macro_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.macro_exact_match_checked    ? "checked" : "";
 
@@ -814,31 +892,10 @@ export class MacroOptions {
 
     // set data from form.
     setMacroData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "compendiums_with_macros":
-                prefix = "analytics-compendiums-with-macro-";
-                break;
-            case "items_with_macros":
-                prefix = "analytics-items-with-macro-";
-                break;
-            case "journals_with_macros":
-                prefix = "analytics-journals-with-macro-";
-                break;
-            case "tables_with_macros":
-                prefix = "analytics-tables-with-macro-";
-                break;
-            case "tiles_with_macros":
-                prefix = "analytics-tiles-with-macro-";
-                break;
-            default:
-                prefix = "analytics-macros-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.macro_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.macro_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.macro_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.macro_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.macro_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.macro_id_value               = v ? v : ""; }
@@ -867,10 +924,9 @@ export class PlaylistOptions {
         this.playlist_show_id_checked        = false;
     }
 
-    // get data for form.
-    getPlaylistData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "compendiums_with_playlists":
                 prefix = "analytics-compendiums-with-playlist-";
@@ -888,14 +944,32 @@ export class PlaylistOptions {
                 prefix = "analytics-playlists-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    }
+
+    // get data for form.
+    getPlaylistData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-playlists"]    = game.playlists.size;
         retval[prefix + "playlist-count"]         = this.playlist_count;
 
         retval[prefix + "name-value"]             = this.playlists_name_value;
         retval[prefix + "id-value"]               = this.playlists_id_value;
-        retval[prefix + "radio-name-checked"]     = this.playlist_radio_name_checked      ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.playlist_radio_id_checked        ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.playlist_radio_name_checked      ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.playlist_radio_id_checked        ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.playlists_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.playlists_exact_match_checked    ? "checked" : "";
 
@@ -908,28 +982,11 @@ export class PlaylistOptions {
 
     // set data from form.
     setPlaylistData(k, v, secondary = "") {
-        var prefix = "";
         var retval = { };
-        switch(secondary) {
-            case "compendiums_with_playlists":
-                prefix = "analytics-compendiums-with-playlist-";
-                break;
-            case "journals_with_playlists":
-                prefix = "analytics-journals-with-playlist-";
-                break;
-            case "scenes_with_playlists":
-                prefix = "analytics-scenes-with-playlist-";
-                break;
-            case "tables_with_playlists":
-                prefix = "analytics-tables-with-playlist-";
-                break;
-            default:
-                prefix = "analytics-playlists-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.playlist_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.playlist_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.playlist_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.playlist_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k ==  prefix + "name")           { this.playlist_name_value             = v ? v : ""; }
         if (k ==  prefix + "id")             { this.playlist_id_value               = v ? v : ""; }
@@ -959,10 +1016,9 @@ export class SceneOptions {
         this.scene_show_id_checked        = false;
     }
 
-    // get data for form.
-    getSceneData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "actors_in_scenes_as_tokens":
                 prefix = "analytics-actors-in-scene-as-token-";
@@ -992,14 +1048,32 @@ export class SceneOptions {
                 prefix = "analytics-scenes-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    }
+
+    // get data for form.
+    getSceneData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-scenes"]       = game.scenes.size;
         retval[prefix + "scene-count"]            = this.scene_count;
 
         retval[prefix + "name-value"]             = this.scene_name_value;
         retval[prefix + "id-value"]               = this.scene_id_value;
-        retval[prefix + "radio-name-checked"]     = this.scene_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.scene_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.scene_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.scene_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.scene_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.scene_exact_match_checked    ? "checked" : "";
 
@@ -1012,40 +1086,10 @@ export class SceneOptions {
 
     // set data from form.
     setSceneData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "actors_in_scenes_as_tokens":
-                prefix = "analytics-actors-in-scene-as-token-";
-                break;
-            case "compendiums_with_scenes":
-                prefix = "analytics-compendiums-with-scene-";
-                break;
-            case "journals_with_scenes":
-                prefix = "analytics-journals-with-scene-";
-                break;
-            case "journals_in_scenes":
-                prefix = "analytics-journals-in-scene-";
-                break;
-            case "journals_in_scenes_as_pins":
-                prefix = "analytics-journals-in-scene-as-pin-";
-                break;
-            case "playlists_in_scenes":
-                prefix = "analytics-playlists-in-scene-";
-                break;
-            case "tables_with_scenes":
-                prefix = "analytics-tables-with-scene-";
-                break;
-            case "tiles_in_scenes":
-                prefix = "analytics-tiles-in-scene-";
-                break;
-            default:
-                prefix = "analytics-scenes-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.scene_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.scene_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.scene_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.scene_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k ==  prefix + "name")             { this.scene_name_value             = v ? v : ""; }
         if (k ==  prefix + "id")               { this.scene_id_value               = v ? v : ""; }
@@ -1075,10 +1119,9 @@ export class TableOptions {
         this.table_show_id_checked        = false;
     }
 
-    // get data for form.
-    getTableData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "actors_in_tables":
                 prefix = "analytics-actors-in-table-";
@@ -1117,14 +1160,32 @@ export class TableOptions {
                 prefix = "analytics-tables-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    }
+
+    // get data for form.
+    getTableData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-tables"]       = game.tables.size;
         retval[prefix + "table-count"]            = this.table_count;
 
         retval[prefix + "name-value"]             = this.table_name_value;
         retval[prefix + "id-value"]               = this.table_id_value;
-        retval[prefix + "radio-name-checked"]     = this.table_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.table_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.table_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.table_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.table_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.table_exact_match_checked    ? "checked" : "";
 
@@ -1137,49 +1198,10 @@ export class TableOptions {
 
     // set data from form.
     setTableData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "actors_in_tables":
-                prefix = "analytics-actors-in-table-";
-                break;
-            case "cards_in_tables":
-                prefix = "analytics-cards-in-table-";
-                break;
-            case "compendiums_with_tables":
-                prefix = "analytics-compendiums-with-table-";
-                break;
-            case "compendiums_in_tables":
-                prefix = "analytics-compendiums-in-table-";
-                break;
-            case "items_in_tables":
-                prefix = "analytics-items-in-table-";
-                break;
-            case "journals_in_tables":
-                prefix = "analytics-journals-in-table-";
-                break;
-            case "journals_with_tables":
-                prefix = "analytics-journals-with-table-";
-                break;
-            case "macros_in_tables":
-                prefix = "analytics-macros-in-table-";
-                break;
-            case "playlists_in_tables":
-                prefix = "analytics-playlists-in-table-";
-                break;
-            case "scenes_in_tables":
-                prefix = "analytics-scenes-in-table-";
-                break;
-            case "tables_within_tables_34":
-                prefix = "analytics-tables-within-table-";
-                break;
-            default:
-                prefix = "analytics-tables-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.table_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.table_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.table_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.table_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.table_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.table_id_value               = v ? v : ""; }
@@ -1208,10 +1230,9 @@ export class TileOptions {
         this.tile_show_id_checked        = false;
     }
 
-    // get data for form.
-    getTileData(secondary = "") {
+    // form element prefixea.
+    prefixSecondary(secondary) {
         var prefix = "";
-        var retval = { };
         switch(secondary) {
             case "macros_in_tiles":
                 prefix = "analytics-macros-in-tile-";
@@ -1223,14 +1244,32 @@ export class TileOptions {
                 prefix = "analytics-tiles-";
                 break;
         };
+        return prefix;
+    };
+
+    // initialize form settings.
+    activateListeners(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+
+        // enable/disable by name or id.
+        document.getElementById(prefix + "name").disabled           = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "case-sensitive").disabled = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "exact-match").disabled    = !document.getElementById(prefix + "name-radio").checked;
+        document.getElementById(prefix + "id").disabled             = !document.getElementById(prefix + "id-radio").checked;
+    }
+
+    // get data for form.
+    getTileData(secondary = "") {
+        var prefix = this.prefixSecondary(secondary);
+        var retval = { };
 
         retval[prefix + "number-of-tiles"]        = 0;
         retval[prefix + "tile-count"]             = this.tile_count;
 
         retval[prefix + "name-value"]             = this.tile_name_value;
         retval[prefix + "id-value"]               = this.tile_id_value;
-        retval[prefix + "radio-name-checked"]     = this.tile_radio_name_checked     ? "checked" : "";
-        retval[prefix + "radio-id-checked"]       = this.tile_radio_id_checked       ? "checked" : "";
+        retval[prefix + "name-radio-checked"]     = this.tile_radio_name_checked     ? "checked" : "";
+        retval[prefix + "id-radio-checked"]       = this.tile_radio_id_checked       ? "checked" : "";
         retval[prefix + "case-sensitive-checked"] = this.tile_case_sensitive_checked ? "checked" : "";
         retval[prefix + "exact-match-checked"]    = this.tile_exact_match_checked    ? "checked" : "";
 
@@ -1243,22 +1282,10 @@ export class TileOptions {
 
     // set data from form.
     setTileData(k, v, secondary = "") {
-        var prefix = "";
-        var retval = { };
-        switch(secondary) {
-            case "macros_in_tiles":
-                prefix = "analytics-macros-in-tile-";
-                break;
-            case "scenes_with_tiles":
-                prefix = "analytics-scenes-with-tile-";
-                break;
-            default:
-                prefix = "analytics-tiles-";
-                break;
-        };
+        var prefix = this.prefixSecondary(secondary);
 
-        this.tile_radio_name_checked = document.getElementById(prefix + "radio-name").checked;
-        this.tile_radio_id_checked   = document.getElementById(prefix + "radio-id").checked;
+        this.tile_radio_name_checked = document.getElementById(prefix + "name-radio").checked;
+        this.tile_radio_id_checked   = document.getElementById(prefix + "id-radio").checked;
 
         if (k == prefix + "name")           { this.tile_name_value             = v ? v : ""; }
         if (k == prefix + "id")             { this.tile_id_value               = v ? v : ""; }

@@ -18,92 +18,107 @@
             document.getElementById("analytics-tables-with-actor-swarm").disabled          = !document.getElementById("analytics-tables-with-actor-npc").checked;
             document.getElementById("analytics-tables-with-actor-undead").disabled         = !document.getElementById("analytics-tables-with-actor-npc").checked;
         }
-        function toggle_analytics_tables_item_macro() {
+        function toggle_analytics_tables_with_item_macro() {
             document.getElementById("analytics-tables-with-item-macro-name").disabled           = !document.getElementById("analytics-tables-with-item-macro").checked;
             document.getElementById("analytics-tables-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-macro").checked;
             document.getElementById("analytics-tables-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-macro").checked;
             document.getElementById("analytics-tables-with-item-macro-id").disabled             = !document.getElementById("analytics-tables-with-item-macro").checked;
-            document.getElementById("analytics-tables-with-item-macro-radio-name").disabled     = !document.getElementById("analytics-tables-with-item-macro").checked;
-            document.getElementById("analytics-tables-with-item-macro-radio-id").disabled       = !document.getElementById("analytics-tables-with-item-macro").checked;
+            document.getElementById("analytics-tables-with-item-macro-name-radio").disabled     = !document.getElementById("analytics-tables-with-item-macro").checked;
+            document.getElementById("analytics-tables-with-item-macro-id-radio").disabled       = !document.getElementById("analytics-tables-with-item-macro").checked;
             if (document.getElementById("analytics-tables-with-item-macro").checked) toggle_analytics_tables_with_item_macro_radio();
         }
+        function toggle_analytics_tables_with_item_on_use_macro() {
+            document.getElementById("analytics-tables-with-item-on-use-macro-name").disabled           = !document.getElementById("analytics-tables-with-item-on-use-macro").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-on-use-macro").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-on-use-macro").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-id").disabled             = !document.getElementById("analytics-tables-with-item-on-use-macro").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-name-radio").disabled     = !document.getElementById("analytics-tables-with-item-on-use-macro").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-id-radio").disabled       = !document.getElementById("analytics-tables-with-item-on-use-macro").checked;
+            if (document.getElementById("analytics-tables-with-item-on-use-macro").checked) toggle_analytics_tables_with_item_on_use_macro_radio();
+        }
         function toggle_analytics_tables_radio() {
-            document.getElementById("analytics-tables-table-name").disabled             = !document.getElementById("analytics-tables-table-radio-name").checked;
-            document.getElementById("analytics-tables-table-case-sensitive").disabled = !document.getElementById("analytics-tables-table-radio-name").checked;
-            document.getElementById("analytics-tables-table-exact-match").disabled    = !document.getElementById("analytics-tables-table-radio-name").checked;
-            document.getElementById("analytics-tables-table-id").disabled               = !document.getElementById("analytics-tables-table-radio-id").checked;
+            document.getElementById("analytics-tables-table-name").disabled           = !document.getElementById("analytics-tables-table-name-radio").checked;
+            document.getElementById("analytics-tables-table-case-sensitive").disabled = !document.getElementById("analytics-tables-table-name-radio").checked;
+            document.getElementById("analytics-tables-table-exact-match").disabled    = !document.getElementById("analytics-tables-table-name-radio").checked;
+            document.getElementById("analytics-tables-table-id").disabled             = !document.getElementById("analytics-tables-table-id-radio").checked;
         }
         function toggle_analytics_tables_with_actor_radio() {
-            document.getElementById("analytics-tables-with-actor-name").disabled          = !document.getElementById("analytics-tables-with-actor-radio-name").checked;
-            document.getElementById("analytics-tables-with-actor-case-sensitive").disabled = !document.getElementById("analytics-tables-with-actor-radio-name").checked;
-            document.getElementById("analytics-tables-with-actor-exact-match").disabled    = !document.getElementById("analytics-tables-with-actor-radio-name").checked;
-            document.getElementById("analytics-tables-with-actor-id").disabled            = !document.getElementById("analytics-tables-with-actor-radio-id").checked;
+            document.getElementById("analytics-tables-with-actor-name").disabled           = !document.getElementById("analytics-tables-with-actor-name-radio").checked;
+            document.getElementById("analytics-tables-with-actor-case-sensitive").disabled = !document.getElementById("analytics-tables-with-actor-name-radio").checked;
+            document.getElementById("analytics-tables-with-actor-exact-match").disabled    = !document.getElementById("analytics-tables-with-actor-name-radio").checked;
+            document.getElementById("analytics-tables-with-actor-id").disabled             = !document.getElementById("analytics-tables-with-actor-id-radio").checked;
         }
         function toggle_analytics_tables_with_card_radio() {
-            document.getElementById("analytics-tables-with-card-name").disabled              = !document.getElementById("analytics-tables-with-card-radio-name").checked;
-            document.getElementById("analytics-tables-with-card-case-sensitive").disabled = !document.getElementById("analytics-tables-with-card-radio-name").checked;
-            document.getElementById("analytics-tables-with-card-exact-match").disabled    = !document.getElementById("analytics-tables-with-card-radio-name").checked;
-            document.getElementById("analytics-tables-with-card-id").disabled                = !document.getElementById("analytics-tables-with-card-radio-id").checked;
+            document.getElementById("analytics-tables-with-card-name").disabled           = !document.getElementById("analytics-tables-with-card-name-radio").checked;
+            document.getElementById("analytics-tables-with-card-case-sensitive").disabled = !document.getElementById("analytics-tables-with-card-name-radio").checked;
+            document.getElementById("analytics-tables-with-card-exact-match").disabled    = !document.getElementById("analytics-tables-with-card-name-radio").checked;
+            document.getElementById("analytics-tables-with-card-id").disabled             = !document.getElementById("analytics-tables-with-card-id-radio").checked;
         }
         function toggle_analytics_tables_in_compendium_radio() {
-            document.getElementById("analytics-tables-in-compendium-name").disabled              = !document.getElementById("analytics-tables-in-compendium-radio-name").checked;
-            document.getElementById("analytics-tables-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-tables-in-compendium-radio-name").checked;
-            document.getElementById("analytics-tables-in-compendium-exact-match").disabled    = !document.getElementById("analytics-tables-in-compendium-radio-name").checked;
-            document.getElementById("analytics-tables-in-compendium-id").disabled                = !document.getElementById("analytics-tables-in-compendium-radio-id").checked;
+            document.getElementById("analytics-tables-in-compendium-name").disabled           = !document.getElementById("analytics-tables-in-compendium-name-radio").checked;
+            document.getElementById("analytics-tables-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-tables-in-compendium-name-radio").checked;
+            document.getElementById("analytics-tables-in-compendium-exact-match").disabled    = !document.getElementById("analytics-tables-in-compendium-name-radio").checked;
+            document.getElementById("analytics-tables-in-compendium-id").disabled             = !document.getElementById("analytics-tables-in-compendium-id-radio").checked;
         }
         function toggle_analytics_tables_with_compendium_radio() {
-            document.getElementById("analytics-tables-with-compendium-name").disabled            = !document.getElementById("analytics-tables-with-compendium-radio-name").checked;
-            document.getElementById("analytics-tables-with-compendium-case-sensitive").disabled = !document.getElementById("analytics-tables-with-compendium-radio-name").checked;
-            document.getElementById("analytics-tables-with-compendium-exact-match").disabled    = !document.getElementById("analytics-tables-with-compendium-radio-name").checked;
-            document.getElementById("analytics-tables-with-compendium-id").disabled              = !document.getElementById("analytics-tables-with-compendium-radio-id").checked;
+            document.getElementById("analytics-tables-with-compendium-name").disabled           = !document.getElementById("analytics-tables-with-compendium-name-radio").checked;
+            document.getElementById("analytics-tables-with-compendium-case-sensitive").disabled = !document.getElementById("analytics-tables-with-compendium-name-radio").checked;
+            document.getElementById("analytics-tables-with-compendium-exact-match").disabled    = !document.getElementById("analytics-tables-with-compendium-name-radio").checked;
+            document.getElementById("analytics-tables-with-compendium-id").disabled             = !document.getElementById("analytics-tables-with-compendium-id-radio").checked;
         }
         function toggle_analytics_tables_with_item_radio() {
-            document.getElementById("analytics-tables-with-item-name").disabled              = !document.getElementById("analytics-tables-with-item-radio-name").checked;
-            document.getElementById("analytics-tables-with-item-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-radio-name").checked;
-            document.getElementById("analytics-tables-with-item-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-radio-name").checked;
-            document.getElementById("analytics-tables-with-item-id").disabled                = !document.getElementById("analytics-tables-with-item-radio-id").checked;
+            document.getElementById("analytics-tables-with-item-name").disabled           = !document.getElementById("analytics-tables-with-item-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-id").disabled             = !document.getElementById("analytics-tables-with-item-id-radio").checked;
         }
         function toggle_analytics_tables_with_item_macro_radio() {
-            document.getElementById("analytics-tables-with-item-macro-name").disabled          = !document.getElementById("analytics-tables-with-item-macro-radio-name").checked;
-            document.getElementById("analytics-tables-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-macro-radio-name").checked;
-            document.getElementById("analytics-tables-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-macro-radio-name").checked;
-            document.getElementById("analytics-tables-with-item-macro-id").disabled            = !document.getElementById("analytics-tables-with-item-macro-radio-id").checked;
+            document.getElementById("analytics-tables-with-item-macro-name").disabled           = !document.getElementById("analytics-tables-with-item-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-macro-id").disabled             = !document.getElementById("analytics-tables-with-item-macro-id-radio").checked;
+        }
+        function toggle_analytics_tables_with_item_on_use_macro_radio() {
+            document.getElementById("analytics-tables-with-item-on-use-macro-name").disabled           = !document.getElementById("analytics-tables-with-item-on-use-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-item-on-use-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-item-on-use-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-item-on-use-macro-id").disabled             = !document.getElementById("analytics-tables-with-item-on-use-macro-id-radio").checked;
         }
         function toggle_analytics_tables_in_journal_radio() {
-            document.getElementById("analytics-tables-in-journal-name").disabled          = !document.getElementById("analytics-tables-in-journal-radio-name").checked;
-            document.getElementById("analytics-tables-in-journal-case-sensitive").disabled = !document.getElementById("analytics-tables-in-journal-radio-name").checked;
-            document.getElementById("analytics-tables-in-journal-exact-match").disabled    = !document.getElementById("analytics-tables-in-journal-radio-name").checked;
-            document.getElementById("analytics-tables-in-journal-id").disabled            = !document.getElementById("analytics-tables-in-journal-radio-id").checked;
+            document.getElementById("analytics-tables-in-journal-name").disabled           = !document.getElementById("analytics-tables-in-journal-name-radio").checked;
+            document.getElementById("analytics-tables-in-journal-case-sensitive").disabled = !document.getElementById("analytics-tables-in-journal-name-radio").checked;
+            document.getElementById("analytics-tables-in-journal-exact-match").disabled    = !document.getElementById("analytics-tables-in-journal-name-radio").checked;
+            document.getElementById("analytics-tables-in-journal-id").disabled             = !document.getElementById("analytics-tables-in-journal-id-radio").checked;
         }
         function toggle_analytics_tables_with_journal_radio() {
-            document.getElementById("analytics-tables-with-journal-name").disabled          = !document.getElementById("analytics-tables-with-journal-radio-name").checked;
-            document.getElementById("analytics-tables-with-journal-case-sensitive").disabled = !document.getElementById("analytics-tables-with-journal-radio-name").checked;
-            document.getElementById("analytics-tables-with-journal-exact-match").disabled    = !document.getElementById("analytics-tables-with-journal-radio-name").checked;
-            document.getElementById("analytics-tables-with-journal-id").disabled            = !document.getElementById("analytics-tables-with-journal-radio-id").checked;
+            document.getElementById("analytics-tables-with-journal-name").disabled           = !document.getElementById("analytics-tables-with-journal-name-radio").checked;
+            document.getElementById("analytics-tables-with-journal-case-sensitive").disabled = !document.getElementById("analytics-tables-with-journal-name-radio").checked;
+            document.getElementById("analytics-tables-with-journal-exact-match").disabled    = !document.getElementById("analytics-tables-with-journal-name-radio").checked;
+            document.getElementById("analytics-tables-with-journal-id").disabled             = !document.getElementById("analytics-tables-with-journal-id-radio").checked;
         }
         function toggle_analytics_tables_with_macro_radio() {
-            document.getElementById("analytics-tables-with-macro-name").disabled          = !document.getElementById("analytics-tables-with-macro-radio-name").checked;
-            document.getElementById("analytics-tables-with-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-macro-radio-name").checked;
-            document.getElementById("analytics-tables-with-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-macro-radio-name").checked;
-            document.getElementById("analytics-tables-with-macro-id").disabled            = !document.getElementById("analytics-tables-with-macro-radio-id").checked;
+            document.getElementById("analytics-tables-with-macro-name").disabled           = !document.getElementById("analytics-tables-with-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-macro-case-sensitive").disabled = !document.getElementById("analytics-tables-with-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-macro-exact-match").disabled    = !document.getElementById("analytics-tables-with-macro-name-radio").checked;
+            document.getElementById("analytics-tables-with-macro-id").disabled             = !document.getElementById("analytics-tables-with-macro-id-radio").checked;
         }
         function toggle_analytics_tables_with_playlist_radio() {
-            document.getElementById("analytics-tables-with-playlist-name").disabled              = !document.getElementById("analytics-tables-with-playlist-radio-name").checked;
-            document.getElementById("analytics-tables-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-tables-with-playlist-radio-name").checked;
-            document.getElementById("analytics-tables-with-playlist-exact-match").disabled    = !document.getElementById("analytics-tables-with-playlist-radio-name").checked;
-            document.getElementById("analytics-tables-with-playlist-id").disabled                = !document.getElementById("analytics-tables-with-playlist-radio-id").checked;
+            document.getElementById("analytics-tables-with-playlist-name").disabled           = !document.getElementById("analytics-tables-with-playlist-name-radio").checked;
+            document.getElementById("analytics-tables-with-playlist-case-sensitive").disabled = !document.getElementById("analytics-tables-with-playlist-name-radio").checked;
+            document.getElementById("analytics-tables-with-playlist-exact-match").disabled    = !document.getElementById("analytics-tables-with-playlist-name-radio").checked;
+            document.getElementById("analytics-tables-with-playlist-id").disabled             = !document.getElementById("analytics-tables-with-playlist-id-radio").checked;
         }
         function toggle_analytics_tables_with_scene_radio() {
-            document.getElementById("analytics-tables-with-scene-name").disabled          = !document.getElementById("analytics-tables-with-scene-radio-name").checked;
-            document.getElementById("analytics-tables-with-scene-case-sensitive").disabled = !document.getElementById("analytics-tables-with-scene-radio-name").checked;
-            document.getElementById("analytics-tables-with-scene-exact-match").disabled    = !document.getElementById("analytics-tables-with-scene-radio-name").checked;
-            document.getElementById("analytics-tables-with-scene-id").disabled            = !document.getElementById("analytics-tables-with-scene-radio-id").checked;
+            document.getElementById("analytics-tables-with-scene-name").disabled           = !document.getElementById("analytics-tables-with-scene-name-radio").checked;
+            document.getElementById("analytics-tables-with-scene-case-sensitive").disabled = !document.getElementById("analytics-tables-with-scene-name-radio").checked;
+            document.getElementById("analytics-tables-with-scene-exact-match").disabled    = !document.getElementById("analytics-tables-with-scene-name-radio").checked;
+            document.getElementById("analytics-tables-with-scene-id").disabled             = !document.getElementById("analytics-tables-with-scene-id-radio").checked;
         }
         function toggle_analytics_tables_within_table_radio() {
-            document.getElementById("analytics-tables-within-table-name").disabled        = !document.getElementById("analytics-tables-within-table-radio-name").checked;
-            document.getElementById("analytics-tables-within-table-case-sensitive").disabled = !document.getElementById("analytics-tables-within-table-radio-name").checked;
-            document.getElementById("analytics-tables-within-table-exact-match").disabled    = !document.getElementById("analytics-tables-within-table-radio-name").checked;
-            document.getElementById("analytics-tables-within-table-id").disabled          = !document.getElementById("analytics-tables-within-table-radio-id").checked;
+            document.getElementById("analytics-tables-within-table-name").disabled           = !document.getElementById("analytics-tables-within-table-name-radio").checked;
+            document.getElementById("analytics-tables-within-table-case-sensitive").disabled = !document.getElementById("analytics-tables-within-table-name-radio").checked;
+            document.getElementById("analytics-tables-within-table-exact-match").disabled    = !document.getElementById("analytics-tables-within-table-name-radio").checked;
+            document.getElementById("analytics-tables-within-table-id").disabled             = !document.getElementById("analytics-tables-within-table-id-radio").checked;
         }
     </script>
 
@@ -141,12 +156,12 @@
         <!-- TABLE NAME -->
         <label for="analytics-tables-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.Tables'}}</label>
         <div>
-            <input type="radio" class="analytics-radio" id="analytics-tables-radio-name" name="analytics-tables-radio" onClick="toggle_analytics_tables_radio()" value="name" {{analytics-tables-radio-name-checked}} >
+            <input type="radio" class="analytics-radio" id="analytics-tables-name-radio" name="analytics-tables-radio" onClick="toggle_analytics_tables_radio()" value="name" {{analytics-tables-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-tables-name" name="analytics-tables-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-name-value}}" >
         </div>
         <!-- TABLE ID -->
         <div>
-            <input type="radio" class="analytics-radio" id="analytics-tables-radio-id" name="analytics-tables-radio" onClick="toggle_analytics_tables_radio()" value="id" {{analytics-tables-radio-id-checked}} >
+            <input type="radio" class="analytics-radio" id="analytics-tables-id-radio" name="analytics-tables-radio" onClick="toggle_analytics_tables_radio()" value="id" {{analytics-tables-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-tables-id" name="analytics-tables-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-id-value}}" >
         </div>
         <div class="form-group" id="analytics">
@@ -175,12 +190,12 @@
             <!-- ACTOR NAME -->
             <label for="analytics-tables-with-actor-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-actor-radio-name" name="analytics-tables-with-actor-radio" onClick="toggle_analytics_tables_with_actor_radio()" value="name" {{analytics-tables-with-actor-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-actor-name-radio" name="analytics-tables-with-actor-radio" onClick="toggle_analytics_tables_with_actor_radio()" value="name" {{analytics-tables-with-actor-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-actor-name" name="analytics-tables-with-actor-name" data-dtype="String" title="{{localize 'DOCUMENT.Actors'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-actor-name-value}}" >
             </div>
             <!-- ACTOR ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-actor-radio-id" name="analytics-tables-with-actor-radio" onClick="toggle_analytics_tables_with_actor_radio()" value="id" {{analytics-tables-with-actor-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-actor-id-radio" name="analytics-tables-with-actor-radio" onClick="toggle_analytics_tables_with_actor_radio()" value="id" {{analytics-tables-with-actor-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-actor-id" name="analytics-tables-with-actor-id" data-dtype="String" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-actor-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -293,12 +308,12 @@
             <!-- CARD NAME -->
             <label for="analytics-tables-with-card-name"><i class="fas fa-id-badge"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'CARDS.HeaderCards'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-card-radio-name" name="analytics-tables-with-card-radio" onClick="toggle_analytics_tables_with_card_radio()" value="name" {{analytics-tables-with-card-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-card-name-radio" name="analytics-tables-with-card-radio" onClick="toggle_analytics_tables_with_card_radio()" value="name" {{analytics-tables-with-card-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-card-name" name="analytics-tables-with-card-name" data-dtype="String" title="{{localize 'CARDS.HeaderCards'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-card-name-value}}" >
             </div>
             <!-- CARD ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-card-radio-id" name="analytics-tables-with-card-radio" onClick="toggle_analytics_tables_with_card_radio()" value="id" {{analytics-tables-with-card-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-card-id-radio" name="analytics-tables-with-card-radio" onClick="toggle_analytics_tables_with_card_radio()" value="id" {{analytics-tables-with-card-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-card-id" name="analytics-tables-with-card-id" data-dtype="String" title="{{localize 'CARDS.HeaderCards'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-card-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -336,12 +351,12 @@
             <!-- COMPENDIUM NAME -->
             <label for="analytics-tables-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-in-compendium-radio-name" name="analytics-tables-in-compendium-radio" onClick="toggle_analytics_tables_in_compendium_radio()" value="name" {{analytics-tables-in-compendium-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-in-compendium-name-radio" name="analytics-tables-in-compendium-radio" onClick="toggle_analytics_tables_in_compendium_radio()" value="name" {{analytics-tables-in-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-in-compendium-name" name="analytics-tables-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-in-compendium-name-value}}" >
             </div>
             <!-- COMPENDIUM ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-in-compendium-radio-id" name="analytics-tables-in-compendium-radio" onClick="toggle_analytics_tables_in_compendium_radio()" value="id" {{analytics-tables-in-compendium-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-in-compendium-id-radio" name="analytics-tables-in-compendium-radio" onClick="toggle_analytics_tables_in_compendium_radio()" value="id" {{analytics-tables-in-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-in-compendium-id" name="analytics-tables-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-in-compendium-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -379,12 +394,12 @@
             <!-- COMPENDIUM NAME -->
             <label for="analytics-tables-with-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-compendium-radio-name" name="analytics-tables-with-compendium-radio" onClick="toggle_analytics_tables_with_compendium_radio()" value="name" {{analytics-tables-with-compendium-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-compendium-name-radio" name="analytics-tables-with-compendium-radio" onClick="toggle_analytics_tables_with_compendium_radio()" value="name" {{analytics-tables-with-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-compendium-name" name="analytics-tables-with-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-compendium-name-value}}" >
             </div>
             <!-- COMPENDIUM ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-compendium-radio-id" name="analytics-tables-with-compendium-radio" onClick="toggle_analytics_tables_with_compendium_radio()" value="id" {{analytics-tables-with-compendium-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-compendium-id-radio" name="analytics-tables-with-compendium-radio" onClick="toggle_analytics_tables_with_compendium_radio()" value="id" {{analytics-tables-with-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-compendium-id" name="analytics-tables-with-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-compendium-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -422,12 +437,12 @@
             <!-- ITEM NAME -->
             <label for="analytics-tables-with-item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-radio-name" name="analytics-tables-with-item-radio" onClick="toggle_analytics_tables_with_item_radio()" value="name" {{analytics-tables-with-item-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-name-radio" name="analytics-tables-with-item-radio" onClick="toggle_analytics_tables_with_item_radio()" value="name" {{analytics-tables-with-item-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-item-name" name="analytics-tables-with-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-item-name-value}}" >
             </div>
             <!-- ITEM ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-radio-id" name="analytics-tables-with-item-radio" onClick="toggle_analytics_tables_with_item_radio()" value="id" {{analytics-tables-with-item-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-id-radio" name="analytics-tables-with-item-radio" onClick="toggle_analytics_tables_with_item_radio()" value="id" {{analytics-tables-with-item-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-item-id" name="analytics-tables-with-item-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-item-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -484,18 +499,18 @@
             </div>
             <hr>
 
-            <!-- ON USE MACRO NAME -->
+            <!-- MACRO NAME -->
             <div class="form-group" id="analytics-tables-with-item-macro-label">
-                <label for="analytics-tables-with-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
-                <input type="checkbox" id="analytics-tables-with-item-macro" name="analytics-tables-with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_tables_item_macro()" {{analytics-tables-with-item-macro-checked}} />
+                <label for="analytics-tables-with-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Macros'}}</label>
+                <input type="checkbox" id="analytics-tables-with-item-macro" name="analytics-tables-with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_tables_with_item_macro()" {{analytics-tables-with-item-macro-checked}} />
             </div>
             <div id="analytics-tables-with-item-macro-name-input">
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-macro-radio-name" name="analytics-tables-with-item-macro-radio" onClick="toggle_analytics_tables_with_item_macro_radio()" value="name" {{analytics-tables-with-item-macro-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-macro-name-radio" name="analytics-tables-with-item-macro-radio" onClick="toggle_analytics_tables_with_item_macro_radio()" value="name" {{analytics-tables-with-item-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-item-macro-name" name="analytics-tables-with-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-item-macro-name-value}}" >
             </div>
-            <!-- ON USE MACRO ID -->
+            <!-- MACRO ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-macro-radio-id" name="analytics-tables-with-item-macro-radio" onClick="toggle_analytics_tables_with_item_macro_radio()" value="id" {{analytics-tables-with-item-macro-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-macro-id-radio" name="analytics-tables-with-item-macro-radio" onClick="toggle_analytics_tables_with_item_macro_radio()" value="id" {{analytics-tables-with-item-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-item-macro-id" name="analytics-tables-with-item-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-item-macro-id-value}}" >
             </div>
             <div class="form-group" id="analytics-tables-with-item-macro-case-sensitive-label">
@@ -507,6 +522,30 @@
                 <input type="checkbox" id="analytics-tables-with-item-macro-exact-match" name="analytics-tables-with-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-tables-with-item-macro-exact-match-checked}} />
             </div>
             <hr id="analytics-tables-with-item-macro-thematic-break">
+
+            <!-- ON USE MACRO NAME -->
+            <div class="form-group" id="analytics-tables-with-item-on-use-macro-label">
+                <label for="analytics-tables-with-item-on-use-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
+                <input type="checkbox" id="analytics-tables-with-item-on-use-macro" name="analytics-tables-with-item-on-use-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_tables_with_item_on_use_macro()" {{analytics-tables-with-item-on-use-macro-checked}} />
+            </div>
+            <div id="analytics-tables-with-item-on-use-macro-name-input">
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-on-use-macro-name-radio" name="analytics-tables-with-item-on-use-macro-radio" onClick="toggle_analytics_tables_with_item_on_use_macro_radio()" value="name" {{analytics-tables-with-item-on-use-macro-name-radio-checked}} >
+                <input type="text" class="analytics-name" id="analytics-tables-with-item-on-use-macro-name" name="analytics-tables-with-item-on-use-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-item-on-use-macro-name-value}}" >
+            </div>
+            <!-- ON USE MACRO ID -->
+            <div>
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-item-on-use-macro-id-radio" name="analytics-tables-with-item-on-use-macro-radio" onClick="toggle_analytics_tables_with_item_on_use_macro_radio()" value="id" {{analytics-tables-with-item-on-use-macro-id-radio-checked}} >
+                <input type="text" class="analytics-id" id="analytics-tables-with-item-on-use-macro-id" name="analytics-tables-with-item-on-use-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-item-on-use-macro-id-value}}" >
+            </div>
+            <div class="form-group" id="analytics-tables-with-item-on-use-macro-case-sensitive-label">
+                <label for="analytics-tables-with-item-on-use-macro-case-sensitive" id="analytics-tables-with-item-on-use-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
+                <input type="checkbox" id="analytics-tables-with-item-on-use-macro-case-sensitive" name="analytics-tables-with-item-on-use-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-tables-with-item-on-use-macro-case-sensitive-checked}} />
+            </div>
+            <div class="form-group" id="analytics-tables-with-item-on-use-macro-exact-match-label">
+                <label for="analytics-tables-with-item-on-use-macro-exact-match" id="analytics-tables-with-item-on-use-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
+                <input type="checkbox" id="analytics-tables-with-item-on-use-macro-exact-match" name="analytics-tables-with-item-on-use-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-tables-with-item-on-use-macro-exact-match-checked}} />
+            </div>
+            <hr id="analytics-tables-with-item-on-use-macro-thematic-break">
 
             <!-- SHOW -->
             <div class="form-group" id="analytics">
@@ -525,12 +564,12 @@
             <!-- JOURNAL NAME -->
             <label for="analytics-tables-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-in-journal-radio-name" name="analytics-tables-in-journal-radio" onClick="toggle_analytics_tables_in_journal_radio()" value="name" {{analytics-tables-in-journal-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-in-journal-name-radio" name="analytics-tables-in-journal-radio" onClick="toggle_analytics_tables_in_journal_radio()" value="name" {{analytics-tables-in-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-in-journal-name" name="analytics-tables-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-in-journal-name-value}}" >
             </div>
             <!-- JOURNAL ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-in-journal-radio-id" name="analytics-tables-in-journal-radio" onClick="toggle_analytics_tables_in_journal_radio()" value="id" {{analytics-tables-in-journal-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-in-journal-id-radio" name="analytics-tables-in-journal-radio" onClick="toggle_analytics_tables_in_journal_radio()" value="id" {{analytics-tables-in-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-in-journal-id" name="analytics-tables-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-in-journal-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -610,12 +649,12 @@
             <!-- JOURNAL NAME -->
             <label for="analytics-tables-with-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-journal-radio-name" name="analytics-tables-with-journal-radio" onClick="toggle_analytics_tables_with_journal_radio()" value="name" {{analytics-tables-with-journal-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-journal-name-radio" name="analytics-tables-with-journal-radio" onClick="toggle_analytics_tables_with_journal_radio()" value="name" {{analytics-tables-with-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-journal-name" name="analytics-tables-with-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-journal-name-value}}" >
             </div>
             <!-- JOURNAL ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-journal-radio-id" name="analytics-tables-with-journal-radio" onClick="toggle_analytics_tables_with_journal_radio()" value="id" {{analytics-tables-with-journal-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-journal-id-radio" name="analytics-tables-with-journal-radio" onClick="toggle_analytics_tables_with_journal_radio()" value="id" {{analytics-tables-with-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-journal-id" name="analytics-tables-with-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-journal-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -695,12 +734,12 @@
             <!-- MACRO NAME -->
             <label for="analytics-tables-with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-macro-radio-name" name="analytics-tables-with-macro-radio" onClick="toggle_analytics_tables_with_macro_radio()" value="name" {{analytics-tables-with-macro-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-macro-name-radio" name="analytics-tables-with-macro-radio" onClick="toggle_analytics_tables_with_macro_radio()" value="name" {{analytics-tables-with-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-macro-name" name="analytics-tables-with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-macro-name-value}}" >
             </div>
             <!-- MACRO ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-macro-radio-id" name="analytics-tables-with-macro-radio" onClick="toggle_analytics_tables_with_macro_radio()" value="id" {{analytics-tables-with-macro-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-macro-id-radio" name="analytics-tables-with-macro-radio" onClick="toggle_analytics_tables_with_macro_radio()" value="id" {{analytics-tables-with-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-macro-id" name="analytics-tables-with-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-macro-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -738,12 +777,12 @@
             <!-- PLAYLIST NAME -->
             <label for="analytics-tables-with-playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-playlist-radio-name" name="analytics-tables-with-playlist-radio" onClick="toggle_analytics_tables_with_playlist_radio()" value="name" {{analytics-tables-with-playlist-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-playlist-name-radio" name="analytics-tables-with-playlist-radio" onClick="toggle_analytics_tables_with_playlist_radio()" value="name" {{analytics-tables-with-playlist-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-playlist-name" name="analytics-tables-with-playlist-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-playlist-name-value}}" >
             </div>
             <!-- PLAYLIST ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-playlist-radio-id" name="analytics-tables-with-playlist-radio" onClick="toggle_analytics_tables_with_playlist_radio()" value="id" {{analytics-tables-with-playlist-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-playlist-id-radio" name="analytics-tables-with-playlist-radio" onClick="toggle_analytics_tables_with_playlist_radio()" value="id" {{analytics-tables-with-playlist-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-playlist-id" name="analytics-tables-with-playlist-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-playlist-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -781,12 +820,12 @@
             <!-- SCENE NAME -->
             <label for="analytics-tables-with-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-scene-radio-name" name="analytics-tables-with-scene-radio" onClick="toggle_analytics_tables_with_scene_radio()" value="name" {{analytics-tables-with-scene-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-scene-name-radio" name="analytics-tables-with-scene-radio" onClick="toggle_analytics_tables_with_scene_radio()" value="name" {{analytics-tables-with-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-with-scene-name" name="analytics-tables-with-scene-with-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-with-scene-name-value}}" >
             </div>
             <!-- SCENE ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-with-scene-radio-id" name="analytics-tables-with-scene-radio" onClick="toggle_analytics_tables_with_scene_radio()" value="id" {{analytics-tables-with-scene-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-with-scene-id-radio" name="analytics-tables-with-scene-radio" onClick="toggle_analytics_tables_with_scene_radio()" value="id" {{analytics-tables-with-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-with-scene-id" name="analytics-tables-with-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-with-scene-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -824,12 +863,12 @@
             <!-- TABLE NAME -->
             <label for="analytics-tables-within-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.Within'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-within-table-radio-name" name="analytics-tables-within-table-radio" onClick="toggle_analytics_tables_within_table_radio()" value="name" {{analytics-tables-within-table-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-within-table-name-radio" name="analytics-tables-within-table-radio" onClick="toggle_analytics_tables_within_table_radio()" value="name" {{analytics-tables-within-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tables-within-table-name" name="analytics-tables-within-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tables-within-table-name-value}}" >
             </div>
             <!-- TABLE ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-tables-within-table-radio-id" name="analytics-tables-within-table-radio" onClick="toggle_analytics_tables_within_table_radio()" value="id" {{analytics-tables-within-table-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-tables-within-table-id-radio" name="analytics-tables-within-table-radio" onClick="toggle_analytics_tables_within_table_radio()" value="id" {{analytics-tables-within-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tables-within-table-id" name="analytics-tables-within-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tables-within-table-id-value}}" >
             </div>
             <div class="form-group" id="analytics">

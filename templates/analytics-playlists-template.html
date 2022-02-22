@@ -2,34 +2,34 @@
 
     <script>
         function toggle_analytics_playlists_radio() {
-            document.getElementById("analytics-playlists-playlist-name").disabled           = !document.getElementById("analytics-playlists-playlist-radio-name").checked;
-            document.getElementById("analytics-playlists-playlist-case-sensitive").disabled = !document.getElementById("analytics-playlists-playlist-radio-name").checked;
-            document.getElementById("analytics-playlists-playlist-exact-match").disabled    = !document.getElementById("analytics-playlists-playlist-radio-name").checked;
-            document.getElementById("analytics-playlists-playlist-id").disabled             = !document.getElementById("analytics-playlists-playlist-radio-id").checked;
+            document.getElementById("analytics-playlists-playlist-name").disabled           = !document.getElementById("analytics-playlists-playlist-name-radio").checked;
+            document.getElementById("analytics-playlists-playlist-case-sensitive").disabled = !document.getElementById("analytics-playlists-playlist-name-radio").checked;
+            document.getElementById("analytics-playlists-playlist-exact-match").disabled    = !document.getElementById("analytics-playlists-playlist-name-radio").checked;
+            document.getElementById("analytics-playlists-playlist-id").disabled             = !document.getElementById("analytics-playlists-playlist-id-radio").checked;
         }
         function toggle_analytics_playlists_in_compendium_radio() {
-            document.getElementById("analytics-playlists-in-compendium-name").disabled           = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
-            document.getElementById("analytics-playlists-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
-            document.getElementById("analytics-playlists-in-compendium-exact-match").disabled    = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
-            document.getElementById("analytics-playlists-in-compendium-id").disabled             = !document.getElementById("analytics-playlists-in-compendium-radio-id").checked;
+            document.getElementById("analytics-playlists-in-compendium-name").disabled           = !document.getElementById("analytics-playlists-in-compendium-name-radio").checked;
+            document.getElementById("analytics-playlists-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-compendium-name-radio").checked;
+            document.getElementById("analytics-playlists-in-compendium-exact-match").disabled    = !document.getElementById("analytics-playlists-in-compendium-name-radio").checked;
+            document.getElementById("analytics-playlists-in-compendium-id").disabled             = !document.getElementById("analytics-playlists-in-compendium-id-radio").checked;
         }
         function toggle_analytics_playlists_in_journal_radio() {
-            document.getElementById("analytics-playlists-in-journal-name").disabled           = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
-            document.getElementById("analytics-playlists-in-journal-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
-            document.getElementById("analytics-playlists-in-journal-exact-match").disabled    = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
-            document.getElementById("analytics-playlists-in-journal-id").disabled             = !document.getElementById("analytics-playlists-in-journal-radio-id").checked;
+            document.getElementById("analytics-playlists-in-journal-name").disabled           = !document.getElementById("analytics-playlists-in-journal-name-radio").checked;
+            document.getElementById("analytics-playlists-in-journal-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-journal-name-radio").checked;
+            document.getElementById("analytics-playlists-in-journal-exact-match").disabled    = !document.getElementById("analytics-playlists-in-journal-name-radio").checked;
+            document.getElementById("analytics-playlists-in-journal-id").disabled             = !document.getElementById("analytics-playlists-in-journal-id-radio").checked;
         }
         function toggle_analytics_playlists_in_scene_radio() {
-            document.getElementById("analytics-playlists-in-scene-name").disabled           = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
-            document.getElementById("analytics-playlists-in-scene-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
-            document.getElementById("analytics-playlists-in-scene-exact-match").disabled    = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
-            document.getElementById("analytics-playlists-in-scene-id").disabled             = !document.getElementById("analytics-playlists-in-scene-radio-id").checked;
+            document.getElementById("analytics-playlists-in-scene-name").disabled           = !document.getElementById("analytics-playlists-in-scene-name-radio").checked;
+            document.getElementById("analytics-playlists-in-scene-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-scene-name-radio").checked;
+            document.getElementById("analytics-playlists-in-scene-exact-match").disabled    = !document.getElementById("analytics-playlists-in-scene-name-radio").checked;
+            document.getElementById("analytics-playlists-in-scene-id").disabled             = !document.getElementById("analytics-playlists-in-scene-id-radio").checked;
         }
         function toggle_analytics_playlists_in_table_radio() {
-            document.getElementById("analytics-playlists-in-table-name").disabled           = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
-            document.getElementById("analytics-playlists-in-table-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
-            document.getElementById("analytics-playlists-in-table-exact-match").disabled    = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
-            document.getElementById("analytics-playlists-in-table-id").disabled             = !document.getElementById("analytics-playlists-in-table-radio-id").checked;
+            document.getElementById("analytics-playlists-in-table-name").disabled           = !document.getElementById("analytics-playlists-in-table-name-radio").checked;
+            document.getElementById("analytics-playlists-in-table-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-table-name-radio").checked;
+            document.getElementById("analytics-playlists-in-table-exact-match").disabled    = !document.getElementById("analytics-playlists-in-table-name-radio").checked;
+            document.getElementById("analytics-playlists-in-table-id").disabled             = !document.getElementById("analytics-playlists-in-table-id-radio").checked;
         }
     </script>
 
@@ -53,12 +53,12 @@
         <!-- PLAYLIST NAME -->
         <label for="analytics-playlists-name"><i class="fas fa-music"></i>&nbsp;{{localize 'DOCUMENT.Playlists'}}</label>
         <div>
-            <input type="radio" class="analytics-radio" id="analytics-playlists-radio-name" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="name" {{analytics-playlists-radio-name-checked}} >
+            <input type="radio" class="analytics-radio" id="analytics-playlists-name-radio" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="name" {{analytics-playlists-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-playlists-name" name="analytics-playlists-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-name-value}}" >
         </div>
         <!-- PLAYLIST ID -->
         <div>
-            <input type="radio" class="analytics-radio" id="analytics-playlists-radio-id" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="id" {{analytics-playlists-radio-id-checked}} >
+            <input type="radio" class="analytics-radio" id="analytics-playlists-id-radio" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="id" {{analytics-playlists-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-playlists-id" name="analytics-playlists-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-id-value}}" >
         </div>
         <div class="form-group" id="analytics">
@@ -87,12 +87,12 @@
             <!-- COMPENDIUM NAME -->
             <label for="analytics-playlists-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-radio-name" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="name" {{analytics-playlists-in-compendium-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-name-radio" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="name" {{analytics-playlists-in-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-compendium-name" name="analytics-playlists-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-compendium-name-value}}" >
             </div>
             <!-- COMPENDIUM ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-radio-id" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="id" {{analytics-playlists-in-compendium-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-id-radio" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="id" {{analytics-playlists-in-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-compendium-id" name="analytics-playlists-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-compendium-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -130,12 +130,12 @@
             <!-- JOURNAL NAME -->
             <label for="analytics-playlists-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-radio-name" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="name" {{analytics-playlists-in-journal-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-name-radio" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="name" {{analytics-playlists-in-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-journal-name" name="analytics-playlists-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-journal-name-value}}" >
             </div>
             <!-- JOURNAL ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-radio-id" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="id" {{analytics-playlists-in-journal-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-id-radio" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="id" {{analytics-playlists-in-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-journal-id" name="analytics-playlists-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-journal-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -215,12 +215,12 @@
             <!-- SCENE NAME -->
             <label for="analytics-playlists-in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-radio-name" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="name" {{analytics-playlists-in-scene-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-name-radio" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="name" {{analytics-playlists-in-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-scene-name" name="analytics-playlists-in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-scene-name-value}}" >
             </div>
             <!-- SCENE ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-radio-id" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="id" {{analytics-playlists-in-scene-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-id-radio" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="id" {{analytics-playlists-in-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-scene-id" name="analytics-playlists-in-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-scene-id-value}}" >
             </div>
             <div class="form-group" id="analytics">
@@ -258,12 +258,12 @@
             <!-- TABLE NAME -->
             <label for="analytics-playlists-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-radio-name" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="name" {{analytics-playlists-in-table-radio-name-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-name-radio" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="name" {{analytics-playlists-in-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-table-name" name="analytics-playlists-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-table-name-value}}" >
             </div>
             <!-- TABLE ID -->
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-radio-id" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="id" {{analytics-playlists-in-table-radio-id-checked}} >
+                <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-id-radio" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="id" {{analytics-playlists-in-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-table-id" name="analytics-playlists-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-table-id-value}}" >
             </div>
             <div class="form-group" id="analytics">

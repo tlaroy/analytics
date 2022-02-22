@@ -2,7 +2,7 @@
 *
 * module/analytics-playlists.js
 *
-* version 0.0.9
+* version 0.0.10
 *
 */
 
@@ -125,54 +125,24 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         var playlist_option = this.playlist_options[primary];
         var playlist_list   = this.playlist_lists[primary];
 
-        // enable/disable by name or id.
-        document.getElementById("analytics-playlists-name").disabled           = !document.getElementById("analytics-playlists-radio-name").checked;
-        document.getElementById("analytics-playlists-case-sensitive").disabled = !document.getElementById("analytics-playlists-radio-name").checked;
-        document.getElementById("analytics-playlists-exact-match").disabled    = !document.getElementById("analytics-playlists-radio-name").checked;
-        document.getElementById("analytics-playlists-id").disabled             = !document.getElementById("analytics-playlists-radio-id").checked;
+        playlist_option.activateListeners();
 
         switch (secondary) {
             case "playlists_in_compendiums":
-                // enable/disable by name or id.
-                document.getElementById("analytics-playlists-in-compendium-name").disabled           = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
-                document.getElementById("analytics-playlists-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
-                document.getElementById("analytics-playlists-in-compendium-exact-match").disabled    = !document.getElementById("analytics-playlists-in-compendium-radio-name").checked;
-                document.getElementById("analytics-playlists-in-compendium-id").disabled             = !document.getElementById("analytics-playlists-in-compendium-radio-id").checked;
+                var compendium_option = this.compendium_options[secondary];
+                compendium_option.activateListeners(secondary);
                 break;
             case "playlists_in_journals":
-                // enable/disable by name or id.
-                document.getElementById("analytics-playlists-in-journal-name").disabled           = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
-                document.getElementById("analytics-playlists-in-journal-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
-                document.getElementById("analytics-playlists-in-journal-exact-match").disabled    = !document.getElementById("analytics-playlists-in-journal-radio-name").checked;
-                document.getElementById("analytics-playlists-in-journal-id").disabled             = !document.getElementById("analytics-playlists-in-journal-radio-id").checked;
-
-                // disable journal subtypes if monk's enhanced journal not installed or not active.
-                if (!game.modules.get("monks-enhanced-journal") || !game.modules.get("monks-enhanced-journal").active) {
-                    document.getElementById("analytics-playlists-in-journal-monks-base").style.display         = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-checklist").style.display    = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-encounter").style.display    = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-loot").style.display         = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-organization").style.display = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-person").style.display       = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-place").style.display        = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-poi").style.display          = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-quest").style.display        = "none";
-                    document.getElementById("analytics-playlists-in-journal-monks-shop").style.display         = "none";
-                }
+                var journal_option = this.journal_options[secondary];
+                journal_option.activateListeners(secondary);
                 break;
             case "playlists_in_scenes":
-                // enable/disable by name or id.
-                document.getElementById("analytics-playlists-in-scene-name").disabled           = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
-                document.getElementById("analytics-playlists-in-scene-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
-                document.getElementById("analytics-playlists-in-scene-exact-match").disabled    = !document.getElementById("analytics-playlists-in-scene-radio-name").checked;
-                document.getElementById("analytics-playlists-in-scene-id").disabled             = !document.getElementById("analytics-playlists-in-scene-radio-id").checked;
+                var scene_option = this.scene_options[secondary];
+                scene_option.activateListeners(secondary);
                 break;
             case "playlists_in_tables":
-                // enable/disable by name or id.
-                document.getElementById("analytics-playlists-in-table-name").disabled           = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
-                document.getElementById("analytics-playlists-in-table-case-sensitive").disabled = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
-                document.getElementById("analytics-playlists-in-table-exact-match").disabled    = !document.getElementById("analytics-playlists-in-table-radio-name").checked;
-                document.getElementById("analytics-playlists-in-table-id").disabled             = !document.getElementById("analytics-playlists-in-table-radio-id").checked;
+                var table_option = this.table_options[secondary];
+                table_option.activateListeners(secondary);
                 break;
         };
 
@@ -250,6 +220,39 @@ export class AnalyticsPlaylists extends AnalyticsForm {
                 break;
         };
         return retval;
+    }
+
+    // set data from form.
+    setData(data) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists setData()");
+
+        var primary         = this.sortOptions().primary;
+        var secondary       = this.sortOptions().secondary;
+        var playlist_option = this.playlist_options[primary];
+
+        for ( let [k, v] of Object.entries(data) ) {
+
+            playlist_option.setPlaylistData(k, v);
+
+            switch (secondary) {
+                case "playlists_in_compendiums":
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.setCompendiumData(k, v, secondary);
+                    break;
+                case "playlists_in_journals":
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.setJournalData(k, v, secondary);
+                    break;
+                case "playlists_in_scenes":
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.setSceneData(k, v, secondary);
+                    break;
+                case "playlists_in_tables":
+                    var table_option = this.table_options[secondary];
+                    table_option.setTableData(k, v, secondary);
+                    break;
+            };
+        };
     }
 
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
@@ -361,29 +364,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         var playlist_list   = this.playlist_lists[primary];
 
         // set data from form.
-        const data = expandObject(formData);
-        for ( let [k, v] of Object.entries(data) ) {
-            playlist_option.setPlaylistData(k, v);
-
-            switch (secondary) {
-                case "playlists_in_compendiums":
-                    var compendium_option = this.compendium_options[secondary];
-                    compendium_option.setCompendiumData(k, v, secondary);
-                    break;
-                case "playlists_in_journals":
-                    var journal_option = this.journal_options[secondary];
-                    journal_option.setJournalData(k, v, secondary);
-                    break;
-                case "playlists_in_scenes":
-                    var scene_option = this.scene_options[secondary];
-                    scene_option.setSceneData(k, v, secondary);
-                    break;
-                case "playlists_in_tables":
-                    var table_option = this.table_options[secondary];
-                    table_option.setTableData(k, v, secondary);
-                    break;
-            };
-        };
+        this.setData(expandObject(formData));
 
         // reset counters and lists.
         playlist_option.playlist_count = 0;
