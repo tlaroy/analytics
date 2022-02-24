@@ -26,5 +26,5 @@
     "socket": true,
     "url": "https://github.com/tlaroy/analytics",
     "manifest": "https://github.com/tlaroy/analytics/raw/main/module.json",
-    "download": "https://github.com/tlaroy/analytics/raw/main/downloads/analytics-v0.0.10.zip"
+    "download": "https://github.com/tlaroy/analytics/raw/main/downloads/analytics-v0.0.11.zip"
 }
