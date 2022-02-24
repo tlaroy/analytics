@@ -11,7 +11,7 @@ Secondary Searches.
 # v0.0.11
 2022-02-24
 
-Actors/Items, Actors/Journals, Actors/Scenes - Search by ID and "Item Macro".
+Actors/Items, Actors/Journals, Actors/Scenes - Search by ID and "Item Macro".<br>
 Primary Searches.
 
 # v0.0.10
