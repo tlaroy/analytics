@@ -2,7 +2,7 @@
 *
 * module/analytics-actors.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -353,312 +353,275 @@ export class AnalyticsActors extends AnalyticsForm {
     }
 
     // create actor list.
-    buildList(actor) {
+    buildList() {
 
         // active tab.
-        var primary      = this.sortOptions().primary;
-        var secondary    = this.sortOptions().secondary;
-        var actor_option = this.actor_options[primary];
-        var actor_list   = this.actor_lists[primary];
-        var actor_name   = actor.data.name;
+        var primary       = this.sortOptions().primary;
+        var secondary     = this.sortOptions().secondary;
+        var actor_option  = this.actor_options[primary];
+        var actor_list    = this.actor_lists[primary];
+        var message_added = false;
 
-        // each tab.
-        switch (secondary) {
-            case "actors_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "actors_with_items":
-                // reset counters.
-                var item_option = this.item_options[secondary];
-                item_option.item_count = 0;
-                item_option.item_on_use_macro_count = 0;
+        // reset counters and lists.
+        actor_option.actor_count = 0;
+        actor_list.splice(0, actor_list.length);
 
-                // actors without items.
-                if (actor.items.size == 0) {
-                    // when looking for on use macros add actor to list if no item filters or looking for actors without items.
-                    if (!item_option.item_on_use_macro_checked && (item_option.item_none_checked || item_option.noItemTypesSelected())) {
-                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                        actor_option.actor_count++;
+        // *** SEARCH actors.
+        actor_option.searchActors(game.actors);
+
+        // iterate thru matching actors.
+        actor_option.matching_actors.forEach((actor, i) => {
+
+            var actor_name  = actor.data.name;
+            var actor_added = false;
+            var item_added  = false;
+
+            // each tab.
+            switch (secondary) {
+                case "actors_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(actor_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
                     };
-                };
 
-                // return if only looking for actors without items.
-                if (item_option.item_none_checked) {
-                    return;
-                };
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "actors_with_items":
+                    // reset counters.
+                    var item_option = this.item_options[secondary];
+                    item_option.item_count = 0;
+                    item_option.item_macro_count = 0;
+                    item_option.item_on_use_macro_count = 0;
 
-                // spin through actor's item list ...
-                actor.items.contents.forEach((item, j) => {
-                    if (actor.items.contents[j]) {
-
-                        var item_match  = false;
-                        var item_name   = item.data.name;
-                        var search_name = this.escapeRegExp(item_option.item_name_value);
-
-                        // lowercase for non-case-sensitive search.
-                        if ((search_name.length > 0) && !item_option.item_case_sensitive_checked) {
-                            search_name = search_name.toLowerCase();
-                            item_name   = item_name.toLowerCase();
+                    // actors without items.
+                    if (actor.items.size == 0) {
+                        // when NOT looking for macros - add actor to list if no item filters or looking for actors without items.
+                        if (!item_option.item_on_use_macro_checked &&
+                            !item_option.item_macro_checked &&
+                            (item_option.item_none_checked || item_option.noItemTypesSelected())) {
+                            // *** ADD ACTOR ***
+                            this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
+                            actor_option.actor_count++;
+                            return;
                         };
+                    };
 
-                        // do items match?
-                        if ((!item_option.item_exact_match_checked && (item_name.search(search_name) > -1)) ||
-                             (item_option.item_exact_match_checked && (item_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(item_name).length)) ||
-                             (search_name.length == 0)) {
-                            item_match = true;
-                        };
+                    // *** SEARCH items.
+                    item_option.searchItems(actor.items);
 
-                        // item matches.
-                        if (item_match) {
-                            var selected = false;
+                    // iterate thru matches.
+                    item_option.matching_items.forEach((item, j) => {
 
-                            if      (item_option.noItemTypesSelected()) selected = true;
-                            else if (item_option.item_weapon_checked     && item.type == 'weapon')     selected = true;
-                            else if (item_option.item_equipment_checked  && item.type == 'equipment')  selected = true;
-                            else if (item_option.item_consumable_checked && item.type == 'consumable') selected = true;
-                            else if (item_option.item_tool_checked       && item.type == 'tool')       selected = true;
-                            else if (item_option.item_loot_checked       && item.type == 'loot')       selected = true;
-                            else if (item_option.item_class_checked      && item.type == 'class')      selected = true;
-                            else if (item_option.item_feat_checked       && item.type == 'feat')       selected = true;
-                            else if (item_option.item_backpack_checked   && item.type == 'backpack')   selected = true;
-                            else if (item_option.item_spell_checked      && item.type == 'spell')      selected = true;
+                        // item macros
+                        if (item_option.item_macro_checked) {
 
-                            if (selected) {
-                                item_option.item_on_use_macro_count = 0;
+                            if (item.data.flags['itemacro'] && item.data.flags['itemacro'].macro.data.command) {
 
-                                // any on use macros?
-                                if (item_option.item_on_use_macro_checked &&
-                                    item.data.flags['midi-qol'] &&
-                                    item.data.flags['midi-qol'].onUseMacroParts &&
-                                    (item.data.flags['midi-qol'].onUseMacroParts.items.length > 0)) {
+                                // *** SEARCH item macros.
+                                item_option.searchItemMacros(item);
 
-                                    // spin through item's on use macro list ...
-                                    item.data.flags['midi-qol'].onUseMacroParts.items.forEach((macro, k) => {
+                                // iterate thru matches.
+                                item_option.matching_macros.forEach((macro, k) => {
 
-                                        var macro_match = false;
-                                        var macro_name  = item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName;
-                                        var search_name = this.escapeRegExp(item_option.item_on_use_macro_name_value);
-
-                                        // lowercase for non-case-sensitive search.
-                                        if ((search_name.length > 0) && !item_option.item_on_use_macro_case_sensitive_checked) {
-                                            search_name = search_name.toLowerCase();
-                                            macro_name  = macro_name.toLowerCase();
-                                        };
-
-                                        // do macros match?
-                                        if ((!item_option.item_on_use_macro_exact_match_checked && (macro_name.search(search_name) > -1)) ||
-                                             (item_option.item_on_use_macro_exact_match_checked && (macro_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(macro_name).length)) ||
-                                             (search_name.length == 0)) {
-                                            macro_match = true;
-                                        };
-
-                                        // macro matches.
-                                        if (macro_match) {
-                                            // only add one actor to list.
-                                            if (item_option.item_count == 0) {
-                                                // add actor to the list.
-                                                this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                                actor_option.actor_count++;
-                                            };
-                                            // only add one item to list.
-                                            if (item_option.item_on_use_macro_count == 0) {
-                                                // add item to the list.
-                                                if (item_option.item_show_checked) {
-                                                    this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
-                                                };
-                                                // increase item count.
-                                                item_option.item_count++;
-                                            };
-                                            // add on use macro to the list.
-                                            if (item_option.item_show_checked) {
-                                                this.addItemMacroSecondary(actor_list, macro, item_option.item_show_id_checked);
-                                            };
-                                            // increase on use macro count.
-                                            item_option.item_on_use_macro_count++;
-                                        }
-                                    }); // forEach On Use Macro.
-                                }
-
-                                // no on use macros.
-                                else if (!item_option.item_on_use_macro_checked) {
                                     // only add one actor to list.
-                                    if (item_option.item_count == 0) {
-                                        // add actor to the list.
+                                    if (!actor_added) {
+                                        // *** ADD ACTOR ***
                                         this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
                                         actor_option.actor_count++;
+                                        actor_added = true;
                                     };
                                     // only add one item to list.
-                                    if (item_option.item_on_use_macro_count == 0) {
-                                        // add item to the list.
+                                    if (!item_added) {
                                         if (item_option.item_show_checked) {
+                                            // *** ADD ITEM ***
                                             this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
                                         };
-                                        // increase item count.
-                                        item_option.item_count++;
+                                        item_added = true;
                                     };
-                                };
+                                    // add item macro to the list.
+                                    if (item_option.item_show_checked) {
+                                        // *** ADD ITEM MACRO ***
+                                        this.addItemMacroSecondary(actor_list, macro, item_option.item_show_id_checked);
+                                    };
+                                }); // forEach matching Item Macro
                             };
                         };
-                    };
-                }); // forEach Item.
-                break;
-            case "actors_in_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
 
-                // spin through journal list ...
-                game.journal.contents.forEach((journal, j) => {
-                    if (game.journal.contents[j]) {
+                        // on use macros
+                        if (item_option.item_on_use_macro_checked) {
 
-                        var journal_match = false;
-                        var journal_name  = journal.data.name;
-                        var search_name   = this.escapeRegExp(journal_option.journal_name_value);
+                            if (item.data.flags['midi-qol'] &&
+                                item.data.flags['midi-qol'].onUseMacroParts &&
+                                (item.data.flags['midi-qol'].onUseMacroParts.items.length > 0)) {
 
-                        // lowercase for non-case-sensitive search.
-                        if ((search_name.length > 0) && !journal_option.journal_case_sensitive_checked) {
-                            search_name  = search_name.toLowerCase();
-                            journal_name = journal_name.toLowerCase();
-                        };
+                                // *** SEARCH on use macros.
+                                item_option.searchOnUseMacros(item);
 
-                        // do journals match?
-                        if ((!journal_option.journal_exact_match_checked && (journal_name.search(search_name) > -1)) ||
-                             (journal_option.journal_exact_match_checked && (journal_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(journal_name).length)) ||
-                             (search_name.length == 0)) {
-                            journal_match = true;
-                        };
+                                // iterate thru matches.
+                                item_option.matching_on_use_macros.forEach((macro, k) => {
 
-                        // journal matches.
-                        if (journal_match) {
-                            var selected = false;
-                            if      (journal_option.noJournalTypesSelected() || !journal.data.flags['monks-enhanced-journal']) selected = true;
-                            else if (journal_option.journal_base_checked         && journal.data.flags['monks-enhanced-journal'].type == 'base')         selected = true;
-                            else if (journal_option.journal_checklist_checked    && journal.data.flags['monks-enhanced-journal'].type == 'checklist')    selected = true;
-                            else if (journal_option.journal_encounter_checked    && journal.data.flags['monks-enhanced-journal'].type == 'encounter')    selected = true;
-                            else if (journal_option.journal_loot_checked         && journal.data.flags['monks-enhanced-journal'].type == 'loot')         selected = true;
-                            else if (journal_option.journal_organization_checked && journal.data.flags['monks-enhanced-journal'].type == 'organization') selected = true;
-                            else if (journal_option.journal_person_checked       && journal.data.flags['monks-enhanced-journal'].type == 'person')       selected = true;
-                            else if (journal_option.journal_place_checked        && journal.data.flags['monks-enhanced-journal'].type == 'place')        selected = true;
-                            else if (journal_option.journal_poi_checked          && journal.data.flags['monks-enhanced-journal'].type == 'poi')          selected = true;
-                            else if (journal_option.journal_quest_checked        && journal.data.flags['monks-enhanced-journal'].type == 'quest')        selected = true;
-                            else if (journal_option.journal_shop_checked         && journal.data.flags['monks-enhanced-journal'].type == 'shop')         selected = true;
-
-                            if (selected) {
-
-                                // actor links?
-                                if (journal.data.content.search(new RegExp(`@Actor\\[.{16}\\]\\{` + this.escapeRegExp(actor_name) + `\\}`)) > -1) {
-
-                                    if (journal_option.journal_none_checked) {
-                                        journal_option.journal_count++;
-                                    }
-                                    else {
-                                        // only add one actor to list.
-                                        if (journal_option.journal_count == 0) {
-                                            this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                            actor_option.actor_count++;
-                                        };
-                                        // only add one journal to list.
-                                        if (journal_option.journal_show_checked) {
-                                            this.addJournalSecondary(actor_list, journal, journal_option.journal_show_id_checked);
-                                        };
-                                        // increase journal count.
-                                        journal_option.journal_count++;
+                                    // only add one actor to list.
+                                    if (!actor_added) {
+                                        // *** ADD ACTOR ***
+                                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
+                                        actor_option.actor_count++;
+                                        actor_added = true;
                                     };
-                                };
+                                    // only add one item to list.
+                                    if (!item_added) {
+                                        if (item_option.item_show_checked) {
+                                            // *** ADD ITEM ***
+                                            this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
+                                        };
+                                        item_added = true;
+                                    };
+                                    // add on use macro to the list.
+                                    if (item_option.item_show_checked) {
+                                        // *** ADD ON USE MACRO ***
+                                        this.addItemOnUseMacroSecondary(actor_list, macro, item_option.item_show_id_checked);
+                                    };
+                                }); // forEach matching On Use Macro
                             };
                         };
-                    };
-                }); // forEach Journal
 
-                // actors without journals.
-                if (journal_option.journal_count == 0) {
-                    // looking for actors without journals.
-                    if (journal_option.journal_none_checked) {
+                        // no macros
+                        if (!item_option.item_macro_checked && !item_option.item_on_use_macro_checked) {
+                            // only add one actor to list.
+                            if (!actor_added) {
+                                // *** ADD ACTOR ***
+                                this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
+                                actor_option.actor_count++;
+                                actor_added = true;
+                            };
+                            // add item to list.
+                            if (item_option.item_show_checked) {
+                                // *** ADD ITEM ***
+                                this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
+                            };
+                        };
+                    }); // forEach matching Item
+
+                    // reset matching arrays.
+                    item_option.matching_items = [ ];
+                    item_option.matching_macros = [ ];
+                    item_option.matching_on_use_macros = [ ];
+                    break;
+                case "actors_in_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // *** SEARCH journals.
+                    if (journal_option.journal_radio_name_checked)
+                        journal_option.searchJournals(game.journal, actor.name);
+                    else
+                        journal_option.searchJournals(game.journal, actor.id);
+
+                    // actors not in journals.
+                    if ((journal_option.matching_journals.length == 0) && journal_option.journal_none_checked) {
+                        // *** ADD ACTOR ***
                         this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
                         actor_option.actor_count++;
+                        return;
                     };
-                };
-                break;
-            case "actors_in_scenes_as_tokens":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
 
-                // spin through scenes list ...
-                game.scenes.contents.forEach((scene, j) => {
-                    if (game.scenes.contents[j]) {
+                    // iterate thru matches.
+                    journal_option.matching_journals.forEach((journal, j) => {
 
-                        var scene_match = false;
-                        var scene_name  = scene.data.name;
-                        var search_name = this.escapeRegExp(scene_option.scene_name_value);
-
-                        // lowercase for non-case-sensitive search.
-                        if ((search_name.length > 0) && !scene_option.scene_case_sensitive_checked) {
-                            search_name = search_name.toLowerCase();
-                            scene_name  = scene_name.toLowerCase();
+                        if (!journal_option.journal_none_checked) {
+                            // only add one actor to list.
+                            if (!actor_added) {
+                                // *** ADD ACTOR ***
+                                this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
+                                actor_option.actor_count++;
+                                actor_added = true;
+                            };
+                            // add journal to list.
+                            if (journal_option.journal_show_checked) {
+                                // *** ADD JOURNAL ***
+                                this.addJournalSecondary(actor_list, journal, journal_option.journal_show_id_checked);
+                            };
                         };
+                    }); // forEach matching Journal
 
-                        // do scenes match?
-                        if ((!scene_option.scene_exact_match_checked && (scene_name.search(search_name) > -1)) ||
-                             (scene_option.scene_exact_match_checked && (scene_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(scene_name).length)) ||
-                             (search_name.length == 0)) {
-                            scene_match = true;
-                        };
+                    // reset matching array.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "actors_in_scenes_as_tokens":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+                    scene_option.scene_token_count = 0;
 
-                        // scene matches.
-                        if (scene_match) {
+                    // *** SEARCH scenes.
+                    scene_option.searchScenes(game.scenes);
 
-                            // spin through tokens ...
-                            scene.tokens.contents.forEach((token, k) => {
-                                if (scene.tokens.contents[k]) {
+                    // actors without scenes.
+                    if ((scene_option.matching_scenes.length == 0) && scene_option.scene_none_checked) {
+                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
+                        actor_option.actor_count++;
+                        return;
+                    };
 
-                                    // token without a "represented actor" match token name else match actor name.
-                                    var token_name = "";
-                                    token.actor ? token_name = this.escapeRegExp(token.actor.name) : token_name = this.escapeRegExp(token.name);
+                    // iterate thru matches.
+                    scene_option.matching_scenes.forEach((scene, j) => {
 
-                                    // do tokens match?
-                                    if (token.actor && (actor_name.search(token_name) > -1) && (token_name.length == this.escapeRegExp(actor_name).length)) {
+                        // *** SEARCH tokens.
+                        if (scene_option.scene_radio_name_checked)
+                            scene_option.searchSceneTokens(scene, actor.name);
+                        else
+                            scene_option.searchSceneTokens(scene, actor.id);
 
-                                        if (scene_option.scene_none_checked) {
-                                            scene_option.scene_count++;
-                                        }
-                                        else {
-                                            // only add one actor to list.
-                                            if (scene_option.scene_count == 0) {
-                                                this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                                actor_option.actor_count++;
-                                            };
-                                            // only add one scene to list.
-                                            if (scene_option.scene_show_checked) {
-                                                this.addSceneSecondary(actor_list, scene, scene_option.scene_show_id_checked);
-                                            };
-                                            // increase scene count.
-                                            scene_option.scene_count++;
-                                        };
-                                    };
+                        // iterate thru matches.
+                        scene_option.matching_scene_tokens.forEach((token, j) => {
+                            if (!scene_option.scene_none_checked) {
+                                // only add one actor to list.
+                                if (!actor_added) {
+                                    // *** ADD ACTOR ***
+                                    this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
+                                    actor_option.actor_count++;
+                                    actor_added = true;
                                 };
-                            });  // forEach Token
-                        };
-                    };
-                }); // forEach Scene
+                                // add scene to list.
+                                if (scene_option.scene_show_checked) {
+                                    // *** ADD JOURNAL ***
+                                    this.addJournalSecondary(actor_list, scene, scene_option.scene_show_id_checked);
+                                };
+                            };
+                        }); // forEach matching Token
+                    }); // forEach matching Scene
 
-                // actors without scenes.
-                if (scene_option.scene_count == 0) {
-                    // looking for actors without scenes.
-                    if (scene_option.scene_none_checked) {
-                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                        actor_option.actor_count++;
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    scene_option.matching_scene_tokens = [ ];
+                    break;
+                case "actors_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(actor_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
                     };
-                };
-                break;
-            case "actors_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-        };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+            };
+        }); // forEach matching Actor.
+
+        // reset matching array.
+        actor_option.matching_actors = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -670,32 +633,8 @@ export class AnalyticsActors extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary      = this.sortOptions().primary;
-        var secondary    = this.sortOptions().secondary;
-        var actor_option = this.actor_options[primary];
-        var actor_list   = this.actor_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        actor_option.actor_count = 0;
-        actor_list.splice(0, actor_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "actors_in_compendiums":
-                this.addMessage(actor_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "actors_in_tables":
-                this.addMessage(actor_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-actors-submit");
@@ -705,60 +644,8 @@ export class AnalyticsActors extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through actor list ...
-        game.actors.contents.forEach((actor, i) => {
-            if (game.actors.contents[i]) {
-
-                var name_match  = false;
-                var actor_name  = actor.data.name;
-                var search_name = this.escapeRegExp(actor_option.actor_name_value);
-
-                // lowercase for non-case-sensitive search.
-                if ((search_name.length > 0) && !actor_option.actor_case_sensitive_checked) {
-                    search_name = search_name.toLowerCase();
-                    actor_name  = actor_name.toLowerCase();
-                };
-
-                // do actors match?
-                if ((search_name.length == 0) ||
-                    (!actor_option.actor_exact_match_checked && (actor_name.search(search_name) > -1)) ||
-                     (actor_option.actor_exact_match_checked && (actor_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(actor_name).length))) {
-                    name_match = true;
-                };
-
-                // actor matches.
-                if (name_match) {
-                    var selected = false;
-                    if (actor_option.noActorTypesSelected() &&
-                        actor_option.noCreatureTypesSelected()) selected = true;
-                    else if (actor_option.actor_character_checked        && actor.type == 'character') selected = true;
-                    else if (actor_option.actor_vehicle_checked          && actor.type == 'vehicle')   selected = true;
-                    else if (actor_option.actor_npc_checked              && actor.type == 'npc') {
-                        if (actor_option.noCreatureTypesSelected()) selected = true;
-                        else if  (actor_option.actor_aberration_checked  && actor.data.data.details.type && actor.data.data.details.type.value == 'aberration')  selected = true;
-                        else if  (actor_option.actor_beast_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'beast')       selected = true;
-                        else if  (actor_option.actor_celestial_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'celestial')   selected = true;
-                        else if  (actor_option.actor_construct_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'construct')   selected = true;
-                        else if  (actor_option.actor_dragon_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'dragon')      selected = true;
-                        else if  (actor_option.actor_elemental_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'elemental')   selected = true;
-                        else if  (actor_option.actor_fey_checked         && actor.data.data.details.type && actor.data.data.details.type.value == 'fey')         selected = true;
-                        else if  (actor_option.actor_fiend_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'fiend')       selected = true;
-                        else if  (actor_option.actor_giant_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'giant')       selected = true;
-                        else if  (actor_option.actor_humanoid_checked    && actor.data.data.details.type && actor.data.data.details.type.value == 'humanoid')    selected = true;
-                        else if  (actor_option.actor_monstrosity_checked && actor.data.data.details.type && actor.data.data.details.type.value == 'monstrosity') selected = true;
-                        else if  (actor_option.actor_ooze_checked        && actor.data.data.details.type && actor.data.data.details.type.value == 'ooze')        selected = true;
-                        else if  (actor_option.actor_plant_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'plant')       selected = true;
-                        else if  (actor_option.actor_swarm_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'swarm')       selected = true;
-                        else if  (actor_option.actor_undead_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'undead')      selected = true;
-                    }
-
-                    // add actor to list.
-                    if (selected) {
-                        this.buildList(actor);
-                    };
-                };
-            };
-        }); // forEach Actor.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

@@ -50,13 +50,12 @@
     <!-- PLAYLISTS -->
     <div class="analytics-playlists-controls">
 
-        <!-- PLAYLIST NAME -->
+        <!-- PLAYLIST -->
         <label for="analytics-playlists-name"><i class="fas fa-music"></i>&nbsp;{{localize 'DOCUMENT.Playlists'}}</label>
         <div>
             <input type="radio" class="analytics-radio" id="analytics-playlists-name-radio" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="name" {{analytics-playlists-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-playlists-name" name="analytics-playlists-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-name-value}}" >
         </div>
-        <!-- PLAYLIST ID -->
         <div>
             <input type="radio" class="analytics-radio" id="analytics-playlists-id-radio" name="analytics-playlists-radio" onClick="toggle_analytics_playlists_radio()" value="id" {{analytics-playlists-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-playlists-id" name="analytics-playlists-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-id-value}}" >
@@ -84,13 +83,12 @@
         <!-- (12) IN COMPENDIUMS -->
         <div class="tab" data-tab="analytics-playlists-in-compendiums" data-group="analytics-playlists-group">
 
-            <!-- COMPENDIUM NAME -->
+            <!-- COMPENDIUM -->
             <label for="analytics-playlists-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-name-radio" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="name" {{analytics-playlists-in-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-compendium-name" name="analytics-playlists-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-compendium-name-value}}" >
             </div>
-            <!-- COMPENDIUM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-compendium-id-radio" name="analytics-playlists-in-compendium-radio" onClick="toggle_analytics_playlists_in_compendium_radio()" value="id" {{analytics-playlists-in-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-compendium-id" name="analytics-playlists-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-compendium-id-value}}" >
@@ -133,7 +131,6 @@
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-name-radio" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="name" {{analytics-playlists-in-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-journal-name" name="analytics-playlists-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-journal-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-journal-id-radio" name="analytics-playlists-in-journal-radio" onClick="toggle_analytics_playlists_in_journal_radio()" value="id" {{analytics-playlists-in-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-journal-id" name="analytics-playlists-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-journal-id-value}}" >
@@ -212,13 +209,12 @@
         <!-- (30) IN SCENES -->
         <div class="tab" data-tab="analytics-playlists-in-scenes" data-group="analytics-playlists-group">
 
-            <!-- SCENE NAME -->
+            <!-- SCENE -->
             <label for="analytics-playlists-in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-name-radio" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="name" {{analytics-playlists-in-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-scene-name" name="analytics-playlists-in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-scene-name-value}}" >
             </div>
-            <!-- SCENE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-scene-id-radio" name="analytics-playlists-in-scene-radio" onClick="toggle_analytics_playlists_in_scene_radio()" value="id" {{analytics-playlists-in-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-scene-id" name="analytics-playlists-in-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-scene-id-value}}" >
@@ -255,13 +251,12 @@
         <!-- (31) IN TABLES -->
         <div class="tab" data-tab="analytics-playlists-in-tables" data-group="analytics-playlists-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-playlists-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-name-radio" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="name" {{analytics-playlists-in-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-playlists-in-table-name" name="analytics-playlists-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-playlists-in-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-playlists-in-table-id-radio" name="analytics-playlists-in-table-radio" onClick="toggle_analytics_playlists_in_table_radio()" value="id" {{analytics-playlists-in-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-playlists-in-table-id" name="analytics-playlists-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-playlists-in-table-id-value}}" >
@@ -297,7 +292,7 @@
     </div>
 
     <!-- SUBMIT -->
-    <button type="submit" class="analytics-playlists-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Playlists'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+    <button type="submit" id="analytics-playlists-submit" class="analytics-playlists-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Playlists'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
     <!-- LIST HEADER -->
     <div class="analytics-playlists-header">

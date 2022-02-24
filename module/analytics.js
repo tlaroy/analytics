@@ -2,7 +2,7 @@
 *
 * module/analytics.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -10,9 +10,31 @@ import * as ANALYTICS from "./const.js";
 
 var i18n = key => {return game.i18n.localize(key);};
 
-export class ActorOptions {
+export class AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsOptions constructor(parent)");
+    }
+
+    // escape conflicting characters for regexp searches.
+    escapeRegExp(text) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsOptions  escapeRegExp(text)");
+
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    }
+}
+
+export class ActorOptions extends AnalyticsOptions {
+
+    constructor(parent) {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "ActorOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_actors = [ ];
+
         this.actor_count                  = 0;
         this.actor_name_value             = "";
         this.actor_id_value               = "";
@@ -203,11 +225,90 @@ export class ActorOptions {
         if (k == prefix + "show")           { this.actor_show_checked           = v; }
         if (k == prefix + "show-id")        { this.actor_show_id_checked        = v; }
     };
+
+    // search for matching actors.
+    searchActors(actors) {
+
+        this.matching_actors = [ ];
+
+        // spin through actor list ...
+        actors.contents.forEach((actor, i) => {
+
+            var match_found = false;
+            var actor_name  = actor.data.name;
+            var search_name = this.escapeRegExp(this.actor_name_value);
+            var search_id   = this.actor_id_value;
+
+            // search by name
+            if (this.actor_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.actor_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    actor_name  = actor_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.actor_exact_match_checked && (actor_name.search(search_name) > -1)) ||
+                     (this.actor_exact_match_checked && (actor_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(actor_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.actor_radio_id_checked) {
+                // do ids match?
+                if (search_id == actor.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // actor matches.
+            if (match_found) {
+                var selected = false;
+
+                if (this.noActorTypesSelected() && this.noCreatureTypesSelected()) selected = true;
+                else if (this.actor_character_checked        && actor.type == 'character') selected = true;
+                else if (this.actor_vehicle_checked          && actor.type == 'vehicle')   selected = true;
+                else if (this.actor_npc_checked              && actor.type == 'npc') {
+
+                    if (actor_option.noCreatureTypesSelected()) selected = true;
+                    else if  (this.actor_aberration_checked  && actor.data.data.details.type && actor.data.data.details.type.value == 'aberration')  selected = true;
+                    else if  (this.actor_beast_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'beast')       selected = true;
+                    else if  (this.actor_celestial_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'celestial')   selected = true;
+                    else if  (this.actor_construct_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'construct')   selected = true;
+                    else if  (this.actor_dragon_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'dragon')      selected = true;
+                    else if  (this.actor_elemental_checked   && actor.data.data.details.type && actor.data.data.details.type.value == 'elemental')   selected = true;
+                    else if  (this.actor_fey_checked         && actor.data.data.details.type && actor.data.data.details.type.value == 'fey')         selected = true;
+                    else if  (this.actor_fiend_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'fiend')       selected = true;
+                    else if  (this.actor_giant_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'giant')       selected = true;
+                    else if  (this.actor_humanoid_checked    && actor.data.data.details.type && actor.data.data.details.type.value == 'humanoid')    selected = true;
+                    else if  (this.actor_monstrosity_checked && actor.data.data.details.type && actor.data.data.details.type.value == 'monstrosity') selected = true;
+                    else if  (this.actor_ooze_checked        && actor.data.data.details.type && actor.data.data.details.type.value == 'ooze')        selected = true;
+                    else if  (this.actor_plant_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'plant')       selected = true;
+                    else if  (this.actor_swarm_checked       && actor.data.data.details.type && actor.data.data.details.type.value == 'swarm')       selected = true;
+                    else if  (this.actor_undead_checked      && actor.data.data.details.type && actor.data.data.details.type.value == 'undead')      selected = true;
+                }
+
+                // add selected matching actor to list.
+                if (selected) {
+                    this.matching_actors.push(actor);
+                };
+            };
+        }); // forEach Actor.
+    };
 }
 
-export class CardOptions {
+export class CardOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "CardOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_cards = [ ];
+
         this.card_count                  = 0;
         this.card_name_value             = "";
         this.card_id_value               = "";
@@ -290,11 +391,62 @@ export class CardOptions {
         if (k == prefix + "show")           { this.card_show_checked           = v; }
         if (k == prefix + "show-id")        { this.card_show_id_checked        = v; }
     }
+
+    // search for matching cards.
+    searchCards(cards) {
+
+        this.matching_cards = [ ];
+
+        // spin through card list ...
+        cards.contents.forEach((card, i) => {
+
+            var match_found = false;
+            var card_name   = card.data.name;
+            var search_name = this.escapeRegExp(this.card_name_value);
+            var search_id   = this.card_id_value;
+
+            // search by name
+            if (this.card_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.card_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    card_name  = card_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.card_exact_match_checked && (card_name.search(search_name) > -1)) ||
+                     (this.card_exact_match_checked && (card_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(card_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.card_radio_id_checked) {
+                // do ids match?
+                if (search_id == card.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // card matches.
+            if (match_found) {
+                this.matching_cards.push(card);
+            };
+        }); // forEach Card.
+    };
 }
 
-export class CompendiumOptions {
+export class CompendiumOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "CompendiumOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_compendiums = [ ];
+
         this.compendium_submitted              = false;
         this.compendium_count                  = 0;
         this.compendium_name_value             = "";
@@ -396,11 +548,63 @@ export class CompendiumOptions {
         if (k == prefix + "show")           { this.compendium_show_checked           = v; }
         if (k == prefix + "show-id")        { this.compendium_show_id_checked        = v; }
     }
+
+    // search for matching compendiums.
+    searchCompendiums(compendiums) {
+
+        this.matching_compendiums = [ ];
+
+        // spin through compendium list ...
+        compendiums.contents.forEach((compendium, i) => {
+
+            var match_found     = false;
+            var compendium_name = compendium.documentName;
+            var search_name     = this.escapeRegExp(this.compendium_name_value);
+            var search_id       = this.compendium_id_value;
+
+            // search by name
+            if (this.compendium_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.compendium_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    compendium_name  = compendium_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.compendium_exact_match_checked && (compendium_name.search(search_name) > -1)) ||
+                     (this.compendium_exact_match_checked && (compendium_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(compendium_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.compendium_radio_id_checked) {
+                // do ids match?
+                if (search_id == compendium.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // compendium matches.
+            if (match_found) {
+                this.matching_compendiums.push(compendium);
+            };
+        }); // forEach Compendium.
+    };
 }
 
-export class ItemOptions {
+export class ItemOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "ItemOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_items = [ ];
+        this.matching_on_use_macros = [ ];
+
         this.item_submitted                           = false;
         this.item_count                               = 0;
         this.item_name_value                          = "";
@@ -421,6 +625,7 @@ export class ItemOptions {
         this.item_spell_checked                       = false;
 
         this.item_macro_checked                       = false;
+/*
         this.item_macro_count                         = 0;
         this.item_macro_name_value                    = "";
         this.item_macro_id_value                      = "";
@@ -428,7 +633,7 @@ export class ItemOptions {
         this.item_macro_radio_id_checked              = false;
         this.item_macro_case_sensitive_checked        = false;
         this.item_macro_exact_match_checked           = false;
-
+*/
         this.item_on_use_macro_checked                = false;
         this.item_on_use_macro_count                  = 0;
         this.item_on_use_macro_name_value             = "";
@@ -497,33 +702,29 @@ export class ItemOptions {
 
         // disable item macros if itemacro not installed or not active.
         if (!game.modules.get("itemacro") || !game.modules.get("itemacro").active) {
-            document.getElementById(prefix + "macro-label").style.display                = "none";
-            document.getElementById(prefix + "macro-name-input").style.display           = "none";
-            document.getElementById(prefix + "macro-case-sensitive-label").style.display = "none";
-            document.getElementById(prefix + "macro-exact-match-label").style.display    = "none";
-            document.getElementById(prefix + "macro-thematic-break").style.display       = "none";
-            document.getElementById(prefix + "macro-id").style.display                   = "none";
-            document.getElementById(prefix + "macro-name-radio").style.display           = "none";
-            document.getElementById(prefix + "macro-id-radio").style.display             = "none";
+            document.getElementById(prefix + "macro").style.display                = "none";
+            document.getElementById(prefix + "macro-label").style.display          = "none";
+            document.getElementById(prefix + "macro-thematic-break").style.display = "none";
         }
 
         // enable/disable on use macro fields.
-        document.getElementById(prefix + "macro-name").disabled           = !document.getElementById(prefix + "macro").checked;
-        document.getElementById(prefix + "macro-case-sensitive").disabled = !document.getElementById(prefix + "macro").checked;
-        document.getElementById(prefix + "macro-exact-match").disabled    = !document.getElementById(prefix + "macro").checked;
-        document.getElementById(prefix + "macro-id").disabled             = !document.getElementById(prefix + "macro").checked;
-        document.getElementById(prefix + "macro-name-radio").disabled     = !document.getElementById(prefix + "macro").checked;
-        document.getElementById(prefix + "macro-id-radio").disabled       = !document.getElementById(prefix + "macro").checked;
+        document.getElementById(prefix + "on-use-macro-name").disabled           = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-case-sensitive").disabled = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-exact-match").disabled    = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-id").disabled             = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-name-radio").disabled     = !document.getElementById(prefix + "on-use-macro").checked;
+        document.getElementById(prefix + "on-use-macro-id-radio").disabled       = !document.getElementById(prefix + "on-use-macro").checked;
 
-        if (document.getElementById(prefix + "macro").checked) {
-            document.getElementById(prefix + "macro-name").disabled           = !document.getElementById(prefix + "macro-name-radio").checked;
-            document.getElementById(prefix + "macro-case-sensitive").disabled = !document.getElementById(prefix + "macro-name-radio").checked;
-            document.getElementById(prefix + "macro-exact-match").disabled    = !document.getElementById(prefix + "macro-name-radio").checked;
-            document.getElementById(prefix + "macro-id").disabled             = !document.getElementById(prefix + "macro-id-radio").checked;
+        if (document.getElementById(prefix + "on-use-macro").checked) {
+            document.getElementById(prefix + "on-use-macro-name").disabled           = !document.getElementById(prefix + "on-use-macro-name-radio").checked;
+            document.getElementById(prefix + "on-use-macro-case-sensitive").disabled = !document.getElementById(prefix + "on-use-macro-name-radio").checked;
+            document.getElementById(prefix + "on-use-macro-exact-match").disabled    = !document.getElementById(prefix + "on-use-macro-name-radio").checked;
+            document.getElementById(prefix + "on-use-macro-id").disabled             = !document.getElementById(prefix + "on-use-macro-id-radio").checked;
         };
 
         // disable on use macros if midi-qol not installed or not active.
         if (!game.modules.get("midi-qol") || !game.modules.get("midi-qol").active) {
+            document.getElementById(prefix + "on-use-macro").style.display                      = "none";
             document.getElementById(prefix + "on-use-macro-label").style.display                = "none";
             document.getElementById(prefix + "on-use-macro-name-input").style.display           = "none";
             document.getElementById(prefix + "on-use-macro-case-sensitive-label").style.display = "none";
@@ -638,11 +839,146 @@ export class ItemOptions {
         if (k == prefix + "show")                 { this.item_show_checked                 = v; }
         if (k == prefix + "show-id")              { this.item_show_id_checked              = v; }
     }
+
+    // search for matching items.
+    searchItems(items) {
+
+        this.matching_items = [ ];
+
+        // spin through item contents ...
+        items.contents.forEach((item, j) => {
+
+            var match_found = false;
+            var item_name   = item.data.name;
+            var search_name = this.escapeRegExp(this.item_name_value);
+            var search_id   = this.item_id_value;
+
+            // search by name
+            if (this.item_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.item_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    item_name   = item_name.toLowerCase();
+                };
+
+                // do items match?
+                if ((!this.item_exact_match_checked && (item_name.search(search_name) > -1)) ||
+                     (this.item_exact_match_checked && (item_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(item_name).length)) ||
+                     (search_name.length == 0)) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.item_radio_id_checked) {
+                // do ids match?
+                if (search_id == item.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // item matches.
+            if (match_found) {
+                var selected = false;
+
+                if      (this.noItemTypesSelected()) selected = true;
+                else if (this.item_weapon_checked     && item.type == 'weapon')     selected = true;
+                else if (this.item_equipment_checked  && item.type == 'equipment')  selected = true;
+                else if (this.item_consumable_checked && item.type == 'consumable') selected = true;
+                else if (this.item_tool_checked       && item.type == 'tool')       selected = true;
+                else if (this.item_loot_checked       && item.type == 'loot')       selected = true;
+                else if (this.item_class_checked      && item.type == 'class')      selected = true;
+                else if (this.item_feat_checked       && item.type == 'feat')       selected = true;
+                else if (this.item_backpack_checked   && item.type == 'backpack')   selected = true;
+                else if (this.item_spell_checked      && item.type == 'spell')      selected = true;
+
+                if (selected) {
+                    this.matching_items.push(item);
+                };
+            };
+        }); // forEach Item.
+    }
+
+    // search for matching item macro.
+    searchItemMacros(item) {
+
+        this.matching_macros = [ ];
+
+        // any item macros?
+        if (this.item_macro_checked &&
+            item.data.flags['itemacro'] &&
+            item.data.flags['itemacro'].macro.data.command) {
+
+            var command = item.data.flags['itemacro'].macro.data.command;
+            name = command.length > 120 ? command.substr(0, 120) : command;
+
+            this.matching_macros.push(name);
+        }
+    }
+
+    // search for matching on use macros.
+    searchOnUseMacros(item) {
+
+        this.matching_on_use_macros = [ ];
+
+        // any on use macros?
+        if (this.item_on_use_macro_checked &&
+            item.data.flags['midi-qol'] &&
+            item.data.flags['midi-qol'].onUseMacroParts &&
+            (item.data.flags['midi-qol'].onUseMacroParts.items.length > 0)) {
+
+            // spin through item's on use macro list ...
+            item.data.flags['midi-qol'].onUseMacroParts.items.forEach((macro, k) => {
+
+                var match_found = false;
+                var macro_name  = item.data.flags['midi-qol'].onUseMacroParts.items[k].macroName;
+                var search_name = this.escapeRegExp(this.item_on_use_macro_name_value);
+                var search_id   = item.data.flags['midi-qol'].onUseMacroParts.items[k].id;
+
+                // search by name
+                if (this.item_on_use_macro_radio_name_checked) {
+                    // lowercase for non-case-sensitive search.
+                    if ((search_name.length > 0) && !this.item_on_use_macro_case_sensitive_checked) {
+                        search_name = search_name.toLowerCase();
+                        macro_name  = macro_name.toLowerCase();
+                    };
+
+                    // do macros match?
+                    if ((!this.item_on_use_macro_exact_match_checked && (macro_name.search(search_name) > -1)) ||
+                         (this.item_on_use_macro_exact_match_checked && (macro_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(macro_name).length)) ||
+                         (search_name.length == 0)) {
+                        match_found = true;
+                    };
+                };
+
+                // search by id
+                if (this.item_on_use_macro_radio_id_checked) {
+                    // do ids match?
+                    if (search_id == macro.data._id) {
+                        match_found = true;
+                    };
+                };
+
+                // macro matches.
+                if (match_found) {
+                    this.matching_on_use_macros.push(macro);
+                };
+            }); // forEach Macro.
+        };
+    }
 }
 
-export class JournalOptions {
+export class JournalOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "JournalOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_journals = [ ];
+
         this.journal_submitted              = false;
         this.journal_count                  = 0;
         this.journal_name_value             = "";
@@ -813,11 +1149,95 @@ export class JournalOptions {
         if (k == prefix + "show")           { this.journal_show_checked           = v; }
         if (k == prefix + "show-id")        { this.journal_show_id_checked        = v; }
     }
+
+    // search for matching journals.
+    searchJournals(journals, search_str = "") {
+
+        this.matching_journals = [ ];
+
+        var search_exp = "";
+        if (search_str.length > 0) {
+            if (this.journal_radio_name_checked)
+                search_exp = new RegExp(`@Actor\\[.{16}\\]\\{` + this.escapeRegExp(search_str) + `\\}`)
+            else
+                search_exp = new RegExp(`@Actor\\[.{` + this.escapeRegExp(search_str) + `}\\]`)
+        };
+
+        // spin through journal contents ...
+        journals.contents.forEach((journal, j) => {
+            var match_found  = false;
+            var journal_name = journal.data.name;
+            var search_name  = this.escapeRegExp(this.journal_name_value);
+            var search_id    = this.journal_id_value;
+
+            // search by name
+            if (this.journal_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.journal_case_sensitive_checked) {
+                    search_name  = search_name.toLowerCase();
+                    journal_name = journal_name.toLowerCase();
+                };
+
+                // do journals match?
+                if ((!this.journal_exact_match_checked && (journal_name.search(search_name) > -1)) ||
+                     (this.journal_exact_match_checked && (journal_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(journal_name).length)) ||
+                     (search_name.length == 0)) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.journal_radio_id_checked) {
+                // do ids match?
+                if (search_id == journal.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // journal matches.
+            if (match_found) {
+                var selected = false;
+                if      (this.noJournalTypesSelected() || !journal.data.flags['monks-enhanced-journal']) selected = true;
+                else if (this.journal_base_checked         && journal.data.flags['monks-enhanced-journal'].type == 'base')         selected = true;
+                else if (this.journal_checklist_checked    && journal.data.flags['monks-enhanced-journal'].type == 'checklist')    selected = true;
+                else if (this.journal_encounter_checked    && journal.data.flags['monks-enhanced-journal'].type == 'encounter')    selected = true;
+                else if (this.journal_loot_checked         && journal.data.flags['monks-enhanced-journal'].type == 'loot')         selected = true;
+                else if (this.journal_organization_checked && journal.data.flags['monks-enhanced-journal'].type == 'organization') selected = true;
+                else if (this.journal_person_checked       && journal.data.flags['monks-enhanced-journal'].type == 'person')       selected = true;
+                else if (this.journal_place_checked        && journal.data.flags['monks-enhanced-journal'].type == 'place')        selected = true;
+                else if (this.journal_poi_checked          && journal.data.flags['monks-enhanced-journal'].type == 'poi')          selected = true;
+                else if (this.journal_quest_checked        && journal.data.flags['monks-enhanced-journal'].type == 'quest')        selected = true;
+                else if (this.journal_shop_checked         && journal.data.flags['monks-enhanced-journal'].type == 'shop')         selected = true;
+
+                if (selected) {
+
+                    if (search_str.length > 0) {
+                        // regexp search.
+                        if (journal.data.content.search(search_exp) > -1) {
+                            this.matching_journals.push(journal);
+                        };
+                    }
+                    else
+                    {
+                        this.matching_journals.push(journal);
+                    }
+                };
+            };
+        }); // forEach Journal.
+    }
 }
 
-export class MacroOptions {
+export class MacroOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "MacroOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_macros = [ ];
+
         this.macro_count                  = 0;
         this.macro_name_value             = "";
         this.macro_id_value               = "";
@@ -906,11 +1326,62 @@ export class MacroOptions {
         if (k == prefix + "show")           { this.macro_show_checked           = v; }
         if (k == prefix + "show-id")        { this.macro_show_id_checked        = v; }
     }
+
+    // search for matching macros.
+    searchMacros(macros) {
+
+        this.matching_macros = [ ];
+
+        // spin through macro list ...
+        macros.contents.forEach((macro, i) => {
+
+            var match_found = false;
+            var macro_name   = macro.data.name;
+            var search_name = this.escapeRegExp(this.macro_name_value);
+            var search_id   = this.macro_id_value;
+
+            // search by name
+            if (this.macro_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.macro_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    macro_name  = macro_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.macro_exact_match_checked && (macro_name.search(search_name) > -1)) ||
+                     (this.macro_exact_match_checked && (macro_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(macro_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.macro_radio_id_checked) {
+                // do ids match?
+                if (search_id == macro.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // macro matches.
+            if (match_found) {
+                this.matching_macros.push(macro);
+            };
+        }); // forEach Macro.
+    };
 }
 
-export class PlaylistOptions {
+export class PlaylistOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "PlaylistOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_playlists = [ ];
+
         this.playlist_count                  = 0;
         this.playlist_name_value             = "";
         this.playlist_id_value               = "";
@@ -997,11 +1468,63 @@ export class PlaylistOptions {
         if (k ==  prefix + "show")           { this.playlist_show_checked           = v; }
         if (k ==  prefix + "show-id")        { this.playlist_show_id_checked        = v; }
     }
+
+    // search for matching playlists.
+    searchPlaylists(playlists) {
+
+        this.matching_playlists = [ ];
+
+        // spin through playlist list ...
+        playlists.contents.forEach((playlist, i) => {
+
+            var match_found = false;
+            var playlist_name   = playlist.data.name;
+            var search_name = this.escapeRegExp(this.playlist_name_value);
+            var search_id   = this.playlist_id_value;
+
+            // search by name
+            if (this.playlist_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.playlist_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    playlist_name  = playlist_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.playlist_exact_match_checked && (playlist_name.search(search_name) > -1)) ||
+                     (this.playlist_exact_match_checked && (playlist_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(playlist_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.playlist_radio_id_checked) {
+                // do ids match?
+                if (search_id == playlist.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // playlist matches.
+            if (match_found) {
+                this.matching_playlists.push(playlist);
+            };
+        }); // forEach Playlist.
+    };
 }
 
-export class SceneOptions {
+export class SceneOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "SceneOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_scenes = [ ];
+        this.matching_scene_tokens = [ ];
+
         this.scene_submitted              = false;
         this.scene_count                  = 0;
         this.scene_name_value             = "";
@@ -1010,6 +1533,7 @@ export class SceneOptions {
         this.scene_radio_id_checked       = false;
         this.scene_case_sensitive_checked = false;
         this.scene_exact_match_checked    = false;
+        this.scene_token_count            = 0;
 
         this.scene_none_checked           = false;
         this.scene_show_checked           = false;
@@ -1100,11 +1624,104 @@ export class SceneOptions {
         if (k ==  prefix + "show")             { this.scene_show_checked           = v; }
         if (k ==  prefix + "show-id")          { this.scene_show_id_checked        = v; }
     };
+
+    // search for matching tokens.
+    searchSceneTokens(scene, search_str = "") {
+
+        this.matching_scene_tokens = [ ];
+
+        // spin through tokens ...
+        scene.tokens.contents.forEach((token, k) => {
+
+            var match_found = false;
+
+            // search by name
+            if (this.scene_radio_name_checked) {
+                // token without a "represented actor" match token name else match actor name.
+                var token_name = "";
+                token.actor ? token_name = this.escapeRegExp(token.actor.name) : token_name = this.escapeRegExp(token.name);
+
+                // do tokens match?
+                if (search_str.search(token_name) > -1) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.scene_radio_id_checked) {
+                // token without a "represented actor" match token id else match actor id.
+                var token_id = "";
+                token.actor ? token_id = token.actor._id : token_id = token._id;
+
+                // do tokens match?
+                if (token_id == search_str) {
+                    match_found = true;
+                };
+            };
+
+            // token matches.
+            if (match_found) {
+                this.matching_scene_tokens.push(token);
+            };
+        }); // forEach Token.
+    }
+
+    // search for matching scenes.
+    searchScenes(scenes) {
+
+        this.matching_scenes = [ ];
+
+        // spin through scene contents ...
+        scenes.contents.forEach((scene, j) => {
+
+            var match_found = false;
+            var scene_name  = scene.data.name;
+            var search_name = this.escapeRegExp(this.scene_name_value);
+            var search_id   = this.scene_id_value;
+
+            // search by name
+            if (this.scene_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.scene_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    scene_name  = scene_name.toLowerCase();
+                };
+
+                // do scenes match?
+                if ((!this.scene_exact_match_checked && (scene_name.search(search_name) > -1)) ||
+                     (this.scene_exact_match_checked && (scene_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(scene_name).length)) ||
+                     (search_name.length == 0)) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.scene_radio_id_checked) {
+                // do ids match?
+                if (search_id == scene.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // scene matches.
+            if (match_found) {
+                this.matching_scenes.push(scene);
+            };
+        }); // forEach Scene.
+    }
 }
 
-export class TableOptions {
+export class TableOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "TableOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_tables = [ ];
+
         this.table_submitted              = false;
         this.table_count                  = 0;
         this.table_name_value             = "";
@@ -1212,11 +1829,62 @@ export class TableOptions {
         if (k == prefix + "show")           { this.table_show_checked           = v; }
         if (k == prefix + "show-id")        { this.table_show_id_checked        = v; }
     }
+
+    // search for matching tables.
+    searchTables(tables) {
+
+        this.matching_tables = [ ];
+
+        // spin through table list ...
+        tables.contents.forEach((table, i) => {
+
+            var match_found = false;
+            var table_name   = table.data.name;
+            var search_name = this.escapeRegExp(this.table_name_value);
+            var search_id   = this.table_id_value;
+
+            // search by name
+            if (this.table_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.table_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    table_name  = table_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.table_exact_match_checked && (table_name.search(search_name) > -1)) ||
+                     (this.table_exact_match_checked && (table_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(table_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.table_radio_id_checked) {
+                // do ids match?
+                if (search_id == table.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // table matches.
+            if (match_found) {
+                this.matching_tables.push(table);
+            };
+        }); // forEach Table.
+    };
 }
 
-export class TileOptions {
+export class TileOptions extends AnalyticsOptions {
 
     constructor() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "TileOptions  constructor()");
+
+        super();
+
+        this.parent = parent;
+
+        this.matching_tiles = [ ];
+
         this.tile_count                  = 0;
         this.tile_name_value             = "";
         this.tile_id_value               = "";
@@ -1296,6 +1964,51 @@ export class TileOptions {
         if (k == prefix + "show")           { this.tile_show_checked           = v; }
         if (k == prefix + "show-id")        { this.tile_show_id_checked        = v; }
     }
+
+    // search for matching tiles.
+    searchTiles(tiles) {
+
+        this.matching_tiles = [ ];
+
+/*
+        // spin through tile list ...
+        tiles.contents.forEach((tile, i) => {
+
+            var match_found = false;
+            var tile_name   = tile.data.name;
+            var search_name = this.escapeRegExp(this.tile_name_value);
+            var search_id   = this.tile_id_value;
+
+            // search by name
+            if (this.tile_radio_name_checked) {
+                // lowercase for non-case-sensitive search.
+                if ((search_name.length > 0) && !this.tile_case_sensitive_checked) {
+                    search_name = search_name.toLowerCase();
+                    tile_name  = tile_name.toLowerCase();
+                };
+                // do names match?
+                if ((search_name.length == 0) ||
+                    (!this.tile_exact_match_checked && (tile_name.search(search_name) > -1)) ||
+                     (this.tile_exact_match_checked && (tile_name.search(search_name) > -1) && (search_name.length == this.escapeRegExp(tile_name).length))) {
+                    match_found = true;
+                };
+            };
+
+            // search by id
+            if (this.tile_radio_id_checked) {
+                // do ids match?
+                if (search_id == tile.data._id) {
+                    match_found = true;
+                };
+            };
+
+            // tile matches.
+            if (match_found) {
+                this.matching_tiles.push(tile);
+            };
+        }); // forEach Tile.
+*/
+    };
 }
 
 export class AnalyticsForm extends FormApplication {
@@ -1305,7 +2018,6 @@ export class AnalyticsForm extends FormApplication {
 
         super(formData, options);
 
-        // save parent.
         this.parent = parent;
 
         // inputs.
@@ -1393,7 +2105,7 @@ export class AnalyticsForm extends FormApplication {
     addActorPrimary(list, actor, show_id) {
         var name = actor.data.name;
         var id   = show_id ? actor.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-actor">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-actor">`  + name + id + `</p>`;
@@ -1402,7 +2114,7 @@ export class AnalyticsForm extends FormApplication {
     addCardPrimary(list, card, show_id) {
         var name = card.data.name;
         var id   = show_id ? card.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-card">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-card">`  + name + id + `</p>`;
@@ -1411,7 +2123,7 @@ export class AnalyticsForm extends FormApplication {
     addCompendiumPrimary(list, compendium, show_id) {
         var name = compendium.data.name;
         var id   = show_id ? compendium.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-compendium">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-compendium">`  + name + id + `</p>`;
@@ -1420,19 +2132,25 @@ export class AnalyticsForm extends FormApplication {
     addItemPrimary(list, item, show_id) {
         var name = item.data.name;
         var id   = show_id ? item.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-item">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-item">`  + name + id + `</p>`;
         this.list_counter++;
     }
     addItemMacroPrimary(list, macro, show_id) {
+        var name = macro;
+        (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-item-macro">` + name + `</p>`
+                                     : list[this.list_counter] = `<p class="analytics-secondary-odd-item-macro">`  + name + `</p>`;
+        this.list_counter++;
+    }
+    addItemOnUseMacroPrimary(list, macro, show_id) {
         var name = macro.macroName;
 
         // does macro exist?
         if (game.macros.getName(name)) {
             var id = show_id ? game.macros.getName(name).id : "";
-            if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+            if (id.length > 0) id = " [" + id + "]";
 
             (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-item-macro">` + name + id + `</p>`
                                          : list[this.list_counter] = `<p class="analytics-primary-odd-item-macro">`  + name + id + `</p>`;
@@ -1447,7 +2165,7 @@ export class AnalyticsForm extends FormApplication {
     addJournalPrimary(list, journal, show_id) {
         var name = journal.data.name;
         var id   = show_id ? journal.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-journal">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-journal">`  + name + id + `</p>`;
@@ -1456,7 +2174,7 @@ export class AnalyticsForm extends FormApplication {
     addMacroPrimary(list, macro, show_id) {
         var name = macro.data.name;
         var id   = show_id ? macro.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-macro">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-macro">`  + name + id + `</p>`;
@@ -1465,7 +2183,7 @@ export class AnalyticsForm extends FormApplication {
     addPlaylistPrimary(list, playlist, show_id) {
         var name = playlist.data.name;
         var id   = show_id ? playlist.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-playlist">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-playlist">`  + name + id + `</p>`;
@@ -1474,7 +2192,7 @@ export class AnalyticsForm extends FormApplication {
     addScenePrimary(list, scene, show_id) {
         var name = scene.data.name;
         var id   = show_id ? scene.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-scene">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-scene">`  + name + id + `</p>`;
@@ -1483,7 +2201,7 @@ export class AnalyticsForm extends FormApplication {
     addTablePrimary(list, table, show_id) {
         var name = table.data.name;
         var id   = show_id ? table.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-table">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-table">`  + name + id + `</p>`;
@@ -1492,7 +2210,7 @@ export class AnalyticsForm extends FormApplication {
     addTilePrimary(list, tile, show_id) {
         var name = tile.data.name;
         var id   = show_id ? tile.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-primary-even-tile">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-primary-odd-tile">`  + name + id + `</p>`;
@@ -1503,7 +2221,7 @@ export class AnalyticsForm extends FormApplication {
     addActorSecondary(list, actor, show_id) {
         var name = actor.data.name;
         var id   = show_id ? actor.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-actor">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-actor">`  + name + id + `</p>`;
@@ -1512,7 +2230,7 @@ export class AnalyticsForm extends FormApplication {
     addCardSecondary(list, card, show_id) {
         var name = card.data.name;
         var id   = show_id ? card.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-card">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-card">`  + name + id + `</p>`;
@@ -1521,7 +2239,7 @@ export class AnalyticsForm extends FormApplication {
     addCompendiumSecondary(list, compendium, show_id) {
         var name = compendium.data.name;
         var id   = show_id ? compendium.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-compendium">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-compendium">`  + name + id + `</p>`;
@@ -1530,19 +2248,25 @@ export class AnalyticsForm extends FormApplication {
     addItemSecondary(list, item, show_id) {
         var name = item.data.name;
         var id   = show_id ? item.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-item">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-item">`  + name + id + `</p>`;
         this.list_counter++;
     }
     addItemMacroSecondary(list, macro, show_id) {
+        var name = macro;
+        (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-item-macro">` + name + `</p>`
+                                     : list[this.list_counter] = `<p class="analytics-secondary-odd-item-macro">`  + name + `</p>`;
+        this.list_counter++;
+    }
+    addItemOnUseMacroSecondary(list, macro, show_id) {
         var name = macro.macroName;
 
         // does macro exist?
         if (game.macros.getName(name)) {
             var id = show_id ? game.macros.getName(name).id : "";
-            if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+            if (id.length > 0) id = " [" + id + "]";
 
             (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-item-macro">` + name + id + `</p>`
                                          : list[this.list_counter] = `<p class="analytics-secondary-odd-item-macro">`  + name + id + `</p>`;
@@ -1557,7 +2281,7 @@ export class AnalyticsForm extends FormApplication {
     addJournalSecondary(list, journal, show_id) {
         var name = journal.data.name;
         var id   = show_id ? journal.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-journal">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-journal">`  + name + id + `</p>`;
@@ -1566,7 +2290,7 @@ export class AnalyticsForm extends FormApplication {
     addMacroSecondary(list, macro, show_id) {
         var name = macro.data.name;
         var id   = show_id ? macro.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-macro">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-macro">`  + name + id + `</p>`;
@@ -1575,7 +2299,7 @@ export class AnalyticsForm extends FormApplication {
     addPlaylistSecondary(list, playlist, show_id) {
         var name = playlist.data.name;
         var id   = show_id ? playlist.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-playlist">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-playlist">`  + name + id + `</p>`;
@@ -1584,7 +2308,7 @@ export class AnalyticsForm extends FormApplication {
     addSceneSecondary(list, scene, show_id) {
         var name = scene.data.name;
         var id   = show_id ? scene.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-scene">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-scene">`  + name + id + `</p>`;
@@ -1593,7 +2317,7 @@ export class AnalyticsForm extends FormApplication {
     addTableSecondary(list, table, show_id) {
         var name = table.data.name;
         var id   = show_id ? table.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-table">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-table">`  + name + id + `</p>`;
@@ -1602,7 +2326,7 @@ export class AnalyticsForm extends FormApplication {
     addTileSecondary(list, tile, show_id) {
         var name = tile.data.name;
         var id   = show_id ? tile.id : "";
-        if (id.length > 0) id = " [" + id.toUpperCase() + "]";
+        if (id.length > 0) id = " [" + id + "]";
 
         (this.list_counter % 2 == 0) ? list[this.list_counter] = `<p class="analytics-secondary-even-tile">` + name + id + `</p>`
                                      : list[this.list_counter] = `<p class="analytics-secondary-odd-tile">`  + name + id + `</p>`;

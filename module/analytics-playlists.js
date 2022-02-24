@@ -2,7 +2,7 @@
 *
 * module/analytics-playlists.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -314,38 +314,95 @@ export class AnalyticsPlaylists extends AnalyticsForm {
     }
 
     // create playlist list.
-    buildList(playlist) {
+    buildList() {
 
         // active tab.
         var primary         = this.sortOptions().primary;
         var secondary       = this.sortOptions().secondary;
         var playlist_option = this.playlist_options[primary];
         var playlist_list   = this.playlist_lists[primary];
-        var playlist_name   = playlist.data.name;
+        var message_added   = false;
 
-        // each tab.
-        switch (secondary) {
-            case "playlists_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "playlists_in_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "playlists_in_scenes":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
-                break;
-            case "playlists_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        playlist_option.playlist_count = 0;
+        playlist_list.splice(0, playlist_list.length);
+
+        // *** SEARCH playlists.
+        playlist_option.searchPlaylists(game.playlists);
+
+        // iterate thru matching playlists.
+        playlist_option.matching_playlists.forEach((playlist, i) => {
+
+            var playlist_name  = playlist.data.name;
+            var playlist_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "playlists_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "playlists_in_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "playlists_in_scenes":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    break;
+                case "playlists_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+            };
+        }); // forEach matching Playlist.
+
+        // reset matching array.
+        playlist_option.matching_playlists = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -357,42 +414,8 @@ export class AnalyticsPlaylists extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary         = this.sortOptions().primary;
-        var secondary       = this.sortOptions().secondary;
-        var playlist_option = this.playlist_options[primary];
-        var playlist_list   = this.playlist_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        playlist_option.playlist_count = 0;
-        playlist_list.splice(0, playlist_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "playlists_in_compendiums":
-                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "playlists_in_journals":
-                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "playlists_in_scenes":
-                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "playlists_in_tables":
-                this.addMessage(playlist_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-playlists-submit");
@@ -402,11 +425,8 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through playlist list ...
-        game.playlists.contents.forEach((playlist, i) => {
-            if (game.playlists.contents[i]) {
-            };
-        }); // forEach Playlist.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

@@ -57,12 +57,6 @@
             document.getElementById("analytics-journals-with-item-exact-match").disabled    = !document.getElementById("analytics-journals-with-item-name-radio").checked;
             document.getElementById("analytics-journals-with-item-id").disabled              = !document.getElementById("analytics-journals-with-item-id-radio").checked;
         }
-        function toggle_analytics_journals_with_item_macro_radio() {
-            document.getElementById("analytics-journals-with-item-macro-name").disabled            = !document.getElementById("analytics-journals-with-item-macro-name-radio").checked;
-            document.getElementById("analytics-journals-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-journals-with-item-macro-name-radio").checked;
-            document.getElementById("analytics-journals-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-journals-with-item-macro-name-radio").checked;
-            document.getElementById("analytics-journals-with-item-macro-id").disabled              = !document.getElementById("analytics-journals-with-item-macro-id-radio").checked;
-        }
         function toggle_analytics_journals_within_journal_radio() {
             document.getElementById("analytics-journals-within-journal-name").disabled        = !document.getElementById("analytics-journals-within-journal-name-radio").checked;
             document.getElementById("analytics-journals-within-journal-case-sensitive").disabled = !document.getElementById("analytics-journals-within-journal-name-radio").checked;
@@ -146,13 +140,12 @@
     <!-- JOURNALS -->
     <div class="analytics-journals-controls">
 
-        <!-- JOURNAL NAME -->
+        <!-- JOURNAL -->
         <label for="analytics-journals-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.Journals'}}</label>
         <div>
             <input type="radio" class="analytics-radio" id="analytics-journals-name-radio" name="analytics-journals-radio" onClick="toggle_analytics_journals_radio()" value="name" {{analytics-journals-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-journals-name" name="analytics-journals-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-name-value}}" >
         </div>
-        <!-- JOURNAL ID -->
         <div>
             <input type="radio" class="analytics-radio" id="analytics-journals-id-radio" name="analytics-journals-radio" onClick="toggle_analytics_journals_radio()" value="id" {{analytics-journals-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-journals-id" name="analytics-journals-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-id-value}}" >
@@ -223,13 +216,12 @@
         <!-- (3) WITH ACTORS -->
         <div class="tab" data-tab="analytics-journals-with-actors" data-group="analytics-journals-group">
 
-            <!-- ACTOR NAME -->
+            <!-- ACTOR -->
             <label for="analytics-journals-with-actor-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-actor-name-radio" name="analytics-journals-with-actor-radio" onClick="toggle_analytics_journals_with_actor_radio()" value="name" {{analytics-journals-with-actor-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-actor-name" name="analytics-journals-with-actor-name" data-dtype="String" title="{{localize 'DOCUMENT.Actors'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-actor-name-value}}" >
             </div>
-            <!-- ACTOR ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-actor-id-radio" name="analytics-journals-with-actor-radio" onClick="toggle_analytics_journals_with_actor_radio()" value="id" {{analytics-journals-with-actor-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-actor-id" name="analytics-journals-with-actor-id" data-dtype="String" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-actor-id-value}}" >
@@ -341,13 +333,12 @@
         <!-- (7) WITH CARDS -->
         <div class="tab" data-tab="analytics-journals-with-cards" data-group="analytics-journals-group">
 
-            <!-- CARD NAME -->
+            <!-- CARD -->
             <label for="analytics-journals-with-card-name"><i class="fas fa-id-badge"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'CARDS.HeaderCards'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-card-name-radio" name="analytics-journals-with-card-radio" onClick="toggle_analytics_journals_with_card_radio()" value="name" {{analytics-journals-with-card-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-card-name" name="analytics-journals-with-card-name" data-dtype="String" title="{{localize 'CARDS.HeaderCards'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-card-name-value}}" >
             </div>
-            <!-- CARD ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-card-id-radio" name="analytics-journals-with-card-radio" onClick="toggle_analytics_journals_with_card_radio()" value="id" {{analytics-journals-with-card-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-card-id" name="analytics-journals-with-card-id" data-dtype="String" title="{{localize 'CARDS.HeaderCards'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-card-id-value}}" >
@@ -384,13 +375,12 @@
         <!-- (10) IN COMPENDIUMS -->
         <div class="tab" data-tab="analytics-journals-in-compendiums" data-group="analytics-journals-group">
 
-            <!-- COMPENDIUM NAME -->
+            <!-- COMPENDIUM -->
             <label for="analytics-journals-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-compendium-name-radio" name="analytics-journals-in-compendium-radio" onClick="toggle_analytics_journals_in_compendium_radio()" value="name" {{analytics-journals-in-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-in-compendium-name" name="analytics-journals-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-in-compendium-name-value}}" >
             </div>
-            <!-- COMPENDIUM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-compendium-id-radio" name="analytics-journals-in-compendium-radio" onClick="toggle_analytics_journals_in_compendium_radio()" value="id" {{analytics-journals-in-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-in-compendium-id" name="analytics-journals-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-in-compendium-id-value}}" >
@@ -427,13 +417,12 @@
         <!-- (19) WITH ITEMS -->
         <div class="tab" data-tab="analytics-journals-with-items" data-group="analytics-journals-group">
 
-            <!-- ITEM NAME -->
+            <!-- ITEM -->
             <label for="analytics-journals-with-item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-item-name-radio" name="analytics-journals-with-item-radio" onClick="toggle_analytics_journals_with_item_radio()" value="name" {{analytics-journals-with-item-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-item-name" name="analytics-journals-with-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-item-name-value}}" >
             </div>
-            <!-- ITEM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-item-id-radio" name="analytics-journals-with-item-radio" onClick="toggle_analytics_journals_with_item_radio()" value="id" {{analytics-journals-with-item-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-item-id" name="analytics-journals-with-item-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-item-id-value}}" >
@@ -492,31 +481,14 @@
             </div>
             <hr>
 
-            <!-- MACRO NAME -->
+            <!-- ITEM MACRO -->
             <div class="form-group" id="analytics-journals-with-item-macro-label">
-                <label for="analytics-journals-with-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Macros'}}</label>
-                <input type="checkbox" id="analytics-journals-with-item-macro" name="analytics-journals-with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_journals_with_item_macro()" {{analytics-journals-with-item-macro-checked}} />
-            </div>
-            <div id="analytics-journals-with-item-macro-name-input">
-                <input type="radio" class="analytics-radio" id="analytics-journals-with-item-macro-name-radio" name="analytics-journals-with-item-macro-radio" onClick="toggle_analytics_journals_with_item_macro_radio()" value="name" {{analytics-journals-with-item-macro-name-radio-checked}} >
-                <input type="text" class="analytics-name" id="analytics-journals-with-item-macro-name" name="analytics-journals-with-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-item-macro-name-value}}" >
-            </div>
-            <!-- MACRO ID -->
-            <div>
-                <input type="radio" class="analytics-radio" id="analytics-journals-with-item-macro-id-radio" name="analytics-journals-with-item-macro-radio" onClick="toggle_analytics_journals_with_item_macro_radio()" value="id" {{analytics-journals-with-item-macro-id-radio-checked}} >
-                <input type="text" class="analytics-id" id="analytics-journals-with-item-macro-id" name="analytics-journals-with-item-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-item-macro-id-value}}" >
-            </div>
-            <div class="form-group" id="analytics-journals-with-item-macro-case-sensitive-label">
-                <label for="analytics-journals-with-item-macro-case-sensitive" id="analytics-journals-with-item-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-                <input type="checkbox" id="analytics-journals-with-item-macro-case-sensitive" name="analytics-journals-with-item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-journals-with-item-macro-case-sensitive-checked}} />
-            </div>
-            <div class="form-group" id="analytics-journals-with-item-macro-exact-match-label">
-                <label for="analytics-journals-with-item-macro-exact-match" id="analytics-journals-with-item-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-                <input type="checkbox" id="analytics-journals-with-item-macro-exact-match" name="analytics-journals-with-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-journals-with-item-macro-exact-match-checked}} />
+                <label for="analytics-journals-with-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Item'}} {{localize 'DOCUMENT.Macro'}}</label>
+                <input type="checkbox" id="analytics-journals-with-item-macro" name="analytics-journals-with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Item'}} {{localize 'DOCUMENT.Macro'}}" data-dtype="Boolean" {{analytics-journals-with-item-macro-checked}} />
             </div>
             <hr id="analytics-journals-with-item-macro-thematic-break">
 
-            <!-- ON USE MACRO NAME -->
+            <!-- ON USE MACROS -->
             <div class="form-group" id="analytics-journals-with-item-on-use-macro-label">
                 <label for="analytics-journals-with-item-on-use-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
                 <input type="checkbox" id="analytics-journals-with-item-on-use-macro" name="analytics-journals-with-item-on-use-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_journals_with_item_on_use_macro()" {{analytics-journals-with-item-on-use-macro-checked}} />
@@ -525,7 +497,6 @@
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-item-on-use-macro-name-radio" name="analytics-journals-with-item-on-use-macro-radio" onClick="toggle_analytics_journals_with_item_on_use_macro_radio()" value="name" {{analytics-journals-with-item-on-use-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-item-on-use-macro-name" name="analytics-journals-with-item-on-use-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-item-on-use-macro-name-value}}" >
             </div>
-            <!-- ON USE MACRO ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-item-on-use-macro-id-radio" name="analytics-journals-with-item-on-use-macro-radio" onClick="toggle_analytics_journals_with_item_on_use_macro_radio()" value="id" {{analytics-journals-with-item-on-use-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-item-on-use-macro-id" name="analytics-journals-with-item-on-use-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-item-on-use-macro-id-value}}" >
@@ -554,13 +525,12 @@
         <!-- (20-20) WITHIN JOURNALS -->
         <div class="tab" data-tab="analytics-journals-within-journals" data-group="analytics-journals-group">
 
-            <!-- JOURNAL NAME -->
+            <!-- JOURNAL -->
             <label for="analytics-journals-within-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.Within'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-within-journal-name-radio" name="analytics-journals-within-journal-radio" onClick="toggle_analytics_journals_within_journal_radio()" value="name" {{analytics-journals-within-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-within-journal-name" name="analytics-journals-within-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-within-journal-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-within-journal-id-radio" name="analytics-journals-within-journal-radio" onClick="toggle_analytics_journals_within_journal_radio()" value="id" {{analytics-journals-within-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-within-journal-id" name="analytics-journals-within-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-within-journal-id-value}}" >
@@ -639,13 +609,12 @@
         <!-- (21) WITH MACROS -->
         <div class="tab" data-tab="analytics-journals-with-macros" data-group="analytics-journals-group">
 
-            <!-- MACRO NAME -->
+            <!-- MACRO -->
             <label for="analytics-journals-with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-macro-name-radio" name="analytics-journals-with-macro-radio" onClick="toggle_analytics_journals_with_macro_radio()" value="name" {{analytics-journals-with-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-macro-name" name="analytics-journals-with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-macro-name-value}}" >
             </div>
-            <!-- MACRO ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-macro-id-radio" name="analytics-journals-with-macro-radio" onClick="toggle_analytics_journals_with_macro_radio()" value="id" {{analytics-journals-with-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-macro-id" name="analytics-journals-with-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-macro-id-value}}" >
@@ -682,13 +651,12 @@
         <!-- (22) WITH PLAYLISTS -->
         <div class="tab" data-tab="analytics-journals-with-playlists" data-group="analytics-journals-group">
 
-            <!-- PLAYLIST NAME -->
+            <!-- PLAYLIST -->
             <label for="analytics-journals-with-playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-playlist-name-radio" name="analytics-journals-with-playlist-radio" onClick="toggle_analytics_journals_with_playlist_radio()" value="name" {{analytics-journals-with-playlist-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-playlist-name" name="analytics-journals-with-playlist-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-playlist-name-value}}" >
             </div>
-            <!-- PLAYLIST ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-playlist-id-radio" name="analytics-journals-with-playlist-radio" onClick="toggle_analytics_journals_with_playlist_radio()" value="id" {{analytics-journals-with-playlist-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-playlist-id" name="analytics-journals-with-playlist-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-playlist-id-value}}" >
@@ -725,13 +693,12 @@
         <!-- (23) WITH SCENES  -->
         <div class="tab" data-tab="analytics-journals-with-scenes" data-group="analytics-journals-group">
 
-            <!-- SCENE NAME -->
+            <!-- SCENE -->
             <label for="analytics-journals-with-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-scene-name-radio" name="analytics-journals-with-scene-radio" onClick="toggle_analytics_journals_with_scene_radio()" value="name" {{analytics-journals-with-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-scene-name" name="analytics-journals-with-scene-with-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-scene-name-value}}" >
             </div>
-            <!-- SCENE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-scene-id-radio" name="analytics-journals-with-scene-radio" onClick="toggle_analytics_journals_with_scene_radio()" value="id" {{analytics-journals-with-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-scene-id" name="analytics-journals-with-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-scene-id-value}}" >
@@ -768,13 +735,12 @@
         <!-- (24) IN SCENES -->
         <div class="tab" data-tab="analytics-journals-in-scenes" data-group="analytics-journals-group">
 
-            <!-- SCENE NAME -->
+            <!-- SCENE -->
             <label for="analytics-journals-in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-scene-name-radio" name="analytics-journals-in-scene-radio" onClick="toggle_analytics_journals_in_scene_radio()" value="name" {{analytics-journals-in-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-in-scene-name" name="analytics-journals-in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-in-scene-name-value}}" >
             </div>
-            <!-- SCENE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-scene-id-radio" name="analytics-journals-in-scene-radio" onClick="toggle_analytics_journals_in_scene_radio()" value="id" {{analytics-journals-in-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-in-scene-id" name="analytics-journals-in-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-in-scene-id-value}}" >
@@ -811,13 +777,12 @@
         <!-- (25) IN SCENES AS PINS  -->
         <div class="tab" data-tab="analytics-journals-in-scenes-as-pins" data-group="analytics-journals-group">
 
-            <!-- SCENE PINS NAME -->
+            <!-- SCENE PINS -->
             <label for="analytics-journals-in-scene-as-pin-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-scene-as-pin-name-radio" name="analytics-journals-in-scene-as-pin-radio" onClick="toggle_analytics_journals_in_scene_as_pin_radio()" value="name" {{analytics-journals-in-scene-as-pin-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-in-scene-as-pin-name" name="analytics-journals-in-scene-as-pin-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-in-scene-as-pin-name-value}}" >
             </div>
-            <!-- SCENE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-scene-as-pin-id-radio" name="analytics-journals-in-scene-as-pin-radio" onClick="toggle_analytics_journals_in_scene_as_pin_radio()" value="id" {{analytics-journals-in-scene-as-pin-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-in-scene-as-pin-id" name="analytics-journals-in-scene-as-pin-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-in-scene-as-pin-id-value}}" >
@@ -854,13 +819,12 @@
         <!-- (26) IN TABLES  -->
         <div class="tab" data-tab="analytics-journals-in-tables" data-group="analytics-journals-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-journals-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-table-name-radio" name="analytics-journals-in-table-radio" onClick="toggle_analytics_journals_in_table_radio()" value="name" {{analytics-journals-in-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-in-table-name" name="analytics-journals-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-in-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-in-table-id-radio" name="analytics-journals-in-table-radio" onClick="toggle_analytics_journals_in_table_radio()" value="id" {{analytics-journals-in-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-in-table-id" name="analytics-journals-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-in-table-id-value}}" >
@@ -897,13 +861,12 @@
         <!-- (27) WITH TABLES -->
         <div class="tab" data-tab="analytics-journals-with-tables" data-group="analytics-journals-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-journals-with-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-table-name-radio" name="analytics-journals-with-table-radio" onClick="toggle_analytics_journals_with_table_radio()" value="name" {{analytics-journals-with-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-journals-with-table-name" name="analytics-journals-with-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-journals-with-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-journals-with-table-id-radio" name="analytics-journals-with-table-radio" onClick="toggle_analytics_journals_with_table_radio()" value="id" {{analytics-journals-with-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-journals-with-table-id" name="analytics-journals-with-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-journals-with-table-id-value}}" >
@@ -939,7 +902,7 @@
     </div>
 
     <!-- SUBMIT -->
-    <button type="submit" class="analytics-journals-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'ANALYTICS.Journals'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+    <button type="submit" id="analytics-journals-submit" class="analytics-journals-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'ANALYTICS.Journals'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
     <!-- LIST HEADER -->
     <div class="analytics-journals-header">

@@ -2,7 +2,7 @@
 *
 * module/analytics-items.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -382,48 +382,126 @@ export class AnalyticsItems extends AnalyticsForm {
     }
 
     // create item list.
-    buildList(item) {
+    buildList() {
 
         // active tab.
-        var primary     = this.sortOptions().primary;
-        var secondary   = this.sortOptions().secondary;
-        var item_option = this.item_options[primary];
-        var item_list   = this.item_lists[primary];
-        var item_name   = item.data.name;
+        var primary       = this.sortOptions().primary;
+        var secondary     = this.sortOptions().secondary;
+        var item_option   = this.item_options[primary];
+        var item_list     = this.item_lists[primary];
+        var message_added = false;
 
-        // each tab.
-        switch (secondary) {
-            case "items_in_actors":
-                // reset counters.
-                var actor_option = this.actor_options[secondary];
-                actor_option.actor_count = 0;
-                break;
-            case "items_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "items_with_items":
-                // reset counters.
-                var item_option = this.item_options[secondary];
-                item_option.item_count = 0;
-                break;
-            case "items_with_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "items_with_macros":
-                // reset counters.
-                var macro_option = this.macro_options[secondary];
-                macro_option.macro_count = 0;
-                break;
-            case "items_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        item_option.item_count = 0;
+        item_option.item_macro_count = 0;
+        item_list.splice(0, item_list.length);
+
+        // *** SEARCH items.
+        item_option.searchItems(game.items);
+
+        // iterate thru matching items.
+        item_option.matching_items.forEach((item, i) => {
+
+            var item_name  = item.data.name;
+            var item_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "items_in_actors":
+                    // reset counters.
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.actor_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    actor_option.matching_actors = [ ];
+                    break;
+                case "items_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(item_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "items_within_items_16":
+                    // reset counters.
+                    var item_option = this.item_options[secondary];
+                    item_option.item_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    item_option.matching_items = [ ];
+                    break;
+                case "items_in_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "items_with_macros":
+                    // reset counters.
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.macro_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    macro_option.matching_macros = [ ];
+                    break;
+                case "items_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(item_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+            };
+        }); // forEach matching Item.
+
+        // reset matching array.
+        item_option.matching_items = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -435,53 +513,8 @@ export class AnalyticsItems extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary     = this.sortOptions().primary;
-        var secondary   = this.sortOptions().secondary;
-        var item_option = this.item_options[primary];
-        var item_list   = this.item_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        item_option.item_count = 0;
-        item_option.item_macro_count = 0;
-        item_list.splice(0, item_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "items_in_actors":
-                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "items_in_compendiums":
-                this.addMessage(item_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "items_within_items_16":
-                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "items_in_journals":
-                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "items_with_macros":
-                this.addMessage(item_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "items_in_tables":
-                this.addMessage(item_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-items-submit");
@@ -491,11 +524,8 @@ export class AnalyticsItems extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through item list ...
-        game.items.contents.forEach((item, i) => {
-            if (game.items.contents[i]) {
-            };
-        }); // forEach Item.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

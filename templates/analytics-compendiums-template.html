@@ -18,15 +18,6 @@
             document.getElementById("analytics-compendiums-with-actor-swarm").disabled          = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
             document.getElementById("analytics-compendiums-with-actor-undead").disabled         = !document.getElementById("analytics-compendiums-with-actor-npc").checked;
         }
-        function toggle_analytics_compendiums_with_item_macro() {
-            document.getElementById("analytics-compendiums-with-item-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-id").disabled             = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-name-radio").disabled     = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-id-radio").disabled       = !document.getElementById("analytics-compendiums-with-item-macro").checked;
-            if (document.getElementById("analytics-compendiums-with-item-macro").checked) toggle_analytics_compendiums_with_item_macro_radio();
-        }
         function toggle_analytics_compendiums_with_item_on_use_macro() {
             document.getElementById("analytics-compendiums-with-item-on-use-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-item-on-use-macro").checked;
             document.getElementById("analytics-compendiums-with-item-on-use-macro-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-on-use-macro").checked;
@@ -59,12 +50,6 @@
             document.getElementById("analytics-compendiums-with-item-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-name-radio").checked;
             document.getElementById("analytics-compendiums-with-item-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-item-name-radio").checked;
             document.getElementById("analytics-compendiums-with-item-id").disabled             = !document.getElementById("analytics-compendiums-with-item-id-radio").checked;
-        }
-        function toggle_analytics_compendiums_with_item_macro_radio() {
-            document.getElementById("analytics-compendiums-with-item-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-item-macro-name-radio").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-case-sensitive").disabled = !document.getElementById("analytics-compendiums-with-item-macro-name-radio").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-exact-match").disabled    = !document.getElementById("analytics-compendiums-with-item-macro-name-radio").checked;
-            document.getElementById("analytics-compendiums-with-item-macro-id").disabled             = !document.getElementById("analytics-compendiums-with-item-macro-id-radio").checked;
         }
         function toggle_analytics_compendiums_with_item_on_use_macro_radio() {
             document.getElementById("analytics-compendiums-with-item-on-use-macro-name").disabled           = !document.getElementById("analytics-compendiums-with-item-on-use-macro-name-radio").checked;
@@ -137,13 +122,12 @@
     <!-- COMPENDIUMS -->
     <div class="analytics-compendiums-controls">
 
-        <!-- COMPENDIUM NAME -->
+        <!-- COMPENDIUM -->
         <label for="analytics-compendiums-name"><i class="fas fa-atlas"></i>&nbsp;{{localize 'ANALYTICS.Compendiums'}}</label>
         <div>
             <input type="radio" class="analytics-radio" id="analytics-compendiums-name-radio" name="analytics-compendiums-radio" onClick="toggle_analytics_compendiums_radio()" value="name" {{analytics-compendiums-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-compendiums-name" name="analytics-compendiums-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-name-value}}" >
         </div>
-        <!-- COMPENDIUM ID -->
         <div>
             <input type="radio" class="analytics-radio" id="analytics-compendiums-id-radio" name="analytics-compendiums-radio" onClick="toggle_analytics_compendiums_radio()" value="id" {{analytics-compendiums-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-compendiums-id" name="analytics-compendiums-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-id-value}}" >
@@ -171,13 +155,12 @@
         <!-- (1) WITH ACTORS -->
         <div class="tab" data-tab="analytics-compendiums-with-actors" data-group="analytics-compendiums-group">
 
-            <!-- ACTOR NAME -->
+            <!-- ACTOR -->
             <label for="analytics-compendiums-with-actor-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-actor-name-radio" name="analytics-compendiums-with-actor-radio" onClick="toggle_analytics_compendiums_with_actor_radio()" value="name" {{analytics-compendiums-with-actor-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-actor-name" name="analytics-compendiums-with-actor-name" data-dtype="String" title="{{localize 'DOCUMENT.Actors'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-actor-name-value}}" >
             </div>
-            <!-- ACTOR ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-actor-id-radio" name="analytics-compendiums-with-actor-radio" onClick="toggle_analytics_compendiums_with_actor_radio()" value="id" {{analytics-compendiums-with-actor-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-actor-id" name="analytics-compendiums-with-actor-id" data-dtype="String" title="{{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-actor-id-value}}" >
@@ -289,13 +272,12 @@
         <!-- (6) WITH CARDS -->
         <div class="tab" data-tab="analytics-compendiums-with-cards" data-group="analytics-compendiums-group">
 
-            <!-- CARD NAME -->
+            <!-- CARD -->
             <label for="analytics-compendiums-with-card-name"><i class="fas fa-id-badge"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'CARDS.HeaderCards'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-card-name-radio" name="analytics-compendiums-with-card-radio" onClick="toggle_analytics_compendiums_with_card_radio()" value="name" {{analytics-compendiums-with-card-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-card-name" name="analytics-compendiums-with-card-name" data-dtype="String" title="{{localize 'CARDS.HeaderCards'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-card-name-value}}" >
             </div>
-            <!-- CARD ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-card-id-radio" name="analytics-compendiums-with-card-radio" onClick="toggle_analytics_compendiums_with_card_radio()" value="id" {{analytics-compendiums-with-card-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-card-id" name="analytics-compendiums-with-card-id" data-dtype="String" title="{{localize 'CARDS.HeaderCards'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-card-id-value}}" >
@@ -332,13 +314,12 @@
         <!-- (9) WITH ITEMS -->
         <div class="tab" data-tab="analytics-compendiums-with-items" data-group="analytics-compendiums-group">
 
-            <!-- ITEM NAME -->
+            <!-- ITEM -->
             <label for="analytics-compendiums-with-item-name"><i class="fas fa-suitcase"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Items'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-item-name-radio" name="analytics-compendiums-with-item-radio" onClick="toggle_analytics_compendiums_with_item_radio()" value="name" {{analytics-compendiums-with-item-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-item-name" name="analytics-compendiums-with-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-item-name-value}}" >
             </div>
-            <!-- ITEM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-item-id-radio" name="analytics-compendiums-with-item-radio" onClick="toggle_analytics_compendiums_with_item_radio()" value="id" {{analytics-compendiums-with-item-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-item-id" name="analytics-compendiums-with-item-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-item-id-value}}" >
@@ -397,31 +378,14 @@
             </div>
             <hr>
 
-            <!-- MACRO NAME -->
+            <!-- ITEM MACRO -->
             <div class="form-group" id="analytics-compendiums-with-item-macro-label">
-                <label for="analytics-compendiums-with-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Macros'}}</label>
-                <input type="checkbox" id="analytics-compendiums-with-item-macro" name="analytics-compendiums-with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_compendiums_with_item_macro()" {{analytics-compendiums-with-item-macro-checked}} />
-            </div>
-            <div id="analytics-compendiums-with-item-macro-name-input">
-                <input type="radio" class="analytics-radio" id="analytics-compendiums-with-item-macro-name-radio" name="analytics-compendiums-with-item-macro-radio" onClick="toggle_analytics_compendiums_with_item_macro_radio()" value="name" {{analytics-compendiums-with-item-macro-name-radio-checked}} >
-                <input type="text" class="analytics-name" id="analytics-compendiums-with-item-macro-name" name="analytics-compendiums-with-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-item-macro-name-value}}" >
-            </div>
-            <!-- MACRO ID -->
-            <div>
-                <input type="radio" class="analytics-radio" id="analytics-compendiums-with-item-macro-id-radio" name="analytics-compendiums-with-item-macro-radio" onClick="toggle_analytics_compendiums_with_item_macro_radio()" value="id" {{analytics-compendiums-with-item-macro-id-radio-checked}} >
-                <input type="text" class="analytics-id" id="analytics-compendiums-with-item-macro-id" name="analytics-compendiums-with-item-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-item-macro-id-value}}" >
-            </div>
-            <div class="form-group" id="analytics-compendiums-with-item-macro-case-sensitive-label">
-                <label for="analytics-compendiums-with-item-macro-case-sensitive" id="analytics-compendiums-with-item-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-                <input type="checkbox" id="analytics-compendiums-with-item-macro-case-sensitive" name="analytics-compendiums-with-item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-compendiums-with-item-macro-case-sensitive-checked}} />
-            </div>
-            <div class="form-group" id="analytics-compendiums-with-item-macro-exact-match-label">
-                <label for="analytics-compendiums-with-item-macro-exact-match" id="analytics-compendiums-with-item-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-                <input type="checkbox" id="analytics-compendiums-with-item-macro-exact-match" name="analytics-compendiums-with-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-compendiums-with-item-macro-exact-match-checked}} />
+                <label for="analytics-compendiums-with-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Item'}} {{localize 'DOCUMENT.Macro'}}</label>
+                <input type="checkbox" id="analytics-compendiums-with-item-macro" name="analytics-compendiums-with-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Item'}} {{localize 'DOCUMENT.Macro'}}" data-dtype="Boolean" {{analytics-compendiums-with-item-macro-checked}} />
             </div>
             <hr id="analytics-compendiums-with-item-macro-thematic-break">
 
-            <!-- ON USE MACRO NAME -->
+            <!-- ON USE MACROS -->
             <div class="form-group" id="analytics-compendiums-with-item-on-use-macro-label">
                 <label for="analytics-compendiums-with-item-on-use-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
                 <input type="checkbox" id="analytics-compendiums-with-item-on-use-macro" name="analytics-compendiums-with-item-on-use-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_compendiums_with_item_on_use_macro()" {{analytics-compendiums-with-item-on-use-macro-checked}} />
@@ -430,7 +394,6 @@
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-item-on-use-macro-name-radio" name="analytics-compendiums-with-item-on-use-macro-radio" onClick="toggle_analytics_compendiums_with_item_on_use_macro_radio()" value="name" {{analytics-compendiums-with-item-on-use-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-item-on-use-macro-name" name="analytics-compendiums-with-item-on-use-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-item-on-use-macro-name-value}}" >
             </div>
-            <!-- ON USE MACRO ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-item-on-use-macro-id-radio" name="analytics-compendiums-with-item-on-use-macro-radio" onClick="toggle_analytics_compendiums_with_item_on_use_macro_radio()" value="id" {{analytics-compendiums-with-item-on-use-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-item-on-use-macro-id" name="analytics-compendiums-with-item-on-use-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-item-on-use-macro-id-value}}" >
@@ -459,13 +422,12 @@
         <!-- (10) WITH JOURNALS -->
         <div class="tab" data-tab="analytics-compendiums-with-journals" data-group="analytics-compendiums-group">
 
-            <!-- JOURNAL NAME -->
+            <!-- JOURNAL -->
             <label for="analytics-compendiums-with-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-journal-name-radio" name="analytics-compendiums-with-journal-radio" onClick="toggle_analytics_compendiums_with_journal_radio()" value="name" {{analytics-compendiums-with-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-journal-name" name="analytics-compendiums-with-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-journal-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-journal-id-radio" name="analytics-compendiums-with-journal-radio" onClick="toggle_analytics_compendiums_with_journal_radio()" value="id" {{analytics-compendiums-with-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-journal-id" name="analytics-compendiums-with-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-journal-id-value}}" >
@@ -544,13 +506,12 @@
         <!-- (11) WITH MACROS -->
         <div class="tab" data-tab="analytics-compendiums-with-macros" data-group="analytics-compendiums-group">
 
-            <!-- MACRO NAME -->
+            <!-- MACRO -->
             <label for="analytics-compendiums-with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-macro-name-radio" name="analytics-compendiums-with-macro-radio" onClick="toggle_analytics_compendiums_with_macro_radio()" value="name" {{analytics-compendiums-with-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-macro-name" name="analytics-compendiums-with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-macro-name-value}}" >
             </div>
-            <!-- MACRO ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-macro-id-radio" name="analytics-compendiums-with-macro-radio" onClick="toggle_analytics_compendiums_with_macro_radio()" value="id" {{analytics-compendiums-with-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-macro-id" name="analytics-compendiums-with-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-macro-id-value}}" >
@@ -587,13 +548,12 @@
         <!-- (12) WITH PLAYLISTS -->
         <div class="tab" data-tab="analytics-compendiums-with-playlists" data-group="analytics-compendiums-group">
 
-            <!-- PLAYLIST NAME -->
+            <!-- PLAYLIST -->
             <label for="analytics-compendiums-with-playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-playlist-name-radio" name="analytics-compendiums-with-playlist-radio" onClick="toggle_analytics_compendiums_with_playlist_radio()" value="name" {{analytics-compendiums-with-playlist-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-playlist-name" name="analytics-compendiums-with-playlist-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-playlist-name-value}}" >
             </div>
-            <!-- PLAYLIST ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-playlist-id-radio" name="analytics-compendiums-with-playlist-radio" onClick="toggle_analytics_compendiums_with_playlist_radio()" value="id" {{analytics-compendiums-with-playlist-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-playlist-id" name="analytics-compendiums-with-playlist-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlists'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-playlist-id-value}}" >
@@ -630,13 +590,12 @@
         <!-- (13) WITH SCENES -->
         <div class="tab" data-tab="analytics-compendiums-with-scenes" data-group="analytics-compendiums-group">
 
-            <!-- SCENE NAME -->
+            <!-- SCENE -->
             <label for="analytics-compendiums-with-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-scene-name-radio" name="analytics-compendiums-with-scene-radio" onClick="toggle_analytics_compendiums_with_scene_radio()" value="name" {{analytics-compendiums-with-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-scene-name" name="analytics-compendiums-with-scene-with-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-scene-name-value}}" >
             </div>
-            <!-- SCENE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-scene-id-radio" name="analytics-compendiums-with-scene-radio" onClick="toggle_analytics_compendiums_with_scene_radio()" value="id" {{analytics-compendiums-with-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-scene-id" name="analytics-compendiums-with-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-scene-id-value}}" >
@@ -673,13 +632,12 @@
         <!-- (14) WITH TABLES -->
         <div class="tab" data-tab="analytics-compendiums-with-tables" data-group="analytics-compendiums-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-compendiums-with-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-table-name-radio" name="analytics-compendiums-with-table-radio" onClick="toggle_analytics_compendiums_with_table_radio()" value="name" {{analytics-compendiums-with-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-with-table-name" name="analytics-compendiums-with-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-with-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-with-table-id-radio" name="analytics-compendiums-with-table-radio" onClick="toggle_analytics_compendiums_with_table_radio()" value="id" {{analytics-compendiums-with-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-with-table-id" name="analytics-compendiums-with-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-with-table-id-value}}" >
@@ -716,13 +674,12 @@
         <!-- (15) IN TABLES -->
         <div class="tab" data-tab="analytics-compendiums-in-tables" data-group="analytics-compendiums-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-compendiums-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-in-table-name-radio" name="analytics-compendiums-in-table-radio" onClick="toggle_analytics_compendiums_in_table_radio()" value="name" {{analytics-compendiums-in-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-compendiums-in-table-name" name="analytics-compendiums-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-compendiums-in-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-compendiums-in-table-id-radio" name="analytics-compendiums-in-table-radio" onClick="toggle_analytics_compendiums_in_table_radio()" value="id" {{analytics-compendiums-in-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-compendiums-in-table-id" name="analytics-compendiums-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-compendiums-in-table-id-value}}" >
@@ -758,7 +715,7 @@
     </div>
 
     <!-- SUBMIT -->
-    <button type="submit" class="analytics-compendiums-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'ANALYTICS.Compendiums'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+    <button type="submit" id="analytics-compendiums-submit" class="analytics-compendiums-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'ANALYTICS.Compendiums'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
     <!-- LIST HEADER -->
     <div class="analytics-compendiums-header">

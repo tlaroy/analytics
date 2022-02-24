@@ -99,13 +99,12 @@
     <!-- SCENES -->
     <div class="analytics-scenes-controls">
 
-        <!-- SCENE NAME -->
+        <!-- SCENE -->
         <label for="analytics-scenes-name"><i class="fas fa-map"></i>&nbsp;{{localize 'DOCUMENT.Scenes'}}</label>
         <div>
             <input type="radio" class="analytics-radio" id="analytics-scenes-name-radio" name="analytics-scenes-radio" onClick="toggle_analytics_scenes_radio()" value="name" {{analytics-scenes-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-scenes-name" name="analytics-scenes-name" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-name-value}}" >
         </div>
-        <!-- SCENE ID -->
         <div>
             <input type="radio" class="analytics-radio" id="analytics-scenes-id-radio" name="analytics-scenes-radio" onClick="toggle_analytics_scenes_radio()" value="id" {{analytics-scenes-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-scenes-id" name="analytics-scenes-id" data-dtype="String" title="{{localize 'DOCUMENT.Scenes'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-id-value}}" >
@@ -133,13 +132,12 @@
         <!-- (4) WITH ACTORS AS TOKENS -->
         <div class="tab" data-tab="analytics-scenes-with-actors-as-tokens" data-group="analytics-scenes-group">
 
-            <!-- ACTOR NAME -->
+            <!-- ACTOR -->
             <label for="analytics-scenes-with-actor-as-token-name"><i class="fas fa-users"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Actors'}} {{localize 'ANALYTICS.As'}} {{localize 'DOCUMENT.Tokens'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-actor-as-token-name-radio" name="analytics-scenes-with-actor-as-token-radio" onClick="toggle_analytics_scenes_with_actor_as_token_radio()" value="name" {{analytics-scenes-with-actor-as-token-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-with-actor-as-token-name" name="analytics-scenes-with-actor-as-token-name" data-dtype="String" title="{{localize 'DOCUMENT.Actor'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-actor-as-token-name-value}}" >
             </div>
-            <!-- ACTOR ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-actor-as-token-id-radio" name="analytics-scenes-with-actor-as-token-radio" onClick="toggle_analytics_scenes_with_actor_as_token_radio()" value="id" {{analytics-scenes-with-actor-as-token-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-with-actor-as-token-id" name="analytics-scenes-with-actor-as-token-id" data-dtype="String" title="{{localize 'DOCUMENT.Actor'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-actor-as-token-id-value}}" >
@@ -251,13 +249,12 @@
         <!-- (13) IN COMPENDIUMS -->
         <div class="tab" data-tab="analytics-scenes-in-compendiums" data-group="analytics-scenes-group">
 
-            <!-- COMPENDIUM NAME -->
+            <!-- COMPENDIUM -->
             <label for="analytics-scenes-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-in-compendium-name-radio" name="analytics-scenes-in-compendium-radio" onClick="toggle_analytics_scenes_in_compendium_radio()" value="name" {{analytics-scenes-in-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-in-compendium-name" name="analytics-scenes-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-in-compendium-name-value}}" >
             </div>
-            <!-- COMPENDIUM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-in-compendium-id-radio" name="analytics-scenes-in-compendium-radio" onClick="toggle_analytics_scenes_in_compendium_radio()" value="id" {{analytics-scenes-in-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-in-compendium-id" name="analytics-scenes-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.ANALYTICS.ID'}} {{localize 'Name'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-in-compendium-id-value}}" >
@@ -294,13 +291,12 @@
         <!-- (23) IN JOURNALS -->
         <div class="tab" data-tab="analytics-scenes-in-journals" data-group="analytics-scenes-group">
 
-            <!-- JOURNAL NAME -->
+            <!-- JOURNAL -->
             <label for="analytics-scenes-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-in-journal-name-radio" name="analytics-scenes-in-journal-radio" onClick="toggle_analytics_scenes_in_journal_radio()" value="name" {{analytics-scenes-in-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-in-journal-name" name="analytics-scenes-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-in-journal-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-in-journal-id-radio" name="analytics-scenes-in-journal-radio" onClick="toggle_analytics_scenes_in_journal_radio()" value="id" {{analytics-scenes-in-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-in-journal-id" name="analytics-scenes-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-in-journal-id-value}}" >
@@ -379,13 +375,12 @@
         <!-- (24) WITH JOURNALS -->
         <div class="tab" data-tab="analytics-scenes-with-journals" data-group="analytics-scenes-group">
 
-            <!-- JOURNAL NAME -->
+            <!-- JOURNAL -->
             <label for="analytics-scenes-with-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-name-radio" name="analytics-scenes-with-journal-radio" onClick="toggle_analytics_scenes_with_journal_radio()" value="name" {{analytics-scenes-with-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-with-journal-name" name="analytics-scenes-with-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-journal-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-id-radio" name="analytics-scenes-with-journal-radio" onClick="toggle_analytics_scenes_with_journal_radio()" value="id" {{analytics-scenes-with-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-with-journal-id" name="analytics-scenes-with-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-journal-id-value}}" >
@@ -464,13 +459,12 @@
         <!-- (25) WITH JOURNALS AS PINS -->
         <div class="tab" data-tab="analytics-scenes-with-journals-as-pins" data-group="analytics-scenes-group">
 
-            <!-- JOURNAL PIN NAME -->
+            <!-- JOURNAL PIN -->
             <label for="analytics-scenes-with-journal-as-pin-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.As'}} {{localize 'ANALYTICS.Pins'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-as-pin-name-radio" name="analytics-scenes-with-journal-as-pin-radio" onClick="toggle_analytics_scenes_with_journal_as_pin_radio()" value="name" {{analytics-scenes-with-journal-as-pin-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-with-journal-as-pin-name" name="analytics-scenes-with-journal-as-pin-name" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} ({{localize 'ANALYTICS.Pins'}}) {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-journal-as-pin-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-journal-as-pin-id-radio" name="analytics-scenes-with-journal-as-pin-radio" onClick="toggle_analytics_scenes_with_journal_as_pin_radio()" value="id" {{analytics-scenes-with-journal-as-pin-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-with-journal-as-pin-id" name="analytics-scenes-with-journal-as-pin-id" data-dtype="String" title="{{localize 'DOCUMENT.JournalEntries'}} ({{localize 'ANALYTICS.Pins'}}) {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-journal-as-pin-id-value}}" >
@@ -549,13 +543,12 @@
         <!-- (30) WITH PLAYLISTS -->
         <div class="tab" data-tab="analytics-scenes-with-playlists" data-group="analytics-scenes-group">
 
-            <!-- PLAYLIST NAME -->
+            <!-- PLAYLIST -->
             <label for="analytics-scenes-with-playlist-name"><i class="fas fa-music"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Playlists'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-playlist-name-radio" name="analytics-scenes-with-playlist-radio" onClick="toggle_analytics_scenes_with_playlist_radio()" value="name" {{analytics-scenes-with-playlist-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-with-playlist-name" name="analytics-scenes-with-playlist-name" data-dtype="String" title="{{localize 'DOCUMENT.Playlist'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-playlist-name-value}}" >
             </div>
-            <!-- PLAYLIST ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-playlist-id-radio" name="analytics-scenes-with-playlist-radio" onClick="toggle_analytics_scenes_with_playlist_radio()" value="id" {{analytics-scenes-with-playlist-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-with-playlist-id" name="analytics-scenes-with-playlist-id" data-dtype="String" title="{{localize 'DOCUMENT.Playlist'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-playlist-id-value}}" >
@@ -592,13 +585,12 @@
         <!-- (32) IN TABLES -->
         <div class="tab" data-tab="analytics-scenes-in-tables" data-group="analytics-scenes-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-scenes-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-in-table-name-radio" name="analytics-scenes-in-table-radio" onClick="toggle_analytics_scenes_in_table_radio()" value="name" {{analytics-scenes-in-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-in-table-name" name="analytics-scenes-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-in-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-in-table-id-radio" name="analytics-scenes-in-table-radio" onClick="toggle_analytics_scenes_in_table_radio()" value="id" {{analytics-scenes-in-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-in-table-id" name="analytics-scenes-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-in-table-id-value}}" >
@@ -635,13 +627,12 @@
         <!-- (33) WITH TILES -->
         <div class="tab" data-tab="analytics-scenes-with-tiles" data-group="analytics-scenes-group">
 
-            <!-- TILE NAME -->
+            <!-- TILE -->
             <label for="analytics-scenes-with-tile-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Tiles'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-tile-name-radio" name="analytics-scenes-with-tile-radio" onClick="toggle_analytics_scenes_with_tile_radio()" value="name" {{analytics-scenes-with-tile-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-scenes-with-tile-name" name="analytics-scenes-with-tile-name" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-scenes-with-tile-name-value}}" >
             </div>
-            <!-- TILE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-scenes-with-tile-id-radio" name="analytics-scenes-with-tile-radio" onClick="toggle_analytics_scenes_with_tile_radio()" value="id" {{analytics-scenes-with-tile-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-scenes-with-tile-id" name="analytics-scenes-with-tile-id" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-scenes-with-tile-id-value}}" >
@@ -677,7 +668,7 @@
     </div>
 
     <!-- SUBMIT -->
-    <button type="submit" class="analytics-scenes-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Scenes'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+    <button type="submit" id="analytics-scenes-submit" class="analytics-scenes-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Scenes'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
     <!-- LIST HEADER -->
     <div class="analytics-scenes-header">

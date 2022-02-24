@@ -1,22 +1,33 @@
-# v0.1.0 
-2022-XX-XX
+# v0.1.0
+2022-xx-xx
 
-Phase I Searches.
+Feature set complete.
+
+# v0.0.12
+2022-xx-xx
+
+Secondary Searches.
+
+# v0.0.11
+2022-02-24
+
+Actors/Items, Actors/Journals, Actors/Scenes - Search by ID and "Item Macro".
+Primary Searches.
 
 # v0.0.10
 2022-02-22
 
-"ItemMacro" fields.
+Forms - "Item Macro" fields.
 
 # v0.0.9
 2022-02-18
 
-ID fields and ID in results.
+Forms - ID fields and show ID in results.
 
 # v0.0.8
 2022-02-09
 
-Cards, Compendiums, Items, Journals, Macros, Playlists, Scenes, Tables, Tiles - Forms.
+Forms - Cards, Compendiums, Items, Journals, Macros, Playlists, Scenes, Tables, Tiles.
 
 # v0.0.7
 2022-02-02
@@ -26,8 +37,8 @@ Actors - Labeling and Localization.
 # v0.0.6
 2022-02-01
 
-Actors/Journals - Journal Searches (Phase I).<br>
-Actors/Scenes - Scene Searches (Phase I).
+Actors - Journal Searches.<br>
+Actors - Scene Searches.
 
 # v0.0.5
 2022-01-28
@@ -42,15 +53,15 @@ Actors - Item "On Use" Macros.
 # v0.0.3
 2022-01-25
 
-Actors - Item options.
+Actors - Item Options.
 
 # v0.0.2
 2022-01-23
 
 Actors - Form.
-Actors - Item Searches (Phase I).
+Actors - Item Searches.
 
 # v0.0.1
 2022-01-17
 
-Initial alpha release. Basic module with Settings, Toolbar and placeholder Forms.
+Basic module Settings, Toolbar and placeholder Forms.

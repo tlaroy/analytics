@@ -2,7 +2,7 @@
 *
 * module/analytics-cards.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -281,33 +281,80 @@ export class AnalyticsCards extends AnalyticsForm {
     }
 
     // create card list.
-    buildList(card) {
+    buildList() {
 
         // active tab.
-        var primary     = this.sortOptions().primary;
-        var secondary   = this.sortOptions().secondary;
-        var card_option = this.card_options[primary];
-        var card_list   = this.card_lists[primary];
-        var card_name   = card.data.name;
+        var primary       = this.sortOptions().primary;
+        var secondary     = this.sortOptions().secondary;
+        var card_option   = this.card_options[primary];
+        var card_list     = this.card_lists[primary];
+        var message_added = false;
 
-        // each tab.
-        switch (secondary) {
-            case "cards_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "cards_in_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "cards_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        card_option.card_count = 0;
+        card_list.splice(0, card_list.length);
+
+        // *** SEARCH cards.
+        card_option.searchCards(game.cards);
+
+        // iterate thru matching cards.
+        card_option.matching_cards.forEach((card, i) => {
+
+            var card_name  = card.data.name;
+            var card_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "cards_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "cards_in_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "cards_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+            };
+        }); // forEach matching Card.
+
+        // reset matching array.
+        card_option.matching_cards = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -319,37 +366,8 @@ export class AnalyticsCards extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary     = this.sortOptions().primary;
-        var secondary   = this.sortOptions().secondary;
-        var card_option = this.card_options[primary];
-        var card_list   = this.card_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        card_option.card_count = 0;
-        card_list.splice(0, card_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "cards_in_compendiums":
-                this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "cards_in_journals":
-                this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "cards_in_tables":
-                this.addMessage(card_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-cards-submit");
@@ -359,11 +377,8 @@ export class AnalyticsCards extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through card list ...
-        game.cards.contents.forEach((card, i) => {
-            if (game.cards.contents[i]) {
-            };
-        }); // forEach Card.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

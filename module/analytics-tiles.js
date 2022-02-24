@@ -2,7 +2,7 @@
 *
 * module/analytics-tiles.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -247,28 +247,59 @@ export class AnalyticsTiles extends AnalyticsForm {
     }
 
     // create tile list.
-    buildList(tile) {
+    buildList() {
 
         // active tab.
-        var primary     = this.sortOptions().primary;
-        var secondary   = this.sortOptions().secondary;
-        var tile_option = this.tile_options[primary];
-        var tile_list   = this.tile_lists[primary];
-        var tile_name   = tile.data.name;
+        var primary       = this.sortOptions().primary;
+        var secondary     = this.sortOptions().secondary;
+        var tile_option   = this.tile_options[primary];
+        var tile_list     = this.tile_lists[primary];
+        var message_added = false;
 
-        // each tab.
-        switch (secondary) {
-            case "tiles_with_macros":
-                // reset counters.
-                var macro_option = this.macro_options[secondary];
-                macro_option.macro_count = 0;
-                break;
-            case "tiles_in_scenes":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
-                break;
+        // reset counters and lists.
+        tile_option.tile_count = 0;
+        tile_list.splice(0, tile_list.length);
+
+        // only add one message to list.
+        if (!message_added) {
+            // *** ADD MESSAGE ***
+            this.addMessage(tile_list, i18n("ANALYTICS.Phase2"));
+            message_added = true;
+            return;
         };
+
+        // *** SEARCH tiles.
+        tile_option.searchTiles(game.tiles);
+
+        // iterate thru matching tables.
+        tile_option.matching_tiles.forEach((tile, i) => {
+
+            var tile_name  = tile.data.name;
+            var tile_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "tiles_with_macros":
+                    // reset counters.
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.macro_count = 0;
+
+                    // reset matching arrays.
+                    macro_option.matching_macros = [ ];
+                    break;
+                case "tiles_in_scenes":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    break;
+            };
+        }); // forEach matching Tile.
+
+        // reset matching array.
+        tile_option.matching_tiles = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -280,32 +311,8 @@ export class AnalyticsTiles extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary     = this.sortOptions().primary;
-        var secondary   = this.sortOptions().secondary;
-        var tile_option = this.tile_options[primary];
-        var tile_list   = this.tile_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        tile_option.tile_count = 0;
-        tile_list.splice(0, tile_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "tiles_with_macros":
-                this.addMessage(tile_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "tiles_in_scenes":
-                this.addMessage(tile_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-tiles-submit");
@@ -315,11 +322,8 @@ export class AnalyticsTiles extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through tile list ...
-        game.tiles.contents.forEach((tile, i) => {
-            if (game.tiles.contents[i]) {
-            };
-        }); // forEach Tile.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

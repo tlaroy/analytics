@@ -2,7 +2,7 @@
 *
 * module/analytics-scenes.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -444,58 +444,155 @@ export class AnalyticsScenes extends AnalyticsForm {
     }
 
     // create scene list.
-    buildList(scene) {
+    buildList() {
 
         // active tab.
-        var primary      = this.sortOptions().primary;
-        var secondary    = this.sortOptions().secondary;
-        var scene_option = this.scene_options[primary];
-        var scene_list   = this.scene_lists[primary];
-        var scene_name   = scene.data.name;
+        var primary       = this.sortOptions().primary;
+        var secondary     = this.sortOptions().secondary;
+        var scene_option  = this.scene_options[primary];
+        var scene_list    = this.scene_lists[primary];
+        var message_added = false;
 
-        // each tab.
-        switch (secondary) {
-            case "scenes_with_actors_as_tokens":
-                // reset counters.
-                var actor_option = this.actor_options[secondary];
-                actor_option.actor_count = 0;
-                break;
-            case "scenes_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "scenes_in_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "scenes_with_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "scenes_with_journals_as_pins":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "scenes_with_playlists":
-                // reset counters.
-                var playlist_option = this.playlist_options[secondary];
-                playlist_option.playlist_count = 0;
-                break;
-            case "scenes_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-            case "scenes_with_tiles":
-                // reset counters.
-                var tile_option = this.tile_options[secondary];
-                tile_option.tile_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        scene_option.scene_count = 0;
+        scene_list.splice(0, scene_list.length);
+
+        // *** SEARCH scenes.
+        scene_option.searchScenes(game.scenes);
+
+        // iterate thru matching scenes.
+        scene_option.matching_scenes.forEach((scene, i) => {
+
+            var scene_name  = scene.data.name;
+            var scene_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "scenes_with_actors_as_tokens":
+                    // reset counters.
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.actor_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    actor_option.matching_actors = [ ];
+                    break;
+                case "scenes_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "scenes_in_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "scenes_with_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "scenes_with_journals_as_pins":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "scenes_with_playlists":
+                    // reset counters.
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.playlist_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    playlist_option.matching_playlists = [ ];
+                    break;
+                case "scenes_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+                case "scenes_with_tiles":
+                    // reset counters.
+                    var tile_option = this.tile_options[secondary];
+                    tile_option.tile_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    tile_option.matching_tiles = [ ];
+                    break;
+            };
+        }); // forEach matching Scene.
+
+        // reset matching array.
+        scene_option.matching_scenes = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -507,62 +604,8 @@ export class AnalyticsScenes extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary      = this.sortOptions().primary;
-        var secondary    = this.sortOptions().secondary;
-        var scene_option = this.scene_options[primary];
-        var scene_list   = this.scene_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        scene_option.scene_count = 0;
-        scene_list.splice(0, scene_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "scenes_with_actors_as_tokens":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_in_compendiums":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_in_journals":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_with_journals":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_with_journals_as_pins":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_with_playlists":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_in_tables":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "scenes_with_tiles":
-                this.addMessage(scene_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-scenes-submit");
@@ -572,11 +615,8 @@ export class AnalyticsScenes extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through scene list ...
-        game.scenes.contents.forEach((scene, i) => {
-            if (game.scenes.contents[i]) {
-            };
-        }); // forEach Scene.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

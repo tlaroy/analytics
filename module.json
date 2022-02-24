@@ -2,7 +2,7 @@
     "name": "analytics",
     "title": "Analytics",
     "description": "Analytics",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "minimumCoreVersion": "9.249",
     "compatibleCoreVersion": "9",
     "author": "Nokturnel",

@@ -2,7 +2,7 @@
 *
 * module/analytics-journals.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -582,78 +582,215 @@ export class AnalyticsJournals extends AnalyticsForm {
     }
 
     // create journal list.
-    buildList(journal) {
+    buildList() {
 
         // active tab.
         var primary        = this.sortOptions().primary;
         var secondary      = this.sortOptions().secondary;
         var journal_option = this.journal_options[primary];
         var journal_list   = this.journal_lists[primary];
-        var journal_name   = journal.data.name;
+        var message_added  = false;
 
-        // each tab.
-        switch (secondary) {
-            case "journals_with_actors":
-                // reset counters.
-                var actor_option = this.actor_options[secondary];
-                actor_option.actor_count = 0;
-                break;
-            case "journals_with_cards":
-                // reset counters.
-                var card_option = this.card_options[secondary];
-                card_option.card_count = 0;
-                break;
-            case "journals_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "journals_with_items":
-                // reset counters.
-                var item_option = this.item_options[secondary];
-                item_option.item_count = 0;
-                break;
-            case "journals_with_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "journals_with_macros":
-                // reset counters.
-                var macro_option = this.macro_options[secondary];
-                macro_option.macro_count = 0;
-                break;
-            case "journals_with_playlists":
-                // reset counters.
-                var playlist_option = this.playlist_options[secondary];
-                playlist_option.playlist_count = 0;
-                break;
-            case "journals_with_scenes":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
-                break;
-            case "journals_in_scenes":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
-                break;
-            case "journals_in_scene_as_pins":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
-                break;
-            case "journals_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-            case "journals_with_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        journal_option.journal_count = 0;
+        journal_list.splice(0, journal_list.length);
+
+        // *** SEARCH journals.
+        journal_option.searchJournals(game.journal);
+
+        // iterate thru matching journals.
+        journal_option.matching_journals.forEach((journal, i) => {
+
+            var journal_name  = journal.data.name;
+            var journal_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "journals_with_actors":
+                    // reset counters.
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.actor_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    actor_option.matching_actors = [ ];
+                    break;
+                case "journals_with_cards":
+                    // reset counters.
+                    var card_option = this.card_options[secondary];
+                    card_option.card_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    card_option.matching_cards = [ ];
+                    break;
+                case "journals_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "journals_with_items":
+                    // reset counters.
+                    var item_option = this.item_options[secondary];
+                    item_option.item_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    item_option.matching_items = [ ];
+                    break;
+                case "journals_within_journals_20":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "journals_with_macros":
+                    // reset counters.
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.macro_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    macro_option.matching_macros = [ ];
+                    break;
+                case "journals_with_playlists":
+                    // reset counters.
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.playlist_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    playlist_option.matching_playlists = [ ];
+                    break;
+                case "journals_with_scenes":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    break;
+                case "journals_in_scenes":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    break;
+                case "journals_in_scenes_as_pins":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    break;
+                case "journals_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+                case "journals_with_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(journal_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+            };
+        }); // forEach matching Journal.
+
+        // reset matching array.
+        journal_option.matching_journals = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -665,82 +802,8 @@ export class AnalyticsJournals extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary        = this.sortOptions().primary;
-        var secondary      = this.sortOptions().secondary;
-        var journal_option = this.journal_options[primary];
-        var journal_list   = this.journal_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        journal_option.journal_count = 0;
-        journal_list.splice(0, journal_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "journals_with_actors":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_with_cards":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "journals_in_compendiums":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "journals_with_items":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_within_journals_20":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_with_macros":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_with_playlists":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_with_scenes":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "journals_in_scenes":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_in_scenes_as_pins":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "journals_in_tables":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "journals_with_tables":
-                this.addMessage(journal_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-journals-submit");
@@ -750,11 +813,8 @@ export class AnalyticsJournals extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through journal list ...
-        game.journals.contents.forEach((journal, i) => {
-            if (game.journals.contents[i]) {
-            };
-        }); // forEach Journal.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

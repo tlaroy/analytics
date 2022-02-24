@@ -34,13 +34,12 @@
     <!-- TILES -->
     <div class="analytics-tiles-controls">
 
-        <!-- TILE NAME -->
+        <!-- TILE -->
         <label for="analytics-tiles-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'DOCUMENT.Tiles'}}</label>
         <div>
             <input type="radio" class="analytics-radio" id="analytics-tiles-name-radio" name="analytics-tiles-radio" onClick="toggle_analytics_tiles_radio()" value="name" {{analytics-tiles-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-tiles-name" name="analytics-tiles-name" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tiles-name-value}}" >
         </div>
-        <!-- TILE ID -->
         <div>
             <input type="radio" class="analytics-radio" id="analytics-tiles-id-radio" name="analytics-tiles-radio" onClick="toggle_analytics_tiles_radio()" value="id" {{analytics-tiles-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-tiles-id" name="analytics-tiles-id" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tiles-id-value}}" >
@@ -68,13 +67,12 @@
         <!-- (29) WITH MACROS -->
         <div class="tab" data-tab="analytics-tiles-with-macros" data-group="analytics-tiles-group">
 
-            <!-- MACRO NAME -->
+            <!-- MACRO -->
             <label for="analytics-tiles-with-macro-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Macros'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-tiles-with-macro-name-radio" name="analytics-tiles-with-macro-radio" onClick="toggle_analytics_tiles_with_macro_radio()" value="name" {{analytics-tiles-with-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tiles-with-macro-name" name="analytics-tiles-with-macro-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{journal-name-value}}" >
             </div>
-            <!-- MACRO ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-tiles-with-macro-id-radio" name="analytics-tiles-with-macro-radio" onClick="toggle_analytics_tiles_with_macro_radio()" value="id" {{analytics-tiles-with-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tiles-with-macro-id" name="analytics-tiles-with-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tiles-with-macro-id-value}}" >
@@ -111,13 +109,12 @@
         <!-- (33) IN SCENES -->
         <div class="tab" data-tab="analytics-tiles-in-scenes" data-group="analytics-tiles-group">
 
-            <!-- SCENE NAME -->
+            <!-- SCENE -->
             <label for="analytics-tiles-in-scene-name"><i class="fas fa-map"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Scenes'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-tiles-in-scene-name-radio" name="analytics-tiles-in-scene-radio" onClick="toggle_analytics_tiles_in_scene_radio()" value="name" {{analytics-tiles-in-scene-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-tiles-in-scene-name" name="analytics-tiles-in-scene-name" data-dtype="String" title="{{localize 'DOCUMENT.Scene'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-tiles-in-scene-name-value}}" >
             </div>
-            <!-- SCENE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-tiles-in-scene-id-radio" name="analytics-tiles-in-scene-radio" onClick="toggle_analytics_tiles_in_scene_radio()" value="id" {{analytics-tiles-in-scene-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-tiles-in-scene-id" name="analytics-tiles-in-scene-id" data-dtype="String" title="{{localize 'DOCUMENT.Scene'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-tiles-in-scene-id-value}}" >
@@ -153,7 +150,7 @@
     </div>
 
     <!-- SUBMIT -->
-    <button type="submit" class="analytics-tiles-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Tiles'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+    <button type="submit" id="analytics-tiles-submit" class="analytics-tiles-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Tiles'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
     <!-- LIST HEADER -->
     <div class="analytics-tiles-header">

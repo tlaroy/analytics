@@ -2,7 +2,7 @@
 *
 * module/analytics-macros.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -348,43 +348,110 @@ export class AnalyticsMacros extends AnalyticsForm {
     }
 
     // create macro list.
-    buildList(macro) {
+    buildList() {
 
         // active tab.
-        var primary      = this.sortOptions().primary;
-        var secondary    = this.sortOptions().secondary;
-        var macro_option = this.macro_options[primary];
-        var macro_list   = this.macro_lists[primary];
-        var macro_name   = macro.data.name;
+        var primary       = this.sortOptions().primary;
+        var secondary     = this.sortOptions().secondary;
+        var macro_option  = this.macro_options[primary];
+        var macro_list    = this.macro_lists[primary];
+        var message_added = false;
 
-        // each tab.
-        switch (secondary) {
-            case "macros_in_compendiums":
-                // reset counters.
-                var compendium_option = this.compendium_options[secondary];
-                compendium_option.compendium_count = 0;
-                break;
-            case "macros_in_items":
-                // reset counters.
-                var item_option = this.item_options[secondary];
-                item_option.item_count = 0;
-                break;
-            case "macros_with_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "macros_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-            case "macros_in_tiles":
-                // reset counters.
-                var tile_option = this.tile_options[secondary];
-                tile_option.tile_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        macro_option.macro_count = 0;
+        macro_list.splice(0, macro_list.length);
+
+        // *** SEARCH macros.
+        macro_option.searchMacros(game.macros);
+
+        // iterate thru matching macros.
+        macro_option.matching_macros.forEach((macro, i) => {
+
+            var macro_name  = macro.data.name;
+            var macro_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "macros_in_compendiums":
+                    // reset counters.
+                    var compendium_option = this.compendium_options[secondary];
+                    compendium_option.compendium_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(macro_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    compendium_option.matching_compendiums = [ ];
+                    break;
+                case "macros_in_items":
+                    // reset counters.
+                    var item_option = this.item_options[secondary];
+                    item_option.item_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(macro_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    item_option.matching_items = [ ];
+                    break;
+                case "macros_in_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(macro_list, i18n("ANALYTICS.Phase1"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "macros_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(macro_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+                case "macros_in_tiles":
+                    // reset counters.
+                    var tile_option = this.tile_options[secondary];
+                    tile_option.tile_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(macro_list, i18n("ANALYTICS.Phase2"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    tile_option.matching_tiles = [ ];
+                    break;
+            };
+        }); // forEach matching Macro.
+
+        // reset matching array.
+        macro_option.matching_macros = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -396,47 +463,8 @@ export class AnalyticsMacros extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary      = this.sortOptions().primary;
-        var secondary    = this.sortOptions().secondary;
-        var macro_option = this.macro_options[primary];
-        var macro_list   = this.macro_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        macro_option.macro_count = 0;
-        macro_list.splice(0, macro_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "macros_in_compendiums":
-                this.addMessage(macro_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "macros_in_items":
-                this.addMessage(macro_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "macros_in_journals":
-                this.addMessage(macro_list, i18n("ANALYTICS.Phase1"));
-                this.render(true);
-                return;
-                break;
-            case "macros_in_tables":
-                this.addMessage(macro_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-            case "macros_in_tiles":
-                this.addMessage(macro_list, i18n("ANALYTICS.Phase2"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-macros-submit");
@@ -446,11 +474,8 @@ export class AnalyticsMacros extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through macro list ...
-        game.macros.contents.forEach((macro, i) => {
-            if (game.macros.contents[i]) {
-            };
-        }); // forEach Macro.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";

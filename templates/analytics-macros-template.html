@@ -1,15 +1,6 @@
 <form onsubmit="event.preventDefault();">
 
     <script>
-        function toggle_analytics_macros_in_item_macro() {
-            document.getElementById("analytics-macros-in-item-macro-name").disabled           = !document.getElementById("analytics-macros-in-item-macro").checked;
-            document.getElementById("analytics-macros-in-item-macro-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-macro").checked;
-            document.getElementById("analytics-macros-in-item-macro-exact-match").disabled    = !document.getElementById("analytics-macros-in-item-macro").checked;
-            document.getElementById("analytics-macros-in-item-macro-id").disabled             = !document.getElementById("analytics-macros-in-item-macro").checked;
-            document.getElementById("analytics-macros-in-item-macro-name-radio").disabled     = !document.getElementById("analytics-macros-in-item-macro").checked;
-            document.getElementById("analytics-macros-in-item-macro-id-radio").disabled       = !document.getElementById("analytics-macros-in-item-macro").checked;
-            if (document.getElementById("analytics-macros-in-item-macro").checked) toggle_analytics_macros_in_item_macro_radio();
-        }
         function toggle_analytics_macros_in_item_on_use_macro() {
             document.getElementById("analytics-macros-in-item-on-use-macro-name").disabled           = !document.getElementById("analytics-macros-in-item-on-use-macro").checked;
             document.getElementById("analytics-macros-in-item-on-use-macro-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-on-use-macro").checked;
@@ -26,7 +17,6 @@
             document.getElementById("analytics-macros-in-item-macro-id").disabled             = !document.getElementById("analytics-macros-in-item-macro").checked;
             document.getElementById("analytics-macros-in-item-macro-name-radio").disabled     = !document.getElementById("analytics-macros-in-item-macro").checked;
             document.getElementById("analytics-macros-in-item-macro-id-radio").disabled       = !document.getElementById("analytics-macros-in-item-macro").checked;
-            if (document.getElementById("analytics-macros-in-item-macro").checked) toggle_analytics_macros_in_item_macro_radio();
         }
         function toggle_analytics_macros_in_compendium_radio() {
             document.getElementById("analytics-macros-in-compendium-name").disabled           = !document.getElementById("analytics-macros-in-compendium-name-radio").checked;
@@ -39,12 +29,6 @@
             document.getElementById("analytics-macros-in-item-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-name-radio").checked;
             document.getElementById("analytics-macros-in-item-exact-match").disabled    = !document.getElementById("analytics-macros-in-item-name-radio").checked;
             document.getElementById("analytics-macros-in-item-id").disabled             = !document.getElementById("analytics-macros-in-item-id-radio").checked;
-        }
-        function toggle_analytics_macros_in_item_macro_radio() {
-            document.getElementById("analytics-macros-in-item-macro-name").disabled           = !document.getElementById("analytics-macros-in-item-macro-name-radio").checked;
-            document.getElementById("analytics-macros-in-item-macro-case-sensitive").disabled = !document.getElementById("analytics-macros-in-item-macro-name-radio").checked;
-            document.getElementById("analytics-macros-in-item-macro-exact-match").disabled    = !document.getElementById("analytics-macros-in-item-macro-name-radio").checked;
-            document.getElementById("analytics-macros-in-item-macro-id").disabled             = !document.getElementById("analytics-macros-in-item-macro-id-radio").checked;
         }
         function toggle_analytics_macros_in_item_on_use_macro_radio() {
             document.getElementById("analytics-macros-in-item-on-use-macro-name").disabled           = !document.getElementById("analytics-macros-in-item-on-use-macro-name-radio").checked;
@@ -91,13 +75,12 @@
     <!-- MACROS -->
     <div class="analytics-macros-controls">
 
-        <!-- MACRO NAME -->
+        <!-- MACRO -->
         <label for="analytics-macros-name"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Macros'}}</label>
         <div>
             <input type="radio" class="analytics-radio" id="analytics-macros-name-radio" name="analytics-macros-radio" onClick="toggle_analytics_macros_radio()" value="name" {{analytics-macros-name-radio-checked}} >
             <input type="text" class="analytics-name" id="analytics-macros-name" name="analytics-macros-name" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-macros-name-value}}" >
         </div>
-        <!-- MACRO ID -->
         <div>
             <input type="radio" class="analytics-radio" id="analytics-macros-id-radio" name="analytics-macros-radio" onClick="toggle_analytics_macros_radio()" value="id" {{analytics-macros-id-radio-checked}} >
             <input type="text" class="analytics-id" id="analytics-macros-id" name="analytics-macros-id" data-dtype="String" title="{{localize 'DOCUMENT.Macros'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-id-value}}" >
@@ -125,13 +108,12 @@
         <!-- (11) IN COMPENDIUMS -->
         <div class="tab" data-tab="analytics-macros-in-compendiums" data-group="analytics-macros-group">
 
-            <!-- COMPENDIUM NAME -->
+            <!-- COMPENDIUM -->
             <label for="analytics-macros-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-compendium-name-radio" name="analytics-macros-in-compendium-radio" onClick="toggle_analytics_macros_in_compendium_radio()" value="name" {{analytics-macros-in-compendium-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-macros-in-compendium-name" name="analytics-macros-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-compendium-name-value}}" >
             </div>
-            <!-- COMPENDIUM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-compendium-id-radio" name="analytics-macros-in-compendium-radio" onClick="toggle_analytics_macros_in_compendium_radio()" value="id" {{analytics-macros-in-compendium-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-macros-in-compendium-id" name="analytics-macros-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-compendium-id-value}}" >
@@ -174,7 +156,6 @@
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-item-name-radio" name="analytics-macros-in-item-radio" onClick="toggle_analytics_macros_in_item_radio()" value="name" {{analytics-macros-in-item-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-macros-in-item-name" name="analytics-macros-in-item-name" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-item-name-value}}" >
             </div>
-            <!-- ITEM ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-item-id-radio" name="analytics-macros-in-item-radio" onClick="toggle_analytics_macros_in_item_radio()" value="id" {{analytics-macros-in-item-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-macros-in-item-id" name="analytics-macros-in-item-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-item-id-value}}" >
@@ -233,31 +214,13 @@
             </div>
             <hr>
 
-            <!-- MACRO NAME -->
+            <!-- ITEM MACRO -->
             <div class="form-group" id="analytics-macros-in-item-macro-label">
-                <label for="analytics-macros-in-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Macros'}}</label>
-                <input type="checkbox" id="analytics-macros-in-item-macro" name="analytics-macros-in-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_macros_in_item_macro()" {{analytics-macros-in-item-macro-checked}} />
+                <label for="analytics-macros-in-item-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'DOCUMENT.Item'}} {{localize 'DOCUMENT.Macro'}}</label>
+                <input type="checkbox" id="analytics-macros-in-item-macro" name="analytics-macros-in-item-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'DOCUMENT.Item'}} {{localize 'DOCUMENT.Macro'}}" data-dtype="Boolean" {{analytics-macros-in-item-macro-checked}} />
             </div>
-            <div id="analytics-macros-in-item-macro-name-input">
-                <input type="radio" class="analytics-radio" id="analytics-macros-in-item-macro-name-radio" name="analytics-macros-in-item-macro-radio" onClick="toggle_analytics_macros_in_item_macro_radio()" value="name" {{analytics-macros-in-item-macro-name-radio-checked}} >
-                <input type="text" class="analytics-name" id="analytics-macros-in-item-macro-name" name="analytics-macros-in-item-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-item-macro-name-value}}" >
-            </div>
-            <!-- MACRO ID -->
-            <div>
-                <input type="radio" class="analytics-radio" id="analytics-macros-in-item-macro-id-radio" name="analytics-macros-in-item-macro-radio" onClick="toggle_analytics_macros_in_item_macro_radio()" value="id" {{analytics-macros-in-item-macro-id-radio-checked}} >
-                <input type="text" class="analytics-id" id="analytics-macros-in-item-macro-id" name="analytics-macros-in-item-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-item-macro-id-value}}" >
-            </div>
-            <div class="form-group" id="analytics-macros-in-item-macro-case-sensitive-label">
-                <label for="analytics-macros-in-item-macro-case-sensitive" id="analytics-macros-in-item-macro-case-sensitive-label">{{localize 'ANALYTICS.CaseSensitive'}}</label>
-                <input type="checkbox" id="analytics-macros-in-item-macro-case-sensitive" name="analytics-macros-in-item-macro-case-sensitive" title="{{localize 'ANALYTICS.CaseSensitive'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-macros-in-item-macro-case-sensitive-checked}} />
-            </div>
-            <div class="form-group" id="analytics-macros-in-item-macro-exact-match-label">
-                <label for="analytics-macros-in-item-macro-exact-match" id="analytics-macros-in-item-macro-exact-match-label">{{localize 'ANALYTICS.ExactMatch'}}</label>
-                <input type="checkbox" id="analytics-macros-in-item-macro-exact-match" name="analytics-macros-in-item-macro-exact-match" title="{{localize 'ANALYTICS.ExactMatch'}} {{localize 'FILES.Search'}}" data-dtype="Boolean" {{analytics-macros-in-item-macro-exact-match-checked}} />
-            </div>
-            <hr id="analytics-macros-in-item-macro-thematic-break">
 
-            <!-- ON USE MACRO NAME -->
+            <!-- ON USE MACROS -->
             <div class="form-group" id="analytics-macros-in-item-on-use-macro-label">
                 <label for="analytics-macros-in-item-on-use-macro"><i class="fas fa-folder"></i>&nbsp;{{localize 'midi-qol.onUseMacroLabel'}}</label>
                 <input type="checkbox" id="analytics-macros-in-item-on-use-macro" name="analytics-macros-in-item-on-use-macro" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.With'}} {{localize 'midi-qol.onUseMacroLabel'}}" data-dtype="Boolean" onClick="toggle_analytics_macros_in_item_on_use_macro()" {{analytics-macros-in-item-on-use-macro-checked}} />
@@ -266,7 +229,6 @@
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-item-on-use-macro-name-radio" name="analytics-macros-in-item-on-use-macro-radio" onClick="toggle_analytics_macros_in_item_on_use_macro_radio()" value="name" {{analytics-macros-in-item-on-use-macro-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-macros-in-item-on-use-macro-name" name="analytics-macros-in-item-on-use-macro-name" title="{{localize 'DOCUMENT.Macros'}} {{localize 'Name'}}" data-dtype="String" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-item-on-use-macro-name-value}}" >
             </div>
-            <!-- ON USE MACRO ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-item-on-use-macro-id-radio" name="analytics-macros-in-item-on-use-macro-radio" onClick="toggle_analytics_macros_in_item_on_use_macro_radio()" value="id" {{analytics-macros-in-item-on-use-macro-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-macros-in-item-on-use-macro-id" name="analytics-macros-in-item-on-use-macro-id" data-dtype="String" title="{{localize 'DOCUMENT.Items'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-item-on-use-macro-id-value}}" >
@@ -295,13 +257,12 @@
         <!-- (21) IN JOURNALS -->
         <div class="tab" data-tab="analytics-macros-in-journals" data-group="analytics-macros-group">
 
-            <!-- JOURNAL NAME -->
+            <!-- JOURNAL -->
             <label for="analytics-macros-in-journal-name"><i class="fas fa-book-open"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Journals'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-journal-name-radio" name="analytics-macros-in-journal-radio" onClick="toggle_analytics_macros_in_journal_radio()" value="name" {{analytics-macros-in-journal-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-macros-in-journal-name" name="analytics-macros-in-journal-name" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-journal-name-value}}" >
             </div>
-            <!-- JOURNAL ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-journal-id-radio" name="analytics-macros-in-journal-radio" onClick="toggle_analytics_macros_in_journal_radio()" value="id" {{analytics-macros-in-journal-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-macros-in-journal-id" name="analytics-macros-in-journal-id" data-dtype="String" title="{{localize 'ANALYTICS.Journals'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-journal-id-value}}" >
@@ -380,13 +341,12 @@
         <!-- (28) IN TABLES -->
         <div class="tab" data-tab="analytics-macros-in-tables" data-group="analytics-macros-group">
 
-            <!-- TABLE NAME -->
+            <!-- TABLE -->
             <label for="analytics-macros-in-table-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Tables'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-table-name-radio" name="analytics-macros-in-table-radio" onClick="toggle_analytics_macros_in_table_radio()" value="name" {{analytics-macros-in-table-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-macros-in-table-name" name="analytics-macros-in-table-name" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-table-name-value}}" >
             </div>
-            <!-- TABLE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-table-id-radio" name="analytics-macros-in-table-radio" onClick="toggle_analytics_macros_in_table_radio()" value="id" {{analytics-macros-in-table-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-macros-in-table-id" name="analytics-macros-in-table-id" data-dtype="String" title="{{localize 'ANALYTICS.Tables'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-table-id-value}}" >
@@ -423,13 +383,12 @@
         <!-- (29) IN TILES -->
         <div class="tab" data-tab="analytics-macros-in-tiles" data-group="analytics-macros-group">
 
-            <!-- TILE NAME -->
+            <!-- TILE -->
             <label for="analytics-macros-in-tile-name"><i class="fas fa-cubes"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'DOCUMENT.Tiles'}}</label>
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-tile-name-radio" name="analytics-macros-in-tile-radio" onClick="toggle_analytics_macros_in_tile_radio()" value="name" {{analytics-macros-in-tile-name-radio-checked}} >
                 <input type="text" class="analytics-name" id="analytics-macros-in-tile-name" name="analytics-macros-in-tile-name" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-macros-in-tile-name-value}}" >
             </div>
-            <!-- TILE ID -->
             <div>
                 <input type="radio" class="analytics-radio" id="analytics-macros-in-tile-id-radio" name="analytics-macros-in-tile-radio" onClick="toggle_analytics_macros_in_tile_radio()" value="id" {{analytics-macros-in-tile-id-radio-checked}} >
                 <input type="text" class="analytics-id" id="analytics-macros-in-tile-id" name="analytics-macros-in-tile-id" data-dtype="String" title="{{localize 'DOCUMENT.Tiles'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-macros-in-tile-id-value}}" >
@@ -465,7 +424,7 @@
     </div>
 
     <!-- SUBMIT -->
-    <button type="submit" class="analytics-macros-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Macros'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
+    <button type="submit" id="analytics-macros-submit" class="analytics-macros-submit" name="submit" title="{{localize 'FILES.Search'}} {{localize 'DOCUMENT.Macros'}}"><i class="fas fa-search"></i>&nbsp;{{localize 'FILES.Search'}}</button>
 
     <!-- LIST HEADER -->
     <div class="analytics-macros-header">

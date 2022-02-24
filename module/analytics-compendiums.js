@@ -2,7 +2,7 @@
 *
 * module/analytics-compendiums.js
 *
-* version 0.0.10
+* version 0.0.11
 *
 */
 
@@ -484,63 +484,170 @@ export class AnalyticsCompendiums extends AnalyticsForm {
     }
 
     // create compendium list.
-    buildList(compendium) {
+    buildList() {
 
         // active tab.
         var primary           = this.sortOptions().primary;
         var secondary         = this.sortOptions().secondary;
         var compendium_option = this.compendium_options[primary];
         var compendium_list   = this.compendium_lists[primary];
-        var compendium_name   = compendium.data.name;
+        var message_added     = false;
 
-        // each tab.
-        switch (secondary) {
-            case "compendiums_with_actors":
-                // reset counters.
-                var actor_option = this.actor_options[secondary];
-                actor_option.actor_count = 0;
-                break;
-            case "compendiums_with_cards":
-                // reset counters.
-                var card_option = this.card_options[secondary];
-                card_option.card_count = 0;
-                break;
-            case "compendiums_with_items":
-                // reset counters.
-                var item_option = this.item_options[secondary];
-                item_option.item_count = 0;
-                break;
-            case "compendiums_with_journals":
-                // reset counters.
-                var journal_option = this.journal_options[secondary];
-                journal_option.journal_count = 0;
-                break;
-            case "compendiums_with_macros":
-                // reset counters.
-                var macro_option = this.macro_options[secondary];
-                macro_option.macro_count = 0;
-                break;
-            case "compendiums_with_playlists":
-                // reset counters.
-                var playlist_option = this.playlist_options[secondary];
-                playlist_option.playlist_count = 0;
-                break;
-            case "compendiums_with_scenes":
-                // reset counters.
-                var scene_option = this.scene_options[secondary];
-                scene_option.scene_count = 0;
-                break;
-            case "compendiums_with_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-            case "compendiums_in_tables":
-                // reset counters.
-                var table_option = this.table_options[secondary];
-                table_option.table_count = 0;
-                break;
-        };
+        // reset counters and lists.
+        compendium_option.compendium_count = 0;
+        compendium_list.splice(0, compendium_list.length);
+
+        // *** SEARCH compendiums.
+        compendium_option.searchCompendiums(game.packs);
+
+        // iterate thru matching compendiums.
+        compendium_option.matching_compendiums.forEach((compendium, i) => {
+
+            var compendium_name  = compendium.documentName;
+            var compendium_added = false;
+
+            // each tab.
+            switch (secondary) {
+                case "compendiums_with_actors":
+                    // reset counters.
+                    var actor_option = this.actor_options[secondary];
+                    actor_option.actor_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    actor_option.matching_actors = [ ];
+                    break;
+                case "compendiums_with_cards":
+                    // reset counters.
+                    var card_option = this.card_options[secondary];
+                    card_option.card_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    card_option.matching_cards = [ ];
+                    break;
+                case "compendiums_with_items":
+                    // reset counters.
+                    var item_option = this.item_options[secondary];
+                    item_option.item_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    item_option.matching_items = [ ];
+                    break;
+                case "compendiums_with_journals":
+                    // reset counters.
+                    var journal_option = this.journal_options[secondary];
+                    journal_option.journal_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    journal_option.matching_journals = [ ];
+                    break;
+                case "compendiums_with_macros":
+                    // reset counters.
+                    var macro_option = this.macro_options[secondary];
+                    macro_option.macro_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    macro_option.matching_macros = [ ];
+                    break;
+                case "compendiums_with_playlists":
+                    // reset counters.
+                    var playlist_option = this.playlist_options[secondary];
+                    playlist_option.playlist_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    playlist_option.matching_playlists = [ ];
+                    break;
+                case "compendiums_with_scenes":
+                    // reset counters.
+                    var scene_option = this.scene_options[secondary];
+                    scene_option.scene_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    scene_option.matching_scenes = [ ];
+                    break;
+                case "compendiums_with_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+                case "compendiums_in_tables":
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.table_count = 0;
+
+                    // only add one message to list.
+                    if (!message_added) {
+                        // *** ADD MESSAGE ***
+                        this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
+                        message_added = true;
+                    };
+
+                    // reset matching arrays.
+                    table_option.matching_tables = [ ];
+                    break;
+            };
+        }); // forEach matching Compendium.
+
+        // reset matching array.
+        compendium_option.matching_compendiums = [ ];
     }
 
     async _updateObject(event, formData) {
@@ -552,67 +659,8 @@ export class AnalyticsCompendiums extends AnalyticsForm {
             return;
         };
 
-        // active tab.
-        var primary           = this.sortOptions().primary;
-        var secondary         = this.sortOptions().secondary;
-        var compendium_option = this.compendium_options[primary];
-        var compendium_list   = this.compendium_lists[primary];
-
         // set data from form.
         this.setData(expandObject(formData));
-
-        // reset counters and lists.
-        compendium_option.compendium_count = 0;
-        compendium_list.splice(0, compendium_list.length);
-
-        // message not available, render and return.
-        switch (secondary) {
-            case "compendiums_with_actors":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_cards":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_items":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_journals":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_macros":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_playlists":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_scenes":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_with_tables":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-            case "compendiums_in_tables":
-                this.addMessage(compendium_list, i18n("ANALYTICS.Phase3"));
-                this.render(true);
-                return;
-                break;
-        };
 
         // spin the submit button icon and disable.
         var button      = document.getElementById("analytics-compendiums-submit");
@@ -622,11 +670,8 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         const delay     = ms => new Promise(res => setTimeout(res, ms));
         await delay(20);
 
-        // spin through compendium list ...
-        game.compendiums.contents.forEach((compendium, i) => {
-            if (game.compendiums.contents[i]) {
-            };
-        }); // forEach Compendium.
+        // build out the list.
+        this.buildList();
 
         // reset submit button icon and enable.
         icon.className  = "fas fa-search";
