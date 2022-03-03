@@ -2,11 +2,11 @@
 *
 * module/analytics-macros.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { MacroOptions }      from "./analytics.js";
 
@@ -75,6 +75,7 @@ export class AnalyticsMacros extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros static get defaultOptions()");
 
@@ -129,6 +130,7 @@ export class AnalyticsMacros extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros async activateListeners(html)");
 
@@ -169,6 +171,7 @@ export class AnalyticsMacros extends AnalyticsForm {
         html_list.innerHTML = macro_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros async _onChangeTab()");
 
@@ -179,23 +182,23 @@ export class AnalyticsMacros extends AnalyticsForm {
         switch (active) {
             case "analytics-macros-in-compendiums":
                 output_list = this.macro_lists["macros_in_compendiums"];
-                retval = !this.compendium_options["macros_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["macros_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-macros-in-items":
                 output_list = this.macro_lists["macros_in_items"];
-                retval = !this.item_options["macros_in_items"].item_submitted;
+                retval = !this.item_options["macros_in_items"].itemSubmitted;
                 break;
             case "analytics-macros-in-journals":
                 output_list = this.macro_lists["macros_in_journals"];
-                retval = !this.journal_options["macros_in_journals"].journal_submitted;
+                retval = !this.journal_options["macros_in_journals"].journalSubmitted;
                 break;
             case "analytics-macros-in-tables":
                 output_list = this.macro_lists["macros_in_tables"];
-                retval = !this.table_options["macros_in_tables"].table_submitted;
+                retval = !this.table_options["macros_in_tables"].tableSubmitted;
                 break;
             case "analytics-macros-in-tiles":
                 output_list = this.macro_lists["macros_in_tiles"];
-                retval = !this.tile_options["macros_in_tiles"].tile_submitted;
+                retval = !this.tile_options["macros_in_tiles"].tileSubmitted;
                 break;
         };
 
@@ -285,6 +288,7 @@ export class AnalyticsMacros extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros async _onSubmit(event)");
 
@@ -309,23 +313,23 @@ export class AnalyticsMacros extends AnalyticsForm {
         switch (primary) {
             case "macros_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "macros_in_items":
                 var item_option = this.item_options[primary];
-                if (!item_option.item_submitted) item_option.item_submitted = true;
+                if (!item_option.itemSubmitted) item_option.itemSubmitted = true;
                 break;
             case "macros_in_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "macros_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
             case "macros_in_tiles":
                 var tile_option = this.tile_options[primary];
-                if (!tile_option.tile_options) tile_option.tile_options = true;
+                if (!tile_option.tileSubmitted) tile_option.tileSubmitted = true;
                 break;
         };
 
@@ -349,6 +353,7 @@ export class AnalyticsMacros extends AnalyticsForm {
 
     // create macro list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros buildList()");
 
         // active tab.
         var primary       = this.sortOptions().primary;
@@ -358,14 +363,14 @@ export class AnalyticsMacros extends AnalyticsForm {
         var message_added = false;
 
         // reset counters and lists.
-        macro_option.macro_count = 0;
         macro_list.splice(0, macro_list.length);
+        macro_option.macroCount = 0;
 
         // *** SEARCH macros.
-        macro_option.searchMacros(game.macros);
+        var matching_macros = macro_option.searchMacros(game.macros);
 
         // iterate thru matching macros.
-        macro_option.matching_macros.forEach((macro, i) => {
+        matching_macros.forEach((macro, i) => {
 
             var macro_name  = macro.data.name;
             var macro_added = false;
@@ -375,7 +380,7 @@ export class AnalyticsMacros extends AnalyticsForm {
                 case "macros_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -384,13 +389,11 @@ export class AnalyticsMacros extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "macros_in_items":
                     // reset counters.
                     var item_option = this.item_options[secondary];
-                    item_option.item_count = 0;
+                    item_option.itemCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -399,13 +402,11 @@ export class AnalyticsMacros extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    item_option.matching_items = [ ];
                     break;
                 case "macros_in_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -414,13 +415,11 @@ export class AnalyticsMacros extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "macros_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -429,13 +428,11 @@ export class AnalyticsMacros extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
                 case "macros_in_tiles":
                     // reset counters.
                     var tile_option = this.tile_options[secondary];
-                    tile_option.tile_count = 0;
+                    tile_option.tileCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -444,16 +441,12 @@ export class AnalyticsMacros extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    tile_option.matching_tiles = [ ];
                     break;
             };
         }); // forEach matching Macro.
-
-        // reset matching array.
-        macro_option.matching_macros = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsMacros async _updateObject(event, formData)");
 

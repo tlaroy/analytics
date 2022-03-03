@@ -2,11 +2,11 @@
 *
 * module/analytics-tiles.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { TileOptions }       from "./analytics.js";
 
@@ -51,6 +51,7 @@ export class AnalyticsTiles extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles defaultOptions()");
 
@@ -87,6 +88,7 @@ export class AnalyticsTiles extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles async activateListeners(html)");
 
@@ -115,6 +117,7 @@ export class AnalyticsTiles extends AnalyticsForm {
         html_list.innerHTML = tile_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles async _onChangeTab()");
 
@@ -125,11 +128,11 @@ export class AnalyticsTiles extends AnalyticsForm {
         switch (active) {
             case "analytics-tiles-with-macros":
                 output_list = this.tile_lists["tiles_with_macros"];
-                retval = !this.macro_options["tiles_with_macros"].macro_submitted;
+                retval = !this.macro_options["tiles_with_macros"].macroSubmitted;
                 break;
             case "analytics-tiles-in-scenes":
                 output_list = this.tile_lists["tiles_in_scenes"];
-                retval = !this.scene_options["tiles_in_scenes"].scene_submitted;
+                retval = !this.scene_options["tiles_in_scenes"].sceneSubmitted;
                 break;
         };
 
@@ -196,6 +199,7 @@ export class AnalyticsTiles extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles async _onSubmit(event)");
 
@@ -220,11 +224,11 @@ export class AnalyticsTiles extends AnalyticsForm {
         switch (primary) {
             case "tiles_with_macros":
                 var macro_option = this.macro_options[primary];
-                if (!macro_option.macro_submitted) macro_option.macro_submitted = true;
+                if (!macro_option.macroSubmitted) macro_option.macroSubmitted = true;
                 break;
             case "tiles_in_scenes":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
         };
 
@@ -248,6 +252,7 @@ export class AnalyticsTiles extends AnalyticsForm {
 
     // create tile list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles buildList()");
 
         // active tab.
         var primary       = this.sortOptions().primary;
@@ -257,8 +262,8 @@ export class AnalyticsTiles extends AnalyticsForm {
         var message_added = false;
 
         // reset counters and lists.
-        tile_option.tile_count = 0;
         tile_list.splice(0, tile_list.length);
+        tile_option.tileCount = 0;
 
         // only add one message to list.
         if (!message_added) {
@@ -269,10 +274,10 @@ export class AnalyticsTiles extends AnalyticsForm {
         };
 
         // *** SEARCH tiles.
-        tile_option.searchTiles(game.tiles);
+        var matching_tiles = tile_option.searchTiles(game.tiles);
 
         // iterate thru matching tables.
-        tile_option.matching_tiles.forEach((tile, i) => {
+        matching_tiles.forEach((tile, i) => {
 
             var tile_name  = tile.data.name;
             var tile_added = false;
@@ -282,26 +287,20 @@ export class AnalyticsTiles extends AnalyticsForm {
                 case "tiles_with_macros":
                     // reset counters.
                     var macro_option = this.macro_options[secondary];
-                    macro_option.macro_count = 0;
+                    macro_option.macroCount = 0;
 
-                    // reset matching arrays.
-                    macro_option.matching_macros = [ ];
                     break;
                 case "tiles_in_scenes":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
             };
         }); // forEach matching Tile.
-
-        // reset matching array.
-        tile_option.matching_tiles = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTiles async _updateObject(event, formData)");
 

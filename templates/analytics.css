@@ -28,6 +28,11 @@
     margin: 5px 0 0 0;
 }
 
+.analytics-name-wide[id$=name] {
+    width: 195px;
+    margin: 5px 0 0 0;
+}
+
 .analytics-id[id$=id] {
     width: 170px;
     margin: 5px 0 0 0;
@@ -137,7 +142,7 @@
 
 /* list output rows */
 
-.analytics-message-even {
+p.analytics-even-message {
     position: relative;
     margin: 10px 0 2px 5px;
     white-space: nowrap;
@@ -146,7 +151,7 @@
     xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-message-odd {
+p.analytics-odd-message {
     position: relative;
     margin: 10px 0 2px 5px;
     white-space: nowrap;
@@ -155,155 +160,300 @@
 }
 
 /* primary sort group */
-.analytics-primary-even-actor,
-.analytics-primary-even-card,
-.analytics-primary-even-compendium,
-.analytics-primary-even-item,
-.analytics-primary-even-journal
-.analytics-primary-even-macro,
-.analytics-primary-even-playlist,
-.analytics-primary-even-scene,
-.analytics-primary-even-table,
-.analytics-primary-even-tile {
+p.analytics-primary-even-actor,
+p.analytics-primary-even-card,
+p.analytics-primary-even-compendium,
+p.analytics-primary-even-item,
+p.analytics-primary-even-journal
+p.analytics-primary-even-macro,
+p.analytics-primary-even-playlist,
+p.analytics-primary-even-scene,
+p.analytics-primary-even-table,
+p.analytics-primary-even-tile {
     position: relative;
     margin: 10px 0 2px 5px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: bold;
-    xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-primary-even-item-macro {
+p.analytics-primary-even-item-macro,
+p.analytics-primary-even-on-use-macro {
     position: relative;
     margin: 0 0 2px 25px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-style: italic;
-    xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-primary-even-item-macro-error {
+p.analytics-primary-even-item-macro-error,
+p.analytics-primary-even-on-use-macro-error {
     position: relative;
     margin: 0 0 2px 25px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-style: italic;
-    color: var(--color-border-highlight-alt);
-    xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-primary-odd-actor,
-.analytics-primary-odd-card,
-.analytics-primary-odd-compendium,
-.analytics-primary-odd-item,
-.analytics-primary-odd-journal,
-.analytics-primary-odd-macro,
-.analytics-primary-odd-playlist,
-.analytics-primary-odd-scene,
-.analytics-primary-odd-table,
-.analytics-primary-odd-tile {
+p.analytics-primary-odd-actor,
+p.analytics-primary-odd-card,
+p.analytics-primary-odd-compendium,
+p.analytics-primary-odd-item,
+p.analytics-primary-odd-journal,
+p.analytics-primary-odd-macro,
+p.analytics-primary-odd-playlist,
+p.analytics-primary-odd-scene,
+p.analytics-primary-odd-table,
+p.analytics-primary-odd-tile {
     position: relative;
     margin: 10px 0 2px 5px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: bold;
 }
 
-.analytics-primary-odd-item-macro {
+p.analytics-primary-odd-item-macro,
+p.analytics-primary-odd-on-use-macro {
     position: relative;
     margin: 0 0 2px 25px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-style: italic;
 }
 
-.analytics-primary-odd-item-macro-error {
+p.analytics-primary-odd-item-macro-error,
+p.analytics-primary-odd-on-use-macro-error {
     position: relative;
     margin: 0 0 2px 25px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-style: italic;
-    color: var(--color-border-highlight-alt);
 }
 
 /* secondary sort group */
-.analytics-secondary-even-actor,
-.analytics-secondary-even-card,
-.analytics-secondary-even-compendium,
-.analytics-secondary-even-item,
-.analytics-secondary-even-journal,
-.analytics-secondary-even-macro,
-.analytics-secondary-even-playlist,
-.analytics-secondary-even-scene,
-.analytics-secondary-even-table,
-.analytics-secondary-even-tile {
+p.analytics-secondary-even-actor,
+p.analytics-secondary-even-card,
+p.analytics-secondary-even-compendium,
+p.analytics-secondary-even-item,
+p.analytics-secondary-even-journal,
+p.analytics-secondary-even-macro,
+p.analytics-secondary-even-playlist,
+p.analytics-secondary-even-scene,
+p.analytics-secondary-even-table,
+p.analytics-secondary-even-tile {
     position: relative;
     margin: 0 0 2px 15px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-secondary-even-item-macro {
+p.analytics-secondary-even-item-macro,
+p.analytics-secondary-even-on-use-macro {
     position: relative;
     margin: 0 0 2px 25px;
     white-space: nowrap;
+}
+
+p.analytics-secondary-even-item-macro-error,
+p.analytics-secondary-even-on-use-macro-error {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+}
+
+p.analytics-secondary-odd-actor,
+p.analytics-secondary-odd-card,
+p.analytics-secondary-odd-compendium,
+p.analytics-secondary-odd-item,
+p.analytics-secondary-odd-journal,
+p.analytics-secondary-odd-macro,
+p.analytics-secondary-odd-playlist,
+p.analytics-secondary-odd-scene,
+p.analytics-secondary-odd-table,
+p.analytics-secondary-odd-tile {
+    position: relative;
+    margin: 0 0 2px 15px;
+    white-space: nowrap;
+}
+
+p.analytics-secondary-odd-item-macro,
+p.analytics-secondary-odd-on-use-macro {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+}
+
+p.analytics-secondary-odd-item-macro-error,
+p.analytics-secondary-odd-on-use-macro-error {
+    position: relative;
+    margin: 0 0 2px 25px;
+    white-space: nowrap;
+}
+
+/* list output rows */
+
+input[type="text"].analytics-even-message {
+    overflow: hidden;
+    text-overflow: ellipsis;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0.05);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+input[type="text"].analytics-odd-message {
+    overflow: hidden;
+    text-overflow: ellipsis;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0.05);
+}
+
+/* primary sort group */
+input[type="text"].analytics-primary-even-actor,
+input[type="text"].analytics-primary-even-card,
+input[type="text"].analytics-primary-even-compendium,
+input[type="text"].analytics-primary-even-item,
+input[type="text"].analytics-primary-even-journal
+input[type="text"].analytics-primary-even-macro,
+input[type="text"].analytics-primary-even-playlist,
+input[type="text"].analytics-primary-even-scene,
+input[type="text"].analytics-primary-even-table,
+input[type="text"].analytics-primary-even-tile {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+input[type="text"].analytics-primary-even-item-macro,
+input[type="text"].analytics-primary-even-on-use-macro {
     overflow: hidden;
     text-overflow: ellipsis;
     font-style: italic;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
     xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-secondary-even-item-macro-error {
-    position: relative;
-    margin: 0 0 2px 25px;
-    white-space: nowrap;
+input[type="text"].analytics-primary-even-item-macro-error,
+input[type="text"].analytics-primary-even-on-use-macro-error {
     overflow: hidden;
     text-overflow: ellipsis;
     font-style: italic;
     color: var(--color-border-highlight-alt);
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
     xbackground-color: var(--color-text-light-highlight);
 }
 
-.analytics-secondary-odd-actor,
-.analytics-secondary-odd-card,
-.analytics-secondary-odd-compendium,
-.analytics-secondary-odd-item,
-.analytics-secondary-odd-journal,
-.analytics-secondary-odd-macro,
-.analytics-secondary-odd-playlist,
-.analytics-secondary-odd-scene,
-.analytics-secondary-odd-table,
-.analytics-secondary-odd-tile {
-    position: relative;
-    margin: 0 0 2px 15px;
-    white-space: nowrap;
+input[type="text"].analytics-primary-odd-actor,
+input[type="text"].analytics-primary-odd-card,
+input[type="text"].analytics-primary-odd-compendium,
+input[type="text"].analytics-primary-odd-item,
+input[type="text"].analytics-primary-odd-journal,
+input[type="text"].analytics-primary-odd-macro,
+input[type="text"].analytics-primary-odd-playlist,
+input[type="text"].analytics-primary-odd-scene,
+input[type="text"].analytics-primary-odd-table,
+input[type="text"].analytics-primary-odd-tile {
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: bold;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
 }
 
-.analytics-secondary-odd-item-macro {
-    position: relative;
-    margin: 0 0 2px 25px;
-    white-space: nowrap;
+input[type="text"].analytics-primary-odd-item-macro,
+input[type="text"].analytics-primary-odd-on-use-macro {
     overflow: hidden;
     text-overflow: ellipsis;
     font-style: italic;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
 }
 
-.analytics-secondary-odd-item-macro-error {
-    position: relative;
-    margin: 0 0 2px 25px;
-    white-space: nowrap;
+input[type="text"].analytics-primary-odd-item-macro-error,
+input[type="text"].analytics-primary-odd-on-use-macro-error {
     overflow: hidden;
     text-overflow: ellipsis;
     font-style: italic;
+	height: 16px;
     color: var(--color-border-highlight-alt);
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+}
+
+/* secondary sort group */
+input[type="text"].analytics-secondary-even-actor,
+input[type="text"].analytics-secondary-even-card,
+input[type="text"].analytics-secondary-even-compendium,
+input[type="text"].analytics-secondary-even-item,
+input[type="text"].analytics-secondary-even-journal,
+input[type="text"].analytics-secondary-even-macro,
+input[type="text"].analytics-secondary-even-playlist,
+input[type="text"].analytics-secondary-even-scene,
+input[type="text"].analytics-secondary-even-table,
+input[type="text"].analytics-secondary-even-tile {
+    overflow: hidden;
+    text-overflow: ellipsis;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+input[type="text"].analytics-secondary-even-item-macro,
+input[type="text"].analytics-secondary-even-on-use-macro {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+input[type="text"].analytics-secondary-even-item-macro-error,
+input[type="text"].analytics-secondary-even-on-use-macro-error {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+	height: 16px;
+	border: 0;
+    color: var(--color-border-highlight-alt);
+	background: rgba(0, 0, 0, 0);
+    xbackground-color: var(--color-text-light-highlight);
+}
+
+input[type="text"].analytics-secondary-odd-actor,
+input[type="text"].analytics-secondary-odd-card,
+input[type="text"].analytics-secondary-odd-compendium,
+input[type="text"].analytics-secondary-odd-item,
+input[type="text"].analytics-secondary-odd-journal,
+input[type="text"].analytics-secondary-odd-macro,
+input[type="text"].analytics-secondary-odd-playlist,
+input[type="text"].analytics-secondary-odd-scene,
+input[type="text"].analytics-secondary-odd-table,
+input[type="text"].analytics-secondary-odd-tile {
+    overflow: hidden;
+    text-overflow: ellipsis;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+}
+
+input[type="text"].analytics-secondary-odd-item-macro,
+input[type="text"].analytics-secondary-odd-on-use-macro {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+	height: 16px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+}
+
+input[type="text"].analytics-secondary-odd-item-macro-error,
+input[type="text"].analytics-secondary-odd-on-use-macro-error {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+	height: 16px;
+    color: var(--color-border-highlight-alt);
+	border: 0;
+	background: rgba(0, 0, 0, 0);
 }

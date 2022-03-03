@@ -2,11 +2,11 @@
 *
 * module/analytics-tables.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { TableOptions }      from "./analytics.js";
 
@@ -120,6 +120,7 @@ export class AnalyticsTables extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables static get defaultOptions()");
 
@@ -210,6 +211,7 @@ export class AnalyticsTables extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables async activateListeners(html)");
 
@@ -274,6 +276,7 @@ export class AnalyticsTables extends AnalyticsForm {
         html_list.innerHTML = table_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables async _onChangeTab()");
 
@@ -284,47 +287,47 @@ export class AnalyticsTables extends AnalyticsForm {
         switch (active) {
             case "analytics-tables-with-actors":
                 output_list = this.table_lists["tables_with_actors"];
-                retval = !this.actor_options["tables_with_actors"].actor_submitted;
+                retval = !this.actor_options["tables_with_actors"].actorSubmitted;
                 break;
             case "analytics-tables-with-cards":
                 output_list = this.table_lists["tables_with_cards"];
-                retval = !this.card_options["tables_with_cards"].card_submitted;
+                retval = !this.card_options["tables_with_cards"].cardSubmitted;
                 break;
             case "analytics-tables-in-compendiums":
                 output_list = this.table_lists["tables_in_compendiums"];
-                retval = !this.compendium_options["tables_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["tables_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-tables-with-compendiums":
                 output_list = this.table_lists["tables_with_compendiums"];
-                retval = !this.compendium_options["tables_with_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["tables_with_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-tables-with-items":
                 output_list = this.table_lists["tables_with_items"];
-                retval = !this.item_options["tables_with_items"].item_submitted;
+                retval = !this.item_options["tables_with_items"].itemSubmitted;
                 break;
             case "analytics-tables-in-journals":
                 output_list = this.table_lists["tables_in_journals"];
-                retval = !this.journal_options["tables_in_journals"].journal_submitted;
+                retval = !this.journal_options["tables_in_journals"].journalSubmitted;
                 break;
             case "analytics-tables-with-journals":
                 output_list = this.table_lists["tables_with_journals"];
-                retval = !this.journal_options["tables_with_journals"].journal_submitted;
+                retval = !this.journal_options["tables_with_journals"].journalSubmitted;
                 break;
             case "analytics-tables-with-macros":
                 output_list = this.table_lists["tables_with_macros"];
-                retval = !this.macro_options["tables_with_macros"].macro_submitted;
+                retval = !this.macro_options["tables_with_macros"].macroSubmitted;
                 break;
             case "analytics-tables-with-playlists":
                 output_list = this.table_lists["tables_with_playlists"];
-                retval = !this.playlist_options["tables_with_playlists"].playlist_submitted;
+                retval = !this.playlist_options["tables_with_playlists"].playlistSubmitted;
                 break;
             case "analytics-tables-with-scenes":
                 output_list = this.table_lists["tables_with_scenes"];
-                retval = !this.scene_options["tables_with_scenes"].scene_submitted;
+                retval = !this.scene_options["tables_with_scenes"].sceneSubmitted;
                 break;
             case "analytics-tables-within-tables":
                 output_list = this.table_lists["tables_within_tables"];
-                retval = !this.table_options["tables_within_tables"].table_submitted;
+                retval = !this.table_options["tables_within_tables"].tableSubmitted;
                 break;
         };
 
@@ -462,6 +465,7 @@ export class AnalyticsTables extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables async _onSubmit(event)");
 
@@ -486,47 +490,47 @@ export class AnalyticsTables extends AnalyticsForm {
         switch (primary) {
             case "tables_with_actors":
                 var actor_option = this.actor_options[primary];
-                if (!actor_option.actor_submitted) actor_option.actor_submitted = true;
+                if (!actor_option.actorSubmitted) actor_option.actorSubmitted = true;
                 break;
             case "tables_with_cards":
                 var card_option = this.card_options[primary];
-                if (!card_option.card_submitted) card_option.card_submitted = true;
+                if (!card_option.cardSubmitted) card_option.cardSubmitted = true;
                 break;
             case "tables_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "tables_with_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "tables_with_items":
                 var item_option = this.item_options[primary];
-                if (!item_option.item_submitted) item_option.item_submitted = true;
+                if (!item_option.itemSubmitted) item_option.itemSubmitted = true;
                 break;
             case "tables_in_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "tables_with_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "tables_with_macros":
                 var macro_option = this.macro_options[primary];
-                if (!macro_option.macro_submitted) macro_option.macro_submitted = true;
+                if (!macro_option.macroSubmitted) macro_option.macroSubmitted = true;
                 break;
             case "tables_with_playlists":
                 var playlist_option = this.playlist_options[primary];
-                if (!playlist_option.playlist_submitted) playlist_option.playlist_submitted = true;
+                if (!playlist_option.playlistSubmitted) playlist_option.playlistSubmitted = true;
                 break;
             case "tables_with_scenes":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "tables_within_tables_34":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
         };
 
@@ -550,6 +554,7 @@ export class AnalyticsTables extends AnalyticsForm {
 
     // create table list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables buildList()");
 
         // active tab.
         var primary       = this.sortOptions().primary;
@@ -559,14 +564,14 @@ export class AnalyticsTables extends AnalyticsForm {
         var message_added = false;
 
         // reset counters and lists.
-        table_option.table_count = 0;
         table_list.splice(0, table_list.length);
+        table_option.tableCount = 0;
 
         // *** SEARCH tables.
-        table_option.searchTables(game.tables);
+        var matching_tables = table_option.searchTables(game.tables);
 
         // iterate thru matching tables.
-        table_option.matching_tables.forEach((table, i) => {
+        matching_tables.forEach((table, i) => {
 
             var table_name  = table.data.name;
             var table_added = false;
@@ -585,13 +590,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    actor_option.matching_actors = [ ];
                     break;
                 case "tables_with_cards":
                     // reset counters.
                     var card_option = this.card_options[secondary];
-                    card_option.card_count = 0;
+                    card_option.cardCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -600,13 +603,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    card_option.matching_cards = [ ];
                     break;
                 case "tables_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -615,13 +616,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "tables_with_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -630,13 +629,12 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "tables_with_items":
                     // reset counters.
                     var item_option = this.item_options[secondary];
-                    item_option.item_count = 0;
+                    item_option.itemCount = 0;
+					item_option.itemOnUseMacroCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -645,13 +643,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    item_option.matching_items = [ ];
                     break;
                 case "tables_in_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -660,13 +656,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "tables_with_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -675,13 +669,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "tables_with_macros":
                     // reset counters.
                     var macro_option = this.macro_options[secondary];
-                    macro_option.macro_count = 0;
+                    macro_option.macroCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -690,13 +682,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    macro_option.matching_macros = [ ];
                     break;
                 case "tables_with_playlists":
                     // reset counters.
                     var playlist_option = this.playlist_options[secondary];
-                    playlist_option.playlist_count = 0;
+                    playlist_option.playlistCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -705,13 +695,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    playlist_option.matching_playlists = [ ];
                     break;
                 case "tables_with_scenes":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -720,13 +708,11 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
                 case "tables_within_tables_34":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -735,16 +721,12 @@ export class AnalyticsTables extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
             };
         }); // forEach matching Table.
-
-        // reset matching array.
-        table_option.matching_tables = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsTables async _updateObject(event, formData)");
 

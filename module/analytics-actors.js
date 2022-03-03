@@ -2,11 +2,11 @@
 *
 * module/analytics-actors.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { ActorOptions }      from "./analytics.js";
 
@@ -75,6 +75,7 @@ export class AnalyticsActors extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors static get defaultOptions()");
 
@@ -129,6 +130,7 @@ export class AnalyticsActors extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors async activateListeners(html)");
 
@@ -169,6 +171,7 @@ export class AnalyticsActors extends AnalyticsForm {
         html_list.innerHTML = actor_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors async _onChangeTab()");
 
@@ -179,23 +182,23 @@ export class AnalyticsActors extends AnalyticsForm {
         switch (active) {
             case "analytics-actors-in-compendiums":
                 output_list = this.actor_lists["actors_in_compendiums"];
-                retval = !this.compendium_options["actors_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["actors_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-actors-with-items":
                 output_list = this.actor_lists["actors_with_items"];
-                retval = !this.item_options["actors_with_items"].item_submitted;
+                retval = !this.item_options["actors_with_items"].itemSubmitted;
                 break;
             case "analytics-actors-in-journals":
                 output_list = this.actor_lists["actors_in_journals"];
-                retval = !this.journal_options["actors_in_journals"].journal_submitted;
+                retval = !this.journal_options["actors_in_journals"].journalSubmitted;
                 break;
             case "analytics-actors-in-scenes-as-tokens":
                 output_list = this.actor_lists["actors_in_scenes_as_tokens"];
-                retval = !this.scene_options["actors_in_scenes_as_tokens"].scene_submitted;
+                retval = !this.scene_options["actors_in_scenes_as_tokens"].sceneSubmitted;
                 break;
             case "analytics-actors-in-tables":
                 output_list = this.actor_lists["actors_in_tables"];
-                retval = !this.table_options["actors_in_tables"].table_submitted;
+                retval = !this.table_options["actors_in_tables"].tableSubmitted;
                 break;
         };
 
@@ -290,6 +293,7 @@ export class AnalyticsActors extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors async _onSubmit(event)");
 
@@ -314,23 +318,23 @@ export class AnalyticsActors extends AnalyticsForm {
         switch (primary) {
             case "actors_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "actors_with_items":
                 var item_option = this.item_options[primary];
-                if (!item_option.item_submitted) item_option.item_submitted = true;
+                if (!item_option.itemSubmitted) item_option.itemSubmitted = true;
                 break;
             case "actors_in_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "actors_in_scenes_as_tokens":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "actors_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
         };
 
@@ -354,6 +358,7 @@ export class AnalyticsActors extends AnalyticsForm {
 
     // create actor list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors buildList()");
 
         // active tab.
         var primary       = this.sortOptions().primary;
@@ -363,14 +368,14 @@ export class AnalyticsActors extends AnalyticsForm {
         var message_added = false;
 
         // reset counters and lists.
-        actor_option.actor_count = 0;
         actor_list.splice(0, actor_list.length);
+		actor_option.actorCount = 0;
 
         // *** SEARCH actors.
-        actor_option.searchActors(game.actors);
+        var matching_actors = actor_option.searchActors(game.actors);
 
         // iterate thru matching actors.
-        actor_option.matching_actors.forEach((actor, i) => {
+        matching_actors.forEach((actor, i) => {
 
             var actor_name  = actor.data.name;
             var actor_added = false;
@@ -381,249 +386,333 @@ export class AnalyticsActors extends AnalyticsForm {
                 case "actors_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
-                    // only add one message to list.
-                    if (!message_added) {
-                        // *** ADD MESSAGE ***
-                        this.addMessage(actor_list, i18n("ANALYTICS.Phase3"));
-                        message_added = true;
-                    };
+                    // *** SEARCH compendiums.
+                    var matching_compendiums = compendium_option.searchCompendiums(game.packs, "Actor");
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
+					var compendium_last = "";
+
+                    // iterate thru matches.
+                    matching_compendiums.forEach((compendium, j) => {
+
+						// *** SEARCH compendium.
+						var matching_actors = compendium_option.searchCompendium(compendium, actor, actor_option.actorNameRadio);
+
+						// iterate thru matches.
+						matching_actors.forEach((match, k) => {
+							
+							if (!compendium_option.compendiumNone) {
+								// only add one actor to list.
+								if (!actor_added) {
+									// *** ADD ACTOR ***
+									this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+									actor_option.actorCount++;
+									actor_added = true;
+								};
+								// only add one compendium to list.
+								if (compendium_last != compendium.metadata.label) {
+									// add compendium to list.
+									if (compendium_option.compendiumShow) {
+										// *** ADD COMPENDIUM ***
+										this.addCompendiumSecondary(actor_list, compendium, compendium_option.compendiumShowID);
+									};
+									compendium_last = compendium.metadata.label;
+								};
+							} 
+							else {
+								actor_added = true;								
+							};
+						}); // forEach matching Actor
+                    }); // forEach matching Compendium
+
+					// actors not in compendiums.
+					if (!actor_added && compendium_option.compendiumNone) {
+						// *** ADD ACTOR ***
+						this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+						actor_option.actorCount++;
+						actor_added = true;
+					};
                     break;
+
                 case "actors_with_items":
                     // reset counters.
                     var item_option = this.item_options[secondary];
-                    item_option.item_count = 0;
-                    item_option.item_macro_count = 0;
-                    item_option.item_on_use_macro_count = 0;
+                    item_option.itemCount = 0;
+                    item_option.itemMacroCount = 0;
+                    item_option.itemOnUseMacroCount = 0;
 
                     // actors without items.
                     if (actor.items.size == 0) {
                         // when NOT looking for macros - add actor to list if no item filters or looking for actors without items.
-                        if (!item_option.item_on_use_macro_checked &&
-                            !item_option.item_macro_checked &&
-                            (item_option.item_none_checked || item_option.noItemTypesSelected())) {
+                        if (!item_option.itemOnUseMacro &&
+                            !item_option.itemMacro &&
+                            (item_option.itemNone || item_option.noItemTypesSelected())) {
                             // *** ADD ACTOR ***
-                            this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                            actor_option.actor_count++;
+                            this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+							actor_option.actorCount++;
                             return;
                         };
                     };
 
                     // *** SEARCH items.
-                    item_option.searchItems(actor.items);
+                    var matching_items = item_option.searchItems(actor.items);
 
                     // iterate thru matches.
-                    item_option.matching_items.forEach((item, j) => {
+                    matching_items.forEach((item, j) => {
 
-                        // item macros
-                        if (item_option.item_macro_checked) {
+						// item macros
+                        if (item_option.itemMacro) {
 
                             if (item.data.flags['itemacro'] && item.data.flags['itemacro'].macro.data.command) {
 
+								var item_added = false;
+								
                                 // *** SEARCH item macros.
-                                item_option.searchItemMacros(item);
+                                var matching_macros = item_option.searchItemMacros(item);
 
                                 // iterate thru matches.
-                                item_option.matching_macros.forEach((macro, k) => {
+                                matching_macros.forEach((macro, k) => {
 
                                     // only add one actor to list.
                                     if (!actor_added) {
                                         // *** ADD ACTOR ***
-                                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                        actor_option.actor_count++;
+                                        this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+										actor_option.actorCount++;
                                         actor_added = true;
                                     };
                                     // only add one item to list.
                                     if (!item_added) {
-                                        if (item_option.item_show_checked) {
+                                        if (item_option.itemShow) {
                                             // *** ADD ITEM ***
-                                            this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
+                                            this.addItemSecondary(actor_list, item, item_option.itemShowID);
                                         };
                                         item_added = true;
                                     };
                                     // add item macro to the list.
-                                    if (item_option.item_show_checked) {
+                                    if (item_option.itemShow) {
                                         // *** ADD ITEM MACRO ***
-                                        this.addItemMacroSecondary(actor_list, macro, item_option.item_show_id_checked);
+                                        this.addItemMacroSecondary(actor_list, macro, item_option.itemShowID);
                                     };
                                 }); // forEach matching Item Macro
                             };
                         };
 
                         // on use macros
-                        if (item_option.item_on_use_macro_checked) {
+                        if (item_option.itemOnUseMacro) {
 
                             if (item.data.flags['midi-qol'] &&
                                 item.data.flags['midi-qol'].onUseMacroParts &&
                                 (item.data.flags['midi-qol'].onUseMacroParts.items.length > 0)) {
 
+								var item_added = false;
+								
                                 // *** SEARCH on use macros.
-                                item_option.searchOnUseMacros(item);
+                                var matching_on_use_macros = item_option.searchOnUseMacros(item);
 
                                 // iterate thru matches.
-                                item_option.matching_on_use_macros.forEach((macro, k) => {
+                                matching_on_use_macros.forEach((macro, k) => {
 
                                     // only add one actor to list.
                                     if (!actor_added) {
                                         // *** ADD ACTOR ***
-                                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                        actor_option.actor_count++;
+                                        this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+										actor_option.actorCount++;
                                         actor_added = true;
                                     };
                                     // only add one item to list.
                                     if (!item_added) {
-                                        if (item_option.item_show_checked) {
+                                        if (item_option.itemShow) {
                                             // *** ADD ITEM ***
-                                            this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
+                                            this.addItemSecondary(actor_list, item, item_option.itemShowID);
                                         };
                                         item_added = true;
                                     };
                                     // add on use macro to the list.
-                                    if (item_option.item_show_checked) {
+                                    if (item_option.itemShow) {
                                         // *** ADD ON USE MACRO ***
-                                        this.addItemOnUseMacroSecondary(actor_list, macro, item_option.item_show_id_checked);
+                                        this.addItemOnUseMacroSecondary(actor_list, macro, item_option.itemShowID);
                                     };
                                 }); // forEach matching On Use Macro
                             };
                         };
 
                         // no macros
-                        if (!item_option.item_macro_checked && !item_option.item_on_use_macro_checked) {
+                        if (!item_option.itemMacro && !item_option.itemOnUseMacro) {
                             // only add one actor to list.
                             if (!actor_added) {
                                 // *** ADD ACTOR ***
-                                this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                actor_option.actor_count++;
+                                this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+								actor_option.actorCount++;
                                 actor_added = true;
                             };
                             // add item to list.
-                            if (item_option.item_show_checked) {
+                            if (item_option.itemShow) {
                                 // *** ADD ITEM ***
-                                this.addItemSecondary(actor_list, item, item_option.item_show_id_checked);
+                                this.addItemSecondary(actor_list, item, item_option.itemShowID);
                             };
                         };
                     }); // forEach matching Item
 
-                    // reset matching arrays.
-                    item_option.matching_items = [ ];
-                    item_option.matching_macros = [ ];
-                    item_option.matching_on_use_macros = [ ];
                     break;
                 case "actors_in_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // *** SEARCH journals.
-                    if (journal_option.journal_radio_name_checked)
-                        journal_option.searchJournals(game.journal, actor.name);
+                    var matching_journals;
+					if (journal_option.journalNameRadio)
+                        matching_journals = journal_option.searchJournals(game.journal, actor.name);
                     else
-                        journal_option.searchJournals(game.journal, actor.id);
+                        matching_journals = journal_option.searchJournals(game.journal, actor.id);
 
                     // actors not in journals.
-                    if ((journal_option.matching_journals.length == 0) && journal_option.journal_none_checked) {
+                    if ((matching_journals.length == 0) && journal_option.journalNone) {
                         // *** ADD ACTOR ***
-                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                        actor_option.actor_count++;
+                        this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+						actor_option.actorCount++;
                         return;
                     };
 
                     // iterate thru matches.
-                    journal_option.matching_journals.forEach((journal, j) => {
+                    matching_journals.forEach((journal, j) => {
 
-                        if (!journal_option.journal_none_checked) {
+                        if (!journal_option.journalNone) {
                             // only add one actor to list.
                             if (!actor_added) {
                                 // *** ADD ACTOR ***
-                                this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                actor_option.actor_count++;
+                                this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+								actor_option.actorCount++;
                                 actor_added = true;
                             };
                             // add journal to list.
-                            if (journal_option.journal_show_checked) {
+                            if (journal_option.journalShow) {
                                 // *** ADD JOURNAL ***
-                                this.addJournalSecondary(actor_list, journal, journal_option.journal_show_id_checked);
+                                this.addJournalSecondary(actor_list, journal, journal_option.journalShowID);
                             };
                         };
                     }); // forEach matching Journal
 
-                    // reset matching array.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "actors_in_scenes_as_tokens":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
-                    scene_option.scene_token_count = 0;
+                    scene_option.sceneCount = 0;
+                    scene_option.sceneTokenCount = 0;
 
                     // *** SEARCH scenes.
-                    scene_option.searchScenes(game.scenes);
+                    var matching_scenes = scene_option.searchScenes(game.scenes);
 
                     // actors without scenes.
-                    if ((scene_option.matching_scenes.length == 0) && scene_option.scene_none_checked) {
-                        this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                        actor_option.actor_count++;
+                    if ((matching_scenes.length == 0) && scene_option.sceneNone) {
+                        this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+						actor_option.actorCount++;
                         return;
                     };
 
                     // iterate thru matches.
-                    scene_option.matching_scenes.forEach((scene, j) => {
+                    matching_scenes.forEach((scene, j) => {
 
                         // *** SEARCH tokens.
-                        if (scene_option.scene_radio_name_checked)
-                            scene_option.searchSceneTokens(scene, actor.name);
+						var matching_scene_tokens;
+                        if (scene_option.sceneNameRadio)
+                            matching_scene_tokens = scene_option.searchSceneTokens(scene, actor.name);
                         else
-                            scene_option.searchSceneTokens(scene, actor.id);
+                            matching_scene_tokens = scene_option.searchSceneTokens(scene, actor.id);
 
                         // iterate thru matches.
-                        scene_option.matching_scene_tokens.forEach((token, j) => {
-                            if (!scene_option.scene_none_checked) {
+                        matching_scene_tokens.forEach((token, j) => {
+                            if (!scene_option.sceneNone) {
                                 // only add one actor to list.
                                 if (!actor_added) {
                                     // *** ADD ACTOR ***
-                                    this.addActorPrimary(actor_list, actor, actor_option.actor_show_id_checked);
-                                    actor_option.actor_count++;
+                                    this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+									actor_option.actorCount++;
                                     actor_added = true;
                                 };
                                 // add scene to list.
-                                if (scene_option.scene_show_checked) {
+                                if (scene_option.sceneShow) {
                                     // *** ADD JOURNAL ***
-                                    this.addJournalSecondary(actor_list, scene, scene_option.scene_show_id_checked);
+                                    this.addJournalSecondary(actor_list, scene, scene_option.sceneShowID);
                                 };
                             };
                         }); // forEach matching Token
                     }); // forEach matching Scene
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
-                    scene_option.matching_scene_tokens = [ ];
                     break;
                 case "actors_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
-
+                    table_option.tableCount = 0;
+/*
                     // only add one message to list.
                     if (!message_added) {
                         // *** ADD MESSAGE ***
                         this.addMessage(actor_list, i18n("ANALYTICS.Phase3"));
                         message_added = true;
                     };
+*/
+                    // reset counters.
+                    var table_option = this.table_options[secondary];
+                    table_option.tableCount = 0;
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
+                    // *** SEARCH tables.
+                    var matching_tables;
+					if (table_option.tableNameRadio)
+                        matching_tables = table_option.searchTables(game.tables, actor.name);
+                    else
+                        matching_tables = table_option.searchTables(game.tables, actor.id);
+
+					var table_last = "";
+
+                    // iterate thru matches.
+                    matching_tables.forEach((table, j) => {
+
+						// *** SEARCH table.
+						var matching_actors = table_option.search(table, actor, actor_option.actorNameRadio);
+
+						// iterate thru matches.
+						matching_actors.forEach((match, k) => {
+							
+							if (!table_option.tableNone) {
+								// only add one actor to list.
+								if (!actor_added) {
+									// *** ADD ACTOR ***
+									this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+									actor_option.actorCount++;
+									actor_added = true;
+								};
+								// only add one table to list.
+								if (table_last != table.metadata.label) {
+									// add table to list.
+									if (table_option.tableShow) {
+										// *** ADD TABLE ***
+										this.addTableSecondary(actor_list, table, table_option.tableShowID);
+									};
+									table_last = table.metadata.label;
+								};
+							} 
+							else {
+								actor_added = true;								
+							};
+						}); // forEach matching Actor
+                    }); // forEach matching Table
+
+					// actors not in tables.
+					if (!actor_added && table_option.tableNone) {
+						// *** ADD ACTOR ***
+						this.addActorPrimary(actor_list, actor, actor_option.actorShowID);
+						actor_option.actorCount++;
+						actor_added = true;
+					};
+
                     break;
             };
         }); // forEach matching Actor.
-
-        // reset matching array.
-        actor_option.matching_actors = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsActors async _updateObject(event, formData)");
 

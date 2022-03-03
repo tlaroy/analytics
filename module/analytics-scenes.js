@@ -2,11 +2,11 @@
 *
 * module/analytics-scenes.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { SceneOptions }      from "./analytics.js";
 
@@ -97,6 +97,7 @@ export class AnalyticsScenes extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes defaultOptions()");
 
@@ -169,6 +170,7 @@ export class AnalyticsScenes extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes async activateListeners(html)");
 
@@ -221,6 +223,7 @@ export class AnalyticsScenes extends AnalyticsForm {
         html_list.innerHTML = scene_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes async _onChangeTab()");
 
@@ -231,35 +234,35 @@ export class AnalyticsScenes extends AnalyticsForm {
         switch (active) {
             case "analytics-scenes-with-actors-as-tokens":
                 output_list = this.scene_lists["scenes_with_actors_as_tokens"];
-                retval = !this.actor_options["scenes_with_actors_as_tokens"].actor_submitted;
+                retval = !this.actor_options["scenes_with_actors_as_tokens"].actorSubmitted;
                 break;
             case "analytics-scenes-in-compendiums":
                 output_list = this.scene_lists["scenes_in_compendiums"];
-                retval = !this.compendium_options["scenes_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["scenes_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-scenes-in-journals":
                 output_list = this.scene_lists["scenes_in_journals"];
-                retval = !this.journal_options["scenes_in_journals"].journal_submitted;
+                retval = !this.journal_options["scenes_in_journals"].journalSubmitted;
                 break;
             case "analytics-scenes-with-journals":
                 output_list = this.scene_lists["scenes_with_journals"];
-                retval = !this.journal_options["scenes_with_journals"].journal_submitted;
+                retval = !this.journal_options["scenes_with_journals"].journalSubmitted;
                 break;
             case "analytics-scenes-with-journals-as-pins":
                 output_list = this.scene_lists["scenes_with_journals_as_pins"];
-                retval = !this.journal_options["scenes_with_journals_as_pins"].journal_submitted;
+                retval = !this.journal_options["scenes_with_journals_as_pins"].journalSubmitted;
                 break;
             case "analytics-scenes-with-playlists":
                 output_list = this.scene_lists["scenes_with_playlists"];
-                retval = !this.playlist_options["scenes_with_playlists"].playlist_submitted;
+                retval = !this.playlist_options["scenes_with_playlists"].playlistSubmitted;
                 break;
             case "analytics-scenes-in-tables":
                 output_list = this.scene_lists["scenes_in_tables"];
-                retval = !this.table_options["scenes_in_tables"].table_submitted;
+                retval = !this.table_options["scenes_in_tables"].tableSubmitted;
                 break;
             case "analytics-scenes-with-tiles":
                 output_list = this.scene_lists["scenes_with_tiles"];
-                retval = !this.tile_options["scenes_with_tiles"].tile_submitted;
+                retval = !this.tile_options["scenes_with_tiles"].tileSubmitted;
                 break;
         };
 
@@ -373,6 +376,7 @@ export class AnalyticsScenes extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes async _onSubmit(event)");
 
@@ -397,31 +401,31 @@ export class AnalyticsScenes extends AnalyticsForm {
         switch (primary) {
             case "scenes_with_actors_as_tokens":
                 var actor_option = this.actor_options[primary];
-                if (!actor_option.actor_submitted) actor_option.actor_submitted = true;
+                if (!actor_option.actorSubmitted) actor_option.actorSubmitted = true;
                 break;
             case "scenes_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "scenes_in_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "scenes_with_journals_as_pins":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "scenes_with_playlists":
                 var playlist_option = this.playlist_options[primary];
-                if (!playlist_option.playlist_submitted) playlist_option.playlist_submitted = true;
+                if (!playlist_option.playlistSubmitted) playlist_option.playlistSubmitted = true;
                 break;
             case "scenes_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
             case "scenes_with_tiles":
                 var tile_option = this.tile_options[primary];
-                if (!tile_option.tile_options) tile_option.tile_options = true;
+                if (!tile_option.tileSubmitted) tile_option.tileSubmitted = true;
                 break;
         };
 
@@ -445,6 +449,7 @@ export class AnalyticsScenes extends AnalyticsForm {
 
     // create scene list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes buildList()");
 
         // active tab.
         var primary       = this.sortOptions().primary;
@@ -454,14 +459,15 @@ export class AnalyticsScenes extends AnalyticsForm {
         var message_added = false;
 
         // reset counters and lists.
-        scene_option.scene_count = 0;
         scene_list.splice(0, scene_list.length);
+        scene_option.sceneCount = 0;
+		scene_option.sceneTokenCount = 0;
 
         // *** SEARCH scenes.
-        scene_option.searchScenes(game.scenes);
+        var matching_scenes = scene_option.searchScenes(game.scenes);
 
         // iterate thru matching scenes.
-        scene_option.matching_scenes.forEach((scene, i) => {
+        matching_scenes.forEach((scene, i) => {
 
             var scene_name  = scene.data.name;
             var scene_added = false;
@@ -471,7 +477,7 @@ export class AnalyticsScenes extends AnalyticsForm {
                 case "scenes_with_actors_as_tokens":
                     // reset counters.
                     var actor_option = this.actor_options[secondary];
-                    actor_option.actor_count = 0;
+                    actor_option.actorCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -480,13 +486,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    actor_option.matching_actors = [ ];
                     break;
                 case "scenes_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -495,13 +499,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "scenes_in_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -510,13 +512,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "scenes_with_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -525,13 +525,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "scenes_with_journals_as_pins":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -540,13 +538,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "scenes_with_playlists":
                     // reset counters.
                     var playlist_option = this.playlist_options[secondary];
-                    playlist_option.playlist_count = 0;
+                    playlist_option.playlistCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -555,13 +551,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    playlist_option.matching_playlists = [ ];
                     break;
                 case "scenes_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -570,13 +564,11 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
                 case "scenes_with_tiles":
                     // reset counters.
                     var tile_option = this.tile_options[secondary];
-                    tile_option.tile_count = 0;
+                    tile_option.tileCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -585,16 +577,12 @@ export class AnalyticsScenes extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    tile_option.matching_tiles = [ ];
                     break;
             };
         }); // forEach matching Scene.
-
-        // reset matching array.
-        scene_option.matching_scenes = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsScenes async _updateObject(event, formData)");
 

@@ -2,11 +2,11 @@
 *
 * module/analytics-journals.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { JournalOptions }    from "./analytics.js";
 
@@ -127,6 +127,7 @@ export class AnalyticsJournals extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals static get defaultOptions()");
 
@@ -223,6 +224,7 @@ export class AnalyticsJournals extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals async activateListeners(html)");
 
@@ -291,6 +293,7 @@ export class AnalyticsJournals extends AnalyticsForm {
         html_list.innerHTML = journal_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals async _onChangeTab()");
 
@@ -301,51 +304,51 @@ export class AnalyticsJournals extends AnalyticsForm {
         switch (active) {
             case "analytics-journals-with-actors":
                 output_list = this.journal_lists["journals_with_actors"];
-                retval = !this.actor_options["journals_with_actors"].actor_submitted;
+                retval = !this.actor_options["journals_with_actors"].actorSubmitted;
                 break;
             case "analytics-journals-with-cards":
                 output_list = this.journal_lists["journals_with_cards"];
-                retval = !this.card_options["journals_with_cards"].card_submitted;
+                retval = !this.card_options["journals_with_cards"].cardSubmitted;
                 break;
             case "analytics-journals-in-compendiums":
                 output_list = this.journal_lists["journals_in_compendiums"];
-                retval = !this.compendium_options["journals_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["journals_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-journals-with-items":
                 output_list = this.journal_lists["journals_with_items"];
-                retval = !this.item_options["journals_with_items"].item_submitted;
+                retval = !this.item_options["journals_with_items"].itemSubmitted;
                 break;
             case "analytics-journals-within-journals":
                 output_list = this.journal_lists["journals_within_journals"];
-                retval = !this.journal_options["journals_within_journals"].journal_submitted;
+                retval = !this.journal_options["journals_within_journals"].journalSubmitted;
                 break;
             case "analytics-journals-with-macros":
                 output_list = this.journal_lists["journals_with_macros"];
-                retval = !this.macro_options["journals_with_macros"].macro_submitted;
+                retval = !this.macro_options["journals_with_macros"].macroSubmitted;
                 break;
             case "analytics-journals-with-playlists":
                 output_list = this.journal_lists["journals_with_playlists"];
-                retval = !this.playlist_options["journals_with_playlists"].playlist_submitted;
+                retval = !this.playlist_options["journals_with_playlists"].playlistSubmitted;
                 break;
             case "analytics-journals-with-scenes":
                 output_list = this.journal_lists["journals_with_scenes"];
-                retval = !this.scene_options["journals_with_scenes"].scene_submitted;
+                retval = !this.scene_options["journals_with_scenes"].sceneSubmitted;
                 break;
             case "analytics-journals-in-scenes":
                 output_list = this.journal_lists["journals_in_scenes"];
-                retval = !this.scene_options["journals_in_scenes"].scene_submitted;
+                retval = !this.scene_options["journals_in_scenes"].sceneSubmitted;
                 break;
             case "analytics-journals-in-scenes-as-pins":
                 output_list = this.journal_lists["journals_in_scenes_as_pins"];
-                retval = !this.scene_options["journals_in_scenes_as_pins"].scene_submitted;
+                retval = !this.scene_options["journals_in_scenes_as_pins"].sceneSubmitted;
                 break;
             case "analytics-journals-in-tables":
                 output_list = this.journal_lists["journals_in_tables"];
-                retval = !this.table_options["journals_in_tables"].table_submitted;
+                retval = !this.table_options["journals_in_tables"].tableSubmitted;
                 break;
             case "analytics-journals-with-tables":
                 output_list = this.journal_lists["journals_with_tables"];
-                retval = !this.table_options["journals_with_tables"].table_submitted;
+                retval = !this.table_options["journals_with_tables"].tableSubmitted;
                 break;
         };
 
@@ -491,6 +494,7 @@ export class AnalyticsJournals extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals async _onSubmit(event)");
 
@@ -515,51 +519,51 @@ export class AnalyticsJournals extends AnalyticsForm {
         switch (primary) {
             case "journals_with_actors":
                 var actor_option = this.actor_options[primary];
-                if (!actor_option.actor_submitted) actor_option.actor_submitted = true;
+                if (!actor_option.actorSubmitted) actor_option.actorSubmitted = true;
                 break;
             case "journals_with_cards":
                 var card_option = this.card_options[primary];
-                if (!card_option.card_submitted) card_option.card_submitted = true;
+                if (!card_option.cardSubmitted) card_option.cardSubmitted = true;
                 break;
             case "journals_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "journals_with_items":
                 var item_option = this.item_options[primary];
-                if (!item_option.item_submitted) item_option.item_submitted = true;
+                if (!item_option.itemSubmitted) item_option.itemSubmitted = true;
                 break;
             case "journals_within_journals_20":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "journals_with_macros":
                 var macro_option = this.macro_options[primary];
-                if (!macro_option.macro_submitted) macro_option.macro_submitted = true;
+                if (!macro_option.macroSubmitted) macro_option.macroSubmitted = true;
                 break;
             case "journals_with_playlists":
                 var playlist_option = this.playlist_options[primary];
-                if (!playlist_option.playlist_submitted) playlist_option.playlist_submitted = true;
+                if (!playlist_option.playlistSubmitted) playlist_option.playlistSubmitted = true;
                 break;
             case "journals_with_scenes":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "journals_in_scenes":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "journals_in_scene_as_pins":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "journals_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
             case "journals_with_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
         };
 
@@ -583,6 +587,7 @@ export class AnalyticsJournals extends AnalyticsForm {
 
     // create journal list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals buildList()");
 
         // active tab.
         var primary        = this.sortOptions().primary;
@@ -592,14 +597,14 @@ export class AnalyticsJournals extends AnalyticsForm {
         var message_added  = false;
 
         // reset counters and lists.
-        journal_option.journal_count = 0;
         journal_list.splice(0, journal_list.length);
+        journal_option.journalCount = 0;
 
         // *** SEARCH journals.
-        journal_option.searchJournals(game.journal);
+        var matching_journals = journal_option.searchJournals(game.journal);
 
         // iterate thru matching journals.
-        journal_option.matching_journals.forEach((journal, i) => {
+        matching_journals.forEach((journal, i) => {
 
             var journal_name  = journal.data.name;
             var journal_added = false;
@@ -609,7 +614,7 @@ export class AnalyticsJournals extends AnalyticsForm {
                 case "journals_with_actors":
                     // reset counters.
                     var actor_option = this.actor_options[secondary];
-                    actor_option.actor_count = 0;
+                    actor_option.actorCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -618,13 +623,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    actor_option.matching_actors = [ ];
                     break;
                 case "journals_with_cards":
                     // reset counters.
                     var card_option = this.card_options[secondary];
-                    card_option.card_count = 0;
+                    card_option.cardCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -633,13 +636,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    card_option.matching_cards = [ ];
                     break;
                 case "journals_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -648,13 +649,12 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "journals_with_items":
                     // reset counters.
                     var item_option = this.item_options[secondary];
-                    item_option.item_count = 0;
+                    item_option.itemCount = 0;
+					item_option.itemOnUseMacroCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -663,13 +663,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    item_option.matching_items = [ ];
                     break;
                 case "journals_within_journals_20":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -678,13 +676,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "journals_with_macros":
                     // reset counters.
                     var macro_option = this.macro_options[secondary];
-                    macro_option.macro_count = 0;
+                    macro_option.macroCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -693,13 +689,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    macro_option.matching_macros = [ ];
                     break;
                 case "journals_with_playlists":
                     // reset counters.
                     var playlist_option = this.playlist_options[secondary];
-                    playlist_option.playlist_count = 0;
+                    playlist_option.playlistCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -708,13 +702,12 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    playlist_option.matching_playlists = [ ];
                     break;
                 case "journals_with_scenes":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
+                    scene_option.sceneTokenCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -723,13 +716,12 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
                 case "journals_in_scenes":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
+                    scene_option.sceneTokenCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -738,13 +730,12 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
                 case "journals_in_scenes_as_pins":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
+                    scene_option.sceneTokenCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -753,13 +744,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
                 case "journals_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -768,13 +757,11 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
                 case "journals_with_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -783,16 +770,12 @@ export class AnalyticsJournals extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
             };
         }); // forEach matching Journal.
-
-        // reset matching array.
-        journal_option.matching_journals = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsJournals async _updateObject(event, formData)");
 

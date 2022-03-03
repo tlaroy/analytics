@@ -33,12 +33,6 @@
             document.getElementById("analytics-actors-exact-match").disabled    = !document.getElementById("analytics-actors-name-radio").checked;
             document.getElementById("analytics-actors-id").disabled             = !document.getElementById("analytics-actors-id-radio").checked;
         }
-        function toggle_analytics_actors_in_compendium_radio() {
-            document.getElementById("analytics-actors-in-compendium-name").disabled           = !document.getElementById("analytics-actors-in-compendium-name-radio").checked;
-            document.getElementById("analytics-actors-in-compendium-case-sensitive").disabled = !document.getElementById("analytics-actors-in-compendium-name-radio").checked;
-            document.getElementById("analytics-actors-in-compendium-exact-match").disabled    = !document.getElementById("analytics-actors-in-compendium-name-radio").checked;
-            document.getElementById("analytics-actors-in-compendium-id").disabled             = !document.getElementById("analytics-actors-in-compendium-id-radio").checked;
-        }
         function toggle_analytics_actors_with_item_radio() {
             document.getElementById("analytics-actors-with-item-name").disabled           = !document.getElementById("analytics-actors-with-item-name-radio").checked;
             document.getElementById("analytics-actors-with-item-case-sensitive").disabled = !document.getElementById("analytics-actors-with-item-name-radio").checked;
@@ -204,12 +198,7 @@
             <!-- COMPENDIUM -->
             <label for="analytics-actors-in-compendium-name"><i class="fas fa-th-list"></i>&nbsp;{{localize 'ANALYTICS.In'}} {{localize 'ANALYTICS.Compendiums'}}</label>
             <div>
-                <input type="radio" class="analytics-radio" id="analytics-actors-in-compendium-name-radio" name="analytics-actors-in-compendium-radio" onClick="toggle_analytics_actors_in_compendium_radio()" value="name" {{analytics-actors-in-compendium-name-radio-checked}} >
-                <input type="text" class="analytics-name" id="analytics-actors-in-compendium-name" name="analytics-actors-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-actors-in-compendium-name-value}}" >
-            </div>
-            <div>
-                <input type="radio" class="analytics-radio" id="analytics-actors-in-compendium-id-radio" name="analytics-actors-in-compendium-radio" onClick="toggle_analytics_actors_in_compendium_radio()" value="id" {{analytics-actors-in-compendium-id-radio-checked}} >
-                <input type="text" class="analytics-id" id="analytics-actors-in-compendium-id" name="analytics-actors-in-compendium-id" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.ID'}}" placeholder="{{localize 'ANALYTICS.ID'}}" value="{{analytics-actors-in-compendium-id-value}}" >
+                <input type="text" class="analytics-name-wide" id="analytics-actors-in-compendium-name" name="analytics-actors-in-compendium-name" data-dtype="String" title="{{localize 'ANALYTICS.Compendiums'}} {{localize 'Name'}}" placeholder="{{localize 'Name'}}" value="{{analytics-actors-in-compendium-name-value}}" >
             </div>
             <div class="form-group" id="analytics">
                 <label for="analytics-actors-in-compendium-case-sensitive">{{localize 'ANALYTICS.CaseSensitive'}}</label>
@@ -233,10 +222,6 @@
             <div class="form-group" id="analytics">
                 <label for="analytics-actors-in-compendium-show">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.Compendiums'}}</label>
                 <input type="checkbox" id="analytics-actors-in-compendium-show" name="analytics-actors-in-compendium-show" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.Compendiums'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-actors-in-compendium-show-checked}} />
-            </div>
-            <div class="form-group" id="analytics">
-                <label for="analytics-actors-in-compendium-show-id">{{localize 'ANALYTICS.Show'}} {{localize 'ANALYTICS.ID'}}</label>
-                <input type="checkbox" id="analytics-actors-in-compendium-show-id" name="analytics-actors-in-compendium-show-id" title="{{localize 'ANALYTICS.Include'}} {{localize 'ANALYTICS.ID'}} {{localize 'ANALYTICS.In'}} {{localize 'FILES.Search'}} {{localize 'Result'}}" data-dtype="Boolean" {{analytics-actors-in-compendium-show-id-checked}} />
             </div>
         </div>
 

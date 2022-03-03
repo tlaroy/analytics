@@ -3,10 +3,13 @@
 
 Feature set complete.
 
-# v0.0.12
+# v0.0.13
 2022-xx-xx
 
-Secondary Searches.
+# v0.0.12
+2022-03-03
+
+Actors/Compendiums, Actors/Tables
 
 # v0.0.11
 2022-02-24

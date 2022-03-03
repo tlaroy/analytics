@@ -2,11 +2,11 @@
 *
 * analytics.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS           from "./module/const.js";
+import * as ANALYTICS           from "./module/analytics-const.js";
 import { AnalyticsActors }      from "./module/analytics-actors.js";
 import { AnalyticsCards }       from "./module/analytics-cards.js";
 import { AnalyticsCompendiums } from "./module/analytics-compendiums.js";

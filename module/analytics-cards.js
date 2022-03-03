@@ -2,11 +2,11 @@
 *
 * module/analytics-cards.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { CardOptions }       from "./analytics.js";
 
@@ -59,6 +59,7 @@ export class AnalyticsCards extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards static get defaultOptions()");
 
@@ -101,6 +102,7 @@ export class AnalyticsCards extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards async activateListeners(html)");
 
@@ -133,6 +135,7 @@ export class AnalyticsCards extends AnalyticsForm {
         html_list.innerHTML = card_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards async _onChangeTab()");
 
@@ -143,15 +146,15 @@ export class AnalyticsCards extends AnalyticsForm {
         switch (active) {
             case "analytics-cards-in-compendiums":
                 output_list = this.card_lists["cards_in_compendiums"];
-                retval = !this.compendium_options["cards_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["cards_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-cards-in-journals":
                 output_list = this.card_lists["cards_in_journals"];
-                retval = !this.journal_options["cards_in_journals"].journal_submitted;
+                retval = !this.journal_options["cards_in_journals"].journalSubmitted;
                 break;
             case "analytics-cards-in-tables":
                 output_list = this.card_lists["cards_in_tables"];
-                retval = !this.table_options["cards_in_tables"].table_submitted;
+                retval = !this.table_options["cards_in_tables"].tableSubmitted;
                 break;
         };
 
@@ -226,6 +229,7 @@ export class AnalyticsCards extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards async _onSubmit(event)");
 
@@ -250,15 +254,15 @@ export class AnalyticsCards extends AnalyticsForm {
         switch (primary) {
             case "cards_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "cards_in_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "cards_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
         };
 
@@ -282,6 +286,7 @@ export class AnalyticsCards extends AnalyticsForm {
 
     // create card list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards buildList()");
 
         // active tab.
         var primary       = this.sortOptions().primary;
@@ -291,14 +296,14 @@ export class AnalyticsCards extends AnalyticsForm {
         var message_added = false;
 
         // reset counters and lists.
-        card_option.card_count = 0;
         card_list.splice(0, card_list.length);
+        card_option.cardCount = 0;
 
         // *** SEARCH cards.
-        card_option.searchCards(game.cards);
+        var matching_cards = card_option.searchCards(game.cards);
 
         // iterate thru matching cards.
-        card_option.matching_cards.forEach((card, i) => {
+        matching_cards.forEach((card, i) => {
 
             var card_name  = card.data.name;
             var card_added = false;
@@ -308,7 +313,7 @@ export class AnalyticsCards extends AnalyticsForm {
                 case "cards_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -317,13 +322,11 @@ export class AnalyticsCards extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "cards_in_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -332,13 +335,11 @@ export class AnalyticsCards extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "cards_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -347,16 +348,12 @@ export class AnalyticsCards extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
             };
         }); // forEach matching Card.
-
-        // reset matching array.
-        card_option.matching_cards = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCards async _updateObject(event, formData)");
 

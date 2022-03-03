@@ -2,11 +2,11 @@
 *
 * module/analytics-playlists.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { PlaylistOptions }   from "./analytics.js";
 
@@ -67,6 +67,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists static get defaultOptions()");
 
@@ -115,6 +116,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists async activateListeners(html)");
 
@@ -151,6 +153,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         html_list.innerHTML = playlist_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists async _onChangeTab()");
 
@@ -161,19 +164,19 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         switch (active) {
             case "analytics-playlists-in-compendiums":
                 output_list = this.playlist_lists["playlists_in_compendiums"];
-                retval = !this.compendium_options["playlists_in_compendiums"].compendium_submitted;
+                retval = !this.compendium_options["playlists_in_compendiums"].compendiumSubmitted;
                 break;
             case "analytics-playlists-in-journals":
                 output_list = this.playlist_lists["playlists_in_journals"];
-                retval = !this.journal_options["playlists_in_journals"].journal_submitted;
+                retval = !this.journal_options["playlists_in_journals"].journalSubmitted;
                 break;
             case "analytics-playlists-in-scenes":
                 output_list = this.playlist_lists["playlists_in_scenes"];
-                retval = !this.scene_options["playlists_in_scenes"].scene_submitted;
+                retval = !this.scene_options["playlists_in_scenes"].sceneSubmitted;
                 break;
             case "analytics-playlists-in-tables":
                 output_list = this.playlist_lists["playlists_in_tables"];
-                retval = !this.table_options["playlists_in_tables"].table_submitted;
+                retval = !this.table_options["playlists_in_tables"].tableSubmitted;
                 break;
         };
 
@@ -255,6 +258,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists async _onSubmit(event)");
 
@@ -279,19 +283,19 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         switch (primary) {
             case "playlists_in_compendiums":
                 var compendium_option = this.compendium_options[primary];
-                if (!compendium_option.compendium_submitted) compendium_option.compendium_submitted = true;
+                if (!compendium_option.compendiumSubmitted) compendium_option.compendiumSubmitted = true;
                 break;
             case "playlists_in_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "playlists_in_scenes":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "playlists_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
         };
 
@@ -315,6 +319,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
 
     // create playlist list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists buildList()");
 
         // active tab.
         var primary         = this.sortOptions().primary;
@@ -324,14 +329,14 @@ export class AnalyticsPlaylists extends AnalyticsForm {
         var message_added   = false;
 
         // reset counters and lists.
-        playlist_option.playlist_count = 0;
         playlist_list.splice(0, playlist_list.length);
+        playlist_option.playlistCount = 0;
 
         // *** SEARCH playlists.
-        playlist_option.searchPlaylists(game.playlists);
+        var matching_playlists = playlist_option.searchPlaylists(game.playlists);
 
         // iterate thru matching playlists.
-        playlist_option.matching_playlists.forEach((playlist, i) => {
+        matching_playlists.forEach((playlist, i) => {
 
             var playlist_name  = playlist.data.name;
             var playlist_added = false;
@@ -341,7 +346,7 @@ export class AnalyticsPlaylists extends AnalyticsForm {
                 case "playlists_in_compendiums":
                     // reset counters.
                     var compendium_option = this.compendium_options[secondary];
-                    compendium_option.compendium_count = 0;
+                    compendium_option.compendiumCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -350,13 +355,11 @@ export class AnalyticsPlaylists extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    compendium_option.matching_compendiums = [ ];
                     break;
                 case "playlists_in_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -365,13 +368,11 @@ export class AnalyticsPlaylists extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "playlists_in_scenes":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -380,13 +381,11 @@ export class AnalyticsPlaylists extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
                 case "playlists_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -395,16 +394,12 @@ export class AnalyticsPlaylists extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
             };
         }); // forEach matching Playlist.
-
-        // reset matching array.
-        playlist_option.matching_playlists = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsPlaylists async _updateObject(event, formData)");
 

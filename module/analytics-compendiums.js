@@ -2,11 +2,11 @@
 *
 * module/analytics-compendiums.js
 *
-* version 0.0.11
+* version 0.0.12
 *
 */
 
-import * as ANALYTICS        from "./const.js";
+import * as ANALYTICS 	     from "./analytics-const.js";
 import { AnalyticsForm }     from "./analytics.js";
 import { CompendiumOptions } from "./analytics.js";
 
@@ -106,6 +106,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         });
     }
 
+	// defaults.
     static get defaultOptions() {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums static get defaultOptions()");
 
@@ -184,6 +185,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         return retval;
     };
 
+	// initialize.
     async activateListeners($html) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums async activateListeners(html)");
 
@@ -240,6 +242,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         html_list.innerHTML = compendium_list.join("");
     }
 
+	// tab change.
     async _onChangeTab(event, tabs, active) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums async _onChangeTab()");
 
@@ -250,39 +253,39 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         switch (active) {
             case "analytics-compendiums-with-actors":
                 output_list = this.compendium_lists["compendiums_with_actors"];
-                retval = !this.actor_options["compendiums_with_actors"].actor_submitted;
+                retval = !this.actor_options["compendiums_with_actors"].actorSubmitted;
                 break;
             case "analytics-compendiums-with-cards":
                 output_list = this.compendium_lists["compendiums_with_cards"];
-                retval = !this.card_options["compendiums_with_cards"].card_submitted;
+                retval = !this.card_options["compendiums_with_cards"].cardSubmitted;
                 break;
             case "analytics-compendiums-with-items":
                 output_list = this.compendium_lists["compendiums_with_items"];
-                retval = !this.item_options["compendiums_with_items"].item_submitted;
+                retval = !this.item_options["compendiums_with_items"].itemSubmitted;
                 break;
             case "analytics-compendiums-with-journals":
                 output_list = this.compendium_lists["compendiums_with_journals"];
-                retval = !this.journal_options["compendiums_with_journals"].journal_submitted;
+                retval = !this.journal_options["compendiums_with_journals"].journalSubmitted;
                 break;
             case "analytics-compendiums-with-macros":
                 output_list = this.compendium_lists["compendiums_with_macros"];
-                retval = !this.macro_options["compendiums_with_macros"].macro_submitted;
+                retval = !this.macro_options["compendiums_with_macros"].macroSubmitted;
                 break;
             case "analytics-compendiums-with-playlists":
                 output_list = this.compendium_lists["compendiums_with_playlists"];
-                retval = !this.playlist_options["compendiums_with_playlists"].playlist_submitted;
+                retval = !this.playlist_options["compendiums_with_playlists"].playlistSubmitted;
                 break;
             case "analytics-compendiums-with-scenes":
                 output_list = this.compendium_lists["compendiums_with_scenes"];
-                retval = !this.scene_options["compendiums_with_scenes"].scene_submitted;
+                retval = !this.scene_options["compendiums_with_scenes"].sceneSubmitted;
                 break;
             case "analytics-compendiums-with-tables":
                 output_list = this.compendium_lists["compendiums_with_tables"];
-                retval = !this.table_options["compendiums_with_tables"].table_submitted;
+                retval = !this.table_options["compendiums_with_tables"].tableSubmitted;
                 break;
             case "analytics-compendiums-in-tables":
                 output_list = this.compendium_lists["compendiums_in_tables"];
-                retval = !this.table_options["compendiums_in_tables"].table_submitted;
+                retval = !this.table_options["compendiums_in_tables"].tableSubmitted;
                 break;
         };
 
@@ -405,6 +408,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         };
     }
 
+	// submit.
     async _onSubmit(event, {updateData=null, preventClose=true, preventRender=false}={}) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums async _onSubmit(event)");
 
@@ -429,39 +433,39 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         switch (primary) {
             case "compendiums_with_actors":
                 var actor_option = this.actor_options[primary];
-                if (!actor_option.actor_submitted) actor_option.actor_submitted = true;
+                if (!actor_option.actorSubmitted) actor_option.actorSubmitted = true;
                 break;
             case "compendiums_with_cards":
                 var card_option = this.card_options[primary];
-                if (!card_option.card_submitted) card_option.card_submitted = true;
+                if (!card_option.cardSubmitted) card_option.cardSubmitted = true;
                 break;
             case "compendiums_with_items":
                 var item_option = this.item_options[primary];
-                if (!item_option.item_submitted) item_option.item_submitted = true;
+                if (!item_option.itemSubmitted) item_option.itemSubmitted = true;
                 break;
             case "compendiums_with_journals":
                 var journal_option = this.journal_options[primary];
-                if (!journal_option.journal_submitted) journal_option.journal_submitted = true;
+                if (!journal_option.journalSubmitted) journal_option.journalSubmitted = true;
                 break;
             case "compendiums_with_macros":
                 var macro_option = this.macro_options[primary];
-                if (!macro_option.macro_submitted) macro_option.macro_submitted = true;
+                if (!macro_option.macroSubmitted) macro_option.macroSubmitted = true;
                 break;
             case "compendiums_with_playlists":
                 var playlist_option = this.playlist_options[primary];
-                if (!playlist_option.playlist_submitted) playlist_option.playlist_submitted = true;
+                if (!playlist_option.playlistSubmitted) playlist_option.playlistSubmitted = true;
                 break;
             case "compendiums_with_scenes":
                 var scene_option = this.scene_options[primary];
-                if (!scene_option.scene_submitted) scene_option.scene_submitted = true;
+                if (!scene_option.sceneSubmitted) scene_option.sceneSubmitted = true;
                 break;
             case "compendiums_with_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
             case "compendiums_in_tables":
                 var table_option = this.table_options[primary];
-                if (!table_option.table_options) table_option.table_options = true;
+                if (!table_option.tableSubmitted) table_option.tableSubmitted = true;
                 break;
         };
 
@@ -485,6 +489,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
 
     // create compendium list.
     buildList() {
+        if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums buildList()");
 
         // active tab.
         var primary           = this.sortOptions().primary;
@@ -494,14 +499,14 @@ export class AnalyticsCompendiums extends AnalyticsForm {
         var message_added     = false;
 
         // reset counters and lists.
-        compendium_option.compendium_count = 0;
         compendium_list.splice(0, compendium_list.length);
+        compendium_option.compendiumCount = 0;
 
         // *** SEARCH compendiums.
-        compendium_option.searchCompendiums(game.packs);
+        var matching_compendiums = compendium_option.searchCompendiums(game.packs);
 
         // iterate thru matching compendiums.
-        compendium_option.matching_compendiums.forEach((compendium, i) => {
+        matching_compendiums.forEach((compendium, i) => {
 
             var compendium_name  = compendium.documentName;
             var compendium_added = false;
@@ -511,7 +516,7 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                 case "compendiums_with_actors":
                     // reset counters.
                     var actor_option = this.actor_options[secondary];
-                    actor_option.actor_count = 0;
+                    actor_option.actorCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -520,13 +525,11 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    actor_option.matching_actors = [ ];
                     break;
                 case "compendiums_with_cards":
                     // reset counters.
                     var card_option = this.card_options[secondary];
-                    card_option.card_count = 0;
+                    card_option.cardCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -535,13 +538,13 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    card_option.matching_cards = [ ];
                     break;
                 case "compendiums_with_items":
                     // reset counters.
                     var item_option = this.item_options[secondary];
-                    item_option.item_count = 0;
+                    item_option.itemCount = 0;
+                    item_option.itemMacroCount = 0;
+                    item_option.itemOnUseMacroCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -550,13 +553,11 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    item_option.matching_items = [ ];
                     break;
                 case "compendiums_with_journals":
                     // reset counters.
                     var journal_option = this.journal_options[secondary];
-                    journal_option.journal_count = 0;
+                    journal_option.journalCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -565,13 +566,11 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    journal_option.matching_journals = [ ];
                     break;
                 case "compendiums_with_macros":
                     // reset counters.
                     var macro_option = this.macro_options[secondary];
-                    macro_option.macro_count = 0;
+                    macro_option.macroCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -580,13 +579,11 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    macro_option.matching_macros = [ ];
                     break;
                 case "compendiums_with_playlists":
                     // reset counters.
                     var playlist_option = this.playlist_options[secondary];
-                    playlist_option.playlist_count = 0;
+                    playlist_option.playlistCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -595,13 +592,12 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    playlist_option.matching_playlists = [ ];
                     break;
                 case "compendiums_with_scenes":
                     // reset counters.
                     var scene_option = this.scene_options[secondary];
-                    scene_option.scene_count = 0;
+                    scene_option.sceneCount = 0;
+                    scene_option.sceneTokenCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -610,13 +606,11 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    scene_option.matching_scenes = [ ];
                     break;
                 case "compendiums_with_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -625,13 +619,11 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
                 case "compendiums_in_tables":
                     // reset counters.
                     var table_option = this.table_options[secondary];
-                    table_option.table_count = 0;
+                    table_option.tableCount = 0;
 
                     // only add one message to list.
                     if (!message_added) {
@@ -640,16 +632,12 @@ export class AnalyticsCompendiums extends AnalyticsForm {
                         message_added = true;
                     };
 
-                    // reset matching arrays.
-                    table_option.matching_tables = [ ];
                     break;
             };
         }); // forEach matching Compendium.
-
-        // reset matching array.
-        compendium_option.matching_compendiums = [ ];
     }
 
+	// update and render.
     async _updateObject(event, formData) {
         if (ANALYTICS.DEBUG) console.info(ANALYTICS.LABEL + "AnalyticsCompendiums async _updateObject(event, formData)");
 
